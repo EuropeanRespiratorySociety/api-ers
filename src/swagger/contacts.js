@@ -8,7 +8,7 @@ module.exports = {
       bearer: []
     }],
     description: 'Returns ERS contacts - to use this endpoint you need to have a CRM user role', 
-    summary: 'Get contacts based on a pattern',
+    summary: 'Get contacts based on a pattern [admin, crm-user roles]',
     parameters: [
       params.pattern
     ],
@@ -23,8 +23,8 @@ module.exports = {
     security: [    {
       bearer: []
     }],
-    description: 'Checks login credentials and return the user Id if successful - to use this endpoint you need to have a CRM user role', 
-    summary: 'Checks login, returns the contact Id',
+    description: 'Checks myERS login credentials and returns the contact details if successful', 
+    summary: 'Checks login, returns the contact',
     parameters: [
       {        
         name: 'body',
@@ -52,7 +52,7 @@ module.exports = {
   get: {
     id: 'contact id',
     description: 'Returns a contact object based on the contact id - to use this endpoint you need to have a CRM user role',
-    summary: 'Get a contact based on its id',
+    summary: 'Get a contact based on its id [admin, crm-user roles]',
     parameters: [
       params.contactId
     ],

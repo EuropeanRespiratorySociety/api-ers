@@ -6,12 +6,13 @@ module.exports = {
   description: 'Users of the API',
   find: {
     description: 'List all users',
-    summary: 'list all users',
+    summary: 'list all users [admin role]',
     security: [    {
       bearer: []
     }],
   },
   get: {
+    summary: 'Get a user [owner]',
     security: [    {
       bearer: []
     }]
@@ -21,7 +22,7 @@ module.exports = {
       bearer: []
     }],
     description: 'Creates a new user of the API. Only administrators can create an account.', 
-    summary: 'Create a new API user (need admin role)',
+    summary: 'Create a new API user [admin role]',
     parameters: [
       params.user
     ],
@@ -33,18 +34,20 @@ module.exports = {
     produces: ['application/json']
   },
   update: {
+    summary: 'Update a user [owner]',
     security: [    {
       bearer: []
     }]
   },
   patch: {
+    summary: 'Patch a user [owner]',
     security: [    {
       bearer: []
     }]
   },
   remove: {
     description: 'Remove a user',
-    summary: 'Remove a user',
+    summary: 'Remove a user [owner]',
     parameters: [{
       name: 'id',
       description: 'Id of the user to delete',

@@ -10,7 +10,7 @@ module.exports = {
       iff(isProvider('external'), [
         authenticate('jwt'), 
         restrictToRoles({
-          roles: ['admin'],
+          roles: ['admin', 'crm-user'],
           fieldName: 'permissions'
         })
       ])

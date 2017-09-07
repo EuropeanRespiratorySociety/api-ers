@@ -14,7 +14,13 @@ const restrict = [
 module.exports = {
   before: {
     all: [],
-    find: [ authenticate('jwt') ],
+    find: [ 
+      authenticate('jwt'), 
+      restrictToRoles({
+        roles: ['admin'],
+        fieldName: 'permissions'
+      }) 
+    ],
     get: [ ...restrict ],
     create: [ 
       authenticate('jwt'),
