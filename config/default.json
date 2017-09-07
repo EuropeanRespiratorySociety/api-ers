@@ -1,0 +1,29 @@
+{
+  "authentication": {
+    "secret": "75283584fa4cddbc572b5fba63cb2032bfb99e813177c1c288e947eaebba4a22e3c9202688d75dead7c325a948719d35981b6f32c4d04fca2da52e6978bbd19e3e7295a2f332af6ed1aa0d1580ece8150b5b48f7eeb5eccce8818dcb26f0f1df3982288c4debeee0a358a64c1dcf2df27ce6942c178078bee71f0404f20d24709c4ed4206a3807a3571fd3df96118e43041a7a294696ff1b154f5a5178f45ed8ab1d9e0479352d24a3aac30aab074027c8f8b9d0624c9239d134d294d1e7a030724710414a4ed5ee291c2ec23e8feb0c7c8c27a92801550e621d33670c1285dddf5aa1a1165f81d2a22c1e7fb4655f82f21e483b805ca30529cbd11856593303",
+    "strategies": [
+      "jwt",
+      "local"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "type": "access"
+      },
+      "audience": "https://api.ersnet.org",
+      "subject": "anonymous",
+      "issuer": "European Respiratory Society",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "entity": "user",
+      "service": "users",
+      "usernameField": "email",
+      "passwordField": "\\password",
+      "idField": "_id"
+    }
+  },
+  "mongodb": "MONGODB"
+}

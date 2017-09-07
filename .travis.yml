@@ -1,0 +1,25 @@
+language: node_js
+services: 
+  - mongodb
+  - redis-server
+node_js:
+  - "8"
+env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+bundler_args: --retry 5
+before_install:  
+  - npm install -g npm
+before_script:
+  - travis_retry npm start &
+script:
+  - travis_retry npm run test
+after_success: 
+  - npm run coveralls
+notifications:
+  email: false

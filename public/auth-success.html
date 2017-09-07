@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" class=" cssanimations"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="https://bootstrap.ersnet.org/images/favicon.png">
+    <title>ERS Content API Success</title>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="https://bootstrap.ersnet.org/css/all.css" type="text/css">
+    <script src="https://bootstrap.ersnet.org/js/jquery.min.js" type="text/javascript"></script>
+  </head>
+  <body class="ers-splash-screen">
+    <div class="ers-wrapper ers-error ers-error-404">
+      <div class="ers-content">
+        <div class="main-content">
+          <div class="error-container">
+            <div class="error-image"></div>
+            <div class="error-number">200</div>
+            <p class="error-description">You are now logged in. We've stored your JWT in a cookie with the name <span class="italic">"ers-jwt"</span> for you. It is:
+              <pre id="token"></pre>
+            It will be destroyed as soon as you navigate away from this page  
+            </p>
+
+            <div class="btn btn-lg btn-alt-special"> <a class="error-goback-text" href="/docs.html">Go to live documentation</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://bootstrap.ersnet.org/js/all.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      function getCookie(name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length == 2) return parts.pop().split(";").shift();
+      }
+
+      var token = getCookie('ers-jwt');
+
+      var el = document.getElementById('token');
+      el.innerHTML = token;
+    </script>
+  
+<div class="ers-scroll-top"></div></body></html>
