@@ -11,6 +11,9 @@ const hooks = require('feathers-hooks');
 const rest = require('feathers-rest');
 const socketio = require('feathers-socketio');
 const routes = require('feathers-hooks-rediscache').cacheRoutes;
+const redisClient = require('feathers-hooks-rediscache').redisClient;
+// const cache = require('feathers-hooks-rediscache').redisCache;
+
 
 const middleware = require('./middleware');
 const services = require('./services');
@@ -26,6 +29,15 @@ const app = feathers();
 
 // Load app configuration
 app.configure(configuration(path.join(__dirname, '..')));
+
+// Set up Plugins and providers
+app.configure(mongodb);
+app.configure(hooks());
+app.configure(rest());
+app.configure(socketio());
+app.configure(redisClient);
+// app.configure(cache);
+
 // Enable CORS, security, compression, favicon and body parsing
 app.use(cors());
 app.use(helmet());
@@ -38,13 +50,7 @@ app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 app.use('/', feathers.static(app.get('public')));
 
 // Set up cache routes
-app.use('/cache', routes);
-
-// Set up Plugins and providers
-app.configure(mongodb);
-app.configure(hooks());
-app.configure(rest());
-app.configure(socketio());
+app.use('/cache', routes(app));
 
 // Configure Swagger
 app.configure(swagger(swOptions));

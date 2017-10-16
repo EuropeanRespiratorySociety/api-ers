@@ -9,7 +9,6 @@ class Service {
   }
 
   find (params) {
-    //this.app.request.apicacheGroup = 'calendar';
     const relatives = this.app.service('relatives'); 
     const type = params.query.type || 'ers';
     const filter = setFilter(type);

@@ -17,6 +17,10 @@
       "algorithm": "HS256",
       "expiresIn": "1d"
     },
+    "redisCache" : {
+      "defaultDuration": 3600,
+      "removePathFromCacheKey": true
+    },
     "local": {
       "entity": "user",
       "service": "users",
