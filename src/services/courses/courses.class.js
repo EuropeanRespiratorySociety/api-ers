@@ -11,7 +11,9 @@ class Service {
   find(params) {
     //this.app.request.apicacheGroup = 'courses';
     const relatives = this.app.service('relatives');
-
+    const type = params.query.type || 'current';
+    
+    params.options = {type: type};
     return relatives.find({
       query:{
         qname:'o:f913cff03624ac461283', 

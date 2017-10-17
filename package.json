@@ -83,6 +83,7 @@
     "istanbul": "^0.4.5",
     "istanbul-middleware": "^0.2.2",
     "mocha": "^3.5.3",
+    "moment": "^2.19.1",
     "nyc": "^11.2.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2"

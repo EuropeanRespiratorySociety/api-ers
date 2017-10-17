@@ -9,7 +9,8 @@ module.exports = {
     parameters: [
       params.limit,
       params.skip,
-      params.full
+      params.full,
+      params.courseType
     ],
     responses: {
       '200': responses.success,

@@ -94,6 +94,14 @@ module.exports = {
     in: 'query',
     enum: ['deadline', 'endorsed', 'non-ers', 'all' ]
   },
+  courseType: {
+    name: 'type',
+    description: 'The type of course',
+    required: false,
+    type: 'string',
+    in: 'query',
+    enum: ['current', 'past', 'all' ]
+  },
   user: {
     name: 'object',
     description: 'The user to create',
