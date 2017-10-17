@@ -9,7 +9,6 @@ type User {
 
 type AuthPayload {
   token: String # JSON Web Token
-  data: User
 }
 
 type Flag {
@@ -240,6 +239,7 @@ type RootMutation {
   logIn (
     email: String!
     password: String!
+    strategy: String!
   ): AuthPayload
 
   # createArticle (

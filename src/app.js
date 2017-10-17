@@ -12,7 +12,6 @@ const rest = require('feathers-rest');
 const socketio = require('feathers-socketio');
 const routes = require('feathers-hooks-rediscache').cacheRoutes;
 const redisClient = require('feathers-hooks-rediscache').redisClient;
-// const cache = require('feathers-hooks-rediscache').redisCache;
 
 
 const middleware = require('./middleware');
@@ -36,7 +35,6 @@ app.configure(hooks());
 app.configure(rest());
 app.configure(socketio());
 app.configure(redisClient);
-// app.configure(cache);
 
 // Enable CORS, security, compression, favicon and body parsing
 app.use(cors());

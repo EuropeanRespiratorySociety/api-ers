@@ -17,10 +17,6 @@
       "algorithm": "HS256",
       "expiresIn": "1d"
     },
-    "redisCache" : {
-      "defaultDuration": 3600,
-      "removePathFromCacheKey": true
-    },
     "local": {
       "entity": "user",
       "service": "users",
@@ -29,5 +25,9 @@
       "idField": "_id"
     }
   },
-  "mongodb": "MONGODB"
+  "mongodb": "MONGODB",
+  "redisCache" : {
+    "defaultDuration": 3600,
+    "removePathFromCacheKey": true
+  }
 }

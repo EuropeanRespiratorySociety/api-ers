@@ -30,8 +30,8 @@ module.exports = function Resolvers() {
     // },
 
     AuthPayload: {
-      data(auth, args, context) {
-        return auth.data;
+      token(auth, args, context) {
+        return auth.accessToken;
       }
     },
 
@@ -133,11 +133,11 @@ module.exports = function Resolvers() {
     //   signUp(root, args, context) {
     //     return Users.create(args)
     //   },
-      logIn(root, {email, password}, context) {
+      logIn(root, {strategy, email, password}, context) {
         return localRequest({
-          uri: '/auth/token',
+          uri: '/authentication',
           method: 'POST',
-          body: { email:email, password:password }
+          body: { strategy:strategy, email:email, password:password }
         });
       }
     //   createArticle(root, {article}, context) {
