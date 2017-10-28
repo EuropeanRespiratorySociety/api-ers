@@ -26,13 +26,9 @@ module.exports = function () {
 
   // Initialize our service with any options it requires
   app.use('/graphql', graphql((req) => {
-    const {token, provider} = req.feathers;
     return {
       schema: executableSchema,
-      context: {
-        token,
-        provider
-      }
+      context: req.feathers
     };
   }));
 

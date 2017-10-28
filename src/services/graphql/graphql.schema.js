@@ -8,7 +8,7 @@ type User {
 }
 
 type AuthPayload {
-  token: String # JSON Web Token
+  accessToken: String # JSON Web Token
   data: User
 }
 
@@ -240,6 +240,7 @@ type RootMutation {
   logIn (
     email: String!
     password: String!
+    strategy: String!
   ): AuthPayload
 
   # createArticle (

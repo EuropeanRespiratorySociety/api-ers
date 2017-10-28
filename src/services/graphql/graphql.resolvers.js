@@ -133,11 +133,11 @@ module.exports = function Resolvers() {
     //   signUp(root, args, context) {
     //     return Users.create(args)
     //   },
-      logIn(root, {email, password}, context) {
+      logIn(root, {email, password, strategy}, context) {
         return localRequest({
-          uri: '/auth/token',
+          uri: '/authentication',
           method: 'POST',
-          body: { email:email, password:password }
+          body: { email:email, password:password, strategy:strategy }
         });
       }
     //   createArticle(root, {article}, context) {
