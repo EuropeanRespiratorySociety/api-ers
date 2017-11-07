@@ -25,5 +25,9 @@
       "idField": "_id"
     }
   },
+  "redisCache" : {
+    "defaultDuration": 3600,
+    "removePathFromCacheKey": true
+  },
   "mongodb": "MONGODB"
 }

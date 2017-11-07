@@ -10,7 +10,8 @@ module.exports = {
       params.eventType,
       params.limit,
       params.skip,
-      params.full
+      params.full,
+      params.markdown
     ],
     responses: {
       '200': responses.successCalendar,    

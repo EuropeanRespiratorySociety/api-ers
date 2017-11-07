@@ -11,6 +11,7 @@ const hooks = require('feathers-hooks');
 const rest = require('feathers-rest');
 const socketio = require('feathers-socketio');
 const routes = require('feathers-hooks-rediscache').cacheRoutes;
+const redisClient = require('feathers-hooks-rediscache').redisClient;
 
 const middleware = require('./middleware');
 const services = require('./services');
@@ -38,7 +39,9 @@ app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 app.use('/', feathers.static(app.get('public')));
 
 // Set up cache routes
-app.use('/cache', routes);
+// configure the redis client
+app.configure(redisClient);
+app.use('/cache', routes(app));
 
 // Set up Plugins and providers
 app.configure(mongodb);
