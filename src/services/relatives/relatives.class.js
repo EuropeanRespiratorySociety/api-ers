@@ -24,7 +24,7 @@ class Service {
     params.query.full = params.query.full == 'true';
     const q = params.query;
     const direction = parseInt(q.sortDirection) || -1;
-    const sortBy = q.sortBy || '_system.modified_on.ms';
+    const sortBy = q.sortBy || '_system.created_on.ms';
     const body = Object.assign(params.body || {}, {
       unPublished: { $ne: true}
     });

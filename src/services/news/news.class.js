@@ -14,7 +14,7 @@ class Service {
   find(params) {
     const q = params.query;
     const direction = parseInt(q.sortDirection) || -1;
-    const sortBy = q.sortBy || '_system.modified_on.ms';
+    const sortBy = q.sortBy || '_system.created_on.ms';
     const limit = format.setLimit(q.limit, this.options.paginate);
     const body = Object.assign(params.body || {}, {
       type: 'News',
