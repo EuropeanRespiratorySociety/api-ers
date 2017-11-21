@@ -35,7 +35,7 @@ class Service {
       skip: parseInt(q.skip) || 0,
       sort: { [sortBy]: direction }
     };
-
+    
     params.options = opts;
     return new Promise((resolve, reject) => {
       global.cloudcms
