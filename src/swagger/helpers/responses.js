@@ -69,7 +69,8 @@ module.exports = {
           group: 'string',
           key: 'string'
         },
-        status: 'integer'
+        status: 'integer',
+        accessToken: 'string'
       }
       
     }

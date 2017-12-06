@@ -14,12 +14,20 @@ module.exports = function (app) {
       required: true,
       validate: { validator: value => validator.isEmail(value) , message: 'Invalid email.' }
     },
+    ersId: {
+      type: Number,
+      required: false
+    },
+    spotmeId: {
+      type: String,
+      required: false
+    },
     password: {
       type: String,
       required: true
     },
     permissions: {
-      type: String,
+      type: [String],
       required: false
     },
   
