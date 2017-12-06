@@ -71,6 +71,31 @@ module.exports = {
     type: 'boolean',
     in: 'query'  
   },
+  timeline: {
+    name: 'timeline',
+    description: `If set to true, returned item will be grouped by year then by month for easy timeline display. the retruned structure is different: <br /> <pre><code>
+      { 
+        '2018': 
+          {
+            mars:[],
+            april:[]
+          },
+        '2019': {}  
+      }
+      </code></pre>`,
+    required: false,
+    allowMultiple: false,
+    type: 'boolean',
+    in: 'query'  
+  },
+  reverse: {
+    name: 'reverse',
+    description: 'If set to true, the order will be reversed',
+    required: false,
+    allowMultiple: false,
+    type: 'boolean',
+    in: 'query'  
+  },
   object: {
     name: 'object',
     description: 'The object sent to cloudcms',
@@ -88,11 +113,19 @@ module.exports = {
   },
   eventType: {
     name: 'type',
-    description: 'The type of event',
+    description: `The type of event returned by the calendar, __ers__ is the default and is not necessary in the query string
+      <ul>
+        <li>ers - ERS only events</li>
+        <li>deadlines - ERS deadlines, a typical deadline is the abstract submission</li>
+        <li>endorsed - Events not organised by ERS, but endorsed by ERS</li>
+        <li>non-ers - Events that have been approved in our calendar but that are nor endorsed nor ers</li>
+        <li>all - ...</li>
+      </ul>
+    `,
     required: false,
     type: 'string',
     in: 'query',
-    enum: ['deadline', 'endorsed', 'non-ers', 'all' ]
+    enum: ['ers', 'deadline', 'endorsed', 'non-ers', 'all' ]
   },
   user: {
     name: 'object',

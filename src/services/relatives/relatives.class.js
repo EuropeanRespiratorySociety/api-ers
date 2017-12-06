@@ -21,12 +21,12 @@ class Service {
    * Internal request can pass an aditional body object to customize the request to cloudcms
    */
   find(params) {
-    params.query.full = params.query.full == 'true';
+    params.query.full = params.query.full == 'true'; // done in purpose to accept true (internal) or 'true' which is a query param string
     const q = params.query;
     const direction = parseInt(q.sortDirection) || -1;
     const sortBy = q.sortBy || '_system.created_on.ms';
     const body = Object.assign(params.body || {}, {
-      unPublished: { $ne: true}
+      unPublished: { $ne: true }
     });
     const opts = {
       //"full": false,

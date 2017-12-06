@@ -4,14 +4,16 @@ const responses = require('./helpers/responses');
 module.exports = {
   description: 'Get the ERS Calendar',
   find: {
-    description: 'Returns the full event calendar of the ERS with internal, external, endorsed events and deadlines. If __no type__ is set, __ERS only events are returned__', 
+    description: 'Returns the full event calendar of the ERS with internal, external, endorsed events and deadlines. If __no type__ is set, __ERS only events are returned__  <ul><li>For now pagination cannot be trusted as past events are filtered after querying the CMS, this will be improved soon</li></ul>', 
     summary: 'Get calendar items',
     parameters: [
       params.eventType,
       params.limit,
       params.skip,
       params.full,
-      params.markdown
+      params.markdown,
+      params.reverse,
+      params.timeline
     ],
     responses: {
       '200': responses.successCalendar,    

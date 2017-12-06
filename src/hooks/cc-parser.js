@@ -23,7 +23,6 @@ exports.ccParserCategory = function(options) { // eslint-disable-line no-unused-
     const md = hook.params.query.md == 'true' ? true : false;
 
     const cache = hook.result.cache || {cached:false};
-
     if(hook.result.status === 200 && !cache.cached) {
       hook.result = {
         data: parse(hook.result.items, full, md),

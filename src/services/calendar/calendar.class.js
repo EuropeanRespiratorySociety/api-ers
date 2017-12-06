@@ -9,7 +9,6 @@ class Service {
   }
 
   find (params) {
-    //this.app.request.apicacheGroup = 'calendar';
     const relatives = this.app.service('relatives'); 
     const type = params.query.type || 'ers';
     const filter = setFilter(type);
@@ -18,6 +17,7 @@ class Service {
       query:{
         qname:'o:cc1c5be57719dade0371',
         full: params.query.full,
+        md: params.query.md || false,
         sortBy: 'eventDate',
         sortDirection: 1,
         limit: params.query.limit || 200, //this is a bit off as filtering is done after the fact (isAlreadyPassed)
@@ -38,22 +38,22 @@ function setFilter(type){
   //const today = moment().format('DD/MM/YYYY');
   if(type === 'ers'){
     return {
-      ersEndorsedEvent: {'$ne': true},
-      nonErsCalendarItem: {'$ne': true}
+      ersEndorsedEvent: { '$ne': true },
+      nonErsCalendarItem: { '$ne': true }
       //eventDate: {'$gte': today}
     };
   }
 
   if(type === 'deadline'){
-    return {ersDeadline: true};
+    return { ersDeadline: true };
   }
 
   if(type === 'endorsed'){
-    return {ersEndorsedEvent: true};
+    return { ersEndorsedEvent: true };
   }
 
   if(type === 'non-ers'){
-    return {nonErsCalendarItem: true};
+    return { nonErsCalendarItem: true };
   }
 
   return {};

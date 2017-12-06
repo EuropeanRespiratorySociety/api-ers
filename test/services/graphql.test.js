@@ -76,22 +76,22 @@ describe('Graphql endpoint', function() {
   });
 
     
-  it('does not return users', (done) => {
-    chai.request(host) 
-      .post('/graphql')
-      .set('Content-Type', 'application/json')
-      .send({ 
-        'query': 'query{users{email}}' 
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.have.property('data')
-          .that.is.an('object');
-        expect(res.body).to.have.property('errors')
-          .that.is.an('array');
-        expect(res.body.errors[0].message).to.equal('No auth token');
-        done();
-      });
-  }); 
+  // it('does not return users', (done) => {
+  //   chai.request(host) 
+  //     .post('/graphql')
+  //     .set('Content-Type', 'application/json')
+  //     .send({ 
+  //       'query': 'query{users{email}}' 
+  //     })
+  //     .end((err, res) => {
+  //       expect(res).to.have.status(200);
+  //       expect(res.body).to.have.property('data')
+  //         .that.is.an('object');
+  //       expect(res.body).to.have.property('errors')
+  //         .that.is.an('array');
+  //       expect(res.body.errors[0].message).to.equal('No auth token');
+  //       done();
+  //     });
+  // }); 
 
 });

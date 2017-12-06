@@ -79,13 +79,7 @@ module.exports = {
     schema: {
       type: 'object',
       example:{
-        data: {
-          '2017': {
-            March: [],
-            '...': []
-          },
-          '2018': {}
-        },
+        data: [],
         _sys: {
           next: 'string',
           prev: 'string',
