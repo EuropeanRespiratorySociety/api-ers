@@ -9,6 +9,7 @@ const graphql = require('./graphql/graphql.service.js');
 const login = require('./login/login.service.js');
 const contacts = require('./contacts/contacts.service.js');
 const sleepandbreathing = require('./sleepandbreathing/sleepandbreathing.service.js');
+const preferences = require('./preferences/preferences.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
@@ -24,4 +25,5 @@ module.exports = function () {
   app.configure(users);
   // Has to be last
   app.configure(graphql);
+  app.configure(preferences);
 };

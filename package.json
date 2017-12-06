@@ -25,8 +25,8 @@
     "lib": "src"
   },
   "engines": {
-    "node": ">= 6.0.0",
-    "npm": ">= 3.0.0"
+    "node": ">= 8.0.0",
+    "npm": ">= 5.0.0"
   },
   "scripts": {
     "test": "npm run eslint && nyc --reporter=lcov --reporter=text mocha --compilers js:babel-core/register --colors ./test/ --recursive",
