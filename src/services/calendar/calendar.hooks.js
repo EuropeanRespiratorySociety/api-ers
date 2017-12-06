@@ -1,5 +1,5 @@
 const prepareCalendar = require('../../hooks/prepare-calendar');
-const { iff } = require('feathers-hooks-common');
+// const { iff } = require('feathers-hooks-common');
 const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-rediscache');
 
 module.exports = {
