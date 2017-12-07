@@ -19,8 +19,7 @@ module.exports = function () {
 
   // Initialize our service with any options it requires
   app.use('/preferences', Object.assign(createService(options), {
-    docs,
-    id: 'apiUserId'
+    docs
   }));
 
   // Get our initialized service so that we can register hooks and filters

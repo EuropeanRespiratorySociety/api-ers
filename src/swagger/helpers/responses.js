@@ -117,6 +117,7 @@ module.exports = {
           group: 'string',
           key: 'string'
         },
+        preferences: {},
         accessToken: 'string',
         apiUserId: 'string'
       }

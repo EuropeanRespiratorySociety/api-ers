@@ -1,8 +1,8 @@
 const { authenticate } = require('feathers-authentication').hooks;
 const { restrictToRoles } = require('feathers-authentication-hooks');
+const { iff, isProvider }= require('feathers-hooks-common');
 const isOwner = require('../../hooks/isOwner').isOwner;
 const addId = require('../../hooks/add-id');
-
 
 const restrict = [
   authenticate('jwt'),
@@ -19,7 +19,7 @@ module.exports = {
         fieldName: 'permissions'
       }) 
     ],
-    get: [...restrict],
+    get: [iff(isProvider('external'), ...restrict)],
     create: [authenticate('jwt'), addId()],
     update: [...restrict],
     patch: [...restrict],

@@ -55,7 +55,13 @@ class Service {
                   password: data.password,
                   strategy: 'local'
                 }).then(r => {
-                  resolve(Object.assign(res, r, { apiUserId:u[0]._id }));
+                  const apiUserId = u[0]._id;
+                  const preferences = this.app.service('preferences');
+                  preferences.get(apiUserId).then(p => {
+                    resolve(Object.assign(res, r, { apiUserId: apiUserId, preferences: p }));
+                  }).catch(err => {
+                    resolve(Object.assign(res, r, { apiUserId: apiUserId, preferences: {} }));
+                  });
                 });
               });
             });
