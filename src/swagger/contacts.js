@@ -23,7 +23,7 @@ module.exports = {
     security: [    {
       bearer: []
     }],
-    description: 'Checks myERS login credentials and returns the contact details if successful as well as an API JWT token. An API is created based on the ERS user, each time the user logs in the API user is updated if any field has changed, the user\'s persmissions is set to __myERS__', 
+    description: 'Checks myERS login credentials and returns the contact details if successful as well as an API JWT token. An API is created based on the ERS user, each time the user logs in the API user is updated if any field has changed, the user\'s persmissions is set to __myERS__. <br /> The data of the user is cached.', 
     summary: 'Checks login, returns the contact and API token',
     parameters: [
       {        

@@ -16,11 +16,14 @@ module.exports = function (app) {
     },
     ersId: {
       type: Number,
-      required: false
+      required: false,
+      unique: true, 
+      sparse: true
     },
     spotmeId: {
       type: String,
-      required: false
+      unique: true, 
+      sparse: true
     },
     password: {
       type: String,

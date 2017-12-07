@@ -1,5 +1,8 @@
 const axios = require('axios');
 const errors = require('feathers-errors');
+const client = require('../../helpers/authentication');
+
+
 
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
@@ -24,7 +27,6 @@ class Service {
             const contacts = this.app.service('ers/contacts');
             const contactId = parseInt(response.data, 10);
             const users = this.app.service('users');
-            const auth = this.app.service('authentication');
             const params = {
               query: {
                 ersId: contactId
@@ -36,22 +38,24 @@ class Service {
             contacts.get(contactId).then( res => {
               const user = {
                 email: res.data.SmtpAddress1,
+                ersId: res.data.ContactId,
                 password: data.password,
                 permissions: 'myERS'
               };
 
               // Update or create the user (upsert)
-              users.patch(null, user, params).then( r => {
-                if(r && r.length === 0) {
+              users.patch(null, user, params).then( u => {
+                if(u && u.length === 0) {
                   reject(new errors.NotFound(response.data));
                 }
+
                 // automatically authenticate the user
-                auth.create({
+                client.authenticate({
                   email: res.data.SmtpAddress1,
                   password: data.password,
                   strategy: 'local'
-                }).then(r => { 
-                  resolve(Object.assign(res, r));
+                }).then(r => {
+                  resolve(Object.assign(res, r, { apiUserId:u[0]._id }));
                 });
               });
             });

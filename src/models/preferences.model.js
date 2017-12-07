@@ -5,7 +5,27 @@
 module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const preferences = new mongooseClient.Schema({
-    text: { type: String, required: true },
+    layout: { type: String, required: false },
+    spotmeId: { 
+      type: String, 
+      unique: true, 
+      sparse: true
+    },
+    ersId: { 
+      type: Number, 
+      required: false,
+      unique: true, 
+      sparse: true
+    },
+    interests: {
+      type: [String],
+      required: false
+    },
+    notifications: {
+      type: [String],
+      required: false
+    },
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });

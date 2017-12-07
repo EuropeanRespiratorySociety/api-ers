@@ -132,8 +132,7 @@ module.exports = {
     description: 'The user to create',
     required: true,
     schema: {
-      properties: {
-      },
+      properties: {},
       example:{
         email: 'user email',
         password: 'user password',
@@ -143,5 +142,29 @@ module.exports = {
     },
     in: 'body'
   },
+  preferences: {
+    name: 'object',
+    description: 'The preference ogject to create',
+    required: true,
+    schema: {
+      properties: {
+        ersId: {type: 'integer'},
+        spotmeId: {type: 'string'},
+        _id: {type: 'string'},
+        layout: {type: 'string'},
+        notifications: [],
+        interests: []
+      },
+      example:{
+        ersId: 'integer',
+        spotMe: 'string',
+        layout: 'string',
+        notifications: [],
+        interests:[]
+      },
+      type: 'object'
+    },
+    in: 'body'
+  }
 
 };

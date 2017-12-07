@@ -14,16 +14,16 @@ module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
   app.configure(calendar);
-  app.configure(contacts);
   app.configure(courses);
-  app.configure(login);
+  app.configure(contacts); // This shows up as ers in the documentation
+  app.configure(login); // This is merged with the previous one
   app.configure(metanav);
   app.configure(news);
+  app.configure(preferences);
   app.configure(relatives);
   app.configure(respiratoryMatters);
   app.configure(sleepandbreathing);
   app.configure(users);
   // Has to be last
   app.configure(graphql);
-  app.configure(preferences);
 };

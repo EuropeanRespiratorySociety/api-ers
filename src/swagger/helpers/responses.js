@@ -108,7 +108,17 @@ module.exports = {
       type: 'object',
       example: {
         data: {},
-        status: 200
+        status: 200,
+        cache: {
+          cached: 'boolean',
+          duration: 'int',
+          expires_on: 'string',
+          parent: 'string',
+          group: 'string',
+          key: 'string'
+        },
+        accessToken: 'string',
+        apiUserId: 'string'
       }
     }
   },
@@ -121,6 +131,23 @@ module.exports = {
         permissions: 'string',
         _id: 'string'
       }
+    }
+  }, 
+  successPreferencesCreated: {
+    description: 'sucessful operation',
+    schema: {
+      type: 'object',
+      properties: {
+        layout: {type: 'string'},
+        ersId: {type: 'integer'},
+        _id: {type: 'string'}
+      },
+      example: {
+        layout: 'feed',
+        ersId: 200000,
+        _id: '59a9526c5fe1ea1b21dc5e04'
+      }
+
     }
   }, 
   conflict: {

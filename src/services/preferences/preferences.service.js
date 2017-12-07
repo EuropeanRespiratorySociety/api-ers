@@ -4,6 +4,8 @@ const createModel = require('../../models/preferences.model');
 const hooks = require('./preferences.hooks');
 const filters = require('./preferences.filters');
 
+const docs = require('../../swagger/preferences');
+
 module.exports = function () {
   const app = this;
   const Model = createModel(app);
@@ -16,7 +18,10 @@ module.exports = function () {
   };
 
   // Initialize our service with any options it requires
-  app.use('/preferences', createService(options));
+  app.use('/preferences', Object.assign(createService(options), {
+    docs,
+    id: 'apiUserId'
+  }));
 
   // Get our initialized service so that we can register hooks and filters
   const service = app.service('preferences');

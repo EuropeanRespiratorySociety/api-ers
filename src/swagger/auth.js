@@ -31,12 +31,6 @@ module.exports = {
           type: 'object',
           example:{
             accessToken: '<huge-token-string>',
-            data: {
-              _id: 'your-id-string',
-              email: 'your@email.com',
-              permissions: 'registered',
-              __v: 0
-            }
           }
         }    
       },
