@@ -144,5 +144,17 @@ describe('Request to the calendar service', function() {
   //       done();
   //     });
   // });
+    
+  // it('returns ers endorsed events', (done) => {
+  //   chai.request(host) 
+  //     .get('/calendar?type=spirometry')
+  //     .set('Content-Type', 'application/json')
+  //     .end((err, res) => {
+  //       expect(res).to.have.status(200);
+  //       expect(JSON.parse(res.text).data[0].type)
+  //         .to.equal('Spirometry Programme');
+  //       done();
+  //     });
+  // });
 
 });    

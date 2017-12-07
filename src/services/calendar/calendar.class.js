@@ -56,5 +56,10 @@ function setFilter(type){
     return { nonErsCalendarItem: true };
   }
 
+
+  if(type === 'spirometry'){
+    return { type: 'Spirometry Programme' };
+  }
+
   return {};
 }
