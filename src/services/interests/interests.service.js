@@ -3,6 +3,8 @@ const createService = require('./interests.class.js');
 const hooks = require('./interests.hooks');
 const filters = require('./interests.filters');
 
+const docs = require('../../swagger/interests');
+
 module.exports = function () {
   const app = this;
   const paginate = app.get('paginate');
@@ -14,6 +16,7 @@ module.exports = function () {
 
   // Initialize our service with any options it requires
   app.use('/interests', createService(options));
+  app.use('/interests', Object.assign(createService(options), { docs }));
 
   // Get our initialized service so that we can register hooks and filters
   const service = app.service('interests');

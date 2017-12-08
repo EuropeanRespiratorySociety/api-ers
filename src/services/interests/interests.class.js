@@ -35,7 +35,7 @@ class Service {
                 };
               });
             
-            resolve(interests);
+            resolve({data: interests});
           });
         });
     });      

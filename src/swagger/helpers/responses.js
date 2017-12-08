@@ -55,6 +55,32 @@ module.exports = {
       }   
     }
   },
+  successInterests: {
+    description: 'successful operation',
+    schema: {
+      type: 'object',
+      example: {
+        data: [
+          {
+            title: 'string',
+            values: ['string', 'string'],
+            limits: {
+              min: 1,
+              max: 0
+            }
+          }
+        ],
+        cache: {
+          cached: 'boolean',
+          duration: 'int',
+          expires_on: 'string',
+          parent: 'string',
+          group: 'string',
+          key: 'string'
+        },
+      }   
+    }
+  },
   successMyCRM: {
     description: 'successful operation',
     schema: {
