@@ -1,6 +1,4 @@
 /* eslint-disable no-unused-vars */
-
-const def = require('../../swagger/relatives');
 const F = require('ers-utils').Format;
 const format = new F();
 
