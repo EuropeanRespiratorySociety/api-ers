@@ -55,7 +55,7 @@
     "feathers-errors": "^2.9.2",
     "feathers-hooks": "^2.1.2",
     "feathers-hooks-common": "^3.10.0",
-    "feathers-hooks-rediscache": "^0.3.4",
+    "feathers-hooks-rediscache": "^0.3.6",
     "feathers-mongoose": "^5.1.2",
     "feathers-rest": "^1.8.1",
     "feathers-socketio": "^2.0.1",

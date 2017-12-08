@@ -119,13 +119,14 @@ module.exports = {
         <li>deadlines - ERS deadlines, a typical deadline is the abstract submission</li>
         <li>endorsed - Events not organised by ERS, but endorsed by ERS</li>
         <li>non-ers - Events that have been approved in our calendar but that are nor endorsed nor ers</li>
+        <li>spirometry - Spirometry Training Programme - These events appear under ERS as they are ERS events, but they can also appear by their own on some pages</li>
         <li>all - ...</li>
       </ul>
     `,
     required: false,
     type: 'string',
     in: 'query',
-    enum: ['ers', 'deadline', 'endorsed', 'non-ers', 'all' ]
+    enum: ['ers', 'deadline', 'endorsed', 'non-ers', 'spirometry', 'all' ]
   },
   user: {
     name: 'object',
