@@ -1,7 +1,7 @@
 {
   "name": "ers-api",
   "description": "ERS API",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://api.ersnet.org",
   "main": "src",
   "keywords": [
