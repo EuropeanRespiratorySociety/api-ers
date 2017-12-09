@@ -20,5 +20,6 @@ module.exports = function () {
     if (hook.error) {
       logger.error(hook.error);
     }
+    return hook;
   };
 };

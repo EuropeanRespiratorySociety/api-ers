@@ -33,6 +33,7 @@
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "node src/",
     "mocha": "mocha test/ --recursive",
+    "mocha:hooks": "mocha test/hooks --recursive --watch",
     "mocha:watch": "mocha test/ --recursive --watch",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
   },

@@ -37,15 +37,14 @@ exports.crmAuth = function(options) { // eslint-disable-line no-unused-vars
           axios
             .post('https://crmapi.ersnet.org/Token', data)
             .then(response => {
-              //console.log("response from CRM", response.data)
               client.set('myCrm_api_key', response.data.access_token);
               client.expire('myCrm_api_key', response.data.expires_in - 30 );
               hook.params.crmToken = response.data.access_token;
               resolve(hook);
             })
             .catch(error => {
-              console.log(error.response.data);
-              reject(hook);
+              console.log(error);
+              reject(error);
             });
         }
       });
