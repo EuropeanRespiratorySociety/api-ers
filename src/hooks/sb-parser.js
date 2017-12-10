@@ -19,7 +19,7 @@ exports.ccParserCategory = function(options) { // eslint-disable-line no-unused-
   options = Object.assign({}, defaults, options);
 
   return function(hook) {
-    const full = hook.params.query.full || false;
+    const full = hook.params.query.full == 'true' ? true : false;
     const md = hook.params.query.md == 'true' ? true : false;
 
     const cache = hook.result.cache || {cached:false};
@@ -43,7 +43,7 @@ exports.ccParserItem = function(options) { // eslint-disable-line no-unused-vars
 
   return function(hook) {
     //by default it returns a full article.
-    const full = hook.params.query.full == 'false' ? false : true;
+    const full = hook.params.query.full || false;
     const md = hook.params.query.md == 'true' ? true : false;
 
     if(hook.result.status === 200) {
