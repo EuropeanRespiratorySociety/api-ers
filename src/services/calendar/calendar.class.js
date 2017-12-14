@@ -14,6 +14,7 @@ class Service {
     const filter = setFilter(type);
     return relatives.find({
       body: filter,
+      path: this.options.name,
       query:{
         qname:'o:cc1c5be57719dade0371',
         full: params.query.full,

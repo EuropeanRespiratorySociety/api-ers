@@ -1,9 +1,7 @@
 const assert = require('assert');
 const { ccParserCategory, ccParserItem } = require('../../src/hooks/cc-parser');
-// const chai = require('chai');
-
-//use http plugin
-// const expect = chai.expect;
+const chai = require('chai');
+const expect = chai.expect;
 
 const baseMock = {
   params: {
@@ -29,8 +27,9 @@ describe('\'cc-parser\': category hook', () => {
     // Run the hook function (which returns a promise)
     // and compare the resulting hook object
     return hook(mock).then(result => {
-      // eslint-disable-next-line no-console
       assert.equal(result, mock, 'Returns the expected hook object');
+      expect(result.result.data).to.be.an('array');
+      expect(result.result.data[0]).to.be.an('object');
     });
   });
 

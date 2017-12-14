@@ -15,8 +15,8 @@ module.exports = function(options) { // eslint-disable-line no-unused-vars
 
   return function(hook) {
     // hook.prepareCalendar = true;
-    const timeline = hook.params.query.timeline === 'true';
-    const reverse = hook.params.query.reverse === 'true';
+    const timeline = hook.params.query.timeline == 'true';
+    const reverse = hook.params.query.reverse == 'true';
     if(hook.result._sys.status === 200) {
       hook.result = {
         data: timeline ? date.timeline(hook.result.data) : date.prepareCalendar(hook.result.data, reverse),

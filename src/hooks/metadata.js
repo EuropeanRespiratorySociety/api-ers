@@ -18,8 +18,9 @@ module.exports.metadata = function (options = {}) { // eslint-disable-line no-un
     const prev = options.skip - options.limit < 0 ? 0 : options.skip - options.limit;
     const back = options.skip > 0 ? prev : 0;
 
-    const full = hook.params.query.full;
-    const url = apiUrl + '/' + hook.path;
+    const full = hook.params.query.full || false;
+    const path = hook.params.path || hook.path;
+    const url = apiUrl + '/' + path;
 
     const queryParams = format.mapModel(hook.params.query, { limit:options.limit}); 
     hook.result.data = addItemMetadata(hook.result.data, full);

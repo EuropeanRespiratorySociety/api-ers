@@ -26,7 +26,6 @@ describe('\'crmAuth\' hook', () => {
     // Run the hook function (which returns a promise)
     // and compare the resulting hook object
     return hook(mock).then(result => {
-      // eslint-disable-next-line no-console
       assert.equal(result, mock, 'Returns the expected hook object');
       expect(result.params.crmToken).to.be.a('string');
     });

@@ -1,5 +1,7 @@
 const assert = require('assert');
 const prepareCalendar = require('../../src/hooks/prepare-calendar');
+const chai = require('chai');
+const expect = chai.expect;
 
 const moment = require('moment');
 const minusAWeek = moment().subtract(7, 'days');
@@ -33,12 +35,64 @@ describe('\'prepare calendar\' hook', () => {
   it('runs the hook', () => {
     // A mock hook object
     const mock = {
-      data: array,
       params: {
         query: {}
       },
       result: {
-        _sys: 200
+        data: array,
+        _sys: {
+          status: 200
+        }
+      }
+    };
+    // Initialize our hook with no options
+    const hook = prepareCalendar();
+
+    // Run the hook function (which returns a promise)
+    // and compare the resulting hook object
+    return hook(mock).then(result => {
+      assert.equal(result, mock, 'Returns the expected hook object');
+      expect(result.result.data).to.be.an('array');
+      expect(result.result.data[0]).to.be.an('object');
+    });
+  });
+
+  it('runs the hook in timeline mode (true === string)', () => {
+    // A mock hook object
+    const mock = {
+      params: {
+        query: { timeline: 'true'}
+      },
+      result: {
+        _sys: {
+          status: 200
+        },
+        data: array
+      }
+    };
+    // Initialize our hook with no options
+    const hook = prepareCalendar();
+
+    // Run the hook function (which returns a promise)
+    // and compare the resulting hook object
+    return hook(mock).then(result => {
+      assert.equal(result, mock, 'Returns the expected hook object');
+      expect(result.result.data).to.be.an('object');
+      expect(result.result.data[minusAWeek.format('YYYY')]).to.be.an('object');
+    });
+  });
+
+  it('runs the hook in timeline mode (true === boolean)', () => {
+    // A mock hook object
+    const mock = {
+      params: {
+        query: { timeline: true}
+      },
+      result: {
+        _sys: {
+          status: 200
+        },
+        data: array
       }
     };
     // Initialize our hook with no options
@@ -51,15 +105,17 @@ describe('\'prepare calendar\' hook', () => {
     });
   });
 
-  it('runs the hook in timeline mode', () => {
+  it('runs the hook in timeline mode (false === boolean)', () => {
     // A mock hook object
     const mock = {
-      data: array,
       params: {
-        query: { timeline: 'true'}
+        query: { timeline: 'false'}
       },
       result: {
-        _sys: 200
+        _sys: {
+          status: 200
+        },
+        data: array
       }
     };
     // Initialize our hook with no options
@@ -69,18 +125,47 @@ describe('\'prepare calendar\' hook', () => {
     // and compare the resulting hook object
     return hook(mock).then(result => {
       assert.equal(result, mock, 'Returns the expected hook object');
+      expect(result.result.data).to.be.an('array');
+      expect(result.result.data[0]).to.be.an('object');
+    });
+  });
+
+  it('runs the hook in timeline mode (false === string)', () => {
+    // A mock hook object
+    const mock = {
+      params: {
+        query: { timeline: false}
+      },
+      result: {
+        _sys: {
+          status: 200
+        },
+        data: array
+      }
+    };
+    // Initialize our hook with no options
+    const hook = prepareCalendar();
+
+    // Run the hook function (which returns a promise)
+    // and compare the resulting hook object
+    return hook(mock).then(result => {
+      assert.equal(result, mock, 'Returns the expected hook object');
+      expect(result.result.data).to.be.an('array');
+      expect(result.result.data[0]).to.be.an('object');
     });
   });
 
   it('runs the hook reverse order', () => {
     // A mock hook object
     const mock = {
-      data: array,
       params: {
         query: {reverse: 'true'}
       },
       result: {
-        _sys: 200
+        data: array,
+        _sys: {
+          status: 200
+        }
       }
     };
     // Initialize our hook with no options
@@ -96,12 +181,14 @@ describe('\'prepare calendar\' hook', () => {
   it('runs the hook with not found set', () => {
     // A mock hook object
     const mock = {
-      data: array,
       params: {
         query: {}
       },
       result: {
-        _sys: 404
+        data: array,
+        _sys: {
+          status: 404
+        }
       }
     };
     // Initialize our hook with no options

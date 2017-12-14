@@ -13,6 +13,7 @@ class Service {
     const relatives = this.app.service('relatives');
 
     return relatives.find({
+      path: this.options.name,
       query:{
         qname:'o:f913cff03624ac461283', 
         full: params.query.full || false, 
