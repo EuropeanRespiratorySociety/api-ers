@@ -6,7 +6,7 @@ module.exports = function () {
     let message = `${hook.type}: ${hook.path} - Method: ${hook.method}`;
 
     if (hook.type === 'error') {
-      message + `Error: ${hook.error.message}`;
+      message += ` - Error: ${hook.error.message}`;
     }
 
     logger.info(message);
