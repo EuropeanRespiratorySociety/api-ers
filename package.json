@@ -1,7 +1,7 @@
 {
   "name": "ers-api",
   "description": "The ERS API provides an API to retrieve content and facilitate login with myERS",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://api.ersnet.org",
   "main": "src",
   "keywords": [
@@ -54,7 +54,7 @@
     "compression": "^1.7.1",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "ers-utils": "^0.1.5",
+    "ers-utils": "^0.1.6",
     "feathers-authentication-hooks": "^0.1.6",
     "feathers-hooks-common": "^3.10.0",
     "feathers-hooks-rediscache": "^0.3.6",
