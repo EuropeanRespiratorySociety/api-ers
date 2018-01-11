@@ -7,12 +7,20 @@ module.exports = {
   find: {
     description: 'List all users',
     summary: 'list all users [admin role]',
+    responses: {
+      '200': responses.success,
+      '404': responses.notFound
+    },
     security: [    {
       bearer: []
     }],
   },
   get: {
     summary: 'Get a user [owner]',
+    responses: {
+      '200': responses.success,
+      '404': responses.notFound
+    },
     security: [    {
       bearer: []
     }]
@@ -34,13 +42,25 @@ module.exports = {
     produces: ['application/json']
   },
   update: {
+    id: '_id',
     summary: 'Update a user [owner]',
+    parameters:[],
+    responses: {
+      '200': responses.success,
+      '404': responses.notFound
+    },
     security: [    {
       bearer: []
     }]
   },
   patch: {
+    id: '_id',
     summary: 'Patch a user [owner]',
+    parameters:[],
+    responses: {
+      '200': responses.success,
+      '404': responses.notFound
+    },
     security: [    {
       bearer: []
     }]
@@ -48,6 +68,10 @@ module.exports = {
   remove: {
     description: 'Remove a user',
     summary: 'Remove a user [owner]',
+    responses: {
+      '200': responses.success,
+      '404': responses.notFound
+    },
     parameters: [{
       name: 'id',
       description: 'Id of the user to delete',

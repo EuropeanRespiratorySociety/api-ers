@@ -12,7 +12,7 @@ module.exports = {
   uiIndex: path.join(__dirname, 'docs.html'),
   schemes: process.env.NODE_ENV === 'production' ? ['https'] : ['http'],
   info: {
-    title: pkg.name,
+    title: 'ERS API Documentation',
     description: pkg.description,
     contact:{email:'webmaster@ersnet.org'}
   },

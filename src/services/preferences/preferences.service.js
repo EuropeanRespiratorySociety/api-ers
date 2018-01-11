@@ -2,7 +2,6 @@
 const createService = require('feathers-mongoose');
 const createModel = require('../../models/preferences.model');
 const hooks = require('./preferences.hooks');
-const filters = require('./preferences.filters');
 
 const docs = require('../../swagger/preferences');
 
@@ -26,8 +25,4 @@ module.exports = function () {
   const service = app.service('preferences');
 
   service.hooks(hooks);
-
-  if (service.filter) {
-    service.filter(filters);
-  }
 };

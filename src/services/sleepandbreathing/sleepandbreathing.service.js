@@ -1,7 +1,6 @@
 // Initializes the `sleepandbreathing` service on path `/sleepandbreathing`
 const createService = require('./sleepandbreathing.class.js');
 const hooks = require('./sleepandbreathing.hooks');
-const filters = require('./sleepandbreathing.filters');
 
 const docs = require('../../swagger/sleep-and-breathing');
 module.exports = function () {
@@ -20,8 +19,4 @@ module.exports = function () {
   const service = app.service('sleepandbreathing');
 
   service.hooks(hooks);
-
-  if (service.filter) {
-    service.filter(filters);
-  }
 };

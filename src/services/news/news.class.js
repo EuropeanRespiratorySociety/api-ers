@@ -65,7 +65,6 @@ class Service {
   }
 
   get(slug, params) {
-    //this.app.request.apicacheGroup = 'courses';
     const relatives = this.app.service('relatives');
     return relatives.get(slug, {query: params.query}).then(result => Object.assign(result, {_sys:{status:200}}));
   }

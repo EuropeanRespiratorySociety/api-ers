@@ -1,7 +1,6 @@
 // Initializes the `login` service on path `/ers/contacts/login`
 const createService = require('./login.class.js');
 const hooks = require('./login.hooks');
-const filters = require('./login.filters');
 const docs = require('../../swagger/contacts');
 
 module.exports = function () {
@@ -23,8 +22,4 @@ module.exports = function () {
   const service = app.service('ers/contacts/login');
 
   service.hooks(hooks);
-
-  if (service.filter) {
-    service.filter(filters);
-  }
 };

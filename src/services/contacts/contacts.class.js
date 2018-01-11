@@ -1,5 +1,5 @@
 const axios = require('axios');
-const errors = require('feathers-errors');
+const errors = require('@feathersjs/errors');
 
 // This is mendatory until we change the certificate
 // But we trust the server... it is ours.

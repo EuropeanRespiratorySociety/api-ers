@@ -1,8 +1,8 @@
-const { authenticate } = require('feathers-authentication').hooks;
+const { authenticate } = require('@feathersjs/authentication').hooks;
 const { when, discard, iff, isProvider }= require('feathers-hooks-common');
 const { restrictToOwner, restrictToRoles } = require('feathers-authentication-hooks');
 
-const { hashPassword } = require('feathers-authentication-local').hooks;
+const { hashPassword } = require('@feathersjs/authentication-local').hooks;
 const restrict = [
   authenticate('jwt'),
   restrictToOwner({

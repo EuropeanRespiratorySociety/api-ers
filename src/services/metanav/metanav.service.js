@@ -1,7 +1,6 @@
 // Initializes the `metanav` service on path `/metanav`
 const createService = require('./metanav.class.js');
 const hooks = require('./metanav.hooks');
-const filters = require('./metanav.filters');
 
 const docs = require('../../swagger/metanav');
 
@@ -21,8 +20,4 @@ module.exports = function () {
   const service = app.service('metanav');
 
   service.hooks(hooks);
-
-  if (service.filter) {
-    service.filter(filters);
-  }
 };

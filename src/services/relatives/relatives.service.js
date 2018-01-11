@@ -1,7 +1,6 @@
 // Initializes the `relatives` service on path `/relatives`
 const createService = require('./relatives.class.js');
 const hooks = require('./relatives.hooks');
-const filters = require('./relatives.filters');
 
 const docs = require('../../swagger/relatives');
 
@@ -24,8 +23,4 @@ module.exports = function () {
   const service = app.service('relatives');
 
   service.hooks(hooks);
-
-  if (service.filter) {
-    service.filter(filters);
-  }
 };

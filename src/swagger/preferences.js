@@ -7,15 +7,36 @@ module.exports = {
   find: {
     description: 'List all preferences of all users. This endpoint is reserved to user with the correct role (Admin)',
     summary: 'list all users [admin role]',
+    parameters:[],
+    responses: {
+      '200': responses.success,
+      '404': responses.notFound
+    },
     security: [    {
       bearer: []
     }],
+    produces: ['application/json']
   },
   get: {
+    id: '_id',
+    description: 'Get a user\'s preferences by user ID',
     summary: 'Get preferences [owner]',
+    parameters: [{
+      name: 'apiUserId',
+      description: 'user id of the preferences to delete',
+      required: true,
+      allowMultiple: false,
+      type: 'string',
+      in: 'path' }
+    ],
+    responses: {
+      '200': responses.success,
+      '404': responses.notFound
+    },
     security: [    {
       bearer: []
-    }]
+    }],
+    produces: ['application/json']
   },
   create: {
     security: [    {
@@ -34,24 +55,39 @@ module.exports = {
     produces: ['application/json']
   },
   update: {
-    summary: 'Update preferences [owner]',    
+    summary: 'Update preferences [owner]', 
+    description: 'Update user\'s preference by ID',   
     parameters: [
       params.preferences
     ],
+    responses: {
+      '200': responses.success,
+      '404': responses.notFound
+    },
     security: [    {
       bearer: []
-    }]
+    }],
+    produces: ['application/json']
   },
   patch: {
-    summary: 'Patch a user\'s preference [owner]',    
+    id: '_id',
+    summary: 'Patch a user\'s preference [owner]', 
+    description: 'Patch user\'s preference by ID',     
     parameters: [
       params.preferences
     ],
-    security: [    {
+    responses: {
+      '201': responses.successPreferencesCreated,
+      '409': responses.conflict,
+      '401': responses.invalidLogin
+    },
+    security: [{
       bearer: []
-    }]
+    }],
+    produces: ['application/json']
   },
   remove: {
+    id: '_id',
     description: 'Remove a preference object',
     summary: 'Remove a preference object [owner]',
     parameters: [{
@@ -62,6 +98,10 @@ module.exports = {
       type: 'string',
       in: 'path' }
     ],
+    responses: {
+      '200': responses.success,
+      '404': responses.notFound
+    },
     produces: ['application/json'],
     security: [    {
       bearer: []

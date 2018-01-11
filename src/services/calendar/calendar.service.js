@@ -1,7 +1,6 @@
 // Initializes the `calendar` service on path `/calendar`
 const createService = require('./calendar.class.js');
 const hooks = require('./calendar.hooks');
-const filters = require('./calendar.filters');
 
 const docs = require('../../swagger/calendar');
 
@@ -21,8 +20,4 @@ module.exports = function () {
   const service = app.service('calendar');
 
   service.hooks(hooks);
-
-  if (service.filter) {
-    service.filter(filters);
-  }
 };

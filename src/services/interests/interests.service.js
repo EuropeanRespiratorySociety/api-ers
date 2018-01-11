@@ -1,7 +1,6 @@
 // Initializes the `interests` service on path `/interests`
 const createService = require('./interests.class.js');
 const hooks = require('./interests.hooks');
-const filters = require('./interests.filters');
 
 const docs = require('../../swagger/interests');
 
@@ -21,8 +20,4 @@ module.exports = function () {
   const service = app.service('interests');
 
   service.hooks(hooks);
-
-  if (service.filter) {
-    service.filter(filters);
-  }
 };

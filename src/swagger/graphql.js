@@ -44,7 +44,7 @@ module.exports = {
             locations: [
               {
                 line: 1,
-                column: 22
+                column: 22 
               }
             ]
           }

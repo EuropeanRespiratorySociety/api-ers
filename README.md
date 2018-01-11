@@ -4,7 +4,7 @@ This API provides access to the content of the ERS such as its calendar, news, b
 
 ### Documentation
 
-All endpoints are documented and accessible on the [ERS Content API documentation's page](https://api.ersnet.org/docs.html)
+All endpoints are documented and accessible on the [ERS Content API documentation's page](https://api.ersnet.org/docs)
 
 ### Usage
 

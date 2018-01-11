@@ -1,7 +1,6 @@
 // Initializes the `news` service on path `/news`
 const createService = require('./news.class.js');
 const hooks = require('./news.hooks');
-const filters = require('./news.filters');
 
 const docs = require('../../swagger/news');
 
@@ -21,8 +20,4 @@ module.exports = function () {
   const service = app.service('news');
 
   service.hooks(hooks);
-
-  if (service.filter) {
-    service.filter(filters);
-  }
 };

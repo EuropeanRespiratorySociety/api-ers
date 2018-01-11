@@ -15,17 +15,21 @@ module.exports = {
   },
   invalidLogin: {
     description: 'Invalid login',
-    schema: {
-      type: 'object',
-      properties:{
-        name: {type: 'string'},
-        message: {type: 'string'},
-        code: {
-          type: 'string',
-          enum: [401]
-        },
-        className: {type: 'string'},
-        errors: {}
+    content: {
+      ['application/json']: {
+        schema: {
+          type: 'object',
+          properties:{
+            name: {type: 'string'},
+            message: {type: 'string'},
+            code: {
+              type: 'string',
+              enum: [401]
+            },
+            className: {type: 'string'},
+            errors: {}
+          }
+        }
       }
     }
   },
@@ -102,7 +106,7 @@ module.exports = {
     }
   },
   successCalendar: {
-    description: 'successful operation',
+    description: 'successful operation - test',
     schema: {
       type: 'object',
       example:{

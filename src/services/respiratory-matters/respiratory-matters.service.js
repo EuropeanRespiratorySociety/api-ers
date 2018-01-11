@@ -1,7 +1,6 @@
 // Initializes the `respiratory-matters` service on path `/respiratory-matters`
 const createService = require('./respiratory-matters.class.js');
 const hooks = require('./respiratory-matters.hooks');
-const filters = require('./respiratory-matters.filters');
 
 const docs = require('../../swagger/respiratory-matters');
 
@@ -21,8 +20,4 @@ module.exports = function () {
   const service = app.service('respiratory-matters');
 
   service.hooks(hooks);
-
-  if (service.filter) {
-    service.filter(filters);
-  }
 };
