@@ -114,19 +114,27 @@ module.exports = {
   eventType: {
     name: 'type',
     description: `The type of event returned by the calendar, __ers__ is the default and is not necessary in the query string
-      <ul>
-        <li>ers - ERS only events</li>
-        <li>deadlines - ERS deadlines, a typical deadline is the abstract submission</li>
-        <li>endorsed - Events not organised by ERS, but endorsed by ERS</li>
-        <li>non-ers - Events that have been approved in our calendar but that are nor endorsed nor ers</li>
-        <li>spirometry - Spirometry Training Programme - These events appear under ERS as they are ERS events, but they can also appear by their own on some pages</li>
-        <li>all - ...</li>
-      </ul>
+      * ers - ERS only events
+      * deadlines - ERS deadlines, a typical deadline is the abstract submission
+      * endorsed - Events not organised by ERS, but endorsed by ERS
+      * non-ers - Events that have been approved in our calendar but that are nor endorsed nor ers
+      * spirometry - Spirometry Training Programme - These events appear under ERS as they are ERS events, but they can also appear by their own on some pages
+      * all - ...
     `,
     required: false,
     type: 'string',
     in: 'query',
     enum: ['ers', 'deadline', 'endorsed', 'non-ers', 'spirometry', 'all' ]
+  },
+  coursesType: {
+    name: 'type',
+    description: `Filters courses. 
+     * 'all' returns... all published courses
+     * 'past' returns courses that are already passed but still published`,
+    required: false,
+    in: 'query',
+    type: 'string',
+    enum: ['past', 'all']
   },
   user: {
     name: 'object',

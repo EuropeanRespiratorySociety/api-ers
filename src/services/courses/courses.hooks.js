@@ -1,4 +1,6 @@
 const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-rediscache');
+const courses  = require('../../hooks/courses');
+
 
 module.exports = {
   before: {
@@ -13,7 +15,7 @@ module.exports = {
 
   after: {
     all: [],
-    find: [hookCache({duration: 3600 * 24 * 7}), redisAfterHook()],
+    find: [courses(), hookCache({duration: 3600 * 24}), redisAfterHook()],
     get: [hookCache({duration: 3600 * 24 * 7}), redisAfterHook()],
     create: [],
     update: [],

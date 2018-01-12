@@ -8,6 +8,7 @@ module.exports = {
     summary: 'Get all courses and the category description',
     parameters: [
       params.limit,
+      params.coursesType,
       params.skip,
       params.full,
       params.markdown
