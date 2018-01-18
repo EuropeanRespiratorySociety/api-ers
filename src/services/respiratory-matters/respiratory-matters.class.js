@@ -10,7 +10,14 @@ class Service {
 
   find(params) {
     const relatives = this.app.service('relatives');
-    return relatives.find({path: this.options.name, query:{qname:'o:d571c1fa5c4b8ed6d7ac', full: params.query.full || false}}).then(results => results);
+    return relatives.find({
+      path: this.options.name, 
+      query:{
+        qname:'o:d571c1fa5c4b8ed6d7ac', 
+        full: params.query.full || false,
+        md: params.query.md || false
+      }
+    }).then(results => results);
   }
 
   get(slug, params) {
