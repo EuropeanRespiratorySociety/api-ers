@@ -1,5 +1,6 @@
 const assert = require('assert');
 const app = require('../../src/app');
+const calendar = require('../../src/services/calendar/calendar.class');
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -132,7 +133,12 @@ describe('Request to the calendar service', function() {
       });
   });
 
-    
+  // ---------------
+  // These tests might fail depending 
+  // on what is published on the 
+  // website when testing
+  // ---------------
+
   // it('returns ers endorsed events', (done) => {
   //   chai.request(host) 
   //     .get('/calendar?type=deadline')
@@ -157,4 +163,56 @@ describe('Request to the calendar service', function() {
   //     });
   // });
 
-});    
+});
+
+describe('Filter function', function() {
+  it('sets default value (ers)', () => {
+    const filter = calendar().setFilter('ers');
+    expect(filter).to.be.an('object')
+      .to.have.property('ersEndorsedEvent')
+      .to.deep.equal({'$ne': true});
+    expect(filter)
+      .to.have.property('nonErsCalendarItem')
+      .to.deep.equal({'$ne': true});
+  });
+
+  it('sets deadline', () => {
+    const filter = calendar().setFilter('deadline');
+    expect(filter).to.be.an('object')
+      .to.have.property('ersDeadline')
+      .to.be.ok;
+  });
+
+  it('sets endrorsed', () => {
+    const filter = calendar().setFilter('endorsed');
+    expect(filter).to.be.an('object')
+      .to.have.property('ersEndorsedEvent')
+      .to.be.ok;
+  });
+
+  it('sets non-ers', () => {
+    const filter = calendar().setFilter('non-ers');
+    expect(filter).to.be.an('object')
+      .to.have.property('nonErsCalendarItem')
+      .to.be.ok;
+  });
+
+  it('sets spirometry', () => {
+    const filter = calendar().setFilter('spirometry');
+    expect(filter).to.be.an('object')
+      .to.have.property('type')
+      .to.equal('Spirometry Programme');
+  });
+
+  it('sets hermes', () => {
+    const filter = calendar().setFilter('hermes');
+    expect(filter).to.be.an('object')
+      .to.have.property('type')
+      .to.equal('ERS HERMES');
+  });
+
+  it('returns an empty object', () => {
+    const filter = calendar().setFilter();
+    expect(filter).to.be.an('object').to.deep.equal({});
+  });
+});

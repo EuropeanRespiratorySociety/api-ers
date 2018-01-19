@@ -1,5 +1,5 @@
 const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-rediscache');
-
+ 
 module.exports = {
   before: {
     all: [],
@@ -14,7 +14,7 @@ module.exports = {
     patch: [],
     remove: []
   },
-
+ 
   after: {
     all: [],
     find: [      
@@ -30,7 +30,7 @@ module.exports = {
     patch: [],
     remove: []
   },
-
+ 
   error: {
     all: [],
     find: [],

@@ -2,6 +2,7 @@
 class Service {
   constructor (options) {
     this.options = options || {};
+    this.setFilter = setFilter;
   }
 
   setup(app) {
@@ -11,7 +12,7 @@ class Service {
   find (params) {
     const relatives = this.app.service('relatives'); 
     const type = params.query.type || 'ers';
-    const filter = setFilter(type);
+    const filter = this.setFilter(type);
     return relatives.find({
       body: filter,
       path: this.options.name,
@@ -34,8 +35,7 @@ module.exports = function (options) {
 
 module.exports.Service = Service;
 
-
-function setFilter(type){
+const setFilter = (type) => {
   //const today = moment().format('DD/MM/YYYY');
   if(type === 'ers'){
     return {
@@ -61,5 +61,10 @@ function setFilter(type){
     return { type: 'Spirometry Programme' };
   }
 
+  if(type === 'hermes'){
+    return { type: 'ERS HERMES' };
+  }
+
   return {};
-}
+};
+
