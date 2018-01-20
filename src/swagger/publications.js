@@ -4,7 +4,7 @@ const responses = require('./helpers/responses');
 module.exports = {
   description: 'Publications',
   find: {
-    description: 'Returns all ERS publications, the link to the actual publication is available in the property \'externalLink\'', 
+    description: 'Returns all ERS publications, **the link to the actual publication** is available in the property \'**externalLink**\'', 
     summary: 'Get publications',
     parameters: [
       params.limit,
@@ -19,7 +19,7 @@ module.exports = {
   },
   get: {
     id: 'slug',
-    description: 'Returns the description of one publication based on its slug. The link to the actual publication is available in the property \'externalLink\'',
+    description: 'Returns the description of one publication based on its slug. **The link to the actual publication** is available in the property \'**externalLink**\'',
     summary: 'Get an article from its slug/alias',
     parameters: [
       params.slug,
