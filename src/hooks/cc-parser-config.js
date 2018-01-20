@@ -51,10 +51,11 @@ module.exports = {
     'fullyBooked', 
     'image', 
     'itemImageAlignment', 
-    'itemImageBackgroundSize', 
+    'itemImageBackgroundSize',
     'imageSize', 
     'video', 
-    'imageId', 
+    'imageId',
+    'externalLink', 
     'url', 
     'uri',
     '_system'
