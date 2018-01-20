@@ -181,6 +181,26 @@ module.exports = {
 
     }
   }, 
+  successNoResult: {
+    description: 'No result returned for request, but request sucessful',
+    schema: {
+      type: 'object',
+      properties: {
+        filters: {type: 'object'},
+        _sys: {type: 'object'}
+      },
+      example: {
+        filters: {
+          user:[],
+          system: []
+        },
+        _sys: {
+          status: 204,
+          message: 'No filters available for service: name-of-requested-service'
+        }
+      }
+    }
+  },
   conflict: {
     description: 'Conflict when creating the user',
     schema: {

@@ -55,6 +55,14 @@ module.exports = {
     type: 'string',
     in: 'path'
   },
+  endpoint: {
+    name: 'endpoint',
+    description: 'the name of the endpoint: e.g. \'courses\'',
+    required: true,
+    allowMultiple: false,
+    type: 'string',
+    in: 'path'
+  },
   full: {
     name: 'full',
     description: 'Parses the full item or only what is necessary for the preview',

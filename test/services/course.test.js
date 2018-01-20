@@ -20,8 +20,6 @@ describe('\'courses\' service', () => {
   });
 });
 
-
-
 let firstItem = '';
 
 describe('Request to the course service', function() {

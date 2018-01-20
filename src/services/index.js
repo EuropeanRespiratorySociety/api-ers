@@ -18,6 +18,7 @@ module.exports = function () {
   app.configure(calendar);
   app.configure(courses);
   app.configure(contacts); // This shows up as ers in the documentation
+  app.configure(filters);
   app.configure(interests);
   app.configure(login); // This is merged with the previous one
   app.configure(metanav);
@@ -29,5 +30,4 @@ module.exports = function () {
   app.configure(users);
   // Has to be last
   app.configure(graphql);
-  app.configure(filters);
 };
