@@ -1,7 +1,8 @@
 module.exports = {
   toParse: [
     'body', 
-    'leadParagraph', 
+    'leadParagraph',
+    'references',
     'popUp', 
     'cancellationPolicy', 
     'travelInfo', 

@@ -13,6 +13,7 @@ const preferences = require('./preferences/preferences.service.js');
 const interests = require('./interests/interests.service.js');
 const filters = require('./filters/filters.service.js');
 const publications = require('./publications/publications.service.js');
+const vision = require('./vision/vision.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
@@ -30,6 +31,7 @@ module.exports = function () {
   app.configure(respiratoryMatters);
   app.configure(sleepandbreathing);
   app.configure(users);
+  app.configure(vision);
   // Has to be last
   app.configure(graphql);
 };

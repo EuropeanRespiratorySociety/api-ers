@@ -8,24 +8,21 @@ class Service {
     this.app = app;
   }
 
-  find(params) {
-    //this.app.request.apicacheGroup = 'courses';
+  async find (params) {
     const relatives = this.app.service('relatives');
-
     return relatives.find({
-      path: this.options.name,
+      path: this.options.name, 
       query:{
-        qname:'o:f913cff03624ac461283', 
-        full: params.query.full || false, 
+        qname:'o:0cbccec1fe46232dabb3', 
+        full: params.query.full || false,
         md: params.query.md || false,
         skip: parseInt(params.query.skip) || false,
         limit: parseInt(params.query.limit) || this.options.paginate.default
-      },
+      }
     }).then(results => results);
   }
 
-  get(slug, params) {
-    //this.app.request.apicacheGroup = 'courses';
+  async get (slug, params) {
     const relatives = this.app.service('relatives');
     return relatives.get(slug, {query: params.query}).then(result => Object.assign(result, {_sys:{status:200}}));
   }

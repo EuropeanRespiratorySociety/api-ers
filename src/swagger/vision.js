@@ -2,10 +2,10 @@ const params = require('./helpers/parameters');
 const responses = require('./helpers/responses');
 
 module.exports = {
-  description: 'Respiratory Matters Blog',
+  description: 'ERS Vision',
   find: {
-    description: 'Returns all the article of the Respiratory Matters Blog', 
-    summary: 'Get articles relative to a node with the node',
+    description: 'Returns all the article and video from ERS Vision', 
+    summary: 'Get ERS Vision items',
     parameters: [
       params.markdown,
       params.limit,
@@ -20,7 +20,7 @@ module.exports = {
   },
   get: {
     id: 'slug',
-    description: 'Returns an object with the content of the article based on the slug or alias of the article. Full is set to true by default, it can be overwritten if necessary by setting it to false',
+    description: 'Returns a video from ERS Vision with all the associated text',
     summary: 'Get an article from its slug/alias',
     parameters: [
       params.slug,

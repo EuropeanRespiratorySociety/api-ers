@@ -22,8 +22,8 @@ class Service {
         md: params.query.md || false,
         sortBy: 'eventDate',
         sortDirection: 1,
-        limit: params.query.limit || 200, //this is a bit off as filtering is done after the fact (isAlreadyPassed)
-        skip: params.query.skip || 0
+        limit: parseInt(params.query.limit) || 200, //this is a bit off as filtering is done after the fact (isAlreadyPassed)
+        skip: parseInt(params.query.skip) || 0
       }
     }).then(results => results);
   }

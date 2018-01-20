@@ -9,6 +9,7 @@ module.exports = {
     parameters: [
       params.limit,
       params.skip,
+      params.markdown,
       params.full
     ],
     responses: { 
