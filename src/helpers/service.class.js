@@ -1,7 +1,10 @@
+const setQueryParams = require('./queryParams');
+
 /* eslint-disable no-unused-vars */
 class Service {
   constructor (options) {
-    this.options = options || {};
+    if (options === undefined) throw new Error('options object is mandatory');
+    this.options = options;
   }
 
   setup(app) {
@@ -10,15 +13,10 @@ class Service {
 
   async find (params) {
     const relatives = this.app.service('relatives');
+
     return relatives.find({
-      path: this.options.name, 
-      query:{
-        qname:'o:0cbccec1fe46232dabb3', 
-        full: params.query.full || false,
-        md: params.query.md || false,
-        skip: parseInt(params.query.skip) || false,
-        limit: parseInt(params.query.limit) || this.options.paginate.default
-      }
+      path: this.options.name,
+      query: setQueryParams(this.options.qname, params.query)
     }).then(results => results);
   }
 

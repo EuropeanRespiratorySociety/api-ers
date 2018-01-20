@@ -1,5 +1,5 @@
 // Initializes the `respiratory-matters` service on path `/respiratory-matters`
-const createService = require('./respiratory-matters.class.js');
+const createService = require('../../helpers/service.class');
 const hooks = require('./respiratory-matters.hooks');
 
 const docs = require('../../swagger/respiratory-matters');
@@ -10,6 +10,7 @@ module.exports = function () {
 
   const options = {
     name: 'respiratory-matters',
+    qname: 'o:d571c1fa5c4b8ed6d7ac',
     paginate
   };
 

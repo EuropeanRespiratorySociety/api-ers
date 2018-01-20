@@ -1,5 +1,5 @@
 // Initializes the `ers-vision` service on path `/ers-vision`
-const createService = require('./vision.class.js');
+const createService = require('../../helpers/service.class');
 const hooks = require('./vision.hooks');
 
 const docs = require('../../swagger/vision');
@@ -10,6 +10,7 @@ module.exports = function (app) {
 
   const options = {
     name: 'vision',
+    qname: 'o:0cbccec1fe46232dabb3',
     paginate
   };
 
