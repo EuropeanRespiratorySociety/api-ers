@@ -25,11 +25,11 @@ module.exports = function () {
   app.configure(metanav);
   app.configure(news);
   app.configure(preferences);
+  app.configure(publications);
   app.configure(relatives);
   app.configure(respiratoryMatters);
   app.configure(sleepandbreathing);
   app.configure(users);
   // Has to be last
   app.configure(graphql);
-  app.configure(publications);
 };

@@ -20,30 +20,9 @@ class Service {
     }).then(results => results);
   }
 
-  async get (id, params) {
-    return {
-      id, text: `A new message with ID: ${id}!`
-    };
-  }
-
-  async create (data, params) {
-    if (Array.isArray(data)) {
-      return await Promise.all(data.map(current => this.create(current)));
-    }
-
-    return data;
-  }
-
-  async update (id, data, params) {
-    return data;
-  }
-
-  async patch (id, data, params) {
-    return data;
-  }
-
-  async remove (id, params) {
-    return { id };
+  async get (slug, params) {
+    const relatives = this.app.service('relatives');
+    return relatives.get(slug, {query: params.query}).then(result => Object.assign(result, {_sys:{status:200}}));
   }
 }
 
