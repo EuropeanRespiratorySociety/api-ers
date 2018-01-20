@@ -9,7 +9,7 @@ module.exports = function () {
   const paginate = app.get('paginate');
 
   const options = {
-    name: 'course',
+    name: 'courses',
     paginate
   };
 
