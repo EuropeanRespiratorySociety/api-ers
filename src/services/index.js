@@ -14,7 +14,7 @@ const interests = require('./interests/interests.service.js');
 const filters = require('./filters/filters.service.js');
 const publications = require('./publications/publications.service.js');
 const vision = require('./vision/vision.service.js');
-const webhook = require('./webhook/webhook.service.js');
+// const webhook = require('./webhook/webhook.service.js');
 const leadership = require('./leadership/leadership.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
@@ -24,6 +24,7 @@ module.exports = function () {
   app.configure(contacts); // This shows up as ers in the documentation
   app.configure(filters);
   app.configure(interests);
+  app.configure(leadership);
   app.configure(login); // This is merged with the previous one
   app.configure(metanav);
   app.configure(news);
@@ -34,8 +35,8 @@ module.exports = function () {
   app.configure(sleepandbreathing);
   app.configure(users);
   app.configure(vision);
+  // app.configure(webhook);
   // Has to be last
   app.configure(graphql);
-  app.configure(webhook);
-  app.configure(leadership);
+
 };
