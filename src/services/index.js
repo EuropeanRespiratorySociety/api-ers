@@ -15,6 +15,7 @@ const filters = require('./filters/filters.service.js');
 const publications = require('./publications/publications.service.js');
 const vision = require('./vision/vision.service.js');
 const webhook = require('./webhook/webhook.service.js');
+const leadership = require('./leadership/leadership.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
@@ -36,4 +37,5 @@ module.exports = function () {
   // Has to be last
   app.configure(graphql);
   app.configure(webhook);
+  app.configure(leadership);
 };
