@@ -1,6 +1,6 @@
 const assert = require('assert');
 const feathers = require('@feathersjs/feathers');
-const sortInterests = require('../../src/hooks/sort-interests');
+// const sortInterests = require('../../src/hooks/sort-interests');
 
 describe('\'sortInterests\' hook', () => {
   let app;
