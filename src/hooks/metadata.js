@@ -51,8 +51,11 @@ function addItemMetadata(array, full){
     const created = item._system.created_on;
     const modified = item._system.modified_on;
     item.ms = created.ms;
-    item.createdOn = date.ersDate(`${created.month}/${created.day_of_month}/${created.year}`);
-    item.modifiedOn = date.ersDate(`${modified.month}/${modified.day_of_month}/${modified.year}`);
+    // + 1 is necessary as the created and modify objects are Java generated
+    // the range is 0 - 11 not 1-12 :( it would be best to use the timestamp
+    // but it is not supported by the ersDate() method. Will do.
+    item.createdOn = date.ersDate(`${created.month + 1}/${created.day_of_month}/${created.year}`);
+    item.modifiedOn = date.ersDate(`${modified.month + 1}/${modified.day_of_month}/${modified.year}`);
     item.shortLead = format.truncate(format.clean(item.leadParagraph), 145);
     if(full){ 
       item.hasRelatedArticles = item._statistics['ers:related-association'] || 0;

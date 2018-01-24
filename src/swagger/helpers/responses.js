@@ -59,6 +59,47 @@ module.exports = {
       }   
     }
   },
+  successLeadership: {
+    description: 'successful operation',
+    schema: {
+      type: 'object',
+      example: {
+        data: [{
+          sorted: {
+            pInterests: {
+              title: '1 - Personal interests',
+              data: {
+                CON: [],
+                BEN: [],
+                TRA: [],
+                SHA: []
+              }
+            },
+            npInterests: {
+              title: '2 - Non-Personal interests',
+              data: []
+            },
+            oInterests: {
+              title: '3 - Other Interests that may be seen as potential conflicts',
+              data: []
+            },
+            tobacco: {
+              title: '4 - Tobacco-Industry related Conflicts of Interests',
+              data: ''
+            }
+          }
+        }],
+        cache: {
+          cached: 'boolean',
+          duration: 'int',
+          expires_on: 'string',
+          parent: 'string',
+          group: 'string',
+          key: 'string'
+        },
+      }   
+    }
+  },
   successInterests: {
     description: 'successful operation',
     schema: {
