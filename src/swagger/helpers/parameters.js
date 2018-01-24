@@ -127,6 +127,7 @@ module.exports = {
       * endorsed - Events not organised by ERS, but endorsed by ERS
       * non-ers - Events that have been approved in our calendar but that are nor endorsed nor ers
       * spirometry - Spirometry Training Programme - These events appear under ERS as they are ERS events, but they can also appear by their own on some pages
+      * hermes - HERMES pages - These events appear under ERS as they are ERS events, but they can also appear by their own on some pages
       * all - ...
     `,
     required: false,
