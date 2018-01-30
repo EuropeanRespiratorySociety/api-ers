@@ -3,6 +3,9 @@ const meta = require('../../src/hooks/metadata');
 
 const expect = chai.expect;
 
+// IMPORTANT - remember date month are coming from java...
+// January is? 0 not 1
+
 
 describe('Metada hook', () => {
   it('handles a 404', () => {
@@ -46,13 +49,13 @@ describe('Metada hook', () => {
             _system:{
               created_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               },
               modified_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               }
@@ -92,13 +95,13 @@ describe('Metada hook', () => {
             _system:{
               created_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               },
               modified_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               }
@@ -138,13 +141,13 @@ describe('Metada hook', () => {
             _system:{
               created_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               },
               modified_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               }
@@ -188,13 +191,13 @@ describe('Metada hook', () => {
             _system:{
               created_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               },
               modified_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               }
@@ -233,13 +236,13 @@ describe('Metada hook', () => {
             _system:{
               created_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               },
               modified_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               }
@@ -277,13 +280,13 @@ describe('Metada hook', () => {
             _system:{
               created_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               },
               modified_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               }
@@ -328,13 +331,13 @@ describe('Metada hook', () => {
             _system:{
               created_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               },
               modified_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               }
@@ -382,13 +385,13 @@ describe('Metada hook', () => {
             _system:{
               created_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               },
               modified_on:{
                 ms:123456789,
-                month:3,
+                month:2,
                 day_of_month:10,
                 year:2017,
               }

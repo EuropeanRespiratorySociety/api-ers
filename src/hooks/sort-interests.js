@@ -44,7 +44,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
           }
         });
 
-        if(i.HasTobaccoConflict) {
+        if(i.Declaration.HasTobaccoConflict) {
           sorted.tobacco.data = 'Yes. I declare that I have been full or part time employee of, paid consultant or advisor to/received a grant from the tobacco industry at any time after 1.1.2000, for any project or programme.';
         } else {
           sorted.tobacco.data = 'No. I declare that I have not been full or part time employee of, paid consultant or advisor to /received a grant from the tobacco industry at any time after 1.1.2000, for any project or programme.';
