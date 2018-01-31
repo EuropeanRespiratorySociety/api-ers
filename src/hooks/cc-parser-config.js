@@ -45,6 +45,7 @@ module.exports = {
     'type',
     'eventDate', 
     'eventEndDate', 
+    'eventLocation', 
     'nonErsCalendarItem',
     'createdOn', 
     'ersEndorsedEvent', 

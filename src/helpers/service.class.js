@@ -14,15 +14,16 @@ class Service {
   async find (params) {
     const relatives = this.app.service('relatives');
 
-    return relatives.find({
+    return await relatives.find({
       path: this.options.name,
       query: setQueryParams(this.options.qname, params.query)
-    }).then(results => results);
+    });
   }
 
   async get (slug, params) {
     const relatives = this.app.service('relatives');
-    return relatives.get(slug, {query: params.query}).then(result => Object.assign(result, {_sys:{status:200}}));
+    const result = await relatives.get(slug, { query: params.query});
+    return Object.assign(result, { _sys: { status: 200 } } );
   }
 }
 
