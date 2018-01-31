@@ -10,20 +10,21 @@ const date = new D();
 
 const defaults = {};
 
-module.exports = function(options) { // eslint-disable-line no-unused-vars
+module.exports = options => { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
-  return function(hook) {
+  return async hook => {
     // hook.prepareCalendar = true;
     const timeline = hook.params.query.timeline == 'true';
     const reverse = hook.params.query.reverse == 'true';
-    if(hook.result._sys.status === 200) {
-      hook.result = {
-        data: timeline ? date.timeline(hook.result.data) : date.prepareCalendar(hook.result.data, reverse),
-        category: 'TODO',
-        _sys: hook.result._sys
-      };
-    }
-    return Promise.resolve(hook);
+    /* eslint-disable indent */
+    hook.result.data = !hook.result._sys.status === 200 
+      ? {}
+      : timeline
+      ? date.timeline(hook.result.data)
+      : date.prepareCalendar(hook.result.data, reverse);
+    /* eslint-enable */
+
+    return hook;
   };
 };

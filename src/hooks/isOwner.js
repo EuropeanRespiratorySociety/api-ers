@@ -5,7 +5,7 @@ const errors = require('@feathersjs/errors');
 const defaults = {};
 
 /* eslint-disable no-console */
-exports.isOwner = function(options) { // eslint-disable-line no-unused-vars
+exports.isOwner = options => { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
   return function(hook) {

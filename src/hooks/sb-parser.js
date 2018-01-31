@@ -18,11 +18,11 @@ const format = new Format();
 exports.ccParserCategory = function(options) { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
-  return function(hook) {
+  return async hook => {
     const full = hook.params.query.full == 'true' ? true : false;
     const md = hook.params.query.md == 'true' ? true : false;
 
-    const cache = hook.result.cache || {cached:false};
+    const cache = hook.result.cache || { cached:false };
 
     if(hook.result.status === 200 && !cache.cached) {
       hook.result = {
@@ -34,31 +34,30 @@ exports.ccParserCategory = function(options) { // eslint-disable-line no-unused-
         }
       };  
     }
-    return Promise.resolve(hook);
+    return hook;
   };
 };
 
 exports.ccParserItem = function(options) { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
-  return function(hook) {
+  return async hook => {
     //by default it returns a full article.
     const full = hook.params.query.full || false;
     const md = hook.params.query.md == 'true' ? true : false;
 
-    if(hook.result.status === 200) {
-      hook.result = {
+    hook.result.status === 200
+      ? hook.result = {
         data: parse(hook.result.item, full, md)[0],
         status: hook.result.status
-      };  
-    } else {
-      hook.result = {
+      }
+      : hook.result = {
         data: [],
         message: hook.result.message,
         status: hook.result.status
       };
-    }
-    return Promise.resolve(hook);
+
+    return hook;
   };
 };
 
@@ -68,12 +67,9 @@ exports.ccParserItem = function(options) { // eslint-disable-line no-unused-vars
  * @param { boolean} full - Full or Lead content
  * @param { boolean} md - Html or Markdown
  */
-function parse(array, full, md){
-  full = full || false;
+function parse(array, full = false, md){
 
-  if(!full){
-    array = array.map(item => format.filter(item, config.lead));
-  }  
+  if(!full) array = array.map(item => format.filter(item, config.lead)); 
 
   return array
     .map(item => cp.formatProperties(config, md)(item))

@@ -5,7 +5,7 @@ const { Format } = require('ers-utils');
 const f = new Format();
 const _ = f.loadash;
 
-module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
+module.exports = (options = {}) => { // eslint-disable-line no-unused-vars
   return async context => {
     const data = context.result.data;
 

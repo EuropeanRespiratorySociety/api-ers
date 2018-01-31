@@ -29,7 +29,7 @@ describe('Request to the calendar service', function() {
         expect(JSON.parse(res.text)).to.have.property('data')
           .that.is.an('array');
         expect(JSON.parse(res.text)).to.have.property('category')
-          .that.is.a('string');
+          .that.is.an('array');
         expect(JSON.parse(res.text)).to.have.property('_sys')
           .that.is.an('object')
           .with.deep.property('status')

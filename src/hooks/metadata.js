@@ -9,8 +9,8 @@ dotenv.load();
 
 const apiUrl = process.env.API_URL;
 
-module.exports.metadata = function (options = {}) { // eslint-disable-line no-unused-vars
-  return function (hook) {
+module.exports.metadata = (options = {}) => { // eslint-disable-line no-unused-vars
+  return async hook => {
     // Over writing the result 
     const options = hook.params.options || hook.result._sys;
     const total = hook.result._sys.total;
@@ -35,7 +35,7 @@ module.exports.metadata = function (options = {}) { // eslint-disable-line no-un
         status: hook.result._sys.status
       },
     }) : hook.result;
-    return Promise.resolve(hook);
+    return hook;
   };
 };
 

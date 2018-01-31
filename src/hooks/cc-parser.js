@@ -15,10 +15,10 @@ const { Composition, Format } = require('ers-utils');
 const cp = new Composition();
 const format = new Format();
 
-exports.ccParserCategory = function(options) { // eslint-disable-line no-unused-vars
+exports.ccParserCategory = options => { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
-  return function(hook) {
+  return async hook => {
     const full = hook.params.query.full || false;
     const md = hook.params.query.md == 'true' ? true : false;
 
@@ -33,14 +33,14 @@ exports.ccParserCategory = function(options) { // eslint-disable-line no-unused-
         }
       };  
     }
-    return Promise.resolve(hook);
+    return hook;
   };
 };
 
-exports.ccParserItem = function(options) { // eslint-disable-line no-unused-vars
+exports.ccParserItem = options => { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
-  return function(hook) {
+  return async hook => {
     //by default it returns a full article.
     const full = hook.params.query.full == 'false' ? false : true;
     const md = hook.params.query.md == 'true' ? true : false;
@@ -57,7 +57,7 @@ exports.ccParserItem = function(options) { // eslint-disable-line no-unused-vars
         status: hook.result.status
       };
     }
-    return Promise.resolve(hook);
+    return hook;
   };
 };
 
