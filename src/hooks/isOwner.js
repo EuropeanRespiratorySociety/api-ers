@@ -8,14 +8,9 @@ const defaults = {};
 exports.isOwner = options => { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
-  return function(hook) {
-    return new Promise((resolve, reject) => {
-      if(hook.id !== hook.params.user._id.toString()) {
-        reject(new errors.Forbidden('You are not allowed to view this resource'));
-        // const notAuthorized = new errors.Forbidden('You are not allowed to view this resource');
-        // throw notAuthorized;
-      }
-      resolve(hook);
-    });     
+  return async hook => {
+    return hook.id !== hook.params.user._id.toString()
+      ? new errors.Forbidden('You are not allowed to view this resource')
+      : hook;
   };      
 };
