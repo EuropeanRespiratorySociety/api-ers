@@ -13,8 +13,8 @@ const gitana = require('gitana');
 gitana.connect({
   clientKey: process.env.clientKey,
   clientSecret: process.env.clientSecret,
-  username: process.env.username,
-  password: process.env.password,
+  username: process.env.CCusername,
+  password: process.env.CCpassword,
   baseURL: process.env.baseURL,
   application: process.env.application
 }, function(err) {
