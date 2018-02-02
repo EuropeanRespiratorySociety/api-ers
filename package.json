@@ -69,6 +69,7 @@
     "helmet": "^3.10.0",
     "mongoose": "^4.13.9",
     "redis": "^2.8.0",
+    "request-promise": "^4.2.2",
     "serve-favicon": "^2.4.5",
     "validator": "^8.2.0",
     "winston": "^2.4.0"
@@ -89,8 +90,7 @@
     "istanbul-middleware": "^0.2.2",
     "mocha": "^3.5.3",
     "nyc": "^11.4.1",
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2"
+    "request": "^2.83.0"
   },
   "standard": {
     "parser": "babel-eslint"
