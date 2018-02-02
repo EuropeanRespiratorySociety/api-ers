@@ -1,9 +1,4 @@
 {
   "host": "localhost",
-  "port": "PORT",
-  "redis": {
-    "password": "REDISPW",
-    "port": 6379,
-    "host": "localhost"
-  }
+  "port": "PORT"
 }
