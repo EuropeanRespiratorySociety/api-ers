@@ -29,5 +29,10 @@
     "defaultDuration": 3600,
     "removePathFromCacheKey": true
   },
+  "redis": {
+    "password": "REDISPW",
+    "port": 6379,
+    "host": "localhost"
+  },
   "mongodb": "MONGODB"
 }
