@@ -9,7 +9,7 @@ exports.isOwner = options => { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
   function er() {
-    throw new errors.Forbidden('You are not allowed to view this resource')
+    throw new errors.Forbidden('You are not allowed to view this resource');
   }
 
   return async hook => {
