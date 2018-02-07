@@ -19,7 +19,7 @@ class Service {
       query:{
         qname:'o:cc1c5be57719dade0371',
         full: params.query.full,
-        md: params.query.md || false,
+        format: params.query.format|| 'html',
         sortBy: 'eventDate',
         sortDirection: 1,
         limit: parseInt(params.query.limit) || 200, //this is a bit off as filtering is done after the fact (isAlreadyPassed)

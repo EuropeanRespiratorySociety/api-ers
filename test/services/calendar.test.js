@@ -66,13 +66,30 @@ describe('Request to the calendar service', function() {
 
   it('returns calendar with markdown format', (done) => {
     chai.request(host) 
-      .get('/calendar?md=true')
+      .get('/calendar?format=markdown')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(JSON.parse(res.text).data[0].leadParagraph)
           .to.be.a('string')
           .not.to.include('<p>');
+        done();
+      });
+  });
+
+
+  it('returns raw calendar items', (done) => {
+    chai.request(host) 
+      .get('/calendar?format=raw&type=ers')
+      .set('Content-Type', 'application/json')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(JSON.parse(res.text).data[0].leadParagraph)
+          .to.be.a('string')
+          .not.to.include('<p>');
+        expect(JSON.parse(res.text).data[0].body)
+          .to.be.a('string')
+          .not.to.include('###');
         done();
       });
   });

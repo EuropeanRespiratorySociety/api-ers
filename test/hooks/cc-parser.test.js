@@ -61,9 +61,9 @@ describe('\'cc-parser\': category hook', () => {
     });
   });
 
-  it('runs hook with param md set to \'true\' (string)', () => {
+  it('runs hook with param type set to \'html\' (string)', () => {
     // A mock hook object
-    const mock = Object.assign(baseMock, {params: {query:{md:'true'}}});
+    const mock = Object.assign(baseMock, {params: {query:{type:'html'}}});
     // Initialize our hook with no options
     const hook = ccParserCategory();
 
@@ -75,9 +75,9 @@ describe('\'cc-parser\': category hook', () => {
     });
   });
 
-  it('runs hook with param md set to true', () => {
+  it('runs hook with param type set to raw', () => {
     // A mock hook object
-    const mock = Object.assign(baseMock, {params: {query:{md: true }}});
+    const mock = Object.assign(baseMock, {params: {query:{type: 'raw' }}});
     // Initialize our hook with no options
     const hook = ccParserCategory();
 
@@ -158,16 +158,19 @@ describe('\'cc-parser\': item hook', () => {
     });
   });
 
-
-
-  it('runs hook with md set to \'true\' (string)', () => {
+  it('runs hook with format set to markdown', () => {
     // A mock hook object
     const mock = {
       params: {
-        query: { md: 'true' }
+        query: { format: 'markdown' }
       },
       result: { 
-        item: [{title: 'A title'}],
+        item: [
+          {
+            title: 'A title',
+            body: '### this is a body subtitle'
+          }
+        ],
         status: 200 
       }
     };
@@ -179,17 +182,23 @@ describe('\'cc-parser\': item hook', () => {
     return hook(mock).then(result => {
       // eslint-disable-next-line no-console
       assert.equal(result, mock, 'Returns the expected hook object');
+      expect(result.result.data.body).to.equal('### this is a body subtitle');
     });
   });
 
-  it('runs hook with md set to true', () => {
+  it('runs hook with format set to raw', () => {
     // A mock hook object
     const mock = {
       params: {
-        query: { md: true }
+        query: { format: 'raw' }
       },
       result: { 
-        item: [{title: 'A title'}],
+        item: [
+          {
+            title: 'A title',
+            body: '### this is a body subtitle'
+          }
+        ],
         status: 200 
       }
     };
@@ -201,9 +210,65 @@ describe('\'cc-parser\': item hook', () => {
     return hook(mock).then(result => {
       // eslint-disable-next-line no-console
       assert.equal(result, mock, 'Returns the expected hook object');
+      expect(result.result.data.body).to.equal('this is a body subtitle\n');
     });
   });
 
+  it('runs hook with format set to html', () => {
+    // A mock hook object
+    const mock = {
+      params: {
+        query: { format: 'html' }
+      },
+      result: { 
+        item: [
+          {
+            title: 'A title',
+            body: '### this is a body subtitle'
+          }
+        ],
+        status: 200 
+      }
+    };
+    // Initialize our hook with no options
+    const hook = ccParserItem();
+
+    // Run the hook function (which returns a promise)
+    // and compare the resulting hook object
+    return hook(mock).then(result => {
+      // eslint-disable-next-line no-console
+      assert.equal(result, mock, 'Returns the expected hook object');
+      expect(result.result.data.body).to.equal('<h3>this is a body subtitle</h3>\n');
+    });
+  });
+
+  it('runs hook - returns html as it is set by default', () => {
+    // A mock hook object
+    const mock = {
+      params: {
+        query: {}
+      },
+      result: { 
+        item: [
+          {
+            title: 'A title',
+            body: '### this is a body subtitle'
+          }
+        ],
+        status: 200 
+      }
+    };
+    // Initialize our hook with no options
+    const hook = ccParserItem();
+
+    // Run the hook function (which returns a promise)
+    // and compare the resulting hook object
+    return hook(mock).then(result => {
+      // eslint-disable-next-line no-console
+      assert.equal(result, mock, 'Returns the expected hook object');
+      expect(result.result.data.body).to.equal('<h3>this is a body subtitle</h3>\n');
+    });
+  });
 
   it('runs Item hook not found.', () => {
     // A mock hook object

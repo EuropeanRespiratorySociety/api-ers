@@ -25,7 +25,7 @@ module.exports = {
     parameters: [
       params.slug,
       params.full,
-      params.markdown
+      params.format
     ],
     responses: {
       '200': {

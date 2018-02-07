@@ -20,13 +20,13 @@ exports.ccParserCategory = options => { // eslint-disable-line no-unused-vars
 
   return async hook => {
     const full = hook.params.query.full || false;
-    const md = hook.params.query.md == 'true' ? true : false;
+    const type = hook.params.query.format || 'html';
 
     const cache = hook.result.cache || {cached:false};
     if(hook.result.status === 200 && !cache.cached) {
       hook.result = {
-        data: parse(hook.result.items, full, md),
-        category: parse(hook.result.item, true, md),
+        data: parse(hook.result.items, full, type),
+        category: parse(hook.result.item, true, type),
         _sys:{
           status: hook.result.status,
           total: hook.result.total
@@ -43,11 +43,11 @@ exports.ccParserItem = options => { // eslint-disable-line no-unused-vars
   return async hook => {
     //by default it returns a full article.
     const full = hook.params.query.full == 'false' ? false : true;
-    const md = hook.params.query.md == 'true' ? true : false;
+    const type = hook.params.query.format || 'html';
 
     if(hook.result.status === 200) {
       hook.result = {
-        data: parse(hook.result.item, full, md)[0],
+        data: parse(hook.result.item, full, type)[0],
         status: hook.result.status
       };  
     } else {
@@ -65,17 +65,16 @@ exports.ccParserItem = options => { // eslint-disable-line no-unused-vars
  * Parses each items
  * @param {Object[]} array 
  * @param { boolean} full - Full or Lead content
- * @param { boolean} md - Html or Markdown
+ * @param { boolean} type - Html, Markdown or Raw
  */
-function parse(array, full, md){
-  full = full || false;
+function parse(array, full = false, type){
 
   if(!full){
     array = array.map(item => format.filter(item, config.lead));
   }  
 
   return array
-    .map(item => cp.formatProperties(config, md)(item))
+    .map(item => cp.formatProperties(config, type)(item))
     .map(item => full ? format.mapModel(Article, item): format.mapModel(Lead, item));
 }
 

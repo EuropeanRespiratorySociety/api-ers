@@ -11,7 +11,7 @@ module.exports = {
       params.limit,
       params.skip,
       params.full,
-      params.markdown,
+      params.format,
       params.reverse,
       params.timeline
     ],

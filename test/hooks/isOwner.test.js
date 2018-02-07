@@ -10,9 +10,7 @@ describe('\'isOwner\' hook', () => {
     const mock = {
       id: '1',
       params: {
-        user: {
-          _id: 1
-        }
+        payload: {userId: '1'}
       },
       error: {}
     };
@@ -33,9 +31,7 @@ describe('\'isOwner\' hook', () => {
     const mock = {
       id: '1',
       params: {
-        user: {
-          _id: 2
-        }
+        payload: {userId: '2'}
       },
       error: {}
     };

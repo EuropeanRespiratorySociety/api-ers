@@ -71,13 +71,14 @@ module.exports = {
     type: 'boolean',
     in: 'query'  
   },
-  markdown: {
-    name: 'md',
-    description: 'If set to true, requires markdown instead of html',
+  format: {
+    name: 'format',
+    description: 'Set the type of content that is needed. Default is set to \'html\'',
     required: false,
     allowMultiple: false,
-    type: 'boolean',
-    in: 'query'  
+    type: 'string',
+    in: 'query',
+    enum: ['html', 'markdown', 'raw']
   },
   timeline: {
     name: 'timeline',

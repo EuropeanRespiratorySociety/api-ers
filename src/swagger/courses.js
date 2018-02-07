@@ -11,7 +11,7 @@ module.exports = {
       params.coursesType,
       params.skip,
       params.full,
-      params.markdown
+      params.format
     ],
     responses: {
       '200': responses.success,

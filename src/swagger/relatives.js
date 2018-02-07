@@ -11,7 +11,7 @@ module.exports = {
       params.limit,
       params.skip,
       params.full,
-      params.markdown
+      params.format
     ],
     responses: {
       '200': responses.success,
@@ -26,7 +26,7 @@ module.exports = {
     parameters: [
       params.slug,
       params.full,
-      params.markdown
+      params.format
     ],
     responses: {
       '200': {

@@ -15,7 +15,7 @@ describe('\'queryParams\' helper', () => {
     expect(obj).to.be.an('object')
       .to.have.property('qname').to.equal('this:isaqname');
     expect(obj).to.have.property('full').to.equal(false);
-    expect(obj).to.have.property('md').to.equal(false);
+    expect(obj).to.have.property('format').to.equal('html');
     expect(obj).to.have.property('skip').to.equal(0);
     expect(obj).to.have.property('limit').to.equal(25);
   });
@@ -27,19 +27,19 @@ describe('\'queryParams\' helper', () => {
     expect(obj).to.be.an('object')
       .to.have.property('qname').to.equal('this:isaqname');
     expect(obj).to.have.property('full').to.equal(true);
-    expect(obj).to.have.property('md').to.equal(false);
+    expect(obj).to.have.property('format').to.equal('html');
     expect(obj).to.have.property('skip').to.equal(0);
     expect(obj).to.have.property('limit').to.equal(25);
   });
 
-  it('returns md:true', () => {
-    const query = {md: true};
+  it('returns format:markdown', () => {
+    const query = {format: 'markdown'};
     const obj = s(qname, query);
 
     expect(obj).to.be.an('object')
       .to.have.property('qname').to.equal('this:isaqname');
     expect(obj).to.have.property('full').to.equal(false);
-    expect(obj).to.have.property('md').to.equal(true);
+    expect(obj).to.have.property('format').to.equal('markdown');
     expect(obj).to.have.property('skip').to.equal(0);
     expect(obj).to.have.property('limit').to.equal(25);
   });
@@ -51,7 +51,7 @@ describe('\'queryParams\' helper', () => {
     expect(obj).to.be.an('object')
       .to.have.property('qname').to.equal('this:isaqname');
     expect(obj).to.have.property('full').to.equal(false);
-    expect(obj).to.have.property('md').to.equal(false);
+    expect(obj).to.have.property('format').to.equal('html');
     expect(obj).to.have.property('skip').to.equal(25);
     expect(obj).to.have.property('limit').to.equal(25);
   });
@@ -63,7 +63,7 @@ describe('\'queryParams\' helper', () => {
     expect(obj).to.be.an('object')
       .to.have.property('qname').to.equal('this:isaqname');
     expect(obj).to.have.property('full').to.equal(false);
-    expect(obj).to.have.property('md').to.equal(false);
+    expect(obj).to.have.property('format').to.equal('html');
     expect(obj).to.have.property('skip').to.equal(0);
     expect(obj).to.have.property('limit').to.equal(5);
   });
@@ -75,7 +75,7 @@ describe('\'queryParams\' helper', () => {
     expect(obj).to.be.an('object')
       .to.have.property('qname').to.equal('this:isaqname');
     expect(obj).to.have.property('full').to.equal(false);
-    expect(obj).to.have.property('md').to.equal(false);
+    expect(obj).to.have.property('format').to.equal('html');
     expect(obj).to.have.property('skip').to.equal(0);
     expect(obj).to.have.property('limit').to.equal(25);
   });
