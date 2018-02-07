@@ -19,7 +19,11 @@ module.exports = {
         fieldName: 'permissions'
       }) 
     ],
-    get: [iff(isProvider('external'), ...restrict)],
+    get: [
+      iff(
+        isProvider('external'), 
+        ...restrict)
+    ],
     create: [authenticate('jwt'), addId()],
     update: [...restrict],
     patch: [...restrict],

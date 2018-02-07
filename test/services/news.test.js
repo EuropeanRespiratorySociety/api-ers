@@ -97,6 +97,7 @@ describe('Request to the news service', function() {
   });
 
   it('returns a news by slug', (done) => {
+    console.log('first item: ', firstItem);
     chai.request(host) 
       .get('/news/' + firstItem)
       .set('Content-Type', 'application/json')

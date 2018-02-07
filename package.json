@@ -58,7 +58,7 @@
     "dotenv": "^4.0.0",
     "ers-utils": "^0.1.6",
     "feathers-authentication-hooks": "^0.1.6",
-    "feathers-hooks-common": "^3.10.0",
+    "feathers-hooks-common": "^4.5.6",
     "feathers-hooks-rediscache": "^1.0.1",
     "feathers-mongoose": "^5.1.2",
     "feathers-swagger": "^0.6.0",
