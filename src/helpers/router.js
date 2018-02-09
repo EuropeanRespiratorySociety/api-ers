@@ -13,7 +13,7 @@ const logger = async (req,res,next) => {
     url: req.url
   };
 
-  await es.log('api-logs', 'cache', log);
+  // await es.log('api-logs', 'cache', log);
   
   // eslint-disable-next-line no-console
   console.log(`${req.ip} - [${new Date()}] - "${req.method} ${req.url}"`);
