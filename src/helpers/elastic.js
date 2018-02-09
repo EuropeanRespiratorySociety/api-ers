@@ -7,6 +7,8 @@ const user = process.env.ESUSERNAME;
 const pw = process.env.ESPASSWORD;
 const url = process.env.ESBASEURL;
 
+console.log(user, pw, url)
+
 // add configuration option
 
 const client = new elasticsearch.Client({
