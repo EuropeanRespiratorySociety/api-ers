@@ -43,6 +43,36 @@ describe('Request to the news service', function() {
       });
   });
 
+  it('returns raw news', (done) => {
+    chai.request(host) 
+      .get('/news?format=raw')
+      .set('Content-Type', 'application/json')
+      .end((err, res) => {
+        expect(JSON.parse(res.text).data[0].leadParagraph)
+          .to.be.a('string')
+          .not.to.include('<p>');
+        expect(JSON.parse(res.text).data[0].body)
+          .to.be.a('string')
+          .not.to.include('###');
+        expect(JSON.parse(res.text).data[0].body)
+          .to.be.a('string');
+        done();
+      });
+  });
+
+  it('returns raw news', (done) => {
+    chai.request(host) 
+      .get('/news?format=markdown')
+      .set('Content-Type', 'application/json')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(JSON.parse(res.text).data[0].leadParagraph)
+          .to.be.a('string')
+          .not.to.include('<p>');
+        done();
+      });
+  });
+
   it('limits the total of news', (done) => {
     chai.request(host) 
       .get('/news?limit=5')

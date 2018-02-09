@@ -1,29 +1,25 @@
 /* eslint-disable no-unused-vars */
+const h = require('./webhook.helpers');
+const errors = require('@feathersjs/errors');
+
 class Service {
   constructor (options) {
     this.options = options || {};
   }
 
   async create (data, params) {
-    // if (Array.isArray(data)) {
-    //   return await Promise.all(data.map(current => this.create(current)));
-    // }
-
+    const type = params.query.type;
+    const pw = params.query.pw;
+    if(pw !== process.env.WPW) {
+      throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
+    }
     // if action create
     // -- send to index
     // -- process the data in NLP pipeline
     // write to grakn
-
-    if(params.query.type === 'cache') {
-      // send the update to the Elastic Search index
-      // 
-      // send a log to another Elastic Search index
-      // clear the cache for group the article belongs to
-      // return message
-      return { title: data._cloudcms.node.object.title, id: data._cloudcms.node.id };
-    }
-
-    return data;
+    return type === 'cache'
+      ? h.cache(data)
+      : 'other method not yet implemented';
   }
 
   // async update (id, data, params) {

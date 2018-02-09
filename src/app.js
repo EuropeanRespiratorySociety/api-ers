@@ -10,9 +10,8 @@ const express = require('@feathersjs/express');
 const configuration = require('@feathersjs/configuration');
 const rest = require('@feathersjs/express/rest');
 const socketio = require('@feathersjs/socketio');
-const routes = require('feathers-hooks-rediscache').cacheRoutes;
 const redisClient = require('feathers-hooks-rediscache').redisClient;
-
+const router = require('./helpers/router');
 const middleware = require('./middleware');
 const services = require('./services');
 const appHooks = require('./app.hooks');
@@ -41,7 +40,8 @@ app.use('/', express.static(app.get('public')));
 // Set up cache routes
 // configure the redis client
 app.configure(redisClient);
-app.use('/cache', routes(app));
+
+app.use('/cache', router(app));
 
 // Set up Plugins and providers
 app.configure(mongodb);

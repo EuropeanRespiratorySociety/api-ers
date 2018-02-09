@@ -10,10 +10,8 @@ const defaults = {};
 
 const qs = require('querystring');
 const axios = require('axios');
-const redis = require('redis');
+const client = require('../helpers/redis');
 const dotenv = require('dotenv');
-
-const client = redis.createClient();
 dotenv.load();
 
 const data = qs.stringify({ 
