@@ -7,10 +7,7 @@ const user = process.env.ESUSERNAME;
 const pw = process.env.ESPASSWORD;
 const url = process.env.ESBASEURL;
 
-console.log('>>>>>> Connection details: ', user, pw, url)
-
 // add configuration option
-
 const client = new elasticsearch.Client({
   host: `https://${user}:${pw}@${url}`,
   log: process.env.NODE_ENV === 'production' ? 'error' : 'trace'
