@@ -16,11 +16,11 @@ const logger = async (req,res,next) => {
   // eslint-disable-next-line no-console
   console.log(chalk.cyan('[cache]'), `- ${req.ip} - [${new Date()}] - "${req.method} ${req.url}"`);
   
-  try {
-    await es.log('api-logs', 'cache', log);
-  } catch (e) {
-    console.log(e);
-  }
+  // try {
+  //   await es.log('api-logs', 'cache', log);
+  // } catch (e) {
+  //   console.log(e);
+  // }
   
 
   

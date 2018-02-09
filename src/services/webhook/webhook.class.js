@@ -15,9 +15,9 @@ class Service {
     const pw = params.query.pw;
     // console.log(data)
     // console.log(params, 'pw: ', pw, ' ', process.env.WPW)
-    if(pw !== process.env.WPW) {
-      throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
-    }
+    // if(pw !== process.env.WPW) {
+    //   throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
+    // }
     // if action create
     // -- send to index
     // -- process the data in NLP pipeline

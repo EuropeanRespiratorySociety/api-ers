@@ -46,11 +46,12 @@ class Helpers {
       // console.log(result);
       
       // 1. use cache status (200) to push to log index in ES
-      await es.log('api-webhook-logs', 'cache', result);
+      // await es.log('api-webhook-logs', 'cache', result);
       // 2. fetch new item by API and update the content in ES
       const req = `/${group}/${reply.cache.key}`;
-      const article = await this.client.get(req);
-      await es.index(article.data.data);
+      await this.client.get(req);
+      // const article = await this.client.get(req);
+      // await es.index(article.data.data);
       // this will thus add right away the new item in the cache
       
       // return temporary object
