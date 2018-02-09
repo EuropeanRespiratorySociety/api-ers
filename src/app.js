@@ -23,6 +23,7 @@ const authentication = require('./authentication');
 const mongodb = require('./mongodb');
 
 const app = express(feathers());
+app.enable('trust proxy');
 
 // Load app configuration
 app.configure(configuration(path.join(__dirname, '..')));
