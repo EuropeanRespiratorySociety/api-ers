@@ -1,5 +1,6 @@
 // temporary router intitialization bedore integrating the logger in feathers-redis-cache
 const es = require('./elastic.js');
+const chalk = require('chalk');
 const m = require('moment');
 const routes = require('feathers-hooks-rediscache').cacheRoutes;
 const logger = async (req,res,next) => {
@@ -12,11 +13,18 @@ const logger = async (req,res,next) => {
     method: req.method,
     url: req.url
   };
-
-  await es.log('api-logs', 'cache', log);
-
   // eslint-disable-next-line no-console
-  console.log(`${req.ip} - [${new Date()}] - "${req.method} ${req.url}"`);
+  console.log(chalk.cyan('[cache]'), `- ${req.ip} - [${new Date()}] - "${req.method} ${req.url}"`);
+  
+  try {
+    await es.log('api-logs', 'cache', log);
+  } catch (e) {
+    console.log(e);
+  }
+  
+
+  
+  
   next();
 };
 
