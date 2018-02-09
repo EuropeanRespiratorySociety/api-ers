@@ -1,6 +1,9 @@
 /* eslint-disable no-unused-vars */
 const h = require('./webhook.helpers');
 const errors = require('@feathersjs/errors');
+//  making sure it .env is loaded
+const dotenv = require('dotenv');
+dotenv.load();
 
 class Service {
   constructor (options) {
