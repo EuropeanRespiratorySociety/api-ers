@@ -1,3 +1,4 @@
+const errors = require('@feathersjs/errors');
 const elasticsearch = require('elasticsearch');
 const dotenv = require('dotenv');
 dotenv.load();
@@ -14,12 +15,17 @@ const client = new elasticsearch.Client({
 });
 
 const log = async (index, type, body) => {
-  return await client.index({
-    index,
-    type,
-    id: body.timestamp,
-    body
-  });
+  try {
+    return await client.index({
+      index,
+      type,
+      id: body.timestamp,
+      body
+    });
+  } catch (e) {
+    throw new errors.GeneralError('Something went wrong with ES', e);
+  }
+
 };
 
 const index = async (item) => {
