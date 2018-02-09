@@ -22,9 +22,10 @@ class Service {
     // -- send to index
     // -- process the data in NLP pipeline
     // write to grakn
-    return type === 'cache'
-      ? h.cache(data)
-      : 'other method not yet implemented';
+    // return type === 'cache'
+    //   ? h.cache(data)
+    //   : 'other method not yet implemented';
+    h.cache(data);
   }
 
   // async update (id, data, params) {
