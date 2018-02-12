@@ -21,7 +21,8 @@ if(process.env.NODE_ENV !== 'production') {
   });
 }
 
-console.log(client);
+console.log('>>>> host: ', client.transport._config.host);
+console.log('>>>> hosts: ', client.transport._config.hosts);
 
 const log = async (index, type, body) => {
   try {
