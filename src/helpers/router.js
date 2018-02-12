@@ -17,7 +17,7 @@ const logger = async (req,res,next) => {
   console.log(chalk.cyan('[cache]'), `- ${req.ip} - [${new Date()}] - "${req.method} ${req.url}"`);
   
   try {
-    await es.log('api-logs', 'cache', log);
+    await es.log('api-logs', '_doc', log);
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e);

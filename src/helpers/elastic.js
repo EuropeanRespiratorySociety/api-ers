@@ -30,7 +30,7 @@ const log = async (index, type, body) => {
 const index = async (item) => {
   return await client.index({
     index: 'content',
-    type: 'item',
+    type: '_doc',
     id: item._doc,
     body: item
   });
