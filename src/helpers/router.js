@@ -11,7 +11,8 @@ const logger = async (req,res,next) => {
     date: new Date(),
     ip: req.ip,
     method: req.method,
-    url: req.url
+    url: req.url,
+    pipeline: 'geoip'
   };
   // eslint-disable-next-line no-console
   console.log(chalk.cyan('[cache]'), `- ${req.ip} - [${new Date()}] - "${req.method} ${req.url}"`);
