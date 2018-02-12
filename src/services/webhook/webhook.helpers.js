@@ -61,7 +61,7 @@ class Helpers {
       // we parse the item to return minimal data to Elasticsearch
       let parsed = format.filter(article.data.data, addToES);
       // @TODO change property in Cloud CMS to get rid of this.
-      parsed.loc ? parsed.loc = {lat: parsed.loc.lat, lon: parsed.loc.lon} : false;
+      parsed.loc ? parsed.loc = {lat: parsed.loc.lat, lon: parsed.loc.long} : false;
 
       await es.index(parsed);
       // eslint-disable-next-line no-console
