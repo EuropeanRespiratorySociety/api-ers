@@ -11,14 +11,13 @@ const logger = async (req,res,next) => {
     date: new Date(),
     ip: req.ip,
     method: req.method,
-    url: req.url,
-    pipeline: 'geoip'
+    url: req.url
   };
   // eslint-disable-next-line no-console
   console.log(chalk.cyan('[cache]'), `- ${req.ip} - [${new Date()}] - "${req.method} ${req.url}"`);
   
   try {
-    await es.log('api-logs', '_doc', log);
+    await es.log('api-logs', '_doc', log, 'geoip');
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e);
