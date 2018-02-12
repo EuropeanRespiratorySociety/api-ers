@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const client = require('../../helpers/redis');
 const { promisify } = require('util');
 const getAsync = promisify(client.get).bind(client);
@@ -49,11 +50,12 @@ class Helpers {
       await es.log('api-webhook-logs', 'cache', result);
       // 2. fetch new item by API and update the content in ES
       const req = `/${group}/${reply.cache.key}`;
-      await this.client.get(req);
-      // const article = await this.client.get(req);
-      // await es.index(article.data.data);
+      // await this.client.get(req);
       // this will thus add right away the new item in the cache
-      
+      const article = await this.client.get(req);
+      await es.index(article.data.data);
+      // eslint-disable-next-line no-console
+      console.log(chalk.cyan('[webhook]'), `- Cache cleared and item reindexed - [${new Date()}]`);
       // return temporary object
       return result;
     }       
