@@ -1,10 +1,14 @@
 const chalk = require('chalk');
 const client = require('../../helpers/redis');
 const { promisify } = require('util');
+const { Format } = require('ers-utils');
+const format = new Format();
+
 const getAsync = promisify(client.get).bind(client);
 
 const m = require('moment');
 const es = require('../../helpers/elastic.js');
+const addToES = require('./webhook.config').addToES;
 
 const errors = require('@feathersjs/errors');
 const HTTP = require('../../helpers/HTTP');
@@ -51,9 +55,15 @@ class Helpers {
       // 2. fetch new item by API and update the content in ES
       const req = `/${group}/${reply.cache.key}`;
       // await this.client.get(req);
-      // this will thus add right away the new item in the cache
+      // add the new item right away to the cache
       const article = await this.client.get(req);
-      await es.index(article.data.data);
+
+      // we parse the item to return minimal data to Elasticsearch
+      let parsed = format.filter(article.data.data, addToES);
+      // @TODO change property in Cloud CMS to get rid of this.
+      parsed.loc ? parsed.loc = {lat: parsed.loc.lat, lon: parsed.loc.lon} : false;
+
+      await es.index(parsed);
       // eslint-disable-next-line no-console
       console.log(chalk.cyan('[webhook]'), `- Cache cleared and item reindexed - [${new Date()}]`);
       // return temporary object

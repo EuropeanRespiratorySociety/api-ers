@@ -1,0 +1,3 @@
+module.exports = {
+  addToES: [ '_doc', 'author', 'body', 'category', 'category2', 'createdOn', 'earlybirdDeadline', 'ebusDate', 'endDate', 'ersDeadline','ersEndorsedEvent', 'eventDate', 'eventDates', 'enventEndDate', 'eventLocation', 'extendedDeadline', 'faculty', 'hasAuthor', 'hasRelatedArticles', 'image', 'leadParagraph', 'loc', 'modifiedOn', 'ms', 'nonErsCalendarItem', 'openingDate', 'organisers', 'slug','subTitle', 'tags', 'title', 'type', 'unpublished', 'uri', 'url']
+};

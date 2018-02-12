@@ -10,7 +10,6 @@ const defaults = {};
 const Article = require('../models/Article');
 const Lead = require('../models/Lead');
 const config = require('./cc-parser-config');
-
 const { Composition, Format } = require('ers-utils');
 const cp = new Composition();
 const format = new Format();
@@ -75,7 +74,7 @@ function parse(array, full = false, type){
 
   return array
     .map(item => cp.formatProperties(config, type)(item))
-    .map(item => full ? format.mapModel(Article, item): format.mapModel(Lead, item));
+    .map(item => full ? format.mapModel(Article, item) : format.mapModel(Lead, item));
 }
 
 
