@@ -21,6 +21,8 @@ if(process.env.NODE_ENV !== 'production') {
   });
 }
 
+console.log(client);
+
 const log = async (index, type, body) => {
   try {
     return await client.index({
