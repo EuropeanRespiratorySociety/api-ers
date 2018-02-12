@@ -13,13 +13,14 @@ const client = new elasticsearch.Client({
   log: process.env.NODE_ENV === 'production' ? 'error' : 'trace'
 });
 
-const log = async (index, type, body) => {
+const log = async (index, type, body, pipeline = 'geoip') => {
   try {
     return await client.index({
       index,
       type,
       id: body.timestamp,
-      body
+      body,
+      pipeline
     });
   } catch (e) {
     throw new errors.GeneralError('Something went wrong with ES', e);
