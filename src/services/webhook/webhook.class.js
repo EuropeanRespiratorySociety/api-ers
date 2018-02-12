@@ -25,7 +25,7 @@ class Service {
     // return type === 'cache'
     //   ? h.cache(data)
     //   : 'other method not yet implemented';
-    h.cache(data);
+    return h.cache(data);
   }
 
   // async update (id, data, params) {
