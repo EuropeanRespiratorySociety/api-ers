@@ -6,7 +6,6 @@ dotenv.load();
 const user = process.env.ESUSERNAME;
 const pw = process.env.ESPASSWORD;
 const url = process.env.ESBASEURL;
-const proxy = require('proxy-agent');
 
 // add configuration option
 let client;
@@ -18,7 +17,6 @@ if(process.env.NODE_ENV !== 'production') {
 } else {
   client = new elasticsearch.Client({
     host: `https://${user}:${pw}@${url}`,
-    createNodeAgent: () => proxy(process.env.PROD_PROXY),
     log: 'error'
   });
 }
