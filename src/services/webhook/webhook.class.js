@@ -10,12 +10,30 @@ class Service {
     this.options = options || {};
   }
 
+  async find (params) {
+    const type = params.query.type;
+    const congress = `congress-${params.query.year}`;
+    const pw = params.query.pw;
+    // if(pw !== process.env.WPW) {
+    //   throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
+    // }
+
+    if (type === 'index-congress-sessions') {
+      return h.indexCongressSessions(congress);
+    }
+
+    if (type === 'index-congress-presentations') {
+      return h.indexCongressPresentations(congress);
+    }
+
+    if (type === 'index-congress-abstracts') {
+      return h.indexCongressAbstracts(congress);
+    }
+  }
+
   async create (data, params) {
     const type = params.query.type;
     const pw = params.query.pw;
-    if (type === 'index-programme') {
-      return h.indexCongressProgramme();
-    }
     // console.log(data)
     // console.log(params, 'pw: ', pw, ' ', process.env.WPW)
     // if(pw !== process.env.WPW) {

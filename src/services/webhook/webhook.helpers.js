@@ -18,9 +18,9 @@ const axios = require('axios');
 class Helpers {
   constructor() {
     this.client = HTTP(process.env.API_URL);
-    // this.k4 = HTTP('http://k4.ersnet.org/prod/v2/Front/Program');
-    // this.k4Key = process.env.K4KEY;
-    // this.k4Params = `?key=${this.k4Key}&e=42`; // 90 -> 2018
+    this.k4 = HTTP('http://k4.ersnet.org/prod/v2/Front/Program');
+    this.k4Key = process.env.K4KEY;
+    this.k4Params = `?key=${this.k4Key}&e=42`; // 90 -> 2018
   }
 
   async cache (data) {
@@ -66,7 +66,8 @@ class Helpers {
       // @TODO change property in Cloud CMS to get rid of this.
       parsed.loc ? parsed.loc = {lat: parsed.loc.lat, lon: parsed.loc.long} : false;
 
-      await es.index(parsed);
+      const res = await es.index(parsed);
+      console.log('>>>>> ES: ', res.result);
       // eslint-disable-next-line no-console
       console.log(chalk.cyan('[webhook]'), `- Cache cleared and item reindexed - [${new Date()}]`);
       // return temporary object
@@ -81,43 +82,126 @@ class Helpers {
     }
   }
 
-  // async indexCongressProgramme () {
-  //   const [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o] = await Promise.all([
-  //     this.k4.get(`/Abstracts${this.k4Params}`),
-  //     this.k4.get(`/Assemblies${this.k4Params}`),
-  //     this.k4.get(`/AssemblyGroups${this.k4Params}`),
-  //     this.k4.get(`/Authors${this.k4Params}`),
-  //     this.k4.get(`/Types${this.k4Params}`),
-  //     this.k4.get(`/TargetAudiences${this.k4Params}`),
-  //     this.k4.get(`/Tracks${this.k4Params}`),
-  //     this.k4.get(`/Tags${this.k4Params}`),
-  //     this.k4.get(`/Sessions${this.k4Params}`),
-  //     this.k4.get(`/Rooms${this.k4Params}`),
-  //     this.k4.get(`/Stands${this.k4Params}`),
-  //     this.k4.get(`/Institutions${this.k4Params}`),
-  //     this.k4.get(`/Faculties${this.k4Params}`),
-  //     this.k4.get(`/Presentations${this.k4Params}`),
-  //     this.k4.get(`/Event${this.k4Params}`)
-  //   ]);
+  async indexCongressSessions (congress) {
+    const privateMeetings = ['Private meeting', 'Committee meeting'];
+    const [a, b, c, d, e, f, g, h, i, j, k] = await Promise.all([
+      this.k4.get(`/Assemblies${this.k4Params}`),
+      this.k4.get(`/AssemblyGroups${this.k4Params}`),
+      this.k4.get(`/Types${this.k4Params}`),
+      this.k4.get(`/TargetAudiences${this.k4Params}`),
+      this.k4.get(`/Tracks${this.k4Params}`),
+      this.k4.get(`/Tags${this.k4Params}`),
+      this.k4.get(`/Rooms${this.k4Params}`),
+      this.k4.get(`/Stands${this.k4Params}`),
+      this.k4.get(`/Institutions${this.k4Params}`),
+      this.k4.get(`/Faculties${this.k4Params}`),
+      this.k4.get(`/Sessions${this.k4Params}`)
+    ]);
+    
+    // this.k4.get(`//Conference${this.k4Params}`)
+    // this.k4.get(`/Event${this.k4Params}`)
 
-  //   return { 
-  //     event: o.data,
-  //     abstracts: a.data,
-  //     assemblies: b.data,
-  //     groups: c.data,
-  //     authors: d.data,
-  //     types: e.data,
-  //     target: f.data,
-  //     tracks: g.data,
-  //     tags: h.data,
-  //     sessions: i.data,
-  //     rooms: j.data,
-  //     stands: k.data,
-  //     institutions: l.data,
-  //     faculties: m.data,
-  //     presentations: n.data
-  //   };
-  // }
+    const assemblies = a.data;
+    const groups = b.data;
+    const types = c.data;
+    const target = d.data;
+    const tracks = e.data;
+    const tags = f.data;
+    const rooms = g.data;
+    const stands = h.data;
+    const institutions = i.data;
+    const faculties = j.data;
+    const sessions = k.data;
+
+    const parsedSessions = sessions.map(async s => {
+      s.startDateTime = parseDate(s.startDateTime);
+      s.endDateTime = parseDate(s.endDateTime);
+      s.creationDate = parseDate(s.creationDate);
+      s.lastModificationDate = parseDate(s.lastModificationDate);
+      s.type = types.filter(o => o.id === s.typeID)[0];
+      s.private = privateMeetings.includes(s.typeID.name);
+      s.participants = s.participantIDs.map(i => faculties.filter(o => o.guid === i)[0]);
+      s.chairs = s.chairIDs.map(i => faculties.filter(o => o.guid === i)[0]);
+      s.room = rooms.filter(r => r.id === s.roomID);
+      s.tags = s.tagIDs.map(i => tags.filter(o => o.id = i)[0]);
+      s.tags = s.trackIDs.map(i => tracks.filter(o => o.id = i)[0]);
+      s.assemblies = s.assemblyIDs.map(i => assemblies.filter(o => o.id === i)[0]);
+      s.groups = s.assemblygroupIDs.map(i => {
+        const gr = groups.filter(o => o.id === i)[0];
+        gr.assembly = assemblies.filter(o => o.id === gr.assemblyID)[0];
+        return gr;
+      });
+      s.institutions = s.institutionIDs.map(i => {
+        let inst = institutions.filter(o => o.id === i)[0];
+        inst.exhibitorStand = stands.filter(o => o.id === inst.exhibitorStandID);
+        inst.craStand = stands.filter(o => o.id === inst.craStandID);
+        return inst; 
+      });
+      s.targets = s.targetaudienceIDs.map(i => target.filter(o => o.id === i)[0]);
+      // index each item
+      s.indexStatus = await es.index(s, `sessions-${congress}`, s.id);
+      return s;
+    });
+    const result = await Promise.all(parsedSessions);
+    console.log('Sessions #: ', result.length);
+    return result;
+  }
+
+  async indexCongressPresentations (congress) {
+    console.log('Fetching data...');
+    const faculties = await this.k4.get(`/Faculties${this.k4Params}`);
+    console.time('request');
+    const p = await this.k4.get(`/Presentations${this.k4Params}`);
+    console.timeEnd('request');
+    
+    console.log('Parsing...');
+    console.time('parsing');
+    const prezis = p.data.map(p => {
+      p.startDateTime = parseDate(p.startDateTime);
+      p.endDateTime = parseDate(p.endDateTime);
+      p.creationDate = parseDate(p.creationDate);
+      p.lastModificationDate = parseDate(p.lastModificationDate);
+      p.AbstractEmbargoDateTime = parseDate(p.AbstractEmbargoDateTime);
+      p.speakers = p.speakerIDs.map(s => faculties.data.filter(o => o.guid == s)[0]);
+      return p;
+    });
+    console.timeEnd('parsing');
+
+    console.log('Indexing...');
+    console.time('indexing');
+    const result = await Promise.all(prezis.map(async i => await es.index(i, `presentations-${congress}`, i.id)));
+    console.timeEnd('indexing');
+
+    console.log('Presentations #: ', result.length);
+    return result;
+  }
+
+  async indexCongressAbstracts (congress) {
+    console.log('Fetching data...');
+    console.time('request');
+    const [a, b] = await Promise.all([
+      this.k4.get(`/Abstracts${this.k4Params}`),
+      this.k4.get(`/Authors${this.k4Params}`)
+    ]);
+    console.timeEnd('request');
+
+    console.log('Parsing...');
+    console.time('parsing');
+    const parsedAbstracts = a.data.map(i => {
+      i.authors = i.authorIDs.map(absId => b.data.filter(ath => ath.id === absId)[0]);
+      i.AbstractEmbargoDateTime = parseDate(i.AbstractEmbargoDateTime);
+      return i;
+    });
+    console.timeEnd('parsing');
+    
+    console.log('Indexing...');
+    console.time('indexing');
+    const result = await Promise.all(parsedAbstracts.map(async i => await es.index(i, `abstracts-${congress}`, i.id)));
+    console.timeEnd('indexing');
+
+    console.log('Abstracts #: ', result.length);
+    return result;
+  }
 
   e (data, type) {
     if(type === 404) throw new errors.NotFound(`The item '${data.title}' was not found in the cache, therefore the new content should be available`);
@@ -126,3 +210,7 @@ class Helpers {
 }
 
 module.exports = new Helpers();
+
+function parseDate(date) {
+  return date !== null ? m(date).format() : null;
+}

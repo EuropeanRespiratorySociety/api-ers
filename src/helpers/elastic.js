@@ -30,13 +30,18 @@ const log = async (index, type, body, pipeline) => {
 
 };
 
-const index = async (item) => {
-  return await client.index({
-    index: 'content',
-    type: '_doc',
-    id: item._doc,
-    body: item
-  });
+const index = async (item, index, id) => {
+  try {
+    return await client.index({
+      index: index || 'content',
+      type: '_doc',
+      id: id || item._doc,
+      body: item
+    });
+  } catch (e) {
+    // console.log (e);
+  }
+
 };
 
 module.exports = {
