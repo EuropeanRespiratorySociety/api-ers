@@ -84,6 +84,9 @@ class Helpers {
 
   async indexCongressSessions (congress) {
     const privateMeetings = ['Private meeting', 'Committee meeting'];
+
+    console.log('Fetching data...');
+    console.time('request');
     const [a, b, c, d, e, f, g, h, i, j, k] = await Promise.all([
       this.k4.get(`/Assemblies${this.k4Params}`),
       this.k4.get(`/AssemblyGroups${this.k4Params}`),
@@ -96,7 +99,9 @@ class Helpers {
       this.k4.get(`/Institutions${this.k4Params}`),
       this.k4.get(`/Faculties${this.k4Params}`),
       this.k4.get(`/Sessions${this.k4Params}`)
-    ]);
+    ]);    
+    console.timeEnd('request');
+
     
     // this.k4.get(`//Conference${this.k4Params}`)
     // this.k4.get(`/Event${this.k4Params}`)
@@ -113,6 +118,9 @@ class Helpers {
     const faculties = j.data;
     const sessions = k.data;
 
+
+    console.log('Parsing...');
+    console.time('parsing');
     const parsedSessions = sessions.map(async s => {
       s.startDateTime = parseDate(s.startDateTime);
       s.endDateTime = parseDate(s.endDateTime);
@@ -138,11 +146,15 @@ class Helpers {
         return inst; 
       });
       s.targets = s.targetaudienceIDs.map(i => target.filter(o => o.id === i)[0]);
-      // index each item
-      s.indexStatus = await es.index(s, `sessions-${congress}`, s.id);
       return s;
     });
-    const result = await Promise.all(parsedSessions);
+    console.timeEnd('parsing');
+
+    console.log('Indexing...');
+    console.time('indexing');
+    const result = await Promise.all(parsedSessions.map(async i => await es.index(i, `sessions-${congress}`, i.id)));
+    console.timeEnd('indexing');
+
     console.log('Sessions #: ', result.length);
     return result;
   }
@@ -193,7 +205,7 @@ class Helpers {
       return i;
     });
     console.timeEnd('parsing');
-    
+
     console.log('Indexing...');
     console.time('indexing');
     const result = await Promise.all(parsedAbstracts.map(async i => await es.index(i, `abstracts-${congress}`, i.id)));
