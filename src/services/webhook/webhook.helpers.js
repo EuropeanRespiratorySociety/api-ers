@@ -67,7 +67,6 @@ class Helpers {
       parsed.loc ? parsed.loc = {lat: parsed.loc.lat, lon: parsed.loc.long} : false;
 
       const res = await es.index(parsed);
-      console.log('>>>>> ES: ', res.result);
       // eslint-disable-next-line no-console
       console.log(chalk.cyan('[webhook]'), `- Cache cleared and item reindexed - [${new Date()}]`);
       // return temporary object
@@ -85,7 +84,7 @@ class Helpers {
   async indexCongressSessions (congress) {
     const privateMeetings = ['Private meeting', 'Committee meeting'];
 
-    console.log('Fetching data...');
+    console.log(chalk.cyan('[webhook]'), 'Fetching data...');
     console.time('request');
     const [a, b, c, d, e, f, g, h, i, j, k] = await Promise.all([
       this.k4.get(`/Assemblies${this.k4Params}`),
@@ -119,7 +118,7 @@ class Helpers {
     const sessions = k.data;
 
 
-    console.log('Parsing...');
+    console.log(chalk.cyan('[webhook]'), 'Parsing...');
     console.time('parsing');
     const parsedSessions = sessions.map(async s => {
       s.startDateTime = parseDate(s.startDateTime);
@@ -150,17 +149,17 @@ class Helpers {
     });
     console.timeEnd('parsing');
 
-    console.log('Indexing...');
+    console.log(chalk.cyan('[webhook]'), 'Indexing...');
     console.time('indexing');
     const result = await Promise.all(parsedSessions.map(async i => await es.index(i, `sessions-${congress}`, i.id)));
     console.timeEnd('indexing');
 
-    console.log('Sessions #: ', result.length);
+    console.log(chalk.cyan('[webhook]'), 'Sessions #: ', result.length);
     return result;
   }
 
   async indexCongressPresentations (congress) {
-    console.log('Fetching data...');
+    console.log(chalk.cyan('[webhook]'), 'Fetching data...');
     const faculties = await this.k4.get(`/Faculties${this.k4Params}`);
     console.time('request');
     const p = await this.k4.get(`/Presentations${this.k4Params}`);
@@ -179,17 +178,17 @@ class Helpers {
     });
     console.timeEnd('parsing');
 
-    console.log('Indexing...');
+    console.log(chalk.cyan('[webhook]'), 'Indexing...');
     console.time('indexing');
     const result = await Promise.all(prezis.map(async i => await es.index(i, `presentations-${congress}`, i.id)));
     console.timeEnd('indexing');
 
-    console.log('Presentations #: ', result.length);
+    console.log(chalk.cyan('[webhook]'), 'Presentations #: ', result.length);
     return result;
   }
 
   async indexCongressAbstracts (congress) {
-    console.log('Fetching data...');
+    console.log(chalk.cyan('[webhook]'), 'Fetching data...');
     console.time('request');
     const [a, b] = await Promise.all([
       this.k4.get(`/Abstracts${this.k4Params}`),
@@ -197,7 +196,7 @@ class Helpers {
     ]);
     console.timeEnd('request');
 
-    console.log('Parsing...');
+    console.log(chalk.cyan('[webhook]'), 'Parsing...');
     console.time('parsing');
     const parsedAbstracts = a.data.map(i => {
       i.authors = i.authorIDs.map(absId => b.data.filter(ath => ath.id === absId)[0]);
@@ -206,12 +205,12 @@ class Helpers {
     });
     console.timeEnd('parsing');
 
-    console.log('Indexing...');
+    console.log(chalk.cyan('[webhook]'), 'Indexing...');
     console.time('indexing');
     const result = await Promise.all(parsedAbstracts.map(async i => await es.index(i, `abstracts-${congress}`, i.id)));
     console.timeEnd('indexing');
 
-    console.log('Abstracts #: ', result.length);
+    console.log(chalk.cyan('[webhook]'), 'Abstracts #: ', result.length);
     return result;
   }
 
