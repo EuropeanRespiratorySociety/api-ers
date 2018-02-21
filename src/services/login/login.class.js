@@ -1,9 +1,9 @@
 const axios = require('axios');
 const errors = require('@feathersjs/errors');
 const client = require('../../helpers/authentication');
+const conf = require('./login.conf').join(',');
 
-
-
+// @TODO async/await #26
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 class Service {
@@ -17,15 +17,18 @@ class Service {
 
   create(data, params) {
     return new Promise((resolve, reject) => {
-
+      const payload = Object.assign({},{ include: conf }, data);
       axios
-        .post('https://crmapi.ersnet.org/contacts/checklogin', data, {
-          headers: { Authorization: `Bearer ${params.crmToken}` } // The token is generated/set by a hook
-        })
+        .post('https://crmapi.ersnet.org/Contacts/Authenticate', 
+          payload, 
+          {
+            headers: { Authorization: `Bearer ${params.crmToken}` 
+            } // The token is generated/set by a hook
+          })
         .then(response => {
           if(response.data){
-            const contacts = this.app.service('ers/contacts');
-            const contactId = parseInt(response.data, 10);
+            const data = response.data;
+            const contactId = data.ContactId;
             const users = this.app.service('users');
             const params = {
               query: {
@@ -34,36 +37,36 @@ class Service {
               mongoose: { upsert: true }
             };
             
-            // Getting User data
-            contacts.get(contactId).then( res => {
-              const user = {
-                email: res.data.SmtpAddress1,
-                ersId: res.data.ContactId,
+            const user = {
+              email: data.SmtpAddress1,
+              ersId: contactId,
+              password: data.password,
+              permissions: 'myERS'
+            };
+
+            // Update or create the user (upsert)
+            users.patch(null, user, params).then( u => {
+              if(u && u.length === 0) {
+                reject(new errors.NotFound(data));
+              }
+
+              // automatically authenticate the user
+              client.authenticate({
+                email: data.SmtpAddress1,
                 password: data.password,
-                permissions: 'myERS'
-              };
-
-              // Update or create the user (upsert)
-              users.patch(null, user, params).then( u => {
-                if(u && u.length === 0) {
-                  reject(new errors.NotFound(response.data));
-                }
-
-                // automatically authenticate the user
-                client.authenticate({
-                  email: res.data.SmtpAddress1,
-                  password: data.password,
-                  strategy: 'local'
-                }).then(r => {
-                  const apiUserId = u[0]._id;
-                  const preferences = this.app.service('preferences');
-                  preferences.get(apiUserId).then(p => {
-                    resolve(Object.assign(res, r, { apiUserId: apiUserId, preferences: p }));
-                  }).catch(err => {
-                    resolve(Object.assign(res, r, { apiUserId: apiUserId, preferences: {} }));
-                  });
+                strategy: 'local'
+              }).then(r => {
+                const apiUserId = u[0]._id.toString();
+                const preferences = this.app.service('preferences');
+                preferences.get(apiUserId).then(p => {
+                // @TODO #25 we need to merge the preferences with myCRM store preferences
+                  resolve(Object.assign({data: data}, r, { apiUserId: apiUserId, preferences: p }));
+                }).catch(err => {
+                  resolve(Object.assign({data: data}, r, { apiUserId: apiUserId, preferences: {} }));
                 });
               });
+            }).catch(e => {
+              reject(new errors.GeneralError(response.data));
             });
           } else {
             reject(new errors.NotFound(response.data));
