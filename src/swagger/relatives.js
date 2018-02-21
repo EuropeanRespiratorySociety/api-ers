@@ -8,10 +8,10 @@ module.exports = {
     summary: 'Get articles relative to a node with the node',
     parameters: [
       params.qname,
-      params.limit,
-      params.skip,
       params.full,
-      params.format
+      params.format,
+      params.limit,
+      params.skip
     ],
     responses: {
       '200': responses.success,

@@ -8,9 +8,9 @@ module.exports = {
     summary: 'Get category and its articles',
     parameters: [
       params.qname,
+      params.full,
       params.limit,
-      params.skip,
-      params.full
+      params.skip
     ],
     responses: {
       '200': responses.success,

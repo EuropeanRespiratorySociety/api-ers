@@ -10,25 +10,56 @@ class Service {
     this.options = options || {};
   }
 
+  setup(app) {
+    this.app = app;
+  }
+
   async find (params) {
     const type = params.query.type;
-    const congress = `congress-${params.query.year}`;
+    const congress = params.query.year;
     const pw = params.query.pw;
+    const e = params.query.e;
+    const force = params.query.force == 'true' ? true : false;
+    const seeding = params.query.seeding == 'true' ? true : false; // this param will create problem is you seed twice...
     // if(pw !== process.env.WPW) {
     //   throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
     // }
+    
 
-    if (type === 'index-congress-sessions') {
-      return h.indexCongressSessions(congress);
+    if (type === 'save-congress-sessions') {
+      return h.upsertSessions(this.app, congress, e, seeding);
     }
 
-    if (type === 'index-congress-presentations') {
-      return h.indexCongressPresentations(congress);
+    if (type === 'save-congress-presentations') {
+      h.upsertPresentations(this.app, congress, e, seeding);
+      return {message: 'This process runs for a long time, check the logs in ES to know where we are at'};
+    }
+
+    if (type === 'save-congress-abstracts') {
+      return h.upsertAbstracts(this.app, congress, e, seeding, force);
     }
 
     if (type === 'index-congress-abstracts') {
-      return h.indexCongressAbstracts(congress);
+      return h.indexCongress(this.app, 'abstracts', congress);
     }
+
+    if (type === 'index-congress-sessions') {
+      return h.indexCongress(this.app, 'sessions', congress);
+    }
+
+    if (type === 'index-congress-presentations') {
+      return h.indexCongress(this.app, 'presentations', congress);
+    }
+
+    if (type === 'index-ers-content') {
+      return h.indexErsContent(this.app, 'ers:article');
+    }
+
+    if (type === 'index-sb-content') {
+      return h.indexErsContent(this.app, 'sb:article');
+    }
+
+    return 'no such processing available';
   }
 
   async create (data, params) {

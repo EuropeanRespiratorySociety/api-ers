@@ -22,6 +22,8 @@ const swOptions = require('./swagger/swagger');
 const authentication = require('./authentication');
 const mongodb = require('./mongodb');
 
+const mongoose = require('./mongoose');
+
 const app = express(feathers());
 app.enable('trust proxy');
 
@@ -56,6 +58,7 @@ app.configure(authentication);
 
 // Set up our services (see `services/index.js`)
 app.configure(services);
+app.configure(mongoose);
 // Configure middleware (see `middleware/index.js`) - always has to be last
 app.configure(middleware);
 app.hooks(appHooks);

@@ -15,7 +15,7 @@ module.exports = function (app) {
 
   // Initialize our service with any options it requires
   app.use('/leadership', Object.assign(createService(options), { docs }));
-  delete app.docs.paths['/leadership'].get.parameters;
+  app.docs.paths['/leadership'].get.parameters = undefined;
 
   // Get our initialized service so that we can register hooks and filters
   const service = app.service('leadership');

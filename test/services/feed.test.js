@@ -1,9 +1,9 @@
 const assert = require('assert');
 const app = require('../../src/app');
 
-describe('\'webhook\' service', () => {
+describe('\'feed\' service', () => {
   it('registered the service', () => {
-    const service = app.service('webhook');
+    const service = app.service('feed');
 
     assert.ok(service, 'Registered the service');
   });

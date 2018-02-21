@@ -8,9 +8,9 @@ module.exports = {
     summary: 'Get ERS Vision items',
     parameters: [
       params.format,
+      params.full,
       params.limit,
-      params.skip,
-      params.full
+      params.skip
     ],
     responses: { 
       '200': responses.success,

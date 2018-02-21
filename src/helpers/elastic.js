@@ -10,7 +10,7 @@ const url = process.env.ESBASEURL;
 // add configuration option
 const client = new elasticsearch.Client({
   host: `https://${user}:${pw}@${url}`,
-  log: process.env.NODE_ENV === 'production' ? 'error' : 'trace'
+  log: process.env.NODE_ENV !== 'production' ? 'error' : 'trace'
 });
 
 const log = async (index, type, body, pipeline) => {
@@ -39,7 +39,7 @@ const index = async (item, index, id) => {
       body: item
     });
   } catch (e) {
-    // console.log (e);
+    return e;
   }
 
 };

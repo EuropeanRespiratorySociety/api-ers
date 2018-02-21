@@ -4,8 +4,9 @@
 // for more of what you can do here.
 const validator = require('validator');
 module.exports = function (app) {
-  const mongooseClient = app.get('mongooseClient');
-  const users = new mongooseClient.Schema({
+  const mongoose = app.get('mongooseClient');
+  const { Schema } = mongoose;
+  const users = new Schema({
     email: {
       type: String,        
       trim: true,
@@ -32,12 +33,11 @@ module.exports = function (app) {
     permissions: {
       type: [String],
       required: false
-    },
-  
-  
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
+    }
+  }, 
+  {
+    timestamps: true
   });
 
-  return mongooseClient.model('users', users);
+  return mongoose.model('users', users);
 };

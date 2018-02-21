@@ -7,10 +7,10 @@ module.exports = {
     description: 'This enpoint is the news feed of the ERS. Every thing that is published as a news is returned by it', 
     summary: 'This method is now deprecated', 
     parameters: [
+      params.full,
+      params.format,
       params.limit,
       params.skip,
-      params.full,
-      params.format
     ],
     responses: {
       '200': responses.success,

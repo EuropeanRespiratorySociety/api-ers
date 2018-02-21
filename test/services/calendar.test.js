@@ -46,7 +46,7 @@ describe('Request to the calendar service', function() {
         expect(res).to.have.status(200);
         expect(JSON.parse(res.text).data[0].calendar.timestamp)
           .to.be.a('number')
-          .to.be.below(JSON.parse(res.text).data[1].calendar.timestamp);
+          .to.be.at.most(JSON.parse(res.text).data[1].calendar.timestamp);
         done();
       });
   });

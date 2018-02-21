@@ -59,6 +59,29 @@ module.exports = {
       }   
     }
   },
+  successProgramme: {
+    description: 'successful operation',
+    schema: {
+      type: 'object',
+      example: {
+        total: 'int',
+        limit: 'int',
+        skip: 'int',
+        data:[]
+      }   
+    }
+  },
+  successProgrammeItem: {
+    description: 'successful operation',
+    schema: {
+      type: 'object',
+      example: {
+        _id: 'string',
+        id: 'int',
+        '...': '...'
+      }
+    }  
+  },
   successLeadership: {
     description: 'successful operation',
     schema: {

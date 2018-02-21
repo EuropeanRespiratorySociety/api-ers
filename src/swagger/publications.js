@@ -7,10 +7,10 @@ module.exports = {
     description: 'Returns all ERS publications, **the link to the actual publication** is available in the property \'**externalLink**\'', 
     summary: 'Get publications',
     parameters: [
-      params.limit,
-      params.skip,
       params.format,
-      params.full
+      params.full,
+      params.limit,
+      params.skip
     ],
     responses: { 
       '200': responses.success,

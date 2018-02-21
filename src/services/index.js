@@ -16,10 +16,17 @@ const publications = require('./publications/publications.service.js');
 const vision = require('./vision/vision.service.js');
 const webhook = require('./webhook/webhook.service.js');
 const leadership = require('./leadership/leadership.service.js');
+const sessions = require('./sessions/sessions.service.js');
+const presentations = require('./presentations/presentations.service.js');
+const abstracts = require('./abstracts/abstracts.service.js');
+const feed = require('./feed/feed.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
   app.configure(calendar);
+  app.configure(sessions); // this appears under "congress"
+  app.configure(presentations); // this appears under "congress"
+  app.configure(abstracts); // this appears under "congress"
   app.configure(courses);
   app.configure(contacts); // This shows up as ers in the documentation
   app.configure(filters);
@@ -39,4 +46,5 @@ module.exports = function () {
   // Has to be last
   app.configure(graphql);
 
+  app.configure(feed);
 };

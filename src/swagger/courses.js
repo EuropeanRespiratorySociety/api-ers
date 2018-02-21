@@ -7,11 +7,11 @@ module.exports = {
     description: 'Returns all ERS courses', 
     summary: 'Get all courses and the category description',
     parameters: [
-      params.limit,
       params.coursesType,
-      params.skip,
       params.full,
-      params.format
+      params.format,
+      params.skip,
+      params.limit
     ],
     responses: {
       '200': responses.success,

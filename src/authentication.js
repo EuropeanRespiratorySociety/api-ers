@@ -14,7 +14,7 @@ module.exports = function () {
     docs: def
   }));
 
-  delete app.docs.paths['/authentication/{id}'];
+  app.docs.paths['/authentication/{id}'] = undefined;
   app.docs.paths['/authentication'].post = Object.assign(
     {}, 
     app.docs.paths['/authentication'].post, def.post);

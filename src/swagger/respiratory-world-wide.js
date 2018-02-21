@@ -7,9 +7,9 @@ module.exports = {
     description: 'Returns all the article of the Respiratory World Wide blog', 
     summary: 'Get articles relative to a node with the node',
     parameters: [
+      params.full,
       params.limit,
-      params.skip,
-      params.full
+      params.skip
     ],
     responses: {
       '200': responses.success,

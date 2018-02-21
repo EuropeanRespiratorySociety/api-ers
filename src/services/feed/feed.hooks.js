@@ -1,4 +1,3 @@
-
 const { ccParserCategory } = require('../../hooks/cc-parser');
 const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-rediscache');
 const { metadata } = require('../../hooks/metadata');

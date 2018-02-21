@@ -8,12 +8,12 @@ module.exports = {
     summary: 'Get calendar items',
     parameters: [
       params.eventType,
-      params.limit,
-      params.skip,
       params.full,
       params.format,
       params.reverse,
-      params.timeline
+      params.timeline,
+      params.limit,
+      params.skip
     ],
     responses: {
       '200': responses.successCalendar,    

@@ -15,13 +15,53 @@
                     }
                 },
                 "author": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
+                    "properties": {
+                        "id": {
+                            "type": "text",
+                            "fields": {
+                            "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                            }
+                            }
+                        },
+                        "qname": {
+                            "type": "text",
+                            "fields": {
+                            "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                            }
+                            }
+                        },
+                        "ref": {
+                            "type": "text",
+                            "fields": {
+                            "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                            }
+                            }
+                        },
+                        "title": {
+                            "type": "text",
+                            "fields": {
+                            "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                            }
+                            }
+                        },
+                        "typeQName": {
+                            "type": "text",
+                            "fields": {
+                            "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                            }
+                            }
                         }
-                    }
+                        }
                 },
                 "body": {
                     "type": "text",
