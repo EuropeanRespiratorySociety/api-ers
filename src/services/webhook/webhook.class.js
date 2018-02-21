@@ -22,11 +22,12 @@ class Service {
     const force = params.query.force == 'true' ? true : false;
     const printErrors = params.query.errors == 'true' ? true : false;
     const seeding = params.query.seeding == 'true' ? true : false; // this param will create problem is you seed twice...
-    // if(pw !== process.env.WPW) {
-    //   throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
-    // }
     
-
+    // Basic protection of the endpoint
+    if(pw !== process.env.WPW) {
+      throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
+    }
+    
     if (type === 'save-congress-sessions') {
       return h.upsertSessions(this.app, congress, e, seeding);
     }
