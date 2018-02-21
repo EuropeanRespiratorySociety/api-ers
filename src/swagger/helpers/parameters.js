@@ -90,7 +90,11 @@ module.exports = {
   },
   format: {
     name: 'format',
-    description: 'Set the type of content that is needed. Default is set to \'html\'',
+    description: `Set the type of textual content that can be formated in the CMS. Default is set to 'html': <ul>
+    <li>html</li>
+    <li>raw</li>
+    <li>markdown</li>
+    </ul>`,
     required: false,
     allowMultiple: false,
     type: 'string',
