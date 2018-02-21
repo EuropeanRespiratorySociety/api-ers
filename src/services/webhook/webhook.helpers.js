@@ -264,8 +264,11 @@ class Helpers {
     console.timeEnd('indexing');
     
     // 3. @TODO record failures and retry
-    const errors = result.filter(i => !isSucess(i));
-    if(printErrors) console.log(errors);
+    
+    if(printErrors) {
+      const errors = result.filter(i => !isSucess(i));
+      console.log('Errors: ', errors);
+    }
 
     // 4. preparing some stats and finishing up
     const sucess = result.filter(i => isSucess(i));
@@ -391,11 +394,13 @@ async function save(service, type, congress, data, requestTime, parsingTime, for
   console.time('saving');
   const result = await updateLocalData(service, data, lastUpdate, force);
   const savingTime = console.timeEnd('saving');
+  const now = m().format();
   if(result.updated) await setAsync(`latest-${type}-update`, m().format());
   console.log(chalk.cyan('[webhook]'), `Saved/Updated/Inserted ${type}:
   >>> submitted #: ${result.submitted} 
   >>> updated #: ${result.updated}
-  >>> inserted #: ${result.inserted}`);
+  >>> inserted #: ${result.inserted}
+  >>> saved On #: ${now}`);
 
   // Logging Results in Elastic Search
   await es.log('api-webhook-local-data', '_doc', Object.assign({
@@ -406,7 +411,7 @@ async function save(service, type, congress, data, requestTime, parsingTime, for
       parser: parsingTime,
       saving: savingTime
     },
-    savedOn: m().format()
+    savedOn: now
   }, result));
   return result;
 }
@@ -441,12 +446,18 @@ function isTrue (item){
 function parse (item) {
   let parsed = format.loadash.pickBy(format.filter(item, addToES), isTrue);
   // @TODO change property in Cloud CMS to get rid of this.
-  parsed.loc = !format.loadash.isEmpty(parsed) ? {lat: parsed.loc.lat, lon: parsed.loc.long} : undefined;
+  parsed.loc = hasLocation(parsed)
+    ? {lat: parsed.loc.lat, lon: parsed.loc.long} 
+    : undefined;
   parsed.hasAuthor = parsed.hasAuthor === 0 ? false : true;
   parsed.hasRelatedArticles = parsed.hasRelatedArticles === 0 ? false : true;
   // tags are not used for now
   parsed.tags = undefined;
   return parsed;
+}
+
+function hasLocation (item) {
+  return !format.loadash.isEmpty(item.loc) && item.loc.lat;
 }
 
 function isSucess (item) { 

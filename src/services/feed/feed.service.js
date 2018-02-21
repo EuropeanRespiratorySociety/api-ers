@@ -2,6 +2,8 @@
 const createService = require('./feed.class.js');
 const hooks = require('./feed.hooks');
 
+const docs = require('../../swagger/feed');
+
 module.exports = function (app) {
   
   const paginate = app.get('paginate');
@@ -12,7 +14,7 @@ module.exports = function (app) {
   };
 
   // Initialize our service with any options it requires
-  app.use('/feed', createService(options));
+  app.use('/feed', Object.assign(createService(options), { docs }));
 
   // Get our initialized service so that we can register hooks and filters
   const service = app.service('feed');

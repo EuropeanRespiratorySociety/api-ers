@@ -2,7 +2,7 @@
 const responses = require('./helpers/responses');
 
 module.exports = {
-  description: 'Authentication service (need to request credentials)',
+  description: '[API] Authentication service (need to request credentials)',
   post: {
     description: 'Returns a token based on the credentials of the user. These credentials can be obtained by contactin the developper (ERS Webmaster)', 
     summary: 'Get a token to authenticate.',

@@ -11,7 +11,7 @@ module.exports = {
       iff(isProvider('external'), [
         authenticate('jwt'), 
         restrictToRoles({
-          roles: ['admin', 'crm-user'],
+          roles: ['admin', 'crm-user', 'myERS'],
           fieldName: 'permissions'
         }),
         redisBeforeHook()
@@ -27,11 +27,15 @@ module.exports = {
 
   after: {
     all: [
+    ],
+    find: [      
       hookCache({ duration: 3600 * 24 * 7 }), 
       redisAfterHook()
     ],
-    find: [],
-    get: [],
+    get: [
+      hookCache({ duration: 3600 * 24 * 7 }), 
+      redisAfterHook()
+    ],
     create: [],
     update: [],
     patch: [],

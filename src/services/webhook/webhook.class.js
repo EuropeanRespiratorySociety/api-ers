@@ -20,6 +20,7 @@ class Service {
     const pw = params.query.pw;
     const e = params.query.e;
     const force = params.query.force == 'true' ? true : false;
+    const printErrors = params.query.errors == 'true' ? true : false;
     const seeding = params.query.seeding == 'true' ? true : false; // this param will create problem is you seed twice...
     // if(pw !== process.env.WPW) {
     //   throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
@@ -52,7 +53,7 @@ class Service {
     }
 
     if (type === 'index-ers-content') {
-      return h.indexErsContent(this.app, 'ers:article');
+      return h.indexErsContent(this.app, 'ers:article', printErrors);
     }
 
     if (type === 'index-sb-content') {

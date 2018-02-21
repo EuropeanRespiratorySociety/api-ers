@@ -8,6 +8,8 @@ module.exports = {
     summary: 'This method is now deprecated', 
     parameters: [
       params.full,
+      params.sortBy,
+      params.direction,
       params.format,
       params.limit,
       params.skip,

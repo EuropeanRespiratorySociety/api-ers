@@ -29,6 +29,7 @@ module.exports = function () {
   app.configure(abstracts); // this appears under "congress"
   app.configure(courses);
   app.configure(contacts); // This shows up as ers in the documentation
+  app.configure(feed);
   app.configure(filters);
   app.configure(interests);
   app.configure(leadership);
@@ -45,6 +46,4 @@ module.exports = function () {
   app.configure(webhook);
   // Has to be last
   app.configure(graphql);
-
-  app.configure(feed);
 };

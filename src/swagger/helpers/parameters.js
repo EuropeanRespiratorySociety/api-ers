@@ -63,6 +63,23 @@ module.exports = {
     type: 'string',
     in: 'path'
   },
+  sortBy: {
+    name: 'sortBy',
+    description: 'The CMS\'s property to sort by example: \'_system.created_on.ms\' or \'_system.modified_on.ms\' ',
+    required: false,
+    allowMultiple: false,
+    type: 'string',
+    in: 'query'
+  },
+  direction: {
+    name: 'sortDirection',
+    description: 'sorting direction (1 = asc, -1 = desc)',
+    required: false,
+    allowMultiple: false,
+    type: 'integer',
+    in: 'query',
+    enum:[1, -1]
+  },
   full: {
     name: 'full',
     description: 'Parses the full item or only what is necessary for the preview',
@@ -145,6 +162,16 @@ module.exports = {
     in: 'query',
     type: 'string',
     enum: ['past', 'all']
+  },
+  contentModel: {
+    name: 'type',
+    description: `type of content (content model). 
+    * 'ers:article' content of the ERS (news, courses, vision, etc...)
+    * 'sb:article' content of the Sleep and breathing conference`,
+    required: true,
+    in: 'query',
+    type: 'string',
+    enum: ['ers:article', 'sb:article']
   },
   user: {
     name: 'object',
