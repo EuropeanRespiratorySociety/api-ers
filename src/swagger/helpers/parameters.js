@@ -47,6 +47,111 @@ module.exports = {
     type: 'integer',
     in: 'query'
   },
+  $any: {
+    name: '<property name>',
+    description: `any property can be used to query the model:
+    <br /> 
+      <pre><code>
+        ?sessionID=5554&private=false
+      </code></pre>`,
+    required: false,
+    allowMultiple: true,
+    type: 'integer',
+    in: 'query'
+  },
+  $limit: {
+    name: '$limit',
+    description: 'the amount of items to return - max 100',
+    required: false,
+    allowMultiple: false,
+    type: 'integer',
+    in: 'query'
+  },
+  $skip: {
+    name: '$skip',
+    description: 'the amount of items to skip (offset)',
+    required: false,
+    allowMultiple: false,
+    type: 'integer',
+    in: 'query'
+  },
+  $sort: {
+    name: '$sort',
+    description: `sort items by property: <br /> 
+      <pre><code>
+        ?$sort[startTimeDate]=1
+      </code></pre><br />ascending: 1, descending: -1`,
+    required: false,
+    allowMultiple: true,
+    type: 'integer',
+    in: 'query'
+  },
+  $select: {
+    name: '$select',
+    description: `return only the properties of interest (and the interal _id): <br /> 
+      <pre><code>
+        &$select[]=Content
+      </code></pre><br />ascending: 1, descending: -1`,
+    required: false,
+    allowMultiple: true,
+    type: 'string',
+    in: 'query'
+  },
+  $in: {
+    name: '$in, $nin',
+    description: `in, not in - the type is not important, it is cast according to the model: <br /> 
+    <pre><code>
+      /sessions?sessions?typeID[$in]=302&typeID[$in]=288
+    </code></pre>`,
+    required: false,
+    allowMultiple: false,
+    type: 'string',
+    in: 'query'
+  },
+  $lt: {
+    name: '$lt, $lte',
+    description: `less than, less than or equal - the type is not important, it is cast according to the model:<br /> 
+    <pre><code>
+      /sessions?startDateTime[$lt]=2017-09-10T06:30:00.000Z&endDateTime[$gt]=2017-09-09T06:30:00.000Z
+    </code></pre>`,
+    required: false,
+    allowMultiple: true,
+    type: 'string',
+    in: 'query'
+  },
+  $gt: {
+    name: '$gt, $gte',
+    description: `greather than, greater than or equal - the type is not important, it is cast according to the model:<br /> 
+    <pre><code>
+    /sessions?startDateTime[$lt]=2017-09-10T06:30:00.000Z&endDateTime[$gt]=2017-09-09T06:30:00.000Z
+    </code></pre>`,
+    required: false,
+    allowMultiple: true,
+    type: 'string',
+    in: 'query'
+  },
+  $or: {
+    name: '$or',
+    description: `or - the type is not important, it is cast according to the model:<br /> 
+    <pre><code>
+      /sessions?$or[0][private][$ne]=true&$or[1][typeID]=288
+    </code></pre><br />`,
+    required: false,
+    allowMultiple: true,
+    type: 'string',
+    in: 'query'
+  },
+  $ne: {
+    name: '$ne',
+    description: `not equal - the type is not important, it is cast according to the model:<br /> 
+    <pre><code>
+      /sessions?startDateTime[$ne]=2017-09-10T06:30:00.000Z
+    </code></pre>`,
+    required: false,
+    allowMultiple: true,
+    type: 'string',
+    in: 'query'
+  },
   slug: {
     name: 'slug',
     description: 'the slug or alias that identifies a ressource',

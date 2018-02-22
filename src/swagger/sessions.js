@@ -5,8 +5,20 @@ const responses = require('./helpers/responses');
 module.exports = {
   description: 'Congress Programme',
   find: {
-    description: 'List all sessions of the congress, the year param or the K4 events is required in order list content from only one congress.<br><br>__important__: this service let you add any property as parameter, this allows for filtering based on a property. it is recommended to use the `year=2018` or the `k4EventNumber=90` to filter the events as the database stores all of our events.<br><br>Any property can be used to __filter__ items. It is used as follow: `?$sort[startTimeDate]=1` <br><br>__Typical request__: `/sessions?year=2017&private=false&$sort[startDateTime]=1`<br><br>The parameter `$select` can be used to return only the properties of interest: `&$select[]=name` the interal `_id` and only the `name` property will be returned',
+    description: 'List all sessions of the congress, the year param or the K4 events is required in order list content from only one congress.<br><br>__important__: this service let you add any property as parameter, this allows for filtering based on a property. It is __recommended__ to use the `year=2018` or the `k4EventNumber=90` to filter the events as the database stores all of our events.<br><br>Any property can be used to __filter__ items.',
     summary: 'list congress sessions',
+    parameters: [
+      params.$any,
+      params.$limit,
+      params.$skip,
+      params.$sort,
+      params.$select,
+      params.$lt,
+      params.$gt,
+      params.$in,
+      params.$or,
+      params.$ne
+    ],
     responses: {
       '200': responses.successProgramme,
       '404': responses.notFound

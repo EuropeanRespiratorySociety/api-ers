@@ -5,15 +5,27 @@ const responses = require('./helpers/responses');
 module.exports = {
   description: 'Congress Programme',
   find: {
-    description: 'List all sessions of the congress, the year param or the K4 events is required in order list content from only one congress.<br><br>__important__: this service let you add any property as parameter, this allows for filtering based on a property. it is recommended to use the `year=2018` or the `k4EventNumber=90` to filter the events as the database stores all of our events.<br><br>Any property can be used to __filter__ items. It is used as follow: `?$sort[startTimeDate]=1` ascending: 1, descending: -1<br><br>__Typical request__: `/presentations?sessionID=5554&$sort[startDateTime]=1`<br><br>The parameter `$select` can be used to return only the properties of interest: `&$select[]=Content` the interal `_id` and only the `Content` property will be returned',
-    summary: 'list congress sessions',
+    description: 'List all sessions of the congress, the year param or the K4 events is required in order list content from only one congress.<br><br>__important__: this service let you add any property as parameter, this allows for filtering based on a property. It is __recommended__ to use the `year=2018` or the `k4EventNumber=90` to filter the events as the database stores all of our events.<br><br>Any property can be used to __filter__ items.',
+    summary: 'list congress presentations',   
+    parameters: [
+      params.$any,
+      params.$limit,
+      params.$skip,
+      params.$sort,
+      params.$select,
+      params.$lt,
+      params.$gt,
+      params.$in,
+      params.$or,
+      params.$ne
+    ],
     responses: {
       '200': responses.successProgramme,
       '404': responses.notFound
     }
   },
   get: {
-    summary: 'Get a session',
+    summary: 'Get a presentation',
     responses: {
       '200': responses.successProgrammeItem,
       '404': responses.notFound
@@ -23,8 +35,8 @@ module.exports = {
     security: [    {
       bearer: []
     }],
-    description: 'Creates a new sessions', 
-    summary: 'Create a new sessions [admin role]',
+    description: 'Creates a new presentation', 
+    summary: 'Create a new presentation [admin role]',
     parameters: [
       params.user
     ],
@@ -37,7 +49,7 @@ module.exports = {
   },
   update: {
     id: 'id',
-    summary: 'Update a session [admin role]',
+    summary: 'Update a presentation [admin role]',
     parameters:[],
     responses: {
       '200': responses.success,
@@ -49,7 +61,7 @@ module.exports = {
   },
   patch: {
     id: 'id',
-    summary: 'Patch a session [admin role]',
+    summary: 'Patch a presentation [admin role]',
     parameters:[],
     responses: {
       '200': responses.success,
@@ -60,15 +72,15 @@ module.exports = {
     }]
   },
   remove: {
-    description: 'Remove a session',
-    summary: 'Remove a sessions [admin role]',
+    description: 'Remove a presentation',
+    summary: 'Remove a presentation [admin role]',
     responses: {
       '200': responses.success,
       '404': responses.notFound
     },
     parameters: [{
       name: 'id',
-      description: 'Id of the session to delete',
+      description: 'Id of the presentation to delete',
       required: true,
       allowMultiple: false,
       type: 'string',
