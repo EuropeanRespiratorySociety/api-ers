@@ -9,6 +9,7 @@ module.exports = {
     parameters: [
       params.full,
       params.sortBy,
+      params.filterBy,
       params.direction,
       params.format,
       params.limit,

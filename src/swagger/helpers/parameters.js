@@ -320,6 +320,19 @@ module.exports = {
       type: 'object'
     },
     in: 'body'
+  },
+  filterBy: {
+    name: 'filterBy',
+    description: `Allows to filter content based on diseases and methods:
+    * chain the diseases and methods that are needed separated by a comma: Airway diseases,Public health
+    <pre><code>
+      ?filterBy=Airway diseases,Public health
+    </code></pre>
+    `,
+    required: false,
+    allowMultiple: false,
+    type: 'string',
+    in: 'query'
   }
 
 };
