@@ -187,7 +187,7 @@ module.exports = {
   },
   full: {
     name: 'full',
-    description: 'Parses the full item or only what is necessary for the preview',
+    description: 'Parses the full item or only what is necessary for the preview, if not set \'fasle\' is assumed',
     required: false,
     allowMultiple: false,
     type: 'boolean',
@@ -195,7 +195,7 @@ module.exports = {
   },
   format: {
     name: 'format',
-    description: `Set the type of textual content that can be formated in the CMS. Default is set to 'html': <ul>
+    description: `Set the type of textual content that can be formated in the CMS. If not set, 'html' is assumed: <ul>
     <li>html</li>
     <li>raw</li>
     <li>markdown</li>

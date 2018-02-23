@@ -3,6 +3,9 @@ const es = require('./elastic.js');
 const chalk = require('chalk');
 const m = require('moment');
 const routes = require('feathers-hooks-rediscache').cacheRoutes;
+const dotenv = require('dotenv');
+dotenv.load();
+
 const logger = async (req,res,next) => {
   // eslint-disable-next-line no-console
   const timestamp = m().format('x');
@@ -15,17 +18,14 @@ const logger = async (req,res,next) => {
   };
   // eslint-disable-next-line no-console
   console.log(chalk.cyan('[cache]'), `- ${req.ip} - [${new Date()}] - "${req.method} ${req.url}"`);
-  
-  try {
-    await es.log('api-logs', '_doc', log, 'geoip');
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log(e);
+  if(process.env.NODE_ENV === 'production') {
+    try {
+      await es.log('api-logs', '_doc', log, 'geoip');
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e);
+    }
   }
-  
-
-  
-  
   next();
 };
 

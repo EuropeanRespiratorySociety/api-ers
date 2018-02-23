@@ -84,12 +84,37 @@ describe('Request to the calendar service', function() {
       .set('Content-Type', 'application/json')
       .end((err, res) => {
         expect(res).to.have.status(200);
-        expect(JSON.parse(res.text).data[0].leadParagraph)
+        //This test fails when there is no lead :(
+        const data = JSON.parse(res.text).data;
+        /* eslint-disable indent */
+        data[0].leadParagraph
+        ? expect(data[0].leadParagraph)
           .to.be.a('string')
-          .not.to.include('<p>');
-        expect(JSON.parse(res.text).data[0].body)
+          .not.to.include('<p>')
+        : data[1].leadParagraph
+        ? expect(data[1].leadParagraph)
           .to.be.a('string')
-          .not.to.include('###');
+          .not.to.include('<p>')
+        : data[2].leadParagraph
+        ? expect(data[2].leadParagraph)
+          .to.be.a('string')
+          .not.to.include('<p>')
+        : expect(data[0].leadParagraph).to.be.false;
+
+        data[0].body
+        ? expect(data[0].body)
+          .to.be.a('string')
+          .not.to.include('###')
+        : data[1].body
+        ? expect(data[1].body)
+          .to.be.a('string')
+          .not.to.include('###')
+        : data[2].body
+        ? expect(data[2].body)
+          .to.be.a('string')
+          .not.to.include('###')
+        : expect(data[0].body).to.be.false;
+
         done();
       });
   });

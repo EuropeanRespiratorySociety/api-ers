@@ -19,10 +19,7 @@ module.exports = {
     },
     produces: ['application/json']
   },
-  post: { //this is for the special post route /contacts/checklogin
-    security: [    {
-      bearer: []
-    }],
+  post: { //this is for the special post route /contacts/authenticate
     description: 'Checks myERS login credentials and returns the contact details if successful as well as an API JWT token. An API is created based on the ERS user, each time the user logs in the API user is updated if any field has changed, the user\'s persmissions is set to __myERS__. <br />the User\'s data is cached (not the token and the rest of the response)', 
     summary: 'Checks login, returns the contact and API token',
     parameters: [
@@ -51,6 +48,9 @@ module.exports = {
   },
   get: {
     id: 'contact id',
+    security: [{
+      bearer: []
+    }],
     description: 'Returns a contact object based on the contact id - to use this endpoint you need to have a CRM user role, the user data is cached',
     summary: 'Get a contact based on its id [admin, crm-user, myERS roles]',
     parameters: [

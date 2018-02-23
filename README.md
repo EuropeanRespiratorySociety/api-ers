@@ -14,6 +14,7 @@ Add a header to all requests:
 
 If not some end points will return html (404 etc.) instead of json.
 
+### API
 Many endpoints do not need authentication, for thoses where authentication is needed, you need to:
 
 * [request credentials](mailto:webmaster@ersnet.org)
@@ -21,13 +22,17 @@ Many endpoints do not need authentication, for thoses where authentication is ne
     * To use the api programmatically login with the provided credentials here: `/authentication`
     * Every request that requires authentication need to have an `Authorization` header with a value of `Bearer <your-token>`
 
+_Note_: that authentication is intended for server to server communication, and not for __ajax__ or __app__ server conversation as the token could be spoofed. 
+
+#### myERS
+the `/ers/contacts/login` endpoint is used to get a token for a user, the other endpoints can be used with that token such as `/preferences` or `/users` etc. 
 
 #### Example Jquery Client
 Here is an example of Jquery client in order to display the news as a "Widget". This is an ERS example but of course you can change the HTML...
 ##### JS 
 Use [jQuery REST Client](https://github.com/jpillora/jquery.rest)
 
-```
+```js
     <script type="text/javascript">
         $(document).ready(function(){
             var client = new $.RestClient('https://api.ersnet.org/', {
@@ -76,43 +81,88 @@ The static url is a url used to retrive assets and caching them. For example at 
 
 You can query different endpoints by adding them `client.add('news');`
 
-### Feathers Client
+#### Feathers/Vue Client
+
+```js
+import Feathers from 'feathers/client'
+import hooks from 'feathers-hooks'
+import authentication from 'feathers-authentication/client'
+import rest from 'feathers-rest/client'
+import axios from 'axios'
+
+// Configure Feathers client
+const restClient = rest(process.env.FEATHERS_HOST || 'http://localhost:3030')
+const feathers = Feathers()
+  .configure(restClient.axios(axios))
+  .configure(hooks())
+  .configure(authentication({storage: window.localStorage}))
+
+import Vue from 'vue'
+import VueFeathers from 'vue-feathers'
+Vue.use(VueFeathers, feathers)
+
+export default feathers
 
 ```
-    const express = require('express');
-    const app = express();
-    const feathers = require('feathers/client')
-    const hooks = require('feathers-hooks');
-    const rest = require('feathers-rest/client');
-    const auth = require('feathers-authentication-client');
-    const axios = require('axios');
-    const host = 'http://localhost:3030';
 
-    const f = feathers()
-    .configure(hooks())
-        .configure(auth({path: 'auth/token'}))
-        .configure(rest(host).axios(axios));
-
-    f.authenticate({
-        strategy: 'local',
-        'email': '', //The email you sent ERS for your API account
-        'password': '' //The password provided
-    }).then(function(result){
-        console.log('Authenticated! Token:', result.token);
-    }).catch(function(error){
-        console.error('Error authenticating!', error);
-    });
-
-    app.get('/news', (req,res) => {
-        axios.get('http://localhost:3030/news').then(response => {
-        //console.log(response.data);
-        res.json(response.data);
-        }).catch(e => {
-        res.json(e);
-        })
-    });
+#### Vuex action @TODO async/await
+```js
+// Login user with email / password
+export const login = ({commit, dispatch}, payload) => {
+  return feathers.authenticate({strategy: 'local', ...payload})
+    .then(res => {
+      commit(types.LOGIN, res)
+      return feathers.passport.verifyJWT(res.accessToken)
+    })
+    .then(payload => {
+      return feathers.service('users').get(payload.userId)
+    })
+    .then(user => {
+      feathers.set('user', user)
+      commit(types.SET_USER, user)
+      dispatch('getData')
+    })
+    .catch(error => {
+      console.error('Error authenticating!', error)
+      commit(types.SET_ERROR, error)
+    })
+}
 
 ```
+
+## Cache
+For performance reasons, each endpoint returning data from Cloud CMS is cached. __Normally__, the cache should not be cleared manually. When content is modified in the CMS the cache is invalidated.
+
+But, to empty the __whole__ cache, just visit/call the following url:
+`https://api.ersnet.org/cache/clear`
+
+```js
+'/cache/clear' // clears the whole cache
+'/cache/clear/single/:target' // clears a single route if you want to purge a route with params just adds them target?param=1
+'/cache/clear/group/:target' // clears a group
+```
+
+This will clean all routes for the different groups e.g. `news`, `respiratory-matters`, etc.
+
+When an endpoint is cached, the API returns an object with cache informations:
+
+```javascript
+"cache": {
+    "cached": true,
+    "duration": 86400,
+    "expiresOn": "2018-02-23T12:56:19.690Z",
+    "parent": "courses",
+    "group": "group-courses",
+    "key": "courses"
+}
+```
+
+Use the key to bust either the group or the single item cache.
+
+or you can clean idividual routes:
+* `https://api.ersnet.org/cache/clear/news/the-request-to-an-article`
+* `https://api.ersnet.org/cache/clear/news?the=params&you=have&request=ed`
+
 
 ### Installation
 
@@ -143,22 +193,3 @@ You can query different endpoints by adding them `client.add('news');`
     `npm run test`
 6. to send coverage results to coveralls (add a .coveralls.yml with your key)
     `npm run coveralls`
-
-## Cache
-For performance reasons, each endpoint returning data from cloudcms is cached.
-To empty the cache, just visit/call the following url:
-`https://api.ersnet.org/cache/clear`
-
-Available routes
-```
-/cache/index // returns an array with all the keys
-/cache/clear // clears the whole cache
-/cache/clear/single/:target // clears a single route if you want to purge a route with params just adds them target?param=1
-/cache/clear/group/:target // clears a group
-```
-
-This will clean all routes for the different groups e.g. `news`, `respiratory-matters`, etc.
-
-or you can clean idividual routes:
-* `https://api.ersnet.org/cache/clear/news/the-request-to-an-article`
-* `https://api.ersnet.org/cache/clear/news?the=params&you=have&request=ed`
