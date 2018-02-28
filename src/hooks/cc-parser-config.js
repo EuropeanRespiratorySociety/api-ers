@@ -62,6 +62,8 @@ module.exports = {
     'externalLink', 
     'url', 
     'uri',
+    'availableOnHomepage',
+    'mainNews',
     '_system'
   ],
   educationTypes: [

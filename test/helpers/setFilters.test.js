@@ -37,5 +37,18 @@ describe('\'setFilters\' helper', () => {
     expect(obj.$or[1].methods.$in[1]).to.equal('Public health');
   });
 
-  
+  it('sets filter for highlights', () => {
+    const obj = s('highlights');
+    expect(obj).to.be.an('object');
+    expect(obj).to.haveOwnProperty('availableOnHomepage')
+      .to.be.an('string') // this needs to change to a boolean
+      .to.equal('true');
+  });
+  it('sets filter for mainNews', () => {
+    const obj = s('main-news');
+    expect(obj).to.be.an('object');
+    expect(obj).to.haveOwnProperty('mainNews')
+      .to.be.a('boolean') // this needs to change to a boolean
+      .to.be.true;
+  });
 });

@@ -20,6 +20,7 @@ const sessions = require('./sessions/sessions.service.js');
 const presentations = require('./presentations/presentations.service.js');
 const abstracts = require('./abstracts/abstracts.service.js');
 const feed = require('./feed/feed.service.js');
+const highlights = require('./highlights/highlights.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
@@ -31,6 +32,7 @@ module.exports = function () {
   app.configure(contacts); // This shows up as ers in the documentation
   app.configure(feed);
   app.configure(filters);
+  app.configure(highlights);
   app.configure(interests);
   app.configure(leadership);
   app.configure(login); // This is merged with the previous one

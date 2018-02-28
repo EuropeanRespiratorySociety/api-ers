@@ -5,7 +5,7 @@
 const setFilter = (filter) => {
   /* eslint-disable indent */
   const f = filter ? filter.split(',') : [];
-  return f.length > 0
+  return f.length > 0 && !f.includes('highlights') && !f.includes('main-news')
     ? {
         $or: [
           {
@@ -19,6 +19,15 @@ const setFilter = (filter) => {
             }
           }
         ]  
+      }
+    : f.length > 0 && f.includes('highlights')
+    ? {
+        'availableOnHomepage' :'true', // this will need to change for a boolean
+        'mainNews': {'$ne': true}
+      }
+    : f.length > 0 && f.includes('main-news')
+    ? {
+        'mainNews' : true
       }
     : {};
   /* eslint-enable indent */  

@@ -22,7 +22,7 @@ class Service {
     }
 
     let user, system;
-    if(id == 'calendar'){
+    if(id == 'calendar') {
       user = [
         {
           url: `${this.apiUrl}/calendar?type=ers`,
@@ -63,7 +63,7 @@ class Service {
         }
       ];
     }
-    if(id == 'courses'){
+    if(id == 'courses') {
       user = [
         {
           url: `${this.apiUrl}/courses?type=all`,

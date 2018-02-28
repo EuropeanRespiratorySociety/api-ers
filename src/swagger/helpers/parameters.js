@@ -324,7 +324,11 @@ module.exports = {
   filterBy: {
     name: 'filterBy',
     description: `Allows to filter content based on diseases and methods:
-    <ul><li>chain the diseases and methods that are needed separated by a comma: Airway diseases,Public health</li><ul>
+    <ul>
+      <li>chain the diseases and methods that are needed separated by a comma: Airway diseases,Public health</li>
+      <li>main-news - returns the main news</li>
+      <li>hightlights - returns the "highlights" news, but excluedes the main one, or the "pinned one"</li>
+    <ul>
     __Note__: this filter is now generic an matches only methods and diseases, it could also match other fields. If for better filtering, other otpions are needed do not hesitate to contact the developer.
     <pre><code>
       ?filterBy=Airway diseases,Public health

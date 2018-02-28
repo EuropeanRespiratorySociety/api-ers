@@ -2,16 +2,11 @@ const params = require('./helpers/parameters');
 const responses = require('./helpers/responses');
 
 module.exports = {
-  description: 'Get ERS news',
+  description: 'ERS highlights',
   find: {
-    description: 'This enpoint is the news feed of the ERS. Every thing that is published as a news is returned by it', 
-    summary: 'Get all ordered news', 
+    description: 'This enpoint is the highlight feed of the ERS. Everything that has been highlighted (manual curration) is returned. The first news, regardless of its publication date is a news that has the property __mainNews__ set to __true__, normally there is only one of such news.', 
+    summary: 'Get ERS highlights', 
     parameters: [
-      params.full,
-      params.sortBy,
-      params.filterBy,
-      params.direction,
-      params.format,
       params.limit,
       params.skip,
     ],
