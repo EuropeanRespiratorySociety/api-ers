@@ -101,7 +101,7 @@ module.exports = {
     name: '$in, $nin',
     description: `in, not in - the type is not important, it is cast according to the model: <br /> 
     <pre><code>
-      /sessions?sessions?typeID[$in]=302&typeID[$in]=288
+      /<service>?typeID[$in]=302&typeID[$in]=288
     </code></pre>`,
     required: false,
     allowMultiple: false,
@@ -112,7 +112,7 @@ module.exports = {
     name: '$lt, $lte',
     description: `less than, less than or equal - the type is not important, it is cast according to the model:<br /> 
     <pre><code>
-      /sessions?startDateTime[$lt]=2017-09-10T06:30:00.000Z&endDateTime[$gt]=2017-09-09T06:30:00.000Z
+      /<service>?startDateTime[$lt]=2017-09-10T06:30:00.000Z&endDateTime[$gt]=2017-09-09T06:30:00.000Z
     </code></pre>`,
     required: false,
     allowMultiple: true,
@@ -123,7 +123,7 @@ module.exports = {
     name: '$gt, $gte',
     description: `greather than, greater than or equal - the type is not important, it is cast according to the model:<br /> 
     <pre><code>
-    /sessions?startDateTime[$lt]=2017-09-10T06:30:00.000Z&endDateTime[$gt]=2017-09-09T06:30:00.000Z
+    /<service>?startDateTime[$lt]=2017-09-10T06:30:00.000Z&endDateTime[$gt]=2017-09-09T06:30:00.000Z
     </code></pre>`,
     required: false,
     allowMultiple: true,
@@ -134,7 +134,7 @@ module.exports = {
     name: '$or',
     description: `or - the type is not important, it is cast according to the model:<br /> 
     <pre><code>
-      /sessions?$or[0][private][$ne]=true&$or[1][typeID]=288
+      /<service>?$or[0][private][$ne]=true&$or[1][typeID]=288
     </code></pre><br />`,
     required: false,
     allowMultiple: true,
@@ -145,7 +145,7 @@ module.exports = {
     name: '$ne',
     description: `not equal - the type is not important, it is cast according to the model:<br /> 
     <pre><code>
-      /sessions?startDateTime[$ne]=2017-09-10T06:30:00.000Z
+      /<service>?startDateTime[$ne]=2017-09-10T06:30:00.000Z
     </code></pre>`,
     required: false,
     allowMultiple: true,
