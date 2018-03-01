@@ -7,6 +7,7 @@ module.exports = {
     description: 'Returns all the article and video from ERS Vision', 
     summary: 'Get ERS Vision items',
     parameters: [
+      params.filterBy,
       params.format,
       params.full,
       params.limit,

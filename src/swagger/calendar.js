@@ -8,6 +8,7 @@ module.exports = {
     summary: 'Get calendar items',
     parameters: [
       params.eventType,
+      params.filterBy,
       params.full,
       params.format,
       params.reverse,

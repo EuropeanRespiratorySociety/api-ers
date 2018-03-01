@@ -8,6 +8,7 @@ module.exports = {
     summary: 'Get all content', 
     parameters: [
       params.contentModel,
+      params.filterBy,
       params.sortBy,
       params.direction,
       params.full,

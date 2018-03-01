@@ -8,6 +8,7 @@ const setQueryParams = (qname, query = {}, paginate = 25) => {
   return {
     qname, 
     full: query.full || false, 
+    filterBy: query.filterBy || false,
     format: query.format || 'html',
     skip: parseInt(query.skip) || 0,
     limit: parseInt(query.limit) || paginate

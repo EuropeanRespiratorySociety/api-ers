@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const F = require('ers-utils').Format;
 const format = new F();
+const setFilter = require('../../helpers/setFilters');
 
 let config = {
   type: 'ers:category-association'
@@ -9,6 +10,7 @@ let config = {
 class Service {
   constructor (options) {
     this.options = options || {};
+    this.setFilter = setFilter;
   }
 
   setup(app) {
@@ -23,9 +25,14 @@ class Service {
     const q = params.query;
     const direction = parseInt(q.sortDirection) || -1;
     const sortBy = q.sortBy || '_system.created_on.ms';
-    const body = Object.assign(params.body || {}, {
-      unPublished: { $ne: true }
-    });
+    const filters = this.setFilter(q.filterBy || false); 
+    const body = Object.assign(
+      params.body || {}, 
+      {
+        unPublished: { $ne: true }
+      },
+      filters
+    );
     const opts = {
       //"full": false,
       metadata: true,

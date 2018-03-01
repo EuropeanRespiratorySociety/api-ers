@@ -7,6 +7,7 @@ module.exports = {
     description: 'Returns all the article of the Respiratory Matters Blog', 
     summary: 'Get articles relative to a node with the node',
     parameters: [
+      params.filterBy,
       params.format,
       params.full,
       params.limit,

@@ -1,10 +1,12 @@
 const F = require('ers-utils').Format;
 const format = new F();
+const setFilter = require('../../helpers/setFilters');
 
 /* eslint-disable no-unused-vars */
 class Service {
   constructor (options) {
     this.options = options || {};
+    this.setFilter = setFilter;
   }
 
   setup(app) {
@@ -16,10 +18,15 @@ class Service {
     const direction = parseInt(q.sortDirection) || -1;
     const sortBy = q.sortBy || '_system.created_on.ms';
     const limit = format.setLimit(q.limit, this.options.paginate);
-    const body = Object.assign(params.body || {}, {
-      _type: q.type || 'ers:article',
-      unPublished: { $ne: true}
-    });
+    const filters = this.setFilter(q.filterBy || false);
+    const body = Object.assign(
+      params.body || {}, 
+      {
+        _type: q.type || 'ers:article',
+        unPublished: { $ne: true}
+      },
+      filters
+    );
 
     const opts = {
       //"full": false,

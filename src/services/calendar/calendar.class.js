@@ -1,8 +1,10 @@
+const setFilterBy = require('../../helpers/setFilters');
 /* eslint-disable no-unused-vars */
 class Service {
   constructor (options) {
     this.options = options || {};
     this.setFilter = setFilter;
+    this.filterBy = setFilterBy;
   }
 
   setup(app) {
@@ -11,19 +13,22 @@ class Service {
 
   async find (params) {
     const relatives = this.app.service('relatives'); 
-    const type = params.query.type || 'ers';
+    const q = params.query;
+    const type = q.type || 'ers';
     const filter = this.setFilter(type);
+    const filteredBy = this.filterBy(q.filterBy || false);
+    const merged = Object.assign({},filter, filteredBy);
     return await relatives.find({
-      body: filter,
+      body: merged,
       path: this.options.name,
       query:{
         qname:'o:cc1c5be57719dade0371',
-        full: params.query.full,
-        format: params.query.format|| 'html',
+        full: q.full,
+        format: q.format|| 'html',
         sortBy: 'eventDate',
         sortDirection: 1,
-        limit: parseInt(params.query.limit) || 200, //this is a bit off as filtering is done after the fact (isAlreadyPassed)
-        skip: parseInt(params.query.skip) || 0
+        limit: parseInt(q.limit) || 200, //this is a bit off as filtering is done after the fact (isAlreadyPassed)
+        skip: parseInt(q.skip) || 0
       }
     });
   }
