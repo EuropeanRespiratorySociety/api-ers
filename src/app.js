@@ -33,7 +33,7 @@ app.configure(configuration(path.join(__dirname, '..')));
 app.use(cors());
 app.use(helmet());
 app.use(compress());
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 

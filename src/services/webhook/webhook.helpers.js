@@ -229,6 +229,40 @@ class Helpers {
     return await save(s, 'abstracts', congress, parsedAbstracts, requestTime, parsingTime, force);
   }
 
+  async upsertJournalAbstract (app, abstract, force = false) {
+    console.log(chalk.cyan('[webhook]'), 'Receiving journal abstract...');
+    const service = app.service('journals');
+    let id;
+    let item;
+    let lastUpdate;
+
+    try {
+      if(abstract.canonical) {
+        item = await service.find({
+          query:{ canonical: abstract.canonical }
+        });
+      } else {
+        item = await service.find({query:{pubmed_id: abstract.pubmed_id}});
+      }
+      id = item.data[0]._id;
+      lastUpdate = await getAsync(`journal-abstract-${id}`);
+    } catch (e) {
+      return {status: 'Error', message: 'e'};
+    }
+
+    if (m(item.scrappedOn) > m(lastUpdate) || force) {
+      if (id !== undefined) {
+        await service.patch(id, abstract, { mongoose: { upsert: true } });
+        return {id: id, status: 'Updated'};
+      } else {
+        const r = await service.create(abstract);
+        id = r._id;
+        return {id: id, status: 'Inserted'};
+      }
+    }
+    return {id: id, status: 'Not updated'};
+  }
+
   async indexErsContent(app, type, printErrors = false) {
     // /feed?full=true&type=ers:article&limit=100
     // use internal service 

@@ -67,6 +67,7 @@ module.exports = function (app) {
     }],
     related_articles: [{ type: String }],
     access: { type: String },
+    scrapedOn: { type: Date }
   }, {
     timestamps: true
   });

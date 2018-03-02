@@ -67,6 +67,7 @@ class Service {
   async create (data, params) {
     const type = params.query.type;
     const pw = params.query.pw;
+    const force = params.query.force == 'true' ? true : false;
     // console.log(data)
     // console.log(params, 'pw: ', pw, ' ', process.env.WPW)
     // if(pw !== process.env.WPW) {
@@ -79,7 +80,13 @@ class Service {
     // return type === 'cache'
     //   ? h.cache(data)
     //   : 'other method not yet implemented';
-    return h.cache(data);
+    if (type === 'cache') {
+      return h.cache(data);
+    }
+
+    if (type === 'save-journal-abstract') {
+      return h.upsertJournalAbstract(this.app, data, force );
+    }
   }
 
   // async update (id, data, params) {
