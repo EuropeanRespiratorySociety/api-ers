@@ -45,8 +45,8 @@ class Service {
       return h.indexCongress(this.app, 'abstracts', congress);
     }
 
-    if (type === 'index-congress-sessions') {
-      return h.indexCongress(this.app, 'sessions', congress);
+    if (type === 'index-congress-abstracts') {
+      return h.indexCongress(this.app, 'abstracts', congress);
     }
 
     if (type === 'index-congress-presentations') {
@@ -59,6 +59,10 @@ class Service {
 
     if (type === 'index-sb-content') {
       return h.indexErsContent(this.app, 'sb:article');
+    }
+
+    if (type === 'index-journals') {
+      return h.indexJournals(this.app, printErrors);
     }
 
     return 'no such processing available';
@@ -82,6 +86,10 @@ class Service {
     //   : 'other method not yet implemented';
     if (type === 'cache') {
       return h.cache(data);
+    }
+
+    if(pw !== process.env.WPW) {
+      throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
     }
 
     if (type === 'save-journal-abstract') {

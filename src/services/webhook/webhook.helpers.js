@@ -234,29 +234,45 @@ class Helpers {
     const service = app.service('journals');
     let id;
     let item;
-    let lastUpdate;
+    // arbitrarily set a time in the past that we overwrite if we
+    // find a value. This allows the comparison to work and not
+    // to check for an error.
+    let lastUpdate = m().subtract(10, 'minutes').format();
+
+    if(abstract.doi === '10.1183/09031936.00000309' && abstract.page_url==='http://err.ersjournals.com/content/18/112/125') {
+      return { status: 'this item has been arbitriraly discarded as is a DOI duplicate, it should be sorted eventually.' };
+    }
 
     try {
-      if(abstract.canonical) {
+      if(abstract.canonical && abstract.pubmed_id === undefined) {
         item = await service.find({
-          query:{ canonical: abstract.canonical }
+          query: { canonical: abstract.canonical }
         });
       } else {
-        item = await service.find({query:{pubmed_id: abstract.pubmed_id}});
+        item = await service.find({
+          query: {
+            pubmed_id: abstract.pubmed_id
+          }
+        });
       }
-      id = item.data[0]._id;
+      if(item.data.length > 0) {
+        id = item.data[0]._id;
+      }
+
       lastUpdate = await getAsync(`journal-abstract-${id}`);
     } catch (e) {
-      return {status: 'Error', message: 'e'};
+      return {status: 'Error', message: e};
     }
 
     if (m(item.scrappedOn) > m(lastUpdate) || force) {
       if (id !== undefined) {
         await service.patch(id, abstract, { mongoose: { upsert: true } });
+        await setAsync(`journal-abstract-${id}`, m().format());
         return {id: id, status: 'Updated'};
       } else {
         const r = await service.create(abstract);
         id = r._id;
+        await setAsync(`journal-abstract-${id}`, m().format());
         return {id: id, status: 'Inserted'};
       }
     }
@@ -307,6 +323,71 @@ class Helpers {
     // 4. preparing some stats and finishing up
     const sucess = result.filter(i => isSucess(i));
     return await logIndexingStats(data._sys.total, 'content', sucess.length);
+
+  }
+
+  async indexJournals(app, printErrors = false) {
+    // /feed?full=true&type=ers:article&limit=100
+    // use internal service 
+    // -- prefix = sessions, presentations, abstracts
+    const limit = 100;
+    const type = 'journals';
+    const s = app.service(type);
+    
+    // 1. Divide total by batches 
+    // there is a lot in this table, lets get only the updated one..
+    const lastJob = await getAsync(`last-${type}-indexed-job`);
+    const time = lastJob
+      ? m(lastJob).format()
+      : m().subtract(10, 'minutes').format();
+
+    const data = await s.find({ 
+      query: { 
+        $limit: limit, 
+        updatedAt: {
+          $gte: time
+        }
+      }
+    });
+    const firstBatch = data.data;
+    const batches = Math.ceil(data.total / limit);
+
+    // 2. index all batches
+    // We already have the data for the first batch
+    let result = [];
+    console.log(chalk.cyan('[webhook]'), 'Indexing batch #1...');
+    console.time('indexing');
+    const r1 = await indexJournalData(firstBatch);
+    r1.map(i => result.push({item: i._id.toString(), stats: i}));
+
+    let i = 1;
+    for(i; i < batches; i++) {
+      const b = await s.find({
+        query: {
+          $limit: limit, 
+          $skip: i * limit, 
+          updatedAt: {
+            $gte: time
+          }
+        }
+      });
+
+      console.log(chalk.cyan('[webhook]'), `Indexing batch #${i + 1}...`);
+      const rn = await indexJournalData(b.data);
+      rn.map(i => result.push({item: i._id.toString(), stats: i}));
+    }
+    console.timeEnd('indexing');
+    
+    // 3. @TODO record failures and retry
+    
+    if(printErrors) {
+      const errors = result.filter(i => !isSucess(i));
+      console.log('Errors: ', errors);
+    }
+
+    // 4. preparing some stats and finishing up
+    const sucess = result.filter(i => isSucess(i));
+    return await logIndexingStats(data.total, type, sucess.length);
 
   }
 
@@ -381,11 +462,22 @@ async function indexCongressData (array, prefix, congress) {
   }
 }
 
-async function indexErsContentData (array) {
+async function indexErsContentData (array, alias = 'content') {
   try {
     return await Promise.all(array.map(async (item) => {
       const parsed = parse(item);
-      return await es.index(parsed, 'content', parsed._doc);
+      return await es.index(parsed, alias, parsed._doc);
+    }));
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+}
+
+async function indexJournalData (array, alias = 'journals') {
+  try {
+    return await Promise.all(array.map(async (item) => {
+      return await es.index(item, alias, parseJournals(item)._doc);
     }));
   } catch (e) {
     console.log(e);
@@ -458,6 +550,8 @@ async function logIndexingStats (total, type, success) {
   >>> indexed #: ${success}
   >>> indexed On #: ${now}`);
 
+  await setAsync(`last-${type}-indexed-job`, now);
+
   const stats = {
     localItems: total,
     indexingType: type,
@@ -473,7 +567,7 @@ async function logIndexingStats (total, type, success) {
   }
 }
 
-function isTrue (item){
+function isTrue (item) {
   return item !== false;
 }
 
@@ -488,6 +582,12 @@ function parse (item) {
   // tags are not used for now
   parsed.tags = undefined;
   return parsed;
+}
+
+function parseJournals (item) {
+  item._doc = item._id.toString();
+  item._id = undefined;
+  return item;
 }
 
 function hasLocation (item) {
