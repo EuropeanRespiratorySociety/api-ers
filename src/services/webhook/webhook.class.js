@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 const h = require('./webhook.helpers');
+const cache = require('./webhook.cache');
 const errors = require('@feathersjs/errors');
 //  making sure it .env is loaded
 const dotenv = require('dotenv');
@@ -85,7 +86,7 @@ class Service {
     //   ? h.cache(data)
     //   : 'other method not yet implemented';
     if (type === 'cache') {
-      return h.cache(data);
+      return cache.clear(data);
     }
 
     if(pw !== process.env.WPW) {

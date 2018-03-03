@@ -70,9 +70,20 @@ describe('Request to the calendar service', function() {
       .set('Content-Type', 'application/json')
       .end((err, res) => {
         expect(res).to.have.status(200);
-        expect(JSON.parse(res.text).data[0].leadParagraph)
-          .to.be.a('string')
-          .not.to.include('<p>');
+        const r = JSON.parse(res.text).data[0];
+        
+        if(r.leadParagraph) {
+          expect(r.leadParagraph)
+            .to.be.a('string')
+            .not.to.include('<p>');
+        }
+
+        if(r.body) {
+          expect(r.body)
+            .to.be.a('string')
+            .not.to.include('<p>');
+        }
+
         done();
       });
   });

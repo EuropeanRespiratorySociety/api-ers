@@ -1,84 +1,25 @@
 /*eslint no-console: off*/
 const chalk = require('chalk');
+const m = require('moment');
+const errors = require('@feathersjs/errors');
 const { promisify } = require('util');
 const { Format } = require('ers-utils');
 const format = new Format();
 
+const HTTP = require('../../helpers/HTTP');
+const es = require('../../helpers/elastic.js');
 const client = require('../../helpers/redis');
 const getAsync = promisify(client.get).bind(client);
 const setAsync = promisify(client.set).bind(client);
 
-const m = require('moment');
-const es = require('../../helpers/elastic.js');
 const addToES = require('./webhook.config').addToES;
 
-const errors = require('@feathersjs/errors');
-const HTTP = require('../../helpers/HTTP');
-// @TODO: remove - we need this one temporarily while we bust the ERS Website
-const axios = require('axios');
-
 class Helpers {
-  constructor() {
+  constructor () {
     this.client = HTTP(process.env.API_URL);
     this.k4 = HTTP('http://k4.ersnet.org/prod/v2/Front/Program');
     this.k4Key = process.env.K4KEY;
     this.k4Params = `?key=${this.k4Key}`; // 5 -> 2015 - 8 -> 2016 - 42 -> 2017 - 90 -> 2018
-  }
-
-  async cache (data) {
-    const item = data._cloudcms.node.object;
-    // Getting the item from the cache
-    const reply = JSON.parse(await getAsync(item.slug));
-  
-    if(reply) {
-      const group = reply.cache.group.split('-')[1];
-      // temporary, we (try) clean the ers main website cache
-      const a = axios.post(`https://www.ersnet.org/cache?url=${reply.data.url}`);
-      // the cache is not always busted: @TODO fix it! issue #24 
-      const b = this.client.get(`/cache/clear/single/${reply.cache.key}`);
-      const c = this.client.get(`/cache/clear/group/${group}`);
-      const [ta, tb, tc] = await Promise.all([a, b, c]);
-      
-      const result = {
-        timestamp :  m().format('x'),
-        date: new Date(),
-        item: {
-          title: item.title,
-          _doc: item._doc,
-        },
-        website: ta.data,
-        api: {
-          single: tb.data,
-          group: tc.data
-        }
-      }; 
-      // eslint-disable-next-line no-console
-      // console.log(result);
-      
-      // 1. use cache status (200) to push to log index in ES
-      await es.log('api-webhook-logs', '_doc', result);
-      // 2. fetch new item by API and update the content in ES
-      const req = `/${group}/${reply.cache.key}`;
-      // await this.client.get(req);
-      // add the new item right away to the cache
-      const article = await this.client.get(req);
-
-      // we parse the item to return minimal data to Elasticsearch
-      const parsed = parse(article);
-
-      await es.index(parsed);
-      // eslint-disable-next-line no-console
-      console.log(chalk.cyan('[webhook]'), `- Cache cleared and item reindexed - [${new Date()}]`);
-      // return temporary object
-      return result;
-    }       
-    else {
-      // temporary, we (try) clean the ers main website cache
-      const r = await axios.post(`https://www.ersnet.org/cache?url=${item.url}`);
-      // eslint-disable-next-line no-console
-      console.log(chalk.cyan('[webhook]'), `- Main website cache: ${r.data} - [${new Date()}]`);
-      return this.e(item, 404);
-    }
   }
 
   async upsertSessions (app, congress, eventId, seeding) {
@@ -567,8 +508,10 @@ async function logIndexingStats (total, type, success) {
   }
 }
 
-function isTrue (item) {
-  return item !== false;
+function parseJournals (item) {
+  item._doc = item._id.toString();
+  item._id = undefined;
+  return item;
 }
 
 function parse (item) {
@@ -584,14 +527,12 @@ function parse (item) {
   return parsed;
 }
 
-function parseJournals (item) {
-  item._doc = item._id.toString();
-  item._id = undefined;
-  return item;
-}
-
 function hasLocation (item) {
   return !format.loadash.isEmpty(item.loc) && item.loc.lat;
+}
+
+function isTrue (item) {
+  return item !== false;
 }
 
 function isSucess (item) { 
