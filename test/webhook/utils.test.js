@@ -1,4 +1,5 @@
 const chai = require('chai');
+const m = require('moment');
 const expect = chai.expect;
 
 const u = require('../../src/services/webhook/webhook.utils');
@@ -205,7 +206,8 @@ describe('\'webhook\' utils', () => {
 
   it('parses a date', () => {
     const date = '/Date(1504535577940)/';
-    expect(u.parseDate(date)).to.equal('2017-09-04T16:32:57+02:00');
+    // 
+    expect(u.parseDate(date)).to.equal(m(date).format());
   });
 
   it('Does not parse a date', () => {
