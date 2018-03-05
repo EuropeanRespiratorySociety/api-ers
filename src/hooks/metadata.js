@@ -17,12 +17,13 @@ module.exports.metadata = (options = {}) => { // eslint-disable-line no-unused-v
     const skip = options.skip + options.limit;
     const prev = options.skip - options.limit < 0 ? 0 : options.skip - options.limit;
     const back = options.skip > 0 ? prev : 0;
+    const q = Object.assign({}, hook.params.query);
 
-    const full = hook.params.query.full || false;
+    const full = q.full || false;
     const path = hook.params.path || hook.path;
     const url = apiUrl + '/' + path;
 
-    const queryParams = format.mapModel(hook.params.query, { limit:options.limit}); 
+    const queryParams = format.mapModel(q, { limit:options.limit}); 
     hook.result.data = addItemMetadata(hook.result.data, full);
 
     hook.result = hook.result._sys.status === 200 ? format.mapModel(hook.result, {

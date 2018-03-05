@@ -14,7 +14,7 @@ class Service {
   }
 
   find(params) {
-    const q = params.query;
+    const q = params.query || {};
     const direction = parseInt(q.sortDirection) || -1;
     const sortBy = q.sortBy || '_system.created_on.ms';
     const limit = format.setLimit(q.limit, this.options.paginate);
@@ -37,9 +37,10 @@ class Service {
     };
     
     params.options = opts;
+    params.path = this.options.name;
 
     return new Promise((resolve, reject) => {
-      const nodes = global.cloudcms.queryNodes(body, opts)        
+      const nodes = global.cloudcms.queryNodes(body, opts)
         .trap(function(e){
           resolve({message:e.message, status: e.status});
         })
@@ -49,7 +50,7 @@ class Service {
             nodes
               .each(function(){
                 this._system = this.getSystemMetadata();
-                if(params.query.full){
+                if(q.full){
                   this._statistics = this.__stats();
                   this._qname = this.__qname();
                 }

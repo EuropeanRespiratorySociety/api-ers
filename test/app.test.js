@@ -7,15 +7,6 @@ chai.use(chaiHttp);
 var expect = chai.expect;
 
 describe('General application tests', function() {
-  // before(function(done) {
-  //   this.server = app.listen(3030);
-  //   this.server.once('listening', () => done());
-  // }); 
-
-  // after(function(done) {
-  //   this.server.close(done);
-  // });
-
   it('starts and shows the index page', (done) => {
     chai.request(app) 
       .get('/')

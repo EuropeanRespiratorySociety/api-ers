@@ -28,7 +28,8 @@ class Service {
     if(pw !== process.env.WPW) {
       throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
     }
-    
+
+    // Saving locally
     if (type === 'save-congress-sessions') {
       return h.upsertSessions(this.app, congress, e, seeding);
     }
@@ -42,12 +43,13 @@ class Service {
       return h.upsertAbstracts(this.app, congress, e, seeding, force);
     }
 
+    // indexing
     if (type === 'index-congress-abstracts') {
       return h.indexCongress(this.app, 'abstracts', congress);
     }
 
-    if (type === 'index-congress-abstracts') {
-      return h.indexCongress(this.app, 'abstracts', congress);
+    if (type === 'index-congress-sessions') {
+      return h.indexCongress(this.app, 'sessions', congress);
     }
 
     if (type === 'index-congress-presentations') {

@@ -1,5 +1,6 @@
 const { Format } = require('ers-utils');
 const { promisify } = require('util');
+const m = require('moment');
 const format = new Format();
 
 const redis = require('../../helpers/redis');
@@ -22,6 +23,12 @@ class Utils {
     return item;
   }
 
+  setProperties(arrayOfIds, arrayOfValues, id = 'id') {
+    return arrayOfIds.map(i => 
+      arrayOfValues.filter(o => o[id] === i)[0]
+    );
+  }
+
   parse (item) {
     let parsed = format.loadash.pickBy(format.filter(item, addToES), this.isTrue);
     // @TODO change property in Cloud CMS to get rid of this.
@@ -33,6 +40,10 @@ class Utils {
     // tags are not used for now
     parsed.tags = undefined;
     return parsed;
+  }
+
+  parseDate (date) {
+    return date !== null ? m(date).format() : null;
   }
 
   hasLocation (item) {

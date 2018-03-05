@@ -38,7 +38,7 @@ describe('Metada hook', () => {
   it('handles a missing options object', () => {
     const mock = {
       params : { 
-        query: { query: { qname: 'o:44336af7b5e85068c857', full: false }}
+        query: { qname: 'o:44336af7b5e85068c857', full: false }
       },
       result: {
         category: [],
@@ -83,7 +83,7 @@ describe('Metada hook', () => {
   it('handles a non existing full param', () => {
     const mock = {
       params : { 
-        query: { query: { qname: 'o:44336af7b5e85068c857' }},
+        query: { qname: 'o:44336af7b5e85068c857' },
         options: {} 
       },
       result: {

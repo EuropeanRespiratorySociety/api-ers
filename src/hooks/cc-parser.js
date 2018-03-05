@@ -18,8 +18,9 @@ exports.ccParserCategory = options => { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
   return async hook => {
-    const full = hook.params.query.full || false;
-    const type = hook.params.query.format || 'html';
+    const q = Object.assign({}, hook.params.query);
+    const full = q.full || false;
+    const type = q.format || 'html';
 
     const cache = hook.result.cache || {cached:false};
     if(hook.result.status === 200 && !cache.cached) {
@@ -40,9 +41,10 @@ exports.ccParserItem = options => { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
   return async hook => {
+    const q = Object.assign({}, hook.params.query);
     //by default it returns a full article.
-    const full = hook.params.query.full == 'false' ? false : true;
-    const type = hook.params.query.format || 'html';
+    const full = q.full == 'false' ? false : true;
+    const type = q.format || 'html';
 
     if(hook.result.status === 200) {
       hook.result = {

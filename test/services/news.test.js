@@ -6,21 +6,26 @@ const chaiHttp = require('chai-http');
 
 //use http plugin
 chai.use(chaiHttp);
-var expect = chai.expect;
+const expect = chai.expect;
 
 const dotenv = require('dotenv');
 dotenv.load();
 const host = process.env.API_URL;
 
+const service = app.service('news');
+
 describe('\'news\' service', () => {
   it('registered the service', () => {
-    const service = app.service('news');
-
     assert.ok(service, 'Registered the service');
+  });
+
+  it('has methods find() and get() available', () => {
+    expect(service).to.respondTo('find');
+    expect(service).to.respondTo('get');
   });
 });
 
-let firstItem = '';
+let firstItem;
 
 describe('Request to the news service', function() {
 
@@ -60,7 +65,7 @@ describe('Request to the news service', function() {
       });
   });
 
-  it('returns raw news', (done) => {
+  it('returns news as markdown', (done) => {
     chai.request(host) 
       .get('/news?format=markdown')
       .set('Content-Type', 'application/json')
@@ -109,7 +114,19 @@ describe('Request to the news service', function() {
           .to.equal(host + '/news?limit=5&skip=0');
         done();
       });
-  });  
+  });
+
+  it('sortBy', (done) => {
+    chai.request(host) 
+      .get('/news?sortBy=_system.created_on.ms')
+      .set('Content-Type', 'application/json')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(JSON.parse(res.text)).to.have.property('data')
+          .to.have.lengthOf(25);
+        done();
+      });
+  });
 
   it('returns all properties', (done) => {
     chai.request(host) 

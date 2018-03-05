@@ -124,4 +124,93 @@ describe('\'webhook\' utils', () => {
       .to.equal('123456');
 
   });
+
+  it('sets properties found in an array', () => {
+    const arrayOfIds = ['123456', '123457'];
+    const arrayOfProps = [
+      {
+        id: '123456',
+        some: 'propoperty',
+        something: 'else'
+      },
+      {
+        id: '123457',
+        some: 'propoperty2',
+        something: 'else2'
+      },
+      {
+        id: 'abcdefg',
+        some: 'propoperty3',
+        something: 'else3'
+      }
+
+    ];
+    const r = u.setProperties(arrayOfIds, arrayOfProps);
+    expect(r).to.be.an('array');
+    expect(r[0]).to.include({
+      id: '123456',
+      some: 'propoperty',
+      something: 'else'
+    });
+    expect(r[1]).to.include({
+      id: '123457',
+      some: 'propoperty2',
+      something: 'else2'
+    });
+    expect(r).not.to.deep.include({
+      id: 'abcdefg',
+      some: 'propoperty3',
+      something: 'else3'
+    });
+  });
+
+  it('sets properties found in an array with another id than the default\'s', () => {
+    const arrayOfIds = ['123456', '123457'];
+    const arrayOfProps = [
+      {
+        guid: '123456',
+        some: 'propoperty',
+        something: 'else'
+      },
+      {
+        guid: '123457',
+        some: 'propoperty2',
+        something: 'else2'
+      },
+      {
+        guid: 'abcdefg',
+        some: 'propoperty3',
+        something: 'else3'
+      }
+
+    ];
+    const r = u.setProperties(arrayOfIds, arrayOfProps, 'guid');
+    expect(r).to.be.an('array');
+    expect(r[0]).to.include({
+      guid: '123456',
+      some: 'propoperty',
+      something: 'else'
+    });
+    expect(r[1]).to.include({
+      guid: '123457',
+      some: 'propoperty2',
+      something: 'else2'
+    });
+    expect(r).not.to.deep.include({
+      guid: 'abcdefg',
+      some: 'propoperty3',
+      something: 'else3'
+    });
+  });
+
+  it('parses a date', () => {
+    const date = '/Date(1504535577940)/';
+    expect(u.parseDate(date)).to.equal('2017-09-04T16:32:57+02:00');
+  });
+
+  it('Does not parse a date', () => {
+    const date = null;
+    expect(u.parseDate(date)).to.equal(null);
+  });
+
 });

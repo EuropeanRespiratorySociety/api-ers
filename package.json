@@ -34,6 +34,7 @@
     "start": "node src/",
     "mocha": "mocha test/ --recursive",
     "mocha:filters": "mocha test/services/filters.test.js",
+    "mocha:class": "mocha test/classes",
     "mocha:hooks": "mocha test/hooks --recursive",
     "mocha:webhook": "mocha test/webhook --recursive --watch",
     "mocha:helpers": "mocha test/helpers --recursive",

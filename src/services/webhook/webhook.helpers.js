@@ -1,18 +1,11 @@
 /*eslint no-console: off*/
 const chalk = require('chalk');
 const m = require('moment');
-const errors = require('@feathersjs/errors');
-const { promisify } = require('util');
-const { Format } = require('ers-utils');
-const format = new Format();
 
 const HTTP = require('../../helpers/HTTP');
 const es = require('../../helpers/elastic.js');
-const client = require('../../helpers/redis');
-const getAsync = promisify(client.get).bind(client);
-const setAsync = promisify(client.set).bind(client);
 
-const addToES = require('./webhook.config').addToES;
+const u = require('./webhook.utils');
 
 class Helpers {
   constructor () {
@@ -64,18 +57,18 @@ class Helpers {
     const parsedSessions = sessions.map(s => {
       s.year = congress;
       s.k4EventNumber = eventId;
-      s.startDateTime = parseDate(s.startDateTime);
-      s.endDateTime = parseDate(s.endDateTime);
-      s.creationDate = parseDate(s.creationDate);
-      s.lastModificationDate = parseDate(s.lastModificationDate);
+      s.startDateTime = u.parseDate(s.startDateTime);
+      s.endDateTime = u.parseDate(s.endDateTime);
+      s.creationDate = u.parseDate(s.creationDate);
+      s.lastModificationDate = u.parseDate(s.lastModificationDate);
       s.type = types.filter(o => o.id === s.typeID)[0];
       s.private = privateMeetings.includes(s.type.name);
-      s.participants = setProperties(s.participantIDs, faculties, 'guid');
-      s.chairs = setProperties(s.chairIDs, faculties, 'guid');
+      s.participants = u.setProperties(s.participantIDs, faculties, 'guid');
+      s.chairs = u.setProperties(s.chairIDs, faculties, 'guid');
       s.room = rooms.filter(r => r.id === s.roomID);
-      s.tags = setProperties(s.tagIDs, tags);
-      s.tracks = setProperties(s.trackIDs, tracks);
-      s.assemblies = setProperties(s.assemblyIDs, assemblies);
+      s.tags = u.setProperties(s.tagIDs, tags);
+      s.tracks = u.setProperties(s.trackIDs, tracks);
+      s.assemblies = u.setProperties(s.assemblyIDs, assemblies);
       s.groups = s.assemblygroupIDs.map(i => {
         const gr = groups.filter(o => o.id === i)[0];
         gr.assembly = assemblies.filter(o => o.id === gr.assemblyID)[0];
@@ -89,7 +82,7 @@ class Helpers {
           return inst; 
         }) 
         : undefined;
-      s.targets = setProperties(s.targetaudienceIDs, targets);
+      s.targets = u.setProperties(s.targetaudienceIDs, targets);
       return s;
     });
     const parsingTime = console.timeEnd('parsing');
@@ -118,12 +111,12 @@ class Helpers {
     const prezis = p.data.map(p => {
       p.year = congress;
       p.k4EventNumber = eventId;
-      p.startDateTime = parseDate(p.startDateTime);
-      p.endDateTime = parseDate(p.endDateTime);
-      p.creationDate = parseDate(p.creationDate);
-      p.lastModificationDate = parseDate(p.lastModificationDate);
-      p.AbstractEmbargoDateTime = parseDate(p.AbstractEmbargoDateTime);
-      p.speakers = setProperties(p.speakerIDs, faculties.data, 'guid');
+      p.startDateTime = u.parseDate(p.startDateTime);
+      p.endDateTime = u.parseDate(p.endDateTime);
+      p.creationDate = u.parseDate(p.creationDate);
+      p.lastModificationDate = u.parseDate(p.lastModificationDate);
+      p.AbstractEmbargoDateTime = u.parseDate(p.AbstractEmbargoDateTime);
+      p.speakers = u.setProperties(p.speakerIDs, faculties.data, 'guid');
       return p;
     });
     const parsingTime = console.timeEnd('parsing');
@@ -153,8 +146,8 @@ class Helpers {
     const parsedAbstracts = a.data.map(i => {
       i.year = congress;
       i.k4EventNumber = eventId;
-      i.authors = setProperties(i.authorIDs, b.data);
-      i.AbstractEmbargoDateTime = parseDate(i.AbstractEmbargoDateTime);
+      i.authors = u.setProperties(i.authorIDs, b.data);
+      i.AbstractEmbargoDateTime = u.parseDate(i.AbstractEmbargoDateTime);
       return i;
     });
     const parsingTime = console.timeEnd('parsing');
@@ -200,7 +193,7 @@ class Helpers {
         id = item.data[0]._id;
       }
 
-      lastUpdate = await getAsync(`journal-abstract-${id}`);
+      lastUpdate = await u.getAsync(`journal-abstract-${id}`);
     } catch (e) {
       return {status: 'Error', message: e};
     }
@@ -208,12 +201,12 @@ class Helpers {
     if (m(item.scrappedOn) > m(lastUpdate) || force) {
       if (id !== undefined) {
         await service.patch(id, abstract, { mongoose: { upsert: true } });
-        await setAsync(`journal-abstract-${id}`, m().format());
+        await u.setAsync(`journal-abstract-${id}`, m().format());
         return {id: id, status: 'Updated'};
       } else {
         const r = await service.create(abstract);
         id = r._id;
-        await setAsync(`journal-abstract-${id}`, m().format());
+        await u.setAsync(`journal-abstract-${id}`, m().format());
         return {id: id, status: 'Inserted'};
       }
     }
@@ -239,7 +232,7 @@ class Helpers {
     let result = [];
     console.log(chalk.cyan('[webhook]'), 'Indexing batch #1...');
     console.time('indexing');
-    const r1 = await indexErsContentData(firstBatch);
+    const r1 = await indexData(firstBatch);
     r1.map(i => result.push({item: i._id, stats: i}));
 
     let i = 1;
@@ -249,7 +242,7 @@ class Helpers {
       });
 
       console.log(chalk.cyan('[webhook]'), `Indexing batch #${i + 1}...`);
-      const rn = await indexErsContentData(b.data);
+      const rn = await indexData(b.data);
       rn.map(i => result.push({item: i._id, stats: i}));
     }
     console.timeEnd('indexing');
@@ -257,12 +250,12 @@ class Helpers {
     // 3. @TODO record failures and retry
     
     if(printErrors) {
-      const errors = result.filter(i => !isSucess(i));
+      const errors = result.filter(i => !u.isSucess(i));
       console.log('Errors: ', errors);
     }
 
     // 4. preparing some stats and finishing up
-    const sucess = result.filter(i => isSucess(i));
+    const sucess = result.filter(i => u.isSucess(i));
     return await logIndexingStats(data._sys.total, 'content', sucess.length);
 
   }
@@ -277,7 +270,7 @@ class Helpers {
     
     // 1. Divide total by batches 
     // there is a lot in this table, lets get only the updated one..
-    const lastJob = await getAsync(`last-${type}-indexed-job`);
+    const lastJob = await u.getAsync(`last-${type}-indexed-job`);
     const time = lastJob
       ? m(lastJob).format()
       : m().subtract(10, 'minutes').format();
@@ -298,7 +291,7 @@ class Helpers {
     let result = [];
     console.log(chalk.cyan('[webhook]'), 'Indexing batch #1...');
     console.time('indexing');
-    const r1 = await indexJournalData(firstBatch);
+    const r1 = await indexData(firstBatch);
     r1.map(i => result.push({item: i._id.toString(), stats: i}));
 
     let i = 1;
@@ -314,7 +307,7 @@ class Helpers {
       });
 
       console.log(chalk.cyan('[webhook]'), `Indexing batch #${i + 1}...`);
-      const rn = await indexJournalData(b.data);
+      const rn = await indexData(b.data);
       rn.map(i => result.push({item: i._id.toString(), stats: i}));
     }
     console.timeEnd('indexing');
@@ -322,12 +315,12 @@ class Helpers {
     // 3. @TODO record failures and retry
     
     if(printErrors) {
-      const errors = result.filter(i => !isSucess(i));
+      const errors = result.filter(i => !u.isSucess(i));
       console.log('Errors: ', errors);
     }
 
     // 4. preparing some stats and finishing up
-    const sucess = result.filter(i => isSucess(i));
+    const sucess = result.filter(i => u.isSucess(i));
     return await logIndexingStats(data.total, type, sucess.length);
 
   }
@@ -367,27 +360,12 @@ class Helpers {
     // 3. @TODO record failures and retry
 
     // 4. preparing some stats and finishing up
-    const sucess = result.filter(i => isSucess(i));
+    const sucess = result.filter(i => u.isSucess(i));
     return await logIndexingStats(data.total, `${prefix}-${congress}`, sucess.length);
-  }
-
-  e (data, type) {
-    if(type === 404) throw new errors.NotFound(`The item '${data.title}' was not found in the cache, therefore the new content should be available`);
-    if(type === 500) throw new errors.GeneralError('Something happened :(', data);
   }
 }
 
 module.exports = new Helpers();
-
-function parseDate(date) {
-  return date !== null ? m(date).format() : null;
-}
-
-function setProperties(arrayOfIds, arrayOfValues, id = 'id') {
-  return arrayOfIds.map(i => 
-    arrayOfValues.filter(o => o[id] === i)[0]
-  );
-}
 
 async function indexCongressData (array, prefix, congress) {
   try {
@@ -403,22 +381,13 @@ async function indexCongressData (array, prefix, congress) {
   }
 }
 
-async function indexErsContentData (array, alias = 'content') {
+async function indexData (array, alias = 'content') {
   try {
     return await Promise.all(array.map(async (item) => {
-      const parsed = parse(item);
+      const parsed = alias === 'journals'
+        ? u.setDocProperty(item)
+        : u.parse(item);
       return await es.index(parsed, alias, parsed._doc);
-    }));
-  } catch (e) {
-    console.log(e);
-    return e;
-  }
-}
-
-async function indexJournalData (array, alias = 'journals') {
-  try {
-    return await Promise.all(array.map(async (item) => {
-      return await es.index(item, alias, parseJournals(item)._doc);
     }));
   } catch (e) {
     console.log(e);
@@ -457,12 +426,12 @@ async function updateLocalData(service, dataArray, lastUpdate, force = false) {
 
 async function save(service, type, congress, data, requestTime, parsingTime, force = false) {
   // Saving the Latest Update date to redis
-  const lastUpdate = await getAsync(`latest-${type}-update`);
+  const lastUpdate = await u.getAsync(`latest-${type}-update`);
   console.time('saving');
   const result = await updateLocalData(service, data, lastUpdate, force);
   const savingTime = console.timeEnd('saving');
   const now = m().format();
-  if(result.updated) await setAsync(`latest-${type}-update`, m().format());
+  if(result.updated) await u.setAsync(`latest-${type}-update`, m().format());
   console.log(chalk.cyan('[webhook]'), `Saved/Updated/Inserted ${type}:
   >>> submitted #: ${result.submitted} 
   >>> updated #: ${result.updated}
@@ -491,7 +460,7 @@ async function logIndexingStats (total, type, success) {
   >>> indexed #: ${success}
   >>> indexed On #: ${now}`);
 
-  await setAsync(`last-${type}-indexed-job`, now);
+  await u.setAsync(`last-${type}-indexed-job`, now);
 
   const stats = {
     localItems: total,
@@ -506,35 +475,4 @@ async function logIndexingStats (total, type, success) {
   } catch (e) {
     return e;
   }
-}
-
-function parseJournals (item) {
-  item._doc = item._id.toString();
-  item._id = undefined;
-  return item;
-}
-
-function parse (item) {
-  let parsed = format.loadash.pickBy(format.filter(item, addToES), isTrue);
-  // @TODO change property in Cloud CMS to get rid of this.
-  parsed.loc = hasLocation(parsed)
-    ? {lat: parsed.loc.lat, lon: parsed.loc.long} 
-    : undefined;
-  parsed.hasAuthor = parsed.hasAuthor === 0 ? false : true;
-  parsed.hasRelatedArticles = parsed.hasRelatedArticles === 0 ? false : true;
-  // tags are not used for now
-  parsed.tags = undefined;
-  return parsed;
-}
-
-function hasLocation (item) {
-  return !format.loadash.isEmpty(item.loc) && item.loc.lat;
-}
-
-function isTrue (item) {
-  return item !== false;
-}
-
-function isSucess (item) { 
-  return  item.stats.result === 'created' || item.stats.result === 'updated'; 
 }
