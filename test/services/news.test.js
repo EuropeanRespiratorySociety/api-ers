@@ -46,7 +46,7 @@ describe('Request to the news service', function() {
           .to.equal(200);
         done();
       });
-  });
+  }).timeout(4000);
 
   it('returns raw news', (done) => {
     chai.request(host) 
@@ -63,7 +63,7 @@ describe('Request to the news service', function() {
           .to.be.a('string');
         done();
       });
-  });
+  }).timeout(4000);
 
   it('returns news as markdown', (done) => {
     chai.request(host) 
@@ -76,7 +76,7 @@ describe('Request to the news service', function() {
           .not.to.include('<p>');
         done();
       });
-  });
+  }).timeout(4000);
 
   it('limits the total of news', (done) => {
     chai.request(host) 
@@ -93,7 +93,7 @@ describe('Request to the news service', function() {
           .to.equal(host + '/news?limit=5&skip=5');
         done();
       });
-  });
+  }).timeout(4000);
 
   it('skips news', (done) => {
     chai.request(host) 
@@ -114,7 +114,7 @@ describe('Request to the news service', function() {
           .to.equal(host + '/news?limit=5&skip=0');
         done();
       });
-  });
+  }).timeout(4000);
 
   it('sortBy', (done) => {
     chai.request(host) 
@@ -126,7 +126,7 @@ describe('Request to the news service', function() {
           .to.have.lengthOf(25);
         done();
       });
-  });
+  }).timeout(4000);
 
   it('returns all properties', (done) => {
     chai.request(host) 
@@ -141,7 +141,7 @@ describe('Request to the news service', function() {
           .that.is.an('array');
         done();
       });
-  });
+  }).timeout(4000);
 
   it('returns a news by slug', (done) => {
     chai.request(host) 
@@ -155,6 +155,6 @@ describe('Request to the news service', function() {
           .that.is.a('String');
         done();
       });
-  });
+  }).timeout(4000);
 
 });

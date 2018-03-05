@@ -31,6 +31,7 @@ let firstItem = '';
 describe('Request to the relatives (associated nodes) service', function() {
 
   it('returns 25 articles/items', (done) => {
+    this.timeout(4000);
     chai.request(host) 
       .get('/relatives?qname=o:cc1c5be57719dade0371')
       .set('Content-Type', 'application/json')
@@ -53,6 +54,7 @@ describe('Request to the relatives (associated nodes) service', function() {
   });
 
   it('returns 1 article/item', (done) => {
+    this.timeout(4000);
     chai.request(host) 
       .get('/relatives?qname=o:cc1c5be57719dade0371&limit=1')
       .set('Content-Type', 'application/json')
@@ -71,6 +73,7 @@ describe('Request to the relatives (associated nodes) service', function() {
   });
 
   it('returns 25 articles/items with full content', (done) => {
+    this.timeout(4000);
     chai.request(host) 
       .get('/relatives?qname=o:cc1c5be57719dade0371&full=true')
       .set('Content-Type', 'application/json')
@@ -91,6 +94,7 @@ describe('Request to the relatives (associated nodes) service', function() {
   });
 
   it('returns an item by slug', (done) => {
+    this.timeout(4000);
     chai.request(host) 
       .get('/relatives/' + firstItem)
       .set('Content-Type', 'application/json')

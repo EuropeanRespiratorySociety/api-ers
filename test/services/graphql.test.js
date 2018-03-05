@@ -30,7 +30,7 @@ describe('Graphql endpoint', function() {
         expect(res.body.data.news[0]).not.to.have.property('body');
         done();
       });
-  }); 
+  }).timeout(4000); 
 
   it('returns latest news titles and bodies', (done) => {
     chai.request(host) 
@@ -51,7 +51,7 @@ describe('Graphql endpoint', function() {
         expect(res.body.data.news[0]).to.have.property('body');
         done();
       });
-  });
+  }).timeout(4000);
 
   it('returns the title of the latest article', (done) => {
     chai.request(host) 
@@ -73,7 +73,7 @@ describe('Graphql endpoint', function() {
         expect(res.body.data.news[0]).not.to.have.property('body');
         done();
       });
-  });
+  }).timeout(4000);
 
     
   // it('does not return users', (done) => {

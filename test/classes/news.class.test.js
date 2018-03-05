@@ -20,14 +20,16 @@ describe('News Class', function() {
    * @TODO Imrpove those tests ;)
    */
   before(function(done) {
-    this.timeout(10000);
-    cc();
-    process.once('Cloud CMS connected', () => {
-      this.server = app.listen(3031);
-      this.server.on('listening', () => {
-        done();
+    if(!this.server) {
+      this.timeout(10000);
+      cc();
+      process.once('Cloud CMS connected', () => {
+        this.server = app.listen(3031);
+        this.server.on('listening', () => {
+          done();
+        });
       });
-    });
+    }
   });
 
   after(function(done) {

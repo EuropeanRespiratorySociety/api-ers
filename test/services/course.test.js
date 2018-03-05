@@ -41,7 +41,7 @@ describe('Request to the course service', function() {
           .to.equal(200);
         done();
       });
-  });
+  }).timeout(4000);
 
   it('returns a course by slug', (done) => {
     chai.request(host) 
@@ -55,6 +55,6 @@ describe('Request to the course service', function() {
           .that.is.a('String');
         done();
       });
-  });
+  }).timeout(4000);
 
 });

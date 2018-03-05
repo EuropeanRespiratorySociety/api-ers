@@ -36,7 +36,7 @@ describe('Request to the calendar service', function() {
           .to.equal(200);
         done();
       });
-  });
+  }).timeout(4000);
 
   it('calendar items are in chronological order', (done) => {
     chai.request(host) 
@@ -49,7 +49,7 @@ describe('Request to the calendar service', function() {
           .to.be.at.most(JSON.parse(res.text).data[1].calendar.timestamp);
         done();
       });
-  });
+  }).timeout(4000);
 
   it('returns calendar items in reverse order', (done) => {
     chai.request(host) 
@@ -62,7 +62,7 @@ describe('Request to the calendar service', function() {
           .to.be.above(JSON.parse(res.text).data[1].calendar.timestamp);
         done();
       });
-  });
+  }).timeout(4000);
 
   it('returns calendar with markdown format', (done) => {
     chai.request(host) 
@@ -86,7 +86,7 @@ describe('Request to the calendar service', function() {
 
         done();
       });
-  });
+  }).timeout(4000);
 
 
   it('returns raw calendar items', (done) => {
@@ -128,7 +128,7 @@ describe('Request to the calendar service', function() {
 
         done();
       });
-  });
+  }).timeout(4000);
 
   it('returns a timeline of calendar items', (done) => {
     chai.request(host) 
@@ -144,7 +144,7 @@ describe('Request to the calendar service', function() {
           .to.equal(200);
         done();
       });
-  });
+  }).timeout(4000);
   
   it('returns ERS events only', (done) => {
     chai.request(host) 
@@ -158,7 +158,7 @@ describe('Request to the calendar service', function() {
           .not.to.be.ok;
         done();
       });
-  });
+  }).timeout(4000);
   
   it('returns non-ers events', (done) => {
     chai.request(host) 
@@ -172,7 +172,7 @@ describe('Request to the calendar service', function() {
           .to.be.true;
         done();
       });
-  });
+  }).timeout(4000);
   
   it('returns ers endorsed events', (done) => {
     chai.request(host) 
@@ -184,7 +184,7 @@ describe('Request to the calendar service', function() {
           .to.be.true;
         done();
       });
-  });
+  }).timeout(4000);
 
   // ---------------
   // These tests might fail depending 

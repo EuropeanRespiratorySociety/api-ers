@@ -32,7 +32,7 @@ describe('filters', () => {
         .to.have.property('status').to.equal(200);
       done();
     });
-  });
+  }).timeout(4000);
 
   it('returns user filters with url and label for calendar', (done) => {
     service.get('calendar').then(res => {
@@ -50,7 +50,7 @@ describe('filters', () => {
         .to.have.property('status').to.equal(200);
       done();
     });
-  });
+  }).timeout(4000);
 
   it('returns system filters with url and no label for calendar', (done) => {
     service.get('calendar').then(res => {
@@ -62,7 +62,7 @@ describe('filters', () => {
         .to.have.property('status').to.equal(200);
       done();
     });
-  });
+  }).timeout(4000);
 
   it('returns default value for endpoint without filters', (done) => {
     service.get('test').then(res => {
@@ -70,5 +70,5 @@ describe('filters', () => {
         .to.have.property('status').to.equal(204);
       done();
     });
-  });
+  }).timeout(4000);
 });

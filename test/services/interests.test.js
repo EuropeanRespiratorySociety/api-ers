@@ -20,6 +20,7 @@ describe('\'interests\' service', () => {
 describe('Request to the interests service', function() {
   
   it('returns iterests data', (done) => {
+    this.timeout(4000);
     chai.request(host) 
       .get('/interests')
       .set('Content-Type', 'application/json')
