@@ -17,10 +17,9 @@ describe('\'interests\' service', () => {
   });
 });
 
-describe('Request to the interests service', function() {
+describe('Request to the interests service', () => {
   
   it('returns iterests data', (done) => {
-    this.timeout(4000);
     chai.request(host) 
       .get('/interests')
       .set('Content-Type', 'application/json')
@@ -50,5 +49,5 @@ describe('Request to the interests service', function() {
           .that.is.a('number');
         done();
       });
-  });
+  }).timeout(4000);
 });
