@@ -28,8 +28,19 @@
     "node": ">= 8.0.0",
     "npm": ">= 5.0.0"
   },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
   "scripts": {
-    "test": "npm run eslint && nyc --reporter=lcov --reporter=text mocha --compilers js:babel-core/register --colors ./test/ --recursive --exit",
+    "test": "npm run eslint && nyc mocha --compilers js:babel-core/register --colors ./test/ --recursive --exit",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "node src/",
     "mocha": "mocha test/ --recursive",
@@ -39,7 +50,8 @@
     "mocha:webhook": "mocha test/webhook --recursive --watch",
     "mocha:helpers": "mocha test/helpers --recursive",
     "mocha:watch": "mocha test/ --recursive --watch",
-    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
+    "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "dependencies": {
     "@feathersjs/authentication": "^2.1.2",

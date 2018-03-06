@@ -119,3 +119,4 @@ lib/
 data/
 .htaccess
 dump.rdb
+coverage.lcov

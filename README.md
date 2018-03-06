@@ -1,4 +1,6 @@
 # ERS Content API
+[![Build Status](https://travis-ci.org/EuropeanRespiratorySociety/api-ers.svg?branch=master)](https://travis-ci.org/EuropeanRespiratorySociety/api-ers)
+[![codecov](https://codecov.io/gh/EuropeanRespiratorySociety/api-ers/branch/master/graph/badge.svg)](https://codecov.io/gh/EuropeanRespiratorySociety/api-ers)
 
 This API provides access to the content of the ERS such as its calendar, news, blogs and other resources.
 

@@ -16,11 +16,16 @@ addons:
 bundler_args: --retry 5
 before_install:  
   - npm install -g npm
+  - npm install -g codecov
 before_script:
   - travis_retry npm start &
 script:
   - travis_retry npm run test
+cache:
+  directories:
+    - "node_modules"
 after_success: 
   - npm run coveralls
+  - npm run codecov
 notifications:
   email: false
