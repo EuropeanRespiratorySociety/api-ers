@@ -23,6 +23,7 @@ module.exports = function () {
   // Set up authentication with the secret
   app.configure(jwt());
   app.configure(local(config.local));
+  app.configure(local(config.localUsername));
 
   // The `authentication` service is used to create a JWT.
   // The before `create` hook registers strategies that can be used

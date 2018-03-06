@@ -1,4 +1,3 @@
-const cc = require('../../src/cloudcms');
 const chai = require('chai');
 const expect = chai.expect;
 
@@ -13,28 +12,6 @@ const service = app.service('news');
 
 
 describe('News Class', function() {
-  /**
-   * To run these test we create a new server as we want it
-   * to have these test independently. The aim is to test
-   * specifically the classe
-   * @TODO Imrpove those tests ;)
-   */
-  before(function(done) {
-    if(!this.server) {
-      this.timeout(10000);
-      cc();
-      process.once('Cloud CMS connected', () => {
-        this.server = app.listen(3031);
-        this.server.on('listening', () => {
-          done();
-        });
-      });
-    }
-  });
-
-  after(function(done) {
-    this.server.close(done);
-  });
 
   it('is correctly instantiated', () => {
     expect(service).to.be.an('object');

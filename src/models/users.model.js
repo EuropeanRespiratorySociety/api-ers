@@ -15,6 +15,12 @@ module.exports = function (app) {
       required: true,
       validate: { validator: value => validator.isEmail(value) , message: 'Invalid email.' }
     },
+    username: {
+      type: String,
+      unique: true,
+      required: true,
+      sparse: true
+    },
     ersId: {
       type: Number,
       required: false,

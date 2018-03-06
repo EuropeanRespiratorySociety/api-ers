@@ -290,6 +290,7 @@ module.exports = {
       properties: {},
       example:{
         email: 'user email',
+        username: 'username',
         password: 'user password',
         permissions: 'the permission the user is granted'
       },

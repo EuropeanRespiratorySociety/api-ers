@@ -4,7 +4,7 @@ const responses = require('./helpers/responses');
 module.exports = {
   description: '[API] Authentication service (need to request credentials)',
   post: {
-    description: 'Returns a token based on the credentials of the user. These credentials can be obtained by contactin the developper (ERS Webmaster)', 
+    description: 'Returns a token based on the credentials of the user. These credentials can be obtained by contactin the developper (ERS Webmaster), there are two strategies: local and local-username, of course if the strategy is loca-username change the email to username in the sent object', 
     summary: 'Get a token to authenticate.',
     parameters: [
       {        

@@ -32,7 +32,9 @@ module.exports = {
 
     ],
     update: [ ...restrict, hashPassword() ],
-    patch: [ iff(isProvider('external'), ...restrict), hashPassword() ],
+    patch: [ 
+      iff(isProvider('external'), ...restrict), 
+      hashPassword() ],
     remove: [ ...restrict ]
   },
 

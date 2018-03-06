@@ -5,7 +5,7 @@ const courses = require('./courses/courses.service.js');
 const calendar = require('./calendar/calendar.service.js');
 const news = require('./news/news.service.js');
 const respiratoryMatters = require('./respiratory-matters/respiratory-matters.service.js');
-const graphql = require('./graphql/graphql.service.js');
+// const graphql = require('./graphql/graphql.service.js');
 const login = require('./login/login.service.js');
 const contacts = require('./contacts/contacts.service.js');
 const sleepandbreathing = require('./sleepandbreathing/sleepandbreathing.service.js');
@@ -49,5 +49,6 @@ module.exports = function () {
   app.configure(vision);
   app.configure(webhook);
   // Has to be last
-  app.configure(graphql);
+  // For now graphql endpoint is offline
+  // app.configure(graphql);
 };

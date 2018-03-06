@@ -40,7 +40,7 @@ class Service {
             const user = {
               email: data.SmtpAddress1,
               ersId: contactId,
-              password: data.password,
+              password: payload.password,
               permissions: 'myERS'
             };
 
@@ -53,7 +53,7 @@ class Service {
               // automatically authenticate the user
               client.authenticate({
                 email: data.SmtpAddress1,
-                password: data.password,
+                password: payload.password,
                 strategy: 'local'
               }).then(r => {
                 const apiUserId = u[0]._id.toString();
