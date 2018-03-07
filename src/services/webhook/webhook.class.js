@@ -87,7 +87,8 @@ class Service {
     // return type === 'cache'
     //   ? h.cache(data)
     //   : 'other method not yet implemented';
-    if (type === 'cache') {
+
+    if (type === 'cache' || isCloudCMS(data)) {
       return cache.clear(data);
     }
 
@@ -114,3 +115,7 @@ module.exports = function (options) {
 };
 
 module.exports.Service = Service;
+
+function isCloudCMS (data) {
+  return data.hasOwnProperty('_cloudcms');
+}
