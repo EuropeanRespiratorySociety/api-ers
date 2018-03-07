@@ -3,7 +3,7 @@ const responses = require('./helpers/responses');
 
 // The error in the view happen because the responses are missing
 module.exports = {
-  description: 'Journals [Beta], in prod DB needs to be seeded',
+  description: 'Journals [Beta]',
   find: {
     description: 'List journals articles, only abstracts. Mainly ERS Journals such as the _European Respiratory Journal_, _Breathe_, the _European Respiratory Review_, the _ERJ Open Research_, but also related abstracts from a series of medical journals.',
     summary: 'list Journals articles (abstracts)',

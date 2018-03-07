@@ -9,6 +9,7 @@ module.exports = {
     parameters: [
       params.limit,
       params.skip,
+      params.format
     ],
     responses: {
       '200': responses.success,

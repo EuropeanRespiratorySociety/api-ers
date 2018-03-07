@@ -27,7 +27,8 @@ module.exports = {
     summary: 'Get an article from its slug/alias',
     parameters: [
       params.slug,
-      params.full
+      params.full,
+      params.format
     ],
     responses: {
       '200': {

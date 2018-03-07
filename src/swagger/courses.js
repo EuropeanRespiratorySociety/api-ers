@@ -26,7 +26,8 @@ module.exports = {
     summary: 'Get a course from its slug/alias',
     parameters: [
       params.slug,
-      params.full
+      params.full,
+      params.format
     ],
     responses: {
       '200': {
