@@ -7,7 +7,7 @@ module.exports = {
   before: {
     all: [],
     find: [
-      // redisBeforeHook()
+      redisBeforeHook()
     ],
     get: [redisBeforeHook()],
     create: [],
@@ -21,8 +21,8 @@ module.exports = {
     find: [
       ccParserCategory(),
       metadata(),
-      // hookCache({duration: 3600 * 24 * 7}),
-      // redisAfterHook()
+      hookCache({duration: 3600 * 24 * 7}),
+      redisAfterHook()
     ],
     get: [
       hookCache({duration: 3600 * 24 * 7}), 
