@@ -5,8 +5,12 @@ const courses  = require('../../hooks/courses');
 module.exports = {
   before: {
     all: [],
-    find: [redisBeforeHook()],
-    get: [redisBeforeHook()],
+    find: [
+      redisBeforeHook()
+    ],
+    get: [
+      redisBeforeHook()
+    ],
     create: [],
     update: [],
     patch: [],
@@ -15,8 +19,15 @@ module.exports = {
 
   after: {
     all: [],
-    find: [courses(), hookCache({duration: 3600 * 24}), redisAfterHook()],
-    get: [hookCache({duration: 3600 * 24 * 7}), redisAfterHook()],
+    find: [
+      courses(), 
+      hookCache({duration: 3600 * 24}), 
+      redisAfterHook()
+    ],
+    get: [
+      hookCache({duration: 3600 * 24 * 7}), 
+      redisAfterHook()
+    ],
     create: [],
     update: [],
     patch: [],
