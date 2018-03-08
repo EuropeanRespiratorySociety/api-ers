@@ -64,7 +64,8 @@ module.exports = {
     'uri',
     'availableOnHomepage',
     'mainNews',
-    '_system'
+    '_system',
+    '_doc'
   ],
   educationTypes: [
     'ERS Course', 
