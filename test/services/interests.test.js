@@ -49,5 +49,5 @@ describe('Request to the interests service', () => {
           .that.is.a('number');
         done();
       });
-  }).timeout(4000);
+  }).timeout(5000);
 });

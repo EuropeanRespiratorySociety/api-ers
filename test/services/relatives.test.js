@@ -42,7 +42,7 @@ describe('Request to the relatives (associated nodes) service', function() {
           .that.is.an('array')
           .to.have.lengthOf(25);
         expect(Object.keys(JSON.parse(res.text).data[0]).length)
-          .to.be.at.most(40);   
+          .to.be.at.most(45);   
         expect(JSON.parse(res.text)).to.have.property('category')
           .that.is.an('array');
         expect(JSON.parse(res.text)).to.have.property('_sys')
