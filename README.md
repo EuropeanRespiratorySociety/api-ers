@@ -1,4 +1,6 @@
 # ERS Content API
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/EuropeanRespiratorySociety/api-ers.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/EuropeanRespiratorySociety/api-ers.svg?branch=master)](https://travis-ci.org/EuropeanRespiratorySociety/api-ers)
 [![codecov](https://codecov.io/gh/EuropeanRespiratorySociety/api-ers/branch/master/graph/badge.svg)](https://codecov.io/gh/EuropeanRespiratorySociety/api-ers)
 
