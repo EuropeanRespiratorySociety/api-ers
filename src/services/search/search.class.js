@@ -9,10 +9,13 @@ class Service {
   async find (params) {
     const q = params.query || {};
     const i = q.i || 'all';
+    const a = q.a == 'true' ? true : false;
+    const skip = parseInt(q.s) || 0;
+    const search = query(q.q, skip);
 
     const results = await client.search({
       index: indices(i),
-      body: query(q.q, 0)
+      body: a ? Object.assign({size: 0}, search, getAggs()) : search
     });
 
     const r = results.hits.hits.map(i => {
@@ -44,13 +47,15 @@ class Service {
         /* eslint-enable indent */
       };
     });
-
-    const aggs = results.aggregations.source.buckets.reduce((a, i) => {
-      if (i.key.includes('journals')) a.journal = i.doc_count;
-      if (i.key.includes('content')) a.web = i.doc_count;
-      if (i.key.includes('congress')) a.congress = i.doc_count;
-      return a;
-    }, {});
+    const aggs = 
+    a
+      ? results.aggregations.source.buckets.reduce((a, i) => {
+        if (i.key.includes('journals')) a.journal = i.doc_count;
+        if (i.key.includes('content')) a.web = i.doc_count;
+        if (i.key.includes('congress')) a.congress = a.congress + i.doc_count;
+        return a;
+      }, {journal:0,web:0,congress:0})
+      : undefined;
 
     return { results: r, aggs, total: results.hits.total };
 
@@ -131,7 +136,7 @@ const query = (query, skip) => {
           }
         ]
       }
-    },
+    }
     // highlight : {
     //   fields: {
     //     title : setHighlightTag(),
@@ -143,6 +148,12 @@ const query = (query, skip) => {
     //     achairText : setHighlightTag()
     //   }
     // },
+  
+  };
+};
+
+const getAggs = () => {
+  return {
     aggs:{ 
       source: {
         terms: {
@@ -154,7 +165,7 @@ const query = (query, skip) => {
           field: 'publisher.keyword'
         }
       }
-    }  
+    }
   };
 };
 
