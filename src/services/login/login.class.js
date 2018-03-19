@@ -66,7 +66,7 @@ class Service {
                 });
               });
             }).catch(e => {
-              reject(new errors.GeneralError(response.data));
+              reject(new errors.GeneralError(e));
             });
           } else {
             reject(new errors.NotFound(response.data));
