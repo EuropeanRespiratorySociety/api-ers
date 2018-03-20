@@ -45,6 +45,7 @@ module.exports = function () {
   app.configure(publications);
   app.configure(relatives);
   app.configure(respiratoryMatters);
+  app.configure(search);
   app.configure(sleepandbreathing);
   app.configure(users);
   app.configure(vision);
@@ -52,5 +53,5 @@ module.exports = function () {
   // Has to be last
   // For now graphql endpoint is offline
   // app.configure(graphql);
-  app.configure(search);
+
 };
