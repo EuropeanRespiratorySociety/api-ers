@@ -20,7 +20,7 @@ module.exports = {
     produces: ['application/json']
   },
   post: { //this is for the special post route /contacts/authenticate
-    description: 'Checks myERS login credentials and returns the contact details if successful as well as an API JWT token. An API is created based on the ERS user, each time the user logs in the API user is updated if any field has changed, the user\'s persmissions is set to __myERS__. <br />the User\'s data is cached (not the token and the rest of the response)', 
+    description: 'Checks myERS login credentials and returns the contact details if successful as well as an __API JWT__ token and a __Key 4 Events__ token (used to retrieve the congress calendar). An API user is created based on the ERS user, each time the user logs in the API user is updated if any field has changed, the user\'s permissions is set to __myERS__. <br />the User\'s data is cached (not the token and the rest of the response). When the users changes is myERS profile the cache is busted for that user.', 
     summary: 'Checks login, returns the contact and API token',
     parameters: [
       {        

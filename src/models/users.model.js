@@ -32,6 +32,11 @@ module.exports = function (app) {
       unique: true, 
       sparse: true
     },
+    key4Token: {
+      type: String,
+      unique: true, 
+      sparse: true
+    },
     password: {
       type: String,
       required: true

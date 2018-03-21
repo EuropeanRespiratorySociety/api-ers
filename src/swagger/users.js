@@ -17,6 +17,14 @@ module.exports = {
   },
   get: {
     summary: 'Get a user [owner]',
+    description: `A user has the following properties: <ul>
+      <li>email</li>
+      <li>username</li>
+      <li>ersId</li>
+      <li>spotmeId</li>
+      <li>key4Token</li>
+      <li>permissions</li>
+    </ul>`,
     responses: {
       '200': responses.success,
       '404': responses.notFound

@@ -164,7 +164,9 @@ module.exports = {
           key: 'string'
         },
         status: 'integer',
-        accessToken: 'string'
+        accessToken: 'string',
+        key4Token: 'string',
+        preferences: {}
       }
       
     }
@@ -213,7 +215,9 @@ module.exports = {
         },
         preferences: {},
         accessToken: 'string',
-        apiUserId: 'string'
+        apiUserId: 'string',
+        spotmeId: 'string',
+        key4Token: 'string',
       }
     }
   },
