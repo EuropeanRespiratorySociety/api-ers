@@ -1,7 +1,8 @@
-const axios = require('axios');
+//  const axios = require('axios');
 const errors = require('@feathersjs/errors');
 const client = require('../../helpers/authentication');
 const sureThing = require('../../helpers/sureThing');
+const { HTTP, k4Client } = require('../../helpers/HTTP');
 const conf = require('./login.conf').join(',');
 
 // @TODO async/await #26
@@ -18,25 +19,20 @@ class Service {
 
   async create(data, params) {
     return new Promise(async (resolve, reject) => {
-      const myCrmUrl = 'https://crmapi.ersnet.org/Contacts/Authenticate';
-      const key4Url = 'http://k4.ersnet.org/prod/v2/Front/Agenda/ConferenceCompassAuthentification';
       const payload = Object.assign({},{ include: conf }, data);
+      const crmEndpoint = '/Contacts/Authenticate';
+      const crmClient = HTTP('https://crmapi.ersnet.org', params.crmToken);
+      const k4Endpoint = '/Agenda/ConferenceCompassAuthentification';
+      const k4Request = `${k4Endpoint}?user[username]=${payload.username}&user[password]=${payload.password}`;
 
-      const [myCRM, key4events] = await Promise.all([
-        sureThing(axios
-          .post(myCrmUrl, 
-            payload, 
-            {
-              headers: { Authorization: `Bearer ${params.crmToken}` 
-              } // The token is generated/set by a hook
-            })),
-        sureThing(axios
-          .get(`${key4Url}?user[username]=${payload.username}&user[password]=${payload.password}`))
+      const [myCRM, key4] = await Promise.all([
+        sureThing(crmClient.post(crmEndpoint, payload)),
+        sureThing(k4Client.get(k4Request))
       ]);
 
-      const key4Token = key4events.response.data.user
-        ? key4events.response.data.user.token
-        : key4events.response.data; // Here should be any error. Key4 is not returning correct http status... thus catch does not work
+      const key4Token = key4.ok
+        ? key4.response.data.user.token
+        : 'Something went wrong with Key4 server'; // The key4 error is html... 
 
       if (!myCRM.ok) {
         const rejected = new errors.NotAuthenticated('Invalid credentials ', { errors: { message: myCRM.error.Message, key4Token }});

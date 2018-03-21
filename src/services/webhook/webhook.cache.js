@@ -4,7 +4,7 @@ const axios = require('axios');
 const chalk = require('chalk');
 const m = require('moment');
 
-const HTTP = require('../../helpers/HTTP');
+const { HTTP } = require('../../helpers/HTTP');
 const es = require('../../helpers/elastic.js');
 
 const errors = require('@feathersjs/errors');

@@ -1,4 +1,4 @@
-const HTTP = require('../../helpers/HTTP');
+const { HTTP } = require('../../helpers/HTTP');
 const map = require('./leadership.map');
 
 /* eslint-disable no-unused-vars */

@@ -29,7 +29,7 @@ describe('Login Class', function() {
       expect(e.name).to.equal('NotAuthenticated');
       expect(e.code).to.equal(401);
     }
-  });
+  }).timeout(4000);
 
   it('logs in', async () => {
     const payload = {
@@ -45,6 +45,6 @@ describe('Login Class', function() {
     // This test needs a seeded database 
     // expect(r.apiUserId).to.equal(`${r.preferences._id}`);
 
-  });
+  }).timeout(4000);
 
 });
