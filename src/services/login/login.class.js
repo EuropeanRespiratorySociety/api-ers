@@ -30,9 +30,13 @@ class Service {
         sureThing(k4Client.get(k4Request))
       ]);
 
-      const key4Token = key4.ok
-        ? key4.response.data.user.token
+      /* eslint-disable indent */
+      const key4Token = key4.ok && key4.response.data.user
+        ? key4.response.data.user.crmToken
+        : key4.ok && key4.response.data.error
+        ? key4.response.data.error
         : 'Something went wrong with Key4 server'; // The key4 error is html... 
+      /* eslint-enable indent */
 
       if (!myCRM.ok) {
         const rejected = myCRM.error.response.status === 500
