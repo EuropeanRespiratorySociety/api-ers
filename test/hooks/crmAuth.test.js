@@ -11,7 +11,7 @@ const expect = chai.expect;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 describe('\'crmAuth\' hook', () => {
-  it('runs the hook withou key', () => {
+  it('runs the hook without key', () => {
     // A mock hook object
     const mock = {
       params: {}

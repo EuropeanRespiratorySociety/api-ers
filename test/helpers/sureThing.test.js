@@ -18,7 +18,7 @@ describe('\'sureThing\' helper', () => {
   });
 
   it('responds to a rejected promise', async () => {
-    const test = () => Promise.reject({response:{data:'failed'}});
+    const test = () => Promise.reject('failed');
     const {ok, response, error} = await s(test());
 
     expect(ok).not.to.be.ok;

@@ -35,7 +35,7 @@ class Service {
         : 'Something went wrong with Key4 server'; // The key4 error is html... 
 
       if (!myCRM.ok) {
-        const rejected = new errors.NotAuthenticated('Invalid credentials ', { errors: { message: myCRM.error.Message, key4Token }});
+        const rejected = new errors.NotAuthenticated('Invalid credentials ', { errors: { message: myCRM.error.Message }});
         reject(rejected);
       }
       

@@ -6,7 +6,7 @@ const sureThing = promise =>
     }))
     .catch(error => ({
       ok: false,
-      error: error.response.data
+      error
     }));
 
 module.exports = sureThing;

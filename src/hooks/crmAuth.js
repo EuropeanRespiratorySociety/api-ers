@@ -1,13 +1,6 @@
 'use strict';
-
-// src/services/content/hooks/cc-parser.js
-//
-// Use this hook to manipulate incoming or outgoing data.
-// For more information on hooks see: http://docs.feathersjs.com/hooks/readme.html
-
-
 const defaults = {};
-
+const errors = require('@feathersjs/errors');
 const qs = require('querystring');
 const axios = require('axios');
 const client = require('../helpers/redis');
@@ -41,8 +34,8 @@ exports.crmAuth = function(options) { // eslint-disable-line no-unused-vars
               resolve(hook);
             })
             .catch(error => {
-              console.log(error);
-              reject(error);
+              console.log('CRM Hook: ', error);
+              reject(new errors.GeneralError('The API of myCRM is probably down'));
             });
         }
       });
