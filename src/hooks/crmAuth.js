@@ -35,7 +35,7 @@ exports.crmAuth = function(options) { // eslint-disable-line no-unused-vars
             })
             .catch(error => {
               console.log('CRM Hook: ', error);
-              reject(new errors.GeneralError('The API of myCRM is probably down'));
+              reject(new errors.GeneralError('MyCRM is probably down, please contact the ERS with this message.'));
             });
         }
       });
