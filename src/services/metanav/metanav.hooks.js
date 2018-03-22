@@ -2,7 +2,9 @@ const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-r
 
 module.exports = {
   before: {
-    all: [redisBeforeHook()],
+    all: [
+      redisBeforeHook()
+    ],
     find: [],
     get: [],
     create: [],

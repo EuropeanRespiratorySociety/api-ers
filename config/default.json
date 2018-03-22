@@ -35,7 +35,8 @@
   },
   "redisCache" : {
     "defaultDuration": 3600,
-    "removePathFromCacheKey": true
+    "removePathFromCacheKey": true,
+    "env": "NODE_ENV"
   },
   "mongodb": "MONGODB"
 }
