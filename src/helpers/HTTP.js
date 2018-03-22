@@ -17,7 +17,7 @@ const HTTP = (url, token = null) =>
     }
   );
 
-const k4Client = HTTP('http://k4.ersnet.org/prod/v2/Front');
+const k4Client = HTTP('https://k4.ersnet.org/prod/v2/Front');
 
 module.exports = {
   HTTP,

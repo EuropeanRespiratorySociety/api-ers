@@ -2,7 +2,7 @@
 const chalk = require('chalk');
 const m = require('moment');
 
-const { HTTP } = require('../../helpers/HTTP');
+const { HTTP, k4Client } = require('../../helpers/HTTP');
 const es = require('../../helpers/elastic.js');
 
 const u = require('./webhook.utils');
@@ -10,7 +10,7 @@ const u = require('./webhook.utils');
 class Helpers {
   constructor () {
     this.client = HTTP(process.env.API_URL);
-    this.k4 = HTTP('http://k4.ersnet.org/prod/v2/Front/Program');
+    this.k4 = k4Client;
     this.k4Key = process.env.K4KEY;
     this.k4Params = `?key=${this.k4Key}`; // 5 -> 2015 - 8 -> 2016 - 42 -> 2017 - 90 -> 2018
   }
@@ -21,17 +21,17 @@ class Helpers {
     console.log(chalk.cyan('[webhook]'), 'Fetching data...');
     console.time('request');
     const [a, b, c, d, e, f, g, h, i, j, k] = await Promise.all([
-      this.k4.get(`/Assemblies${this.k4Params}&e=${eventId}`),
-      this.k4.get(`/AssemblyGroups${this.k4Params}&e=${eventId}`),
-      this.k4.get(`/Types${this.k4Params}&e=${eventId}`),
-      this.k4.get(`/TargetAudiences${this.k4Params}&e=${eventId}`),
-      this.k4.get(`/Tracks${this.k4Params}&e=${eventId}`),
-      this.k4.get(`/Tags${this.k4Params}&e=${eventId}`),
-      this.k4.get(`/Rooms${this.k4Params}&e=${eventId}`),
-      this.k4.get(`/Stands${this.k4Params}&e=${eventId}`),
-      this.k4.get(`/Institutions${this.k4Params}&e=${eventId}`),
-      this.k4.get(`/Faculties${this.k4Params}&e=${eventId}`),
-      this.k4.get(`/Sessions${this.k4Params}&e=${eventId}`)
+      this.k4.get(`/Program/Assemblies${this.k4Params}&e=${eventId}`),
+      this.k4.get(`/Program/AssemblyGroups${this.k4Params}&e=${eventId}`),
+      this.k4.get(`/Program/Types${this.k4Params}&e=${eventId}`),
+      this.k4.get(`/Program/TargetAudiences${this.k4Params}&e=${eventId}`),
+      this.k4.get(`/Program/Tracks${this.k4Params}&e=${eventId}`),
+      this.k4.get(`/Program/Tags${this.k4Params}&e=${eventId}`),
+      this.k4.get(`/Program/Rooms${this.k4Params}&e=${eventId}`),
+      this.k4.get(`/Program/Stands${this.k4Params}&e=${eventId}`),
+      this.k4.get(`/Program/Institutions${this.k4Params}&e=${eventId}`),
+      this.k4.get(`/Program/Faculties${this.k4Params}&e=${eventId}`),
+      this.k4.get(`/Program/Sessions${this.k4Params}&e=${eventId}`)
     ]);    
     const requestTime = console.timeEnd('request');
 
@@ -101,9 +101,9 @@ class Helpers {
 
   async upsertPresentations (app, congress, eventId, seeding) {
     console.log(chalk.cyan('[webhook]'), 'Fetching data...');
-    const faculties = await this.k4.get(`/Faculties${this.k4Params}&e=${eventId}`);
+    const faculties = await this.k4.get(`/Program/Faculties${this.k4Params}&e=${eventId}`);
     console.time('request');
-    const p = await this.k4.get(`/Presentations${this.k4Params}&e=${eventId}`);
+    const p = await this.k4.get(`/Program/Presentations${this.k4Params}&e=${eventId}`);
     const requestTime = console.timeEnd('request');
     
     console.log(chalk.cyan('[webhook]'), 'Parsing...');
@@ -136,8 +136,8 @@ class Helpers {
     console.log(chalk.cyan('[webhook]'), 'Fetching data...');
     console.time('request');
     const [a, b] = await Promise.all([
-      this.k4.get(`/Abstracts${this.k4Params}&e=${eventId}`),
-      this.k4.get(`/Authors${this.k4Params}&e=${eventId}`)
+      this.k4.get(`/Program/Abstracts${this.k4Params}&e=${eventId}`),
+      this.k4.get(`/Program/Authors${this.k4Params}&e=${eventId}`)
     ]);
     const requestTime = console.timeEnd('request');
 
