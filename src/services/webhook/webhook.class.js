@@ -61,7 +61,7 @@ class Service {
     // }
 
     /* eslint-disable indent */
-    return pw !== process.env.WPW || isCloudCMS(data)
+    return pw !== process.env.WPW && !isCloudCMS(data)
       ? error()
       : type === 'cache' || isCloudCMS(data)
       ? cache.clear(data)
