@@ -53,7 +53,7 @@ describe('Request to the relatives (associated nodes) service', function() {
           .to.equal(200);
         done();
       });
-  }).timeout(5000);
+  }).timeout(10000);
 
   it('returns 1 article/item', (done) => {
     chai.request(host) 
@@ -71,7 +71,7 @@ describe('Request to the relatives (associated nodes) service', function() {
           .to.equal(host + '/relatives?qname=o:cc1c5be57719dade0371&limit=1&full=false&skip=1');  
         done();
       });
-  }).timeout(5000);
+  }).timeout(10000);
 
   it('returns 25 articles/items with full content', (done) => {
     chai.request(host) 
@@ -91,7 +91,7 @@ describe('Request to the relatives (associated nodes) service', function() {
           .to.equal(200);
         done();
       });
-  }).timeout(5000);
+  }).timeout(10000);
 
   it('returns an item by slug', async () => {
     const client = HTTP(`${host}/relatives/${firstItem}`);
@@ -106,6 +106,6 @@ describe('Request to the relatives (associated nodes) service', function() {
       console.log(e);
     }
 
-  }).timeout(5000);
+  }).timeout(10000);
 
 });

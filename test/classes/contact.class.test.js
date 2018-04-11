@@ -69,6 +69,7 @@ describe('Contacts Class', function() {
   });
 
   it('does not find a contact', async () => {
+    this.timeout(10000);
     try {
       await service.get(10000000000);
     } catch (e) {
