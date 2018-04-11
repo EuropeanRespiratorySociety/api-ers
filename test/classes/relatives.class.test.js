@@ -27,7 +27,7 @@ describe('Relatives Class', function() {
     });
     expect(relatives.items).to.be.an('array')
       .to.have.lengthOf(25);
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('returns relatives as markdown (internal call)', async () => {
     const relatives = await service.find({
@@ -38,7 +38,7 @@ describe('Relatives Class', function() {
     });
     expect(relatives.items).to.be.an('array')
       .to.have.lengthOf(25);
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('returns raw items (internal call)', async () => {
     const relatives = await service.find({
@@ -49,7 +49,7 @@ describe('Relatives Class', function() {
     });
     expect(relatives.items).to.be.an('array')
       .to.have.lengthOf(25);
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('limits the total of relatives (internal call)', async () => {
     const relatives = await service.find({
@@ -60,7 +60,7 @@ describe('Relatives Class', function() {
     });
     expect(relatives.items).to.be.an('array')
       .to.have.lengthOf(5);
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('skip relatives (internal call)', async () => {
     const relatives = await service.find({
@@ -72,7 +72,7 @@ describe('Relatives Class', function() {
     });
     expect(relatives.items).to.be.an('array')
       .to.have.lengthOf(5);
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('sortBy (internal call)', async () => {
     const relatives = await service.find({
@@ -83,5 +83,5 @@ describe('Relatives Class', function() {
     });
     expect(relatives.items).to.be.an('array')
       .to.have.lengthOf(25);
-  }).timeout(4000);
+  }).timeout(10000);
 });

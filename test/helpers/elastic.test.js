@@ -41,7 +41,7 @@ describe('\'elastic\' helper', () => {
     expect(response).to.be.an('object')
       .to.haveOwnProperty('result')
       .to.equal('created');
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('index data in a test index', async () => {
     const response = await r.index({_doc: '123456', test:'some content'},'test-index');
@@ -58,7 +58,7 @@ describe('\'elastic\' helper', () => {
     expect(response).to.be.an('object')
       .to.haveOwnProperty('_id')
       .to.equal('123456');
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('index data in a test index with arbitrary id', async () => {
     const response = await r.index({test:'some content'},'test-index', '123abc');
@@ -75,7 +75,7 @@ describe('\'elastic\' helper', () => {
     expect(response).to.be.an('object')
       .to.haveOwnProperty('_id')
       .to.equal('123abc');
-  }).timeout(4000);
+  }).timeout(10000);
 
   after(async () => {
     await r.client.indices.delete({index:'test,test-index'});

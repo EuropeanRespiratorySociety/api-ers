@@ -23,35 +23,35 @@ describe('News Class', function() {
     const news = await service.find();
     expect(news.items).to.be.an('array')
       .to.have.lengthOf(25);
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('returns news as markdown (internal call)', async () => {
     const news = await service.find({query:{format: 'markdown'}});
     expect(news.items).to.be.an('array')
       .to.have.lengthOf(25);
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('returns raw items (internal call)', async () => {
     const news = await service.find({query:{format: 'raw'}});
     expect(news.items).to.be.an('array')
       .to.have.lengthOf(25);
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('limits the total of news (internal call)', async () => {
     const news = await service.find({query:{limit: 5}});
     expect(news.items).to.be.an('array')
       .to.have.lengthOf(5);
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('skip news (internal call)', async () => {
     const news = await service.find({query:{limit: 5, skip: 5}});
     expect(news.items).to.be.an('array')
       .to.have.lengthOf(5);
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('sortBy (internal call)', async () => {
     const news = await service.find({query:{sortBy: '_system.created_on.ms'}});
     expect(news.items).to.be.an('array')
       .to.have.lengthOf(25);
-  }).timeout(4000);
+  }).timeout(10000);
 });

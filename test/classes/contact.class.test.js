@@ -22,7 +22,7 @@ describe('Contacts Class', function() {
    */
   before(function(done) {
     if(!this.server) {
-      this.timeout(10000);
+      this.timeout(30000);
       cc();
       process.once('Cloud CMS connected', () => {
         this.server = app.listen(3031);
@@ -78,7 +78,7 @@ describe('Contacts Class', function() {
   });
 
   it('finds contacts', async () => {
-
+    this.timeout(10000);
     const r = await service.find({
       query:{
         pattern: 'pou'
@@ -95,7 +95,7 @@ describe('Contacts Class', function() {
   });
 
   it('finds a contact', async () => {
-
+    this.timeout(10000);
     const r = await service.get(203041);
     expect(r.data).to.be.an('object')
       .to.haveOwnProperty('ContactId')
