@@ -15,7 +15,7 @@
       "subject": "anonymous",
       "issuer": "European Respiratory Society",
       "algorithm": "HS256",
-      "expiresIn": "1d"
+      "expiresIn": "30d"
     },
     "local": {
       "entity": "user",
