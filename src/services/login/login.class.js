@@ -32,7 +32,7 @@ class Service {
 
       /* eslint-disable indent */
       const key4Token = key4.ok && key4.response.data.user
-        ? key4.response.data.user.crmToken
+        ? key4.response.data.user.token
         : key4.ok && key4.response.data.error
         ? key4.response.data.error
         : 'Something went wrong with Key4 server'; // The key4 error is html... 
@@ -79,11 +79,23 @@ class Service {
             const apiUserId = u[0]._id.toString();
             const spotmeId = u[0].spotmeId || '';
             const preferences = this.app.service('preferences');
+            const result = Object.assign(
+              { data },
+              r,
+              { 
+                apiUserId, 
+                key4Token, 
+                spotmeId, 
+                preferences: {} 
+              }
+            );
+
             preferences.get(apiUserId).then(p => {
             // @TODO #25 we need to merge the preferences with myCRM store preferences
-              resolve(Object.assign({data: data}, r, { apiUserId, key4Token, spotmeId, preferences: p }));
+              result.preferences = p;
+              resolve(result);
             }).catch(err => {
-              resolve(Object.assign({data: data}, r, { apiUserId, key4Token, spotmeId, preferences: {} }));
+              resolve(result);
             });
           });
         }).catch(e => {

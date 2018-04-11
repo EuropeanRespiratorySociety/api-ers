@@ -29,7 +29,7 @@ describe('Login Class', function() {
       expect(e.name).to.equal('NotAuthenticated');
       expect(e.code).to.equal(401);
     }
-  }).timeout(4000);
+  }).timeout(10000);
 
   it('logs in', async () => {
     const payload = {

@@ -36,7 +36,7 @@ describe('Request to the calendar service', function() {
           .to.equal(200);
         done();
       });
-  }).timeout(4000);
+  }).timeout(8000);
 
   it('calendar items are in chronological order', (done) => {
     chai.request(host) 
@@ -172,7 +172,7 @@ describe('Request to the calendar service', function() {
           .to.be.true;
         done();
       });
-  }).timeout(4000);
+  }).timeout(8000);
   
   it('returns ers endorsed events', (done) => {
     chai.request(host) 

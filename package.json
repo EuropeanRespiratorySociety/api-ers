@@ -27,7 +27,7 @@
   "engines": {
     "node": ">= 8.0.0",
     "npm": ">= 5.0.0"
-  },
+  }, 
   "nyc": {
     "require": [
       "babel-register"
@@ -40,7 +40,7 @@
     "instrument": false
   },
   "scripts": {
-    "test": "npm run eslint && nyc mocha --compilers js:babel-core/register --colors ./test/ --recursive --exit",
+    "test": "npm run eslint && nyc mocha --colors ./test/ --recursive --exit",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "node src/",
     "mocha": "mocha test/ --recursive",
@@ -50,6 +50,8 @@
     "mocha:webhook": "mocha test/webhook --recursive --watch",
     "mocha:helpers": "mocha test/helpers --recursive",
     "mocha:watch": "mocha test/ --recursive --watch",
+    "mocha:single": "mocha test/relatives.test.js",
+    "coverage": "nyc report --reporter=text",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
