@@ -22,6 +22,7 @@ class Cache {
 
     // special case for events
     if(item.hasOwnProperty('category')) {
+      console.log('Hello');
       clearCalendar(this.client, item);
     }
 
@@ -54,7 +55,7 @@ class Cache {
 
 module.exports = new Cache();
 
-async function singleItem(client, item, reply) {
+async function singleItem(client, item, reply, category = false) {
   const group = reply.cache.group.split('-')[1];
   // temporary, we (try to) clean the ers main website cache
   const a = axios.post(`https://www.ersnet.org/cache?url=${reply.data.url}`);
@@ -82,7 +83,9 @@ async function singleItem(client, item, reply) {
   // 1. use cache status (200) to push to log index in ES
   await es.log('api-webhook-logs', '_doc', result);
   // 2. fetch new item by API and update the content in ES
-  const req = `/${group}/${reply.cache.key}`;
+  const req = !category 
+    ? `/${group}/${reply.cache.key}`
+    : `/${group}`;
   // await client.get(req);
   // add the new item right away to the cache
   const article = await client.get(req);
@@ -108,6 +111,6 @@ function clearCalendar(client, item) {
         url: 'https://www.ersnet.org/congress-and-events/events-calendar'
       }
     };
-    singleItem(client, item, data);
+    singleItem(client, item, data, true);
   }
 }
