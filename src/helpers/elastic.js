@@ -41,7 +41,6 @@ const index = async (item, index, id) => {
   } catch (e) {
     return e;
   }
-
 };
 
 module.exports = {
