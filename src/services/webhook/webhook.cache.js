@@ -22,13 +22,14 @@ class Cache {
 
     // special case for events
     if(item.hasOwnProperty('category')) {
-      console.log('Hello');
       clearCalendar(this.client, item);
+      clearNews(this.client, item);
     }
 
     if(item.hasOwnProperty('category2')) {
       item.category2.map(i => {
         clearCalendar(this.client, i);
+        clearNews(this.client, i);
       });
     }
     
@@ -106,6 +107,21 @@ function clearCalendar(client, item) {
       cache: {
         key: 'calendar',
         group: 'group-calendar'
+      },
+      data: {
+        url: 'https://www.ersnet.org/congress-and-events/events-calendar'
+      }
+    };
+    singleItem(client, item, data, true);
+  }
+}
+  
+function clearNews(client, item) {
+  if(item.category.title === 'News and Features') {
+    const data = {
+      cache: {
+        key: 'news',
+        group: 'group-news'
       },
       data: {
         url: 'https://www.ersnet.org/congress-and-events/events-calendar'
