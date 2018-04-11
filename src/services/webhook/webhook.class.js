@@ -61,9 +61,9 @@ class Service {
     // }
 
     /* eslint-disable indent */
-    return pw !== process.env.WPW
+    return pw !== process.env.WPW || isCloudCMS(data)
       ? error()
-      : type === 'cache'
+      : type === 'cache' || isCloudCMS(data)
       ? cache.clear(data)
       : type === 'save-journal-abstract'
       ? h.upsertJournalAbstract(this.app, data, force )
