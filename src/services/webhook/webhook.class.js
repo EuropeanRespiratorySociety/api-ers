@@ -23,52 +23,30 @@ class Service {
     const force = params.query.force == 'true' ? true : false;
     const printErrors = params.query.errors == 'true' ? true : false;
     const seeding = params.query.seeding == 'true' ? true : false; // this param will create problem is you seed twice...
-    
-    // Basic protection of the endpoint
-    if(pw !== process.env.WPW) {
-      throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
-    }
 
-    // Saving locally
-    if (type === 'save-congress-sessions') {
-      return h.upsertSessions(this.app, congress, e, seeding);
-    }
-
-    if (type === 'save-congress-presentations') {
-      h.upsertPresentations(this.app, congress, e, seeding);
-      return {message: 'This process runs for a long time, check the logs in ES to know where we are at'};
-    }
-
-    if (type === 'save-congress-abstracts') {
-      return h.upsertAbstracts(this.app, congress, e, seeding, force);
-    }
-
-    // indexing
-    if (type === 'index-congress-abstracts') {
-      return h.indexCongress(this.app, 'abstracts', congress);
-    }
-
-    if (type === 'index-congress-sessions') {
-      return h.indexCongress(this.app, 'sessions', congress);
-    }
-
-    if (type === 'index-congress-presentations') {
-      return h.indexCongress(this.app, 'presentations', congress);
-    }
-
-    if (type === 'index-ers-content') {
-      return h.indexErsContent(this.app, 'ers:article', printErrors);
-    }
-
-    if (type === 'index-sb-content') {
-      return h.indexErsContent(this.app, 'sb:article');
-    }
-
-    if (type === 'index-journals') {
-      return h.indexJournals(this.app, printErrors);
-    }
-
-    return 'no such processing available';
+    /* eslint-disable indent */
+    return pw !== process.env.WPW
+      ? error()
+      : type === 'save-congress-sessions'
+      ? h.upsertSessions(this.app, congress, e, seeding)
+      : type === 'save-congress-presentations'
+      ? presentations(this.app, congress, e, seeding)
+      : type === 'save-congress-abstracts'
+      ? h.upsertAbstracts(this.app, congress, e, seeding, force)
+      : type === 'index-congress-abstracts'
+      ? h.indexCongress(this.app, 'abstracts', congress)
+      : type === 'index-congress-sessions'
+      ? h.indexCongress(this.app, 'sessions', congress)
+      : type === 'index-congress-presentations'
+      ? h.indexCongress(this.app, 'presentations', congress)
+      : type === 'index-ers-content'
+      ? h.indexErsContent(this.app, 'ers:article', printErrors)
+      : type === 'index-sb-content'
+      ? h.indexErsContent(this.app, 'sb:article')
+      : type === 'index-journals'
+      ? h.indexJournals(this.app, printErrors)
+      : 'no such processing available';
+    /* eslint-enable indent */
   }
 
   async create (data, params) {
@@ -77,28 +55,20 @@ class Service {
     const force = params.query.force == 'true' ? true : false;
     // console.log(data)
     // console.log(params, 'pw: ', pw, ' ', process.env.WPW)
-    // if(pw !== process.env.WPW) {
-    //   throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
+
+    // if (type === 'cache' || isCloudCMS(data)) {
+    //   return cache.clear(data);
     // }
-    // if action create
-    // -- send to index
-    // -- process the data in NLP pipeline
-    // write to grakn
-    // return type === 'cache'
-    //   ? h.cache(data)
-    //   : 'other method not yet implemented';
 
-    if (type === 'cache' || isCloudCMS(data)) {
-      return cache.clear(data);
-    }
-
-    if(pw !== process.env.WPW) {
-      throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
-    }
-
-    if (type === 'save-journal-abstract') {
-      return h.upsertJournalAbstract(this.app, data, force );
-    }
+    /* eslint-disable indent */
+    return pw !== process.env.WPW
+      ? error()
+      : type === 'cache'
+      ? cache.clear(data)
+      : type === 'save-journal-abstract'
+      ? h.upsertJournalAbstract(this.app, data, force )
+      : 'other method not yet implemented';
+    /* eslint-enable indent */
   }
 
   // async update (id, data, params) {
@@ -118,4 +88,13 @@ module.exports.Service = Service;
 
 function isCloudCMS (data) {
   return data.hasOwnProperty('_cloudcms');
+}
+
+function error() {
+  throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
+}
+
+function presentations(app, congress, e, seeding) {
+  h.upsertPresentations(app, congress, e, seeding);
+  return { message: 'This process runs for a long time, check the logs in ES to know where we are at' };
 }
