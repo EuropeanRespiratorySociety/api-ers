@@ -64,6 +64,7 @@ module.exports = {
     'uri',
     'availableOnHomepage',
     'mainNews',
+    'membersOnly',
     '_system',
     '_doc'
   ],
