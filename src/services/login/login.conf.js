@@ -21,6 +21,7 @@ module.exports=[
   'MainStateCode',
   'MainCountryCode',
   'MainCountryName',
+  'MbshipStatus',
   // 'JournalStreet1',
   // 'JournalStreet2',
   // 'JournalStreet3',
