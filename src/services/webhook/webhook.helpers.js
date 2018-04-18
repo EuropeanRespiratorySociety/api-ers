@@ -332,7 +332,7 @@ class Helpers {
     const s = app.service(`congress/${prefix}`);
     // 1. Divide total by batches 
     const data = await s.find({
-      query:{ year: congress, $limit: limit }
+      query:{ year: congress, private: false, $limit: limit }
     });
     const firstBatch = data.data;
     const batches = Math.ceil(data.total / limit);
