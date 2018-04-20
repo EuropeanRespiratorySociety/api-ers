@@ -64,7 +64,7 @@
     "dotenv": "^5.0.1",
     "elasticsearch": "^14.2.2",
     "ers-utils": "^0.2.1",
-    "feathers-authentication-hooks": "^0.1.7",
+    "feathers-authentication-hooks": "^0.2.0",
     "feathers-hooks-common": "^4.10.0",
     "feathers-hooks-rediscache": "^1.1.2",
     "feathers-mongoose": "^6.1.0",
