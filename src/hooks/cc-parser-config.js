@@ -56,7 +56,8 @@ module.exports = {
     'image', 
     'itemImageAlignment', 
     'itemImageBackgroundSize',
-    'imageSize', 
+    'imageSize',
+    'highResImage',
     'video', 
     'imageId',
     'externalLink', 
@@ -86,6 +87,6 @@ module.exports = {
   ],
   sci : 'label-scientific',
   edu: 'label-school',
-  baseUrl: 'https://www.ersnet.org/assets',
+  baseUrl: 'https://d3egf9svnop2xg.cloudfront.net',
   apiUrl: process.env.API_URL,
 };
