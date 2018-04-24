@@ -87,6 +87,6 @@ module.exports = {
   ],
   sci : 'label-scientific',
   edu: 'label-school',
-  baseUrl: 'https://d3egf9svnop2xg.cloudfront.net',
+  baseUrl: process.env.CDN_URL,
   apiUrl: process.env.API_URL,
 };
