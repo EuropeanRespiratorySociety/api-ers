@@ -17,6 +17,7 @@ module.exports = options => { // eslint-disable-line no-unused-vars
     // hook.prepareCalendar = true;
     const timeline = hook.params.query.timeline == 'true';
     const reverse = hook.params.query.reverse == 'true';
+    const limit = parseInt(hook.params.query.limit) || null; 
     /* eslint-disable indent */
     hook.result.data = !hook.result._sys.status === 200 
       ? {}
@@ -24,6 +25,15 @@ module.exports = options => { // eslint-disable-line no-unused-vars
       ? date.timeline(hook.result.data)
       : date.prepareCalendar(hook.result.data, reverse);
     /* eslint-enable */
+    
+    /* 
+    * @TODO remove this when we can directly get better results from Cloud CMS
+    * This is not really precise, has we first filter all items, then keep
+    * only the x first items. Skipping will be a painful operation ;)
+    */
+    if(limit) {
+      hook.result.data = hook.result.data.slice(0, limit);
+    }
 
     return hook;
   };

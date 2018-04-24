@@ -185,6 +185,42 @@ describe('Request to the calendar service', function() {
         done();
       });
   }).timeout(4000);
+  
+  it('returns all events, but only 10 items', (done) => {
+    chai.request(host) 
+      .get('/calendar?type=all&limit=10')
+      .set('Content-Type', 'application/json')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(JSON.parse(res.text).data)
+          .to.have.lengthOf(10);
+        done();
+      });
+  }).timeout(4000);
+  
+  it('returns 5 ers events', (done) => {
+    chai.request(host) 
+      .get('/calendar?&limit=5')
+      .set('Content-Type', 'application/json')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(JSON.parse(res.text).data)
+          .to.have.lengthOf(5);
+        done();
+      });
+  }).timeout(4000);
+  
+  it('returns 5 non-ers events', (done) => {
+    chai.request(host) 
+      .get('/calendar?type=non-ers&limit=5')
+      .set('Content-Type', 'application/json')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(JSON.parse(res.text).data)
+          .to.have.lengthOf(5);
+        done();
+      });
+  }).timeout(4000);
 
   // ---------------
   // These tests might fail depending 

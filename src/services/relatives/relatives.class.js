@@ -18,7 +18,7 @@ class Service {
   }  
 
   /**
-   * Internal request can pass an aditional body object to customize the request to cloudcms
+   * Internal request can pass an additional body object to customize the request to cloudcms
    */
   find(params) {
     const q = params.query || {};
@@ -40,6 +40,7 @@ class Service {
       skip: parseInt(q.skip) || 0,
       sort: { [sortBy]: direction }
     };
+
     
     params.options = opts;
     params.path = params.path || this.options.name;

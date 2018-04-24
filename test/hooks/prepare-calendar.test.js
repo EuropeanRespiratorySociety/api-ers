@@ -178,6 +178,29 @@ describe('\'prepare calendar\' hook', () => {
     });
   });
 
+  it('runs the hook and limit items', () => {
+    // A mock hook object
+    const mock = {
+      params: {
+        query: {limit: 1}
+      },
+      result: {
+        data: array,
+        _sys: {
+          status: 200
+        }
+      }
+    };
+    // Initialize our hook with no options
+    const hook = prepareCalendar();
+
+    // Run the hook function (which returns a promise)
+    // and compare the resulting hook object
+    return hook(mock).then(result => {
+      expect(result.result.data).to.have.lengthOf(1);
+    });
+  });
+
   it('runs the hook with not found set', () => {
     // A mock hook object
     const mock = {

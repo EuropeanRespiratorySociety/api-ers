@@ -27,7 +27,8 @@ class Service {
         format: q.format|| 'html',
         sortBy: 'eventDate',
         sortDirection: 1,
-        limit: parseInt(q.limit) || 200, //this is a bit off as filtering is done after the fact (isAlreadyPassed)
+        // limit: parseInt(q.limit) || 200, //this is a bit off as filtering is done after the fact (isAlreadyPassed)
+        limit: 200, // this is temporary until we have a solution with Cloud CMS
         skip: parseInt(q.skip) || 0
       }
     });

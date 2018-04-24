@@ -39,7 +39,7 @@
     "mocha:webhook": "mocha test/webhook --recursive --watch",
     "mocha:helpers": "mocha test/helpers --recursive",
     "mocha:watch": "mocha test/ --recursive --watch",
-    "mocha:single": "mocha test/relatives.test.js",
+    "mocha:single": "mocha test/services/calendar.test.js",
     "coverage": "nyc report --reporter=text",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
