@@ -270,6 +270,39 @@ describe('\'cc-parser\': item hook', () => {
     });
   });
 
+  it('adds missing images if high res image available', () => {
+    // A mock hook object
+    const mock = {
+      params: {
+        query: {}
+      },
+      result: { 
+        item: [
+          {
+            title: 'A title',
+            body: '### this is a body subtitle',
+            highResImage: {
+              ref: 'node://18dbd4f08d5f428ba9c2/607e97e4474d46e40345/b6b2871b2d9cf6b4996b/daa976116100734310f3',
+              id: 'daa976116100734310f3',
+              title: 'EBUS training.jpg',
+              qname: 'o:daa976116100734310f3',
+              typeQName: 'n:node'
+            },
+          }
+        ],
+        status: 200 
+      }
+    };
+    // Initialize our hook with no options
+    const hook = ccParserItem();
+
+    // Run the hook function (which returns a promise)
+    // and compare the resulting hook object
+    return hook(mock).then(result => {
+      expect(result.result.data.image).to.be.a('string');
+    });
+  });
+
   it('runs Item hook not found.', () => {
     // A mock hook object
     const mock = {

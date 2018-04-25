@@ -76,7 +76,9 @@ function parse(array, full = false, type){
 
   return array
     .map(item => cp.formatProperties(config, type)(item))
-    .map(item => full ? format.mapModel(Article, item) : format.mapModel(Lead, item));
+    .map(item => full 
+      ? format.addImageFromHighResImage(format.mapModel(Article, item))
+      : format.addImageFromHighResImage(format.mapModel(Lead, item)) );
 }
 
 

@@ -25,7 +25,7 @@ module.exports = {
       redisAfterHook()
     ],
     get: [
-      hookCache({duration: 3600 * 24 * 7}), 
+      hookCache({duration: 3600 * 24 * 7}), // items are parsed in relatives service
       redisAfterHook()],
     create: [],
     update: [],

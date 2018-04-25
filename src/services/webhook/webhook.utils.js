@@ -30,7 +30,7 @@ class Utils {
   }
 
   parse (item) {
-    let parsed = format.loadash.pickBy(format.filter(item, addToES), this.isTrue);
+    let parsed = format.lodash.pickBy(format.filter(item, addToES), this.isTrue);
     // @TODO change property in Cloud CMS to get rid of this.
     parsed.loc = this.hasLocation(parsed)
       ? { lat: parsed.loc.lat, lon: parsed.loc.long } 
@@ -47,7 +47,7 @@ class Utils {
   }
 
   hasLocation (item) {
-    return !format.loadash.isEmpty(item.loc) && 'lat' in item.loc;
+    return !format.lodash.isEmpty(item.loc) && 'lat' in item.loc;
   }
 
   isTrue (item) {
