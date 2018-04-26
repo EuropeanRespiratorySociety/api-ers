@@ -28,6 +28,8 @@ class Service {
         _id: i._id,
         access: c.access || false,
         url: c.url || c.canonical,
+        image: c.image || false,
+        registerButton: c.registerButton || false,
         journal: c.journal_name || false,
         category: c.category ? c.category.title  : false,
         /* eslint-disable indent */
