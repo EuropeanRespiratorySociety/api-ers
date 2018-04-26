@@ -330,9 +330,10 @@ class Helpers {
     // -- prefix = sessions, presentations, abstracts
     const limit = 100;
     const s = app.service(`congress/${prefix}`);
+    const query = prefix === 'sessions' ? { year: congress, private: false, $limit: limit } : { year: congress, $limit: limit };
     // 1. Divide total by batches 
     const data = await s.find({
-      query:{ year: congress, private: false, $limit: limit }
+      query
     });
     const firstBatch = data.data;
     const batches = Math.ceil(data.total / limit);
@@ -348,7 +349,7 @@ class Helpers {
     let i = 1;
     for(i; i < batches; i++) {
       const b = await s.find({
-        query:{ year: congress, $limit: limit, $skip: i * limit }
+        query: Object.assign({}, query, { $skip: i * limit })
       });
 
       console.log(chalk.cyan('[webhook]'), `Indexing batch #${i + 1}...`);
