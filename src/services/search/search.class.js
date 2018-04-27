@@ -31,6 +31,8 @@ class Service {
         image: c.image || false,
         registerButton: c.registerButton || false,
         journal: c.journal_name || false,
+        dates: c.eventDates || false,
+        location: c.eventLocation || false,
         category: c.category ? c.category.title  : false,
         /* eslint-disable indent */
         authors: c.authors 
