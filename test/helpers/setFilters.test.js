@@ -41,14 +41,30 @@ describe('\'setFilters\' helper', () => {
     const obj = s('highlights');
     expect(obj).to.be.an('object');
     expect(obj).to.haveOwnProperty('availableOnHomepage')
-      .to.be.an('string') // this needs to change to a boolean
+      .to.be.an('string') // @TODO this needs to change to a boolean
       .to.equal('true');
   });
+
   it('sets filter for mainNews', () => {
     const obj = s('main-news');
     expect(obj).to.be.an('object');
     expect(obj).to.haveOwnProperty('mainNews')
-      .to.be.a('boolean') // this needs to change to a boolean
+      .to.be.a('boolean')
+      .to.be.true;
+  });
+
+  it('sets filter to reject highlights', () => {
+    const obj = s('no-highlights');
+    expect(obj).to.be.an('object');
+    expect(obj).to.haveOwnProperty('availableOnHomepage')
+      .to.be.an('object') 
+      .to.haveOwnProperty('$ne')
+      .to.be.a('string')// @TODO this needs to change to a boolean
+      .to.equal('true');
+    expect(obj).to.haveOwnProperty('mainNews')
+      .to.be.an('object') 
+      .to.haveOwnProperty('$ne')
+      .to.be.a('boolean')// @TODO this needs to change to a boolean
       .to.be.true;
   });
 });

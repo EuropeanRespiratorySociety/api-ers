@@ -329,6 +329,7 @@ module.exports = {
       <li>chain the diseases and methods that are needed separated by a comma: Airway diseases,Public health</li>
       <li>main-news - returns the main news</li>
       <li>hightlights - returns the "highlights" news, but excluedes the main one, or the "pinned one"</li>
+      <li>no-hightlights - returns items, but excludes the main new and highlighted ones, or the "pinned ones"</li>
     <ul>
     __Note__: this filter is now generic an matches only methods and diseases, it could also match other fields. If for better filtering, other otpions are needed do not hesitate to contact the developer.
     <pre><code>
