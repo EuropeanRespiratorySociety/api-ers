@@ -62,7 +62,7 @@
     "compression": "^1.7.2",
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
-    "elasticsearch": "^14.2.2",
+    "elasticsearch": "^15.0.0",
     "ers-utils": "^0.2.4",
     "feathers-authentication-hooks": "^0.1.7",
     "feathers-hooks-common": "^4.11.1",
