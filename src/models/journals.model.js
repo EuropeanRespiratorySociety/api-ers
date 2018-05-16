@@ -66,8 +66,7 @@ module.exports = function (app) {
       links: [{
         text: String,
         url: String,
-        path: String,
-        params: String
+        path: String
       }],
     }],
     related_articles: [{ type: String }],
