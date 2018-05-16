@@ -66,7 +66,7 @@ class Service {
       : type === 'cache' || isCloudCMS(data)
       ? cache.clear(data)
       : type === 'save-journal-abstract'
-      ? h.upsertJournalAbstract(this.app, data, force )
+      ? h.upsertJournalAbstract(this.app, data, true ) // temporarily forcing
       : 'other method not yet implemented';
     /* eslint-enable indent */
   }
