@@ -27,6 +27,12 @@ module.exports = function (app) {
       country: String,
       shortName: String
     }],
+    links: [{
+      text: String,
+      url: String,
+      path: String,
+      params: String
+    }],
     creationDate: Date,
     lastModificationDate: Date,
   }, {
