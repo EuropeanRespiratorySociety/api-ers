@@ -1,6 +1,8 @@
+/*eslint no-console: off*/
 const { Format } = require('ers-utils');
 const { promisify } = require('util');
 const m = require('moment');
+const chalk = require('chalk');
 const format = new Format();
 
 const redis = require('../../helpers/redis');
@@ -8,6 +10,7 @@ const getAsync = promisify(redis.get).bind(redis);
 const setAsync = promisify(redis.set).bind(redis);
 
 const addToES = require('./webhook.config').addToES;
+const es = require('../../helpers/elastic.js');
 
 class Utils {
 
@@ -56,6 +59,45 @@ class Utils {
 
   isSucess (item) { 
     return  item.stats.result === 'created' || item.stats.result === 'updated'; 
+  }
+
+  async indexData (array, alias = 'content') {
+    try {
+      return await Promise.all(array.map(async (item) => {
+        const parsed = alias === 'journals'
+          ? this.setDocProperty(item)
+          : this.parse(item);
+        return await es.index(parsed, alias, parsed._doc);
+      }));
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
+  }
+
+  async logIndexingStats (total, type, success) {
+    const now = m().format();
+    console.log(chalk.cyan('[webhook]'), `Saved/Updated/Inserted ${type}:
+    >>> type: ${type} 
+    >>> local items #: ${total} 
+    >>> indexed #: ${success}
+    >>> indexed On #: ${now}`);
+  
+    await this.setAsync(`last-${type}-indexed-job`, now);
+  
+    const stats = {
+      localItems: total,
+      indexingType: type,
+      indexingSuccess: success,
+      indexedOn: now
+    };
+  
+    try {
+      await es.log('api-webhook-indexing-logs', '_doc', stats);
+      return stats;
+    } catch (e) {
+      return e;
+    }
   }
 }
 

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 const h = require('./webhook.helpers');
+const j = require('./webhook.journals');
 const cache = require('./webhook.cache');
 const errors = require('@feathersjs/errors');
 //  making sure it .env is loaded
@@ -44,7 +45,7 @@ class Service {
       : type === 'index-sb-content'
       ? h.indexErsContent(this.app, 'sb:article')
       : type === 'index-journals'
-      ? h.indexJournals(this.app, printErrors, force)
+      ? j.indexJournals(this.app, printErrors, force)
       : 'no such processing available';
     /* eslint-enable indent */
   }
@@ -66,7 +67,7 @@ class Service {
       : type === 'cache' || isCloudCMS(data)
       ? cache.clear(data)
       : type === 'save-journal-abstract'
-      ? h.upsertJournalAbstract(this.app, data, true ) // temporarily forcing
+      ? j.upsertJournalAbstract(this.app, data, true ) // temporarily forcing
       : 'other method not yet implemented';
     /* eslint-enable indent */
   }
