@@ -95,7 +95,7 @@ class Journals {
     let result = [];
     console.log(chalk.cyan('[webhook]'), 'Indexing batch #1...');
     console.time('indexing');
-    const r1 = await u.indexData(firstBatch);
+    const r1 = await u.indexData(firstBatch, 'journals');
     r1.map(i => result.push({item: i._id.toString(), stats: i}));
 
     let i = 1;
@@ -114,7 +114,7 @@ class Journals {
       });
 
       console.log(chalk.cyan('[webhook]'), `Indexing batch #${i + 1}...`);
-      const rn = await u.indexData(b.data);
+      const rn = await u.indexData(b.data, 'journals');
       rn.map(i => result.push({item: i._id.toString(), stats: i}));
     }
     console.timeEnd('indexing');
