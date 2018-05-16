@@ -202,17 +202,17 @@ class Helpers {
       if (id !== undefined) {
         await service.patch(id, abstract, { mongoose: { upsert: true } });
         await u.setAsync(`journal-abstract-${id}`, m().format());
-        console.log(chalk.cyan('[webhook]'), {id: id, status: 'Updated'});
+        console.log(chalk.cyan('>>> '), {id: id, status: 'Updated'});
         return {id: id, status: 'Updated'};
       } else {
         const r = await service.create(abstract);
         id = r._id;
         await u.setAsync(`journal-abstract-${id}`, m().format());
-        console.log(chalk.cyan('[webhook]'), {id: id, status: 'Inserted'});
+        console.log(chalk.cyan('>>> '), {id: id, status: 'Inserted'});
         return {id: id, status: 'Inserted'};
       }
     }
-    console.log(chalk.cyan('[webhook]'), {id: id, status: 'Not updated'});
+    console.log(chalk.cyan('>>> '), {id: id, status: 'Not updated'});
     return {id: id, status: 'Not updated'};
   }
 
