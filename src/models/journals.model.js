@@ -63,13 +63,12 @@ module.exports = function (app) {
       last_page: { type: Number },
       doi: { type: String },
       pubmed_id: { type: Number },
-      links: { type: String },
-    }],
-    links: [{
-      text: String,
-      url: String,
-      path: String,
-      params: String
+      links: [{
+        text: String,
+        url: String,
+        path: String,
+        params: String
+      }],
     }],
     related_articles: [{ type: String }],
     access: { type: String },
