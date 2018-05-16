@@ -65,6 +65,12 @@ module.exports = function (app) {
       pubmed_id: { type: Number },
       links: { type: String },
     }],
+    links: [{
+      text: String,
+      url: String,
+      path: String,
+      params: String
+    }],
     related_articles: [{ type: String }],
     access: { type: String },
     scrapedOn: { type: Date }
