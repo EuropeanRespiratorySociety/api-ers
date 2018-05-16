@@ -43,7 +43,7 @@ module.exports = function (app) {
       address: { type: String },
       head: { type: String }
     }],
-    publicatin_date: { type: Date },
+    publication_date: { type: Date },
     article_type: { type: String },
     publisher: { type: String },
     pisa: { type: String },
