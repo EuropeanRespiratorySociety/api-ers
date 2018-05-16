@@ -263,7 +263,7 @@ class Helpers {
 
   }
 
-  async indexJournals(app, printErrors = false) {
+  async indexJournals(app, printErrors = false, force = false) {
     // /feed?full=true&type=ers:article&limit=100
     // use internal service 
     // -- prefix = sessions, presentations, abstracts
@@ -279,12 +279,7 @@ class Helpers {
       : m().subtract(10, 'minutes').format();
 
     const data = await s.find({ 
-      query: { 
-        $limit: limit, 
-        updatedAt: {
-          $gte: time
-        }
-      }
+      query: Object.assign({}, { $limit: limit }, force ? { updatedAt: { $gte: time }} : {})
     });
     const firstBatch = data.data;
     const batches = Math.ceil(data.total / limit);
@@ -300,13 +295,7 @@ class Helpers {
     let i = 1;
     for(i; i < batches; i++) {
       const b = await s.find({
-        query: {
-          $limit: limit, 
-          $skip: i * limit, 
-          updatedAt: {
-            $gte: time
-          }
-        }
+        query: Object.assign({}, { $limit: limit, $skip: i * limit }, force ? { updatedAt: { $gte: time }} : {})
       });
 
       console.log(chalk.cyan('[webhook]'), `Indexing batch #${i + 1}...`);

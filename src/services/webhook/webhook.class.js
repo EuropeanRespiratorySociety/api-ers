@@ -44,7 +44,7 @@ class Service {
       : type === 'index-sb-content'
       ? h.indexErsContent(this.app, 'sb:article')
       : type === 'index-journals'
-      ? h.indexJournals(this.app, printErrors)
+      ? h.indexJournals(this.app, printErrors, force)
       : 'no such processing available';
     /* eslint-enable indent */
   }
