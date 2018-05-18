@@ -76,8 +76,10 @@ class Service {
             password: payload.password,
             strategy: 'local'
           }).then(r => {
+            console.log(u)
             const apiUserId = u[0]._id.toString();
             const spotmeId = u[0].spotmeId || '';
+            const permissions = u[0].permissions;
             const preferences = this.app.service('preferences');
             const result = Object.assign(
               { data },
