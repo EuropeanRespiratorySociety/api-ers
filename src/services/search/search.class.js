@@ -22,10 +22,12 @@ class Service {
       const c = i._source;
       const h = i.highlight;
       return {
+        _source: i._source,
         title: hasHighlight(h, c, 'title', 'name' ),
         lead: hasHighlight(h, c, 'leadParagraph'),
         type: setType(i._index),
         _id: i._id,
+        k4EventNumber: i.k4EventNumber || false,
         access: c.access || false,
         url: c.url || c.canonical,
         image: c.image || false,
