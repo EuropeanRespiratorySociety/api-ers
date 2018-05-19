@@ -17,7 +17,6 @@ class Service {
       index: indices(i),
       body: a ? Object.assign({size: 0}, search, getAggs()) : search
     });
-
     const r = results.hits.hits.map(i => {
       const c = i._source;
       const h = i.highlight;
@@ -27,7 +26,7 @@ class Service {
         lead: hasHighlight(h, c, 'leadParagraph'),
         type: setType(i._index),
         _id: i._id,
-        k4EventNumber: i.k4EventNumber || false,
+        k4EventNumber: i._source.k4EventNumber || false,
         access: c.access || false,
         url: c.url || c.canonical,
         image: c.image || false,
