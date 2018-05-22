@@ -6,11 +6,12 @@ dotenv.load();
 const user = process.env.ESUSERNAME;
 const pw = process.env.ESPASSWORD;
 const url = process.env.ESBASEURL;
+const logLevel = process.env.ESLOGLEVEL || 'trace';
 
 // add configuration option
 const client = new elasticsearch.Client({
   host: `https://${user}:${pw}@${url}`,
-  log: process.env.NODE_ENV === 'production' ? 'error' : 'trace'
+  log: process.env.NODE_ENV === 'production' ? 'error' : logLevel
 });
 
 const log = async (index, type, body, pipeline) => {

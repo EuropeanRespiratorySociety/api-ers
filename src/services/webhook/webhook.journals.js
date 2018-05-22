@@ -43,6 +43,9 @@ class Journals {
     }
 
     if (m(item.scrappedOn) > m(lastUpdate) || force) {
+      if (abstract.article_type !== '') {
+        return {id: id, status: 'Not inserted - no article_type'};
+      }
       if (id !== undefined) {
         await service.patch(id, abstract, { mongoose: { upsert: true } });
         await u.setAsync(`journal-abstract-${id}`, m().format());

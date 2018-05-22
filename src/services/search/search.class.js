@@ -9,12 +9,12 @@ class Service {
   async find (params) {
     const q = params.query || {};
     const i = q.i || 'all';
+    const f = q.f || '';
     const a = q.a == 'true' ? true : false;
     const skip = parseInt(q.s) || 0;
     const search = query(q.q, skip);
-
     const results = await client.search({
-      index: indices(i),
+      index: indices(i, f),
       body: a ? Object.assign({size: 0}, search, getAggs()) : search
     });
     const r = results.hits.hits.map(i => {
@@ -52,16 +52,45 @@ class Service {
         /* eslint-enable indent */
       };
     });
-    const aggs = 
+
+    const source = 
     a
       ? results.aggregations.source.buckets.reduce((a, i) => {
+        // Bucket on index name
         if (i.key.includes('journals')) a.journal = i.doc_count;
         if (i.key.includes('content')) a.web = i.doc_count;
         if (i.key.includes('congress')) a.congress = a.congress + i.doc_count;
+        if (i.key.includes('sessions')) a.sessions = i.doc_count;
+        if (i.key.includes('presentations')) a.presentations = i.doc_count;
+        // Bucket on keyword
         return a;
-      }, {journal:0,web:0,congress:0})
+      }, {
+        journal: 0,
+        web: 0,
+        congress: 0,
+        sessions: 0,
+        presentations: 0
+      })
       : undefined;
 
+    const journals = 
+      a
+        ? results.aggregations.journals.buckets.reduce((a, i) => {
+          // Bucket on index name
+          if (i.key.includes('erj')) a.erj = i.doc_count;
+          if (i.key.includes('err')) a.err = i.doc_count;
+          if (i.key.includes('openres')) a.openres = i.doc_count;
+          if (i.key.includes('breathe')) a.breathe = i.doc_count;
+          // Bucket on keyword
+          return a;
+        }, {
+          erj: 0,
+          err: 0, 
+          openres: 0, 
+          breathe: 0
+        })
+        : undefined;
+    const aggs = { ...source, ...journals } // eslint-disable-line
     return { results: r, aggs, total: results.hits.total };
 
   }
@@ -99,16 +128,30 @@ module.exports = function (options) {
 
 module.exports.Service = Service;
 
-const indices = (param) => {
-  const i = ['content','journals','presentations-congress-2017', 'sessions-congress-2017'];
+const indices = (param, filters) => {
+  const i = ['content','journals','presentations-congress-2018', 'sessions-congress-2018'];
+  const ii = {
+    'congress-2018': ['presentations-congress-2018', 'sessions-congress-2018'],
+    'congress-2017': ['presentations-congress-2017', 'sessions-congress-2017'],
+    'congress-2016': ['presentations-congress-2016', 'sessions-congress-2016'],
+    'congress-2015': ['presentations-congress-2015', 'sessions-congress-2015']
+  };
+  const f = filters.split(',');
+
   /* eslint-disable indent */
-  return param == 'web'
+  return param === 'web'
   ? i[0]
-  : param == 'journals'
+  : param === 'journals'
   ? i[1]
-  : param == 'congress'
+  : param === 'congress' && !filters
   ? `${i[2]},${i[3]}`
-  : i.join(',');
+  : param === 'congress' && f.length > 0
+  ? f.reduce((a, c, k) => {
+      return k === 0
+        ? a += ii[c].join(',')
+        : a += `,${ii[c].join(',')}`;
+    }, '')
+  : i.join(','); //all
   /* eslint-enable */
 };
 
@@ -165,9 +208,14 @@ const getAggs = () => {
           field: '_index'
         }
       },
-      journals: {
+      publishers: {
         terms:{
           field: 'publisher.keyword'
+        }
+      },
+      journals: {
+        terms:{
+          field: 'journal_url.keyword'
         }
       }
     }
