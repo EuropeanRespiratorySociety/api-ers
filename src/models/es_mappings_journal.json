@@ -1,0 +1,470 @@
+{
+    "settings": {
+    "analysis": {
+      "filter": {
+        "http_dropper": {
+          "type": "pattern_replace",
+          "pattern": "^https?:/{0,}(.*)",
+          "replacement": "$1"
+        },
+        "empty_dropper": {
+          "type": "length",
+          "min": 1
+        },
+        "qs_dropper": {
+          "type": "pattern_replace",
+          "pattern": "(.*)[?].*",
+          "replacement": "$1"
+        },
+        "trailing_slash_dropper": {
+          "type": "pattern_replace",
+          "pattern": "(.*)/+$",
+          "replacement": "$1"
+        }
+      },
+      "analyzer": {
+        "url": {
+          "tokenizer": "pattern",
+          "filter": [
+            "http_dropper",
+            "qs_dropper",
+            "trailing_slash_dropper",
+            "empty_dropper",
+            "unique"
+          ]
+        }
+      }
+    }
+  },
+"mappings": {
+    "_doc": {
+        "properties": {
+        "__v": {
+            "type": "long"
+        },
+        "_doc": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "abstract": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "access": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "article_full_text_url": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "article_full_url": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "article_pdf_url": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "article_type": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "authors": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "authors_emails": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "authors_institutions": {
+            "properties": {
+            "_id": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "address": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "city": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "country": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "head": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "raw": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            }
+            }
+        },
+        "canonical": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "createdAt": {
+            "type": "date"
+        },
+        "doi": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "full_available_text": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "issue": {
+            "type": "long"
+        },
+        "journal_url": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            },
+            "analyzer": "url"
+        },
+        "keywords": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "page_url": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "pisa": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "publication_date": {
+            "type": "date"
+        },
+        "publisher": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "pubmed_id": {
+            "type": "long"
+        },
+        "references": {
+            "properties": {
+            "_id": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "citation_source": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "doi": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "first_page": {
+                "type": "long"
+            },
+            "journal": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "last_page": {
+                "type": "long"
+            },
+            "links": {
+                "properties": {
+                "_id": {
+                    "type": "text",
+                    "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                    }
+                },
+                "path": {
+                    "type": "text",
+                    "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                    }
+                },
+                "text": {
+                    "type": "text",
+                    "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                    }
+                },
+                "url": {
+                    "type": "text",
+                    "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                    }
+                }
+                }
+            },
+            "page": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "publication": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "pubmed_id": {
+                "type": "long"
+            },
+            "title": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "volume": {
+                "type": "long"
+            },
+            "year": {
+                "type": "long"
+            }
+            }
+        },
+        "related_articles": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "scrapedOn": {
+            "type": "date"
+        },
+        "short_abstract": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "subjects": {
+            "properties": {
+            "_id": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "path": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "text": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            },
+            "url": {
+                "type": "text",
+                "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+                }
+            }
+            }
+        },
+        "title": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "updatedAt": {
+            "type": "date"
+        },
+        "volume": {
+            "type": "long"
+        }
+        }
+    }
+}
+}

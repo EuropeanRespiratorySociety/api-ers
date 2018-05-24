@@ -9,14 +9,23 @@ class Service {
   async find (params) {
     const q = params.query || {};
     const i = q.i || 'all';
-    const f = q.f || '';
+    const f = q.f || false;
+    const field = q.field || 'journal_url';
     const a = q.a == 'true' ? true : false;
     const skip = parseInt(q.s) || 0;
-    const search = query(q.q, skip);
+    const search = query(q.q, skip, f);
     const results = await client.search({
-      index: indices(i, f),
-      body: a ? Object.assign({size: 0}, search, getAggs()) : search
+      index: indices(i, a),
+      body: a ? Object.assign(
+        {},
+        {size: 0}, 
+        search, 
+        getAggs(),
+        f ? setFilters(f, field) : {}
+      )
+      : Object.assign({}, search, getAggs(), f ? setFilters(f, field) : {})
     });
+
     const r = results.hits.hits.map(i => {
       const c = i._source;
       const h = i.highlight;
@@ -53,6 +62,7 @@ class Service {
       };
     });
 
+    // @TODO refactor this
     const source = 
     a
       ? results.aggregations.source.buckets.reduce((a, i) => {
@@ -90,36 +100,13 @@ class Service {
           breathe: 0
         })
         : undefined;
-    const aggs = { ...source, ...journals } // eslint-disable-line
+    const all = results.aggregations
+    /* eslint-disable */
+    const aggs = { all, ...source, ...journals }
+    /* eslint-enable */
     return { results: r, aggs, total: results.hits.total };
 
   }
-
-  // async get (id, params) {
-  //   return {
-  //     id, text: `A new message with ID: ${id}!`
-  //   };
-  // }
-
-  // async create (data, params) {
-  //   if (Array.isArray(data)) {
-  //     return await Promise.all(data.map(current => this.create(current)));
-  //   }
-
-  //   return data;
-  // }
-
-  // async update (id, data, params) {
-  //   return data;
-  // }
-
-  // async patch (id, data, params) {
-  //   return data;
-  // }
-
-  // async remove (id, params) {
-  //   return { id };
-  // }
 }
 
 module.exports = function (options) {
@@ -128,34 +115,29 @@ module.exports = function (options) {
 
 module.exports.Service = Service;
 
-const indices = (param, filters) => {
-  const i = ['content','journals','presentations-congress-2018', 'sessions-congress-2018'];
+const indices = (param, aggs = false) => {
+  const i = ['content','journals'];
   const ii = {
     'congress-2018': ['presentations-congress-2018', 'sessions-congress-2018'],
     'congress-2017': ['presentations-congress-2017', 'sessions-congress-2017'],
     'congress-2016': ['presentations-congress-2016', 'sessions-congress-2016'],
     'congress-2015': ['presentations-congress-2015', 'sessions-congress-2015']
   };
-  const f = filters.split(',');
 
   /* eslint-disable indent */
   return param === 'web'
   ? i[0]
   : param === 'journals'
   ? i[1]
-  : param === 'congress' && !filters
-  ? `${i[2]},${i[3]}`
-  : param === 'congress' && f.length > 0
-  ? f.reduce((a, c, k) => {
-      return k === 0
-        ? a += ii[c].join(',')
-        : a += `,${ii[c].join(',')}`;
-    }, '')
-  : i.join(','); //all
+  : param.includes('congress')
+  ? setIndices(param, ii)
+  : aggs && param !== 'all'
+  ? `${i.join(',')},${setIndices(param, ii)}`
+  : `${i.join(',')},${ii['congress-2018'].join(',')}`; //all "normal" queries
   /* eslint-enable */
 };
 
-const query = (query, skip) => {
+const query = (query, skip, filters = false) => {
   return {
     from: skip, 
     query: {
@@ -202,7 +184,27 @@ const query = (query, skip) => {
 
 const getAggs = () => {
   return {
-    aggs:{ 
+    aggs:{
+      all: {
+        global : {},
+        aggs: {
+          source: {
+            terms: {
+              field: '_index'
+            }
+          },
+          publishers: {
+            terms:{
+              field: 'publisher.keyword'
+            }
+          },
+          journals: {
+            terms:{
+              field: 'journal_url.keyword'
+            }
+          }
+        }
+      },
       source: {
         terms: {
           field: '_index'
@@ -253,4 +255,27 @@ function setType (string) {
     ? 'session'
     : 'other';
   /* eslint-enable indent */  
+}
+
+function setFilters(filters, field) {
+
+  return { post_filter: {
+      bool: {
+            should: 
+                filters.split(',').map(i => {
+                  const Obj = {term:{}}
+                  Obj.term[field] = i
+                  return Obj
+                })
+      }
+    }
+  }  
+}
+
+function setIndices (string, map) {
+  return string.split(',').reduce((a, c, k) => {
+    return k === 0
+      ? a += map[c].join(',')
+      : a += `,${map[c].join(',')}`;
+  }, '')
 }
