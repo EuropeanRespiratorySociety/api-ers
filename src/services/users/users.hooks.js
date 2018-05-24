@@ -1,6 +1,7 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const { when, discard, iff, isProvider }= require('feathers-hooks-common');
 const { restrictToOwner, restrictToRoles } = require('feathers-authentication-hooks');
+const checkIsAdmin = require('../../hooks/check-is-admin');
 
 const { hashPassword } = require('@feathersjs/authentication-local').hooks;
 const restrict = [
@@ -33,7 +34,7 @@ module.exports = {
     ],
     update: [ ...restrict, hashPassword() ],
     patch: [ 
-      iff(isProvider('external'), ...restrict), 
+      iff(isProvider('external'), ...restrict, checkIsAdmin()), 
       hashPassword() ],
     remove: [ ...restrict ]
   },
