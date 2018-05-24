@@ -23,12 +23,12 @@ class Utils {
   setDocProperty (item) {
     item._doc = item._id.toString();
     item._id = undefined;
-    item.references = item.references.map(i => {
+    item.references = item.references ? item.references.map(i => {
       if (i.links !== undefined && typeof i.links === 'string') {
         i.links = [];
       }
       return i;
-    });
+    }) : [];
     return item;
   }
 

@@ -15,9 +15,7 @@ describe('\'webhook\' helpers', () => {
     expect(u).to.respondTo('upsertSessions');
     expect(u).to.respondTo('upsertPresentations');
     expect(u).to.respondTo('upsertAbstracts');
-    expect(u).to.respondTo('upsertJournalAbstract');
     expect(u).to.respondTo('indexErsContent');
-    expect(u).to.respondTo('indexJournals');
     expect(u).to.respondTo('indexCongress');
   });
 });

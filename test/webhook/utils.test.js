@@ -118,11 +118,13 @@ describe('\'webhook\' utils', () => {
 
   it('sets the _doc property (and removes the _id)', () => {
     // to improve this test we could have here a mongo id obj
-    expect(u.setDocProperty({_id: '123456'}))
+    const r = u.setDocProperty({_id: '123456'});
+    expect(r)
       .to.include({_id: undefined})
       .to.haveOwnProperty('_doc')
       .to.be.a('string')
       .to.equal('123456');
+    expect(r.references).to.be.an('array');
 
   });
 

@@ -16,14 +16,15 @@ class Service {
     const search = query(q.q, skip, f);
     const results = await client.search({
       index: indices(i, a),
-      body: a ? Object.assign(
-        {},
-        {size: 0}, 
-        search, 
-        getAggs(),
-        f ? setFilters(f, field) : {}
-      )
-      : Object.assign({}, search, getAggs(), f ? setFilters(f, field) : {})
+      body: a 
+        ? Object.assign(
+          {},
+          {size: 0}, 
+          search, 
+          getAggs(),
+          f ? setFilters(f, field) : {}
+        )
+        : Object.assign({}, search, getAggs(), f ? setFilters(f, field) : {})
     });
 
     const r = results.hits.hits.map(i => {
@@ -100,10 +101,8 @@ class Service {
           breathe: 0
         })
         : undefined;
-    const all = results.aggregations
-    /* eslint-disable */
-    const aggs = { all, ...source, ...journals }
-    /* eslint-enable */
+    const all = results.aggregations;
+    const aggs = { all, ...source, ...journals };
     return { results: r, aggs, total: results.hits.total };
 
   }
@@ -137,7 +136,7 @@ const indices = (param, aggs = false) => {
   /* eslint-enable */
 };
 
-const query = (query, skip, filters = false) => {
+const query = (query, skip) => {
   return {
     from: skip, 
     query: {
@@ -259,17 +258,18 @@ function setType (string) {
 
 function setFilters(filters, field) {
 
-  return { post_filter: {
+  return { 
+    post_filter: {
       bool: {
-            should: 
-                filters.split(',').map(i => {
-                  const Obj = {term:{}}
-                  Obj.term[field] = i
-                  return Obj
-                })
+        should: 
+        filters.split(',').map(i => {
+          const Obj = {term:{}};
+          Obj.term[field] = i;
+          return Obj;
+        })
       }
     }
-  }  
+  };  
 }
 
 function setIndices (string, map) {
@@ -277,5 +277,5 @@ function setIndices (string, map) {
     return k === 0
       ? a += map[c].join(',')
       : a += `,${map[c].join(',')}`;
-  }, '')
+  }, '');
 }

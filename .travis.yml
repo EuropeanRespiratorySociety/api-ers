@@ -5,6 +5,7 @@ services:
 node_js:
   - "8"
   - "9"
+  - "10"
 env:
   - CXX=g++-4.8
 addons:
