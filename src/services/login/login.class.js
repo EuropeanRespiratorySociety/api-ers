@@ -61,7 +61,7 @@ class Service {
           ersId: contactId,
           key4Token,
           password: payload.password,
-          permissions: 'myERS'
+          $addToSet: { permissions: ['myERS'] }
         };
 
         // Update or create the user (upsert)
