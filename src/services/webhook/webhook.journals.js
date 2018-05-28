@@ -44,6 +44,7 @@ class Journals {
 
     if (m(item.scrappedOn) > m(lastUpdate) || force) {
       if (abstract.article_type === '') {
+        console.log(chalk.cyan('>>> '), {id: id, status: 'Rejected - no article_type'});
         return {id: id, status: 'Not inserted - no article_type'};
       }
       if (id !== undefined) {
