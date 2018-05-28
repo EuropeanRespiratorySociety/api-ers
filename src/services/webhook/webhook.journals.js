@@ -43,7 +43,7 @@ class Journals {
     }
 
     if (m(item.scrappedOn) > m(lastUpdate) || force) {
-      if (abstract.article_type !== '') {
+      if (abstract.article_type === '') {
         return {id: id, status: 'Not inserted - no article_type'};
       }
       if (id !== undefined) {
