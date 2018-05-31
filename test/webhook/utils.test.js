@@ -114,6 +114,11 @@ describe('\'webhook\' utils', () => {
     expect(u.hasLocation({loc:{}})).to.be.false;
   });
 
+
+  it('checks a location object with props set to false', () => {
+    expect(u.hasLocation({loc:{lat: false,long: false}})).to.be.false;
+  });
+
   it('checks if a property is true', () => {
     expect(u.isTrue(false)).to.be.false;
     expect(u.isTrue('should be true')).to.be.true;

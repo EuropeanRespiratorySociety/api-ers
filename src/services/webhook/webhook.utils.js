@@ -59,7 +59,7 @@ class Utils {
   }
 
   hasLocation (item) {
-    return !format.lodash.isEmpty(item.loc) && 'lat' in item.loc;
+    return !format.lodash.isEmpty(item.loc) && 'lat' in item.loc && item.loc.lat !== false;
   }
 
   setRegisterButton (item) {
