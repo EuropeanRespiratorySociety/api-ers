@@ -155,7 +155,7 @@ class Helpers {
       i.k4EventNumber = eventId;
       i.authors = u.setProperties(i.authorIDs, b.data);
       i.abstractTextOriginal = i.abstractText;
-      i.abstractText = clean(i.abstractText);
+      i.abstractText = clean(i.abstractText).replace(/(\r\n\t|\n|\r\t)/gm,'');
       i.AbstractEmbargoDateTime = u.parseDate(i.AbstractEmbargoDateTime);
       return i;
     });
