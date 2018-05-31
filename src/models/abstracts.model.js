@@ -14,8 +14,7 @@ module.exports = function (app) {
     AbstractEmbargoDate: String,
     authorIDs: [Number],
     authorText: String,
-    AbstractId: Number,
-    AbstractText: String,
+    abstractText: String,
     abstractFigure: [],
     EPosterUrl: String,
     authors:[{
