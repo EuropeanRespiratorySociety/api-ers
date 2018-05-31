@@ -62,7 +62,8 @@ module.exports = {
     junior: false, 
     ersMember: false, 
     nonErsMember: false, 
-    industry: false 
+    industry: false,
+    liveStreaming: false
   },
   cancellationPolicy: false,
   travelInfo: false,

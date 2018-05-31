@@ -272,6 +272,28 @@
                         }
                     }
                 },
+                "registerButton": {
+                    "properties": {
+                        "link": {
+                            "type": "text",
+                            "fields": {
+                                "keyword": {
+                                    "type": "keyword",
+                                    "ignore_above": 256
+                                }
+                            }
+                        },
+                        "text": {
+                            "type": "text",
+                            "fields": {
+                                "keyword": {
+                                    "type": "keyword",
+                                    "ignore_above": 256
+                                }
+                            }
+                        }
+                    }
+                },
                 "slug": {
                     "type": "text",
                     "fields": {

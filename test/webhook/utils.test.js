@@ -28,22 +28,31 @@ describe('\'webhook\' utils', () => {
       hasAuthor: 0,
       hasRelatedArticles: 0,
       tags: [],
-      loc: {}
+      loc: {},
+      registerButton: {
+        link: false,
+        text: false,
+      }
     };
 
-    expect(u.parse(mock)).to.be.an('object')
+    const parsed = u.parse(mock);
+    expect(parsed).to.be.an('object')
       .to.include({
         _doc: 'thisIsAStringId-123456',
         hasAuthor: false,
         hasRelatedArticles: false,
-      })
-      .but.not.include({
+      });
+
+    expect(parsed).to.be.an('object')
+      .not.to.haveOwnProperty({
         shouldNotbeInclueded: 'yes, we do not want this in ES',
         norThat: false,
         faculty: false,
-        tags: [],
-        loc: {}
       });
+    expect(parsed.tags).to.be.undefined;
+    expect(parsed.loc).to.be.undefined;
+    expect(parsed.registerButton).to.be.undefined;
+
   });
 
   it('parses an item (with author and related articles)', () => {
@@ -215,6 +224,44 @@ describe('\'webhook\' utils', () => {
   it('Does not parse a date', () => {
     const date = null;
     expect(u.parseDate(date)).to.equal(null);
+  });
+
+  it('Sets a register button', () => {
+    const item = {
+      registerButton: {
+        link: 'http://link.some.where',
+        text: 'Go there'
+      }
+    };
+    const r = u.setRegisterButton(item);
+    expect(r).to.be.an('object').to.deep.equal({
+      link: 'http://link.some.where',
+      text: 'Go there'
+    });
+  });
+
+  it('Sets a register button (link only)', () => {
+    const item = {
+      registerButton: {
+        link: 'http://link.some.where',
+        text: false
+      }
+    };
+    const r = u.setRegisterButton(item);
+    expect(r).to.be.an('object').to.deep.equal({
+      link: 'http://link.some.where'
+    });
+  });
+
+  it('Unsets a register button property', () => {
+    const item = {
+      registerButton: {
+        link: false,
+        text: 'some text'
+      }
+    };
+    const r = u.setRegisterButton(item);
+    expect(r).to.be.undefined;
   });
 
 });

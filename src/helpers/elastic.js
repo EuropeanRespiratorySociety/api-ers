@@ -44,8 +44,21 @@ const index = async (item, index, id) => {
   }
 };
 
+const unIndex = async (item, index, id) => {
+  try {
+    return await client.delete({
+      index: index || 'content',
+      type: '_doc',
+      id: id || item._doc
+    });
+  } catch (e) {
+    return e;
+  }
+};
+
 module.exports = {
   client,
   log,
-  index
+  index,
+  unIndex
 };

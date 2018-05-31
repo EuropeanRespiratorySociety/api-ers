@@ -44,6 +44,9 @@ class Utils {
     parsed.loc = this.hasLocation(parsed)
       ? { lat: parsed.loc.lat, lon: parsed.loc.long } 
       : undefined;
+    if(parsed.registerButton) {
+      parsed.registerButton = this.setRegisterButton(parsed);
+    }
     parsed.hasAuthor = parsed.hasAuthor === 0 ? false : true;
     parsed.hasRelatedArticles = parsed.hasRelatedArticles === 0 ? false : true;
     // tags are not used for now
@@ -57,6 +60,18 @@ class Utils {
 
   hasLocation (item) {
     return !format.lodash.isEmpty(item.loc) && 'lat' in item.loc;
+  }
+
+  setRegisterButton (item) {
+    const obj = item.registerButton;
+
+    /* eslint-disable */
+    return obj.link && !obj.text
+      ? { link: obj.link }
+      : obj.link && obj.text
+      ? obj
+      : undefined;
+    /* eslint-enable */
   }
 
   isTrue (item) {

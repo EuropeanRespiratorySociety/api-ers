@@ -38,7 +38,7 @@ class Cache {
 
     // clear a single item and its parent
     if(reply) {
-      singleItem(this.client, item, reply);
+      singleItem(this.client, item, reply, false, true);
     } else {
       // temporary, we (try to) clean the ers main website cache
       const r = await axios.post(`https://www.ersnet.org/cache?url=${item.url}`);
@@ -56,7 +56,7 @@ class Cache {
 
 module.exports = new Cache();
 
-async function singleItem(client, item, reply, category = false) {
+async function singleItem(client, item, reply, category = false, index = false) {
   const group = reply.cache.group.split('-')[1];
   // temporary, we (try to) clean the ers main website cache
   const a = axios.post(`https://www.ersnet.org/cache?url=${reply.data.url}`);
@@ -92,11 +92,16 @@ async function singleItem(client, item, reply, category = false) {
   const article = await client.get(req);
 
   // we parse the item to return minimal data to Elasticsearch
-  const parsed = u.parse(article);
+  const parsed = u.parse(article.data.data);
 
-  await es.index(parsed);
+  if(index) {
+    item.unpublished
+      ? await es.unIndex(item)
+      : await es.index(parsed, 'content', parsed._doc);
+  }
+
   // eslint-disable-next-line no-console
-  console.log(chalk.cyan('[webhook]'), `- Cache cleared and item reindexed - [${new Date()}]`);
+  console.log(chalk.cyan('[webhook]'), `- Cache cleared ${index && !item.unpublished ? 'and item reindexed ' : index && !item.unpublished ? 'and item removed from index' : ''}- [${new Date()}]`);
   // return temporary object
   return result;
 }
