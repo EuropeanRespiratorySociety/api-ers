@@ -77,6 +77,11 @@ describe('\'elastic\' helper', () => {
       .to.equal('123abc');
   }).timeout(10000);
 
+  it('Un-index data in a test index', async () => {
+    const response = await r.unIndex({test:'some content'},'test-index', '123abc');
+    expect(response.result).to.equal('deleted');
+  }).timeout(10000);
+
   after(async () => {
     await r.client.indices.delete({index:'test,test-index'});
   });
