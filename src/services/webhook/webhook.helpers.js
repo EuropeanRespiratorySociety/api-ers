@@ -6,6 +6,13 @@ const { HTTP, k4Client } = require('../../helpers/HTTP');
 const es = require('../../helpers/elastic.js');
 
 const u = require('./webhook.utils');
+const sanitizeHtml = require('sanitize-html');
+const clean = (string) => {
+  return sanitizeHtml(string, {
+    allowedTags: [],
+    allowedAttributes: []
+  });
+};
 
 class Helpers {
   constructor () {
@@ -147,6 +154,8 @@ class Helpers {
       i.year = congress;
       i.k4EventNumber = eventId;
       i.authors = u.setProperties(i.authorIDs, b.data);
+      i.abstractTextOriginal = i.abstractText;
+      i.abstractText = clean(i.abstractText);
       i.AbstractEmbargoDateTime = u.parseDate(i.AbstractEmbargoDateTime);
       return i;
     });
