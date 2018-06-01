@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const h = require('./webhook.helpers');
 const j = require('./webhook.journals');
+const s = require('./webhook.static-pages');
 const cache = require('./webhook.cache');
 const errors = require('@feathersjs/errors');
 //  making sure it .env is loaded
@@ -42,6 +43,8 @@ class Service {
       ? h.indexCongress(this.app, 'presentations', congress)
       : type === 'index-ers-content'
       ? h.indexErsContent(this.app, 'ers:article', printErrors)
+      : type === 'index-ers-static-content'
+      ? s.index(this.app, 'ers:article', printErrors)
       : type === 'index-sb-content'
       ? h.indexErsContent(this.app, 'sb:article')
       : type === 'index-journals'
