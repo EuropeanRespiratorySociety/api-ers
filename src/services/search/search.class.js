@@ -141,6 +141,11 @@ const query = (query, skip) => {
     from: skip, 
     query: {
       bool: {
+        must_not: {
+          term: {
+            private: true
+          }
+        },
         should: [
           {
             multi_match: {
