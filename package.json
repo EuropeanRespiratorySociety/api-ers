@@ -68,6 +68,7 @@
     "feathers-hooks-common": "^4.11.1",
     "feathers-hooks-rediscache": "^1.1.2",
     "feathers-mongoose": "^6.1.1",
+    "feathers-permissions": "^0.2.0",
     "feathers-swagger": "^0.7.0",
     "gitana": "^1.0.256",
     "graphql": "^0.13.2",

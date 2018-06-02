@@ -11,7 +11,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       const isAdmin = hook.params.user.permissions.includes('admin');
       if (!isAdmin) _.map(hook.data, (v, i) => {
         if(i === 'permissions' || v.permissions) {
-          reject(er('admin'));
+          reject(er());
         }  
       });
       resolve(hook);

@@ -1,5 +1,5 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const { restrictToRoles } = require('feathers-authentication-hooks');
+const checkPermissions = require('feathers-permissions');
 const { iff, isProvider } = require('feathers-hooks-common');
 const { crmAuth } = require('../../hooks/crmAuth');
 const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-rediscache');
@@ -10,9 +10,8 @@ module.exports = {
       crmAuth(), 
       iff(isProvider('external'), [
         authenticate('jwt'), 
-        restrictToRoles({
-          roles: ['admin', 'crm-user', 'myERS'],
-          fieldName: 'permissions'
+        checkPermissions({
+          roles: ['admin', 'crm-user', 'myERS']
         }),
         redisBeforeHook()
       ])
