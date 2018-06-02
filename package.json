@@ -64,7 +64,7 @@
     "dotenv": "^5.0.1",
     "elasticsearch": "^15.0.0",
     "ers-utils": "^0.2.4",
-    "feathers-authentication-hooks": "^0.2.0",
+    "feathers-authentication-hooks": "^0.3.0",
     "feathers-hooks-common": "^4.11.1",
     "feathers-hooks-rediscache": "^1.1.2",
     "feathers-mongoose": "^6.1.1",
@@ -101,7 +101,7 @@
     "istanbul": "^0.4.5",
     "istanbul-middleware": "^0.2.2",
     "mocha": "^5.2.0",
-    "nyc": "^11.8.0",
+    "nyc": "^12.0.1",
     "request": "^2.87.0"
   },
   "standard": {
