@@ -1,5 +1,5 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const { restrictToRoles } = require('feathers-authentication-hooks');
+const checkPermissions = require('feathers-permissions');
 const { iff, isProvider }= require('feathers-hooks-common');
 const isOwner = require('../../hooks/isOwner').isOwner;
 const addId = require('../../hooks/add-id');
@@ -14,7 +14,7 @@ module.exports = {
     all: [],
     find: [
       authenticate('jwt'),      
-      restrictToRoles({
+      checkPermissions({
         roles: ['admin'],
         fieldName: 'permissions'
       }) 

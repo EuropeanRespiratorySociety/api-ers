@@ -1,12 +1,11 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const { iff, isProvider }= require('feathers-hooks-common');
-const { restrictToRoles } = require('feathers-authentication-hooks');
+const checkPermissions = require('feathers-permissions');
 
 const restrict = [ 
   authenticate('jwt'), 
-  restrictToRoles({
-    roles: ['admin'],
-    fieldName: 'permissions'
+  checkPermissions({
+    roles: ['admin']
   }) 
 ];
 
