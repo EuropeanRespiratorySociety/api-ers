@@ -23,6 +23,7 @@ const feed = require('./feed/feed.service.js');
 const highlights = require('./highlights/highlights.service.js');
 const journals = require('./journals/journals.service.js');
 const search = require('./search/search.service.js');
+const appHighlights = require('./app-highlights/app-highlights.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
@@ -35,6 +36,7 @@ module.exports = function () {
   app.configure(feed);
   app.configure(filters);
   app.configure(highlights);
+  app.configure(appHighlights);
   app.configure(interests);
   app.configure(journals);
   app.configure(leadership);
@@ -53,5 +55,4 @@ module.exports = function () {
   // Has to be last
   // For now graphql endpoint is offline
   // app.configure(graphql);
-
 };
