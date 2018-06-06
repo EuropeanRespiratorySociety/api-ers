@@ -67,6 +67,7 @@ module.exports = {
     'availableOnHomepage',
     'mainNews',
     'membersOnly',
+    'doi',
     '_system',
     '_doc'
   ],

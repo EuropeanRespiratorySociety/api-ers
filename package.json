@@ -36,6 +36,7 @@
     "mocha:filters": "mocha test/services/filters.test.js",
     "mocha:class": "mocha test/classes",
     "mocha:hooks": "mocha ./test/hooks --recursive --exit",
+    "mocha:hooks:watch": "mocha ./test/hooks --recursive",
     "mocha:webhook": "mocha test/webhook --recursive --watch",
     "mocha:helpers": "mocha test/helpers --recursive",
     "mocha:watch": "mocha test/ --recursive --watch",
