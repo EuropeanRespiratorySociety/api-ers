@@ -23,6 +23,7 @@ class Service {
       params.body || {}, 
       {
         _type: q.type || 'ers:article',
+        type: 'News',
         unPublished: { $ne: true}
       },
       filters
