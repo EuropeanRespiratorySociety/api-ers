@@ -62,7 +62,7 @@
     "chalk": "^2.4.1",
     "compression": "^1.7.2",
     "cors": "^2.8.4",
-    "dotenv": "^5.0.1",
+    "dotenv": "^6.0.0",
     "elasticsearch": "^15.0.0",
     "ers-utils": "^0.2.6",
     "feathers-authentication-hooks": "^0.3.0",
