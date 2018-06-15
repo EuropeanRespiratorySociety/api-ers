@@ -210,14 +210,14 @@ describe('Request to the calendar service', function() {
       });
   }).timeout(4000);
   
-  it('returns 5 non-ers events', (done) => {
+  it('returns 2 non-ers events', (done) => {
     chai.request(host) 
-      .get('/calendar?type=non-ers&limit=5')
+      .get('/calendar?type=non-ers&limit=2')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(JSON.parse(res.text).data)
-          .to.have.lengthOf(5);
+          .to.have.lengthOf(2);
         done();
       });
   }).timeout(4000);

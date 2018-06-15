@@ -1,6 +1,7 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const { iff, isProvider }= require('feathers-hooks-common');
 const checkPermissions = require('feathers-permissions');
+const addJournalLink = require('../../hooks/add-journal-link');
 
 const restrict = [ 
   authenticate('jwt'), 
@@ -23,7 +24,7 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
+    find: [addJournalLink()],
     get: [],
     create: [],
     update: [],
