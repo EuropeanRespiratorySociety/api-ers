@@ -1,5 +1,6 @@
 const assert = require('assert');
 const formatJournal = require('../../src/hooks/format-journal');
+const m = require('moment');
 
 describe('\'formatJournal\' hook', () => {
   it('runs the hook', () => {
@@ -21,17 +22,18 @@ describe('\'formatJournal\' hook', () => {
   });
 
   it('formats the date for a single article', () =>{
+    const date = m().format();
     const mock = {
       method: 'get',
       result: {
-        publication_date: '2017-12-31T23:00:00.000Z'
+        publication_date: date
       }
     };
 
     const hook = formatJournal();
 
     return hook(mock).then(result => {
-      assert.equal(result.result.publication_date, '1 January, 2018');
+      assert.equal(result.result.publication_date, m(date).format('DD MMMM, YYYY'));
     });
   });
 
@@ -51,15 +53,16 @@ describe('\'formatJournal\' hook', () => {
   });
 
   it('formats the date for a list of articles', () =>{
+    const date = m().format();
     const mock = {
       method: 'find',
       result: {
         data: [
           {
-            publication_date: '2017-12-31T23:00:00.000Z'
+            publication_date: date
           },
           {
-            publication_date: '2017-12-31T23:00:00.000Z'
+            publication_date: date
           }
         ]  
       }
@@ -68,8 +71,8 @@ describe('\'formatJournal\' hook', () => {
     const hook = formatJournal();
 
     return hook(mock).then(result => {
-      assert.equal(result.result.data[0].publication_date, '1 January, 2018');
-      assert.equal(result.result.data[1].publication_date, '1 January, 2018');
+      assert.equal(result.result.data[0].publication_date, m(date).format('DD MMMM, YYYY'));
+      assert.equal(result.result.data[1].publication_date, m(date).format('DD MMMM, YYYY'));
     });
   });
 
