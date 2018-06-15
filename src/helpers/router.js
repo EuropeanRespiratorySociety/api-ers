@@ -1,4 +1,4 @@
-// temporary router intitialization bedore integrating the logger in feathers-redis-cache
+// temporary router intitialization before integrating the logger in feathers-redis-cache
 const es = require('./elastic.js');
 const chalk = require('chalk');
 const m = require('moment');
