@@ -3,9 +3,11 @@
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async function (hook) {
-    const r = await hook.service.get(hook.id);
-    if (r.spotmeId) {
-      hook.data.spotmeId = [...new Set([...r.spotmeId, ...hook.data.spotmeId])];
+    const { spotmeId = false } = await hook.service.get(hook.id);
+
+    if (spotmeId) {
+      const id = Array.isArray(spotmeId) ? spotmeId : [spotmeId];
+      hook.data.spotmeId = [...new Set([...id, ...hook.data.spotmeId])];
     }
     return Promise.resolve(hook);
   };
