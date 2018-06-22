@@ -76,6 +76,30 @@ describe('\'pushToArray\' hook', () => {
     });
   });
 
+  it('suports legacy patch and update', () => {
+    // A mock hook object
+    const mock = {
+      id: 'someId',
+      data: {
+        spotmeId: 'newId'
+      },
+      service: {
+        get () {
+          return { spotmeId: '123alreadythere' };
+        }
+      }
+    };
+    // Initialize our hook with no options
+    const hook = pushToArray();
+
+    // Run the hook function (which returns a promise)
+    // and compare the resulting hook object
+    return hook(mock).then(result => {
+      expect(result.data.spotmeId).to.be.an('array')
+        .to.have.lengthOf(2);
+    });
+  });
+
   it('does not add duplicated values', () => {
     // A mock hook object
     const mock = {
