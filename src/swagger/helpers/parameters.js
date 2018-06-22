@@ -305,7 +305,7 @@ module.exports = {
     schema: {
       properties: {
         ersId: {type: 'integer'},
-        spotmeId: {type: 'string'},
+        spotmeId: [],
         _id: {type: 'string'},
         layout: {type: 'string'},
         notifications: [],

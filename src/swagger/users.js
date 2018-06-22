@@ -21,7 +21,7 @@ module.exports = {
       <li>email</li>
       <li>username</li>
       <li>ersId</li>
-      <li>spotmeId</li>
+      <li><del>spotmeId</del>For now this is in the preferences object</li>
       <li>key4Token</li>
       <li>permissions</li>
     </ul>`,

@@ -7,9 +7,8 @@ module.exports = function (app) {
   const preferences = new mongooseClient.Schema({
     layout: { type: String, required: false },
     spotmeId: { 
-      type: String, 
-      unique: true, 
-      sparse: true
+      type: [String],
+      required: false
     },
     ersId: { 
       type: Number, 

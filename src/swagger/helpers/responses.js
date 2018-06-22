@@ -216,7 +216,7 @@ module.exports = {
         preferences: {},
         accessToken: 'string',
         apiUserId: 'string',
-        spotmeId: 'string',
+        spotmeId: [],
         key4Token: 'string',
       }
     }

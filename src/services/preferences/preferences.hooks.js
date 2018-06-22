@@ -3,6 +3,7 @@ const checkPermissions = require('feathers-permissions');
 const { iff, isProvider }= require('feathers-hooks-common');
 const isOwner = require('../../hooks/isOwner').isOwner;
 const addId = require('../../hooks/add-id');
+const push = require('../../hooks/push-spotmeId-to-array');
 
 const restrict = [
   authenticate('jwt'),
@@ -25,8 +26,8 @@ module.exports = {
         ...restrict)
     ],
     create: [authenticate('jwt'), addId()],
-    update: [...restrict],
-    patch: [...restrict],
+    update: [...restrict, push()],
+    patch: [...restrict, push()],
     remove: [...restrict]
   },
 

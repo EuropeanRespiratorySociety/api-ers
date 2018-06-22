@@ -39,8 +39,9 @@ describe('Login Class', function() {
     const r = await service.create(payload);
 
     expect(r).to.haveOwnProperty('data');
-    expect(r).to.haveOwnProperty('accessToken');
-    expect(r).to.haveOwnProperty('apiUserId');
+    expect(r).to.haveOwnProperty('accessToken').to.be.a('string');
+    expect(r).to.haveOwnProperty('apiUserId').to.be.a('string');
+    // expect(r).to.haveOwnProperty('spotmeId').to.be.an('array'); // removed from the user object, only in pref
     expect(r).to.haveOwnProperty('preferences');
     // This test needs a seeded database 
     // expect(r.apiUserId).to.equal(`${r.preferences._id}`);
