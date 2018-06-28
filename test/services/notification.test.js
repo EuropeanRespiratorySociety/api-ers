@@ -5,6 +5,9 @@ const app = require('../../src/app');
 const chai = require('chai');
 const expect = chai.expect;
 
+const dotenv = require('dotenv');
+dotenv.load();
+
 // const mock = require('../mocks/notification.json');
 
 describe('\'notification\' service', () => {
@@ -21,7 +24,7 @@ describe('\'notification\' service', () => {
         modified_by_principal_domain_id: '1234',
         modified_by_principal_id: '1234',
         modified_by: 'wrong user' 
-      }}}}}});
+      }}}}}}, {query: {pw: process.env.WPW}});
     } catch (e) {
       expect(e.code).to.equal(403);
       expect(e.data.message).to.equal('wrong user, you are not allowed to send app notifications');
@@ -35,7 +38,7 @@ describe('\'notification\' service', () => {
         modified_by_principal_domain_id: '869b74f51afe687b5b74',
         modified_by_principal_id: 'b053fcddb8b70b299821',
         modified_by: 'samuel' 
-      }}}}}});
+      }}}}}}, {query: {pw: process.env.WPW}});
     } catch (e) {
       expect(e.code).to.equal(400);
       expect(e.data.message).to.equal('Notifications need to be published');
