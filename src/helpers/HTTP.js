@@ -1,8 +1,11 @@
 const axios = require('axios');
+const dotenv = require('dotenv');
+dotenv.load();
+
 /**
  * 
- * @param {*} url - base url
- * @param {*} token - Bearer token
+ * @param {String} url - base url
+ * @param {String} token - Bearer token
  */
 const HTTP = (url, token = null) =>
   axios.create(
@@ -19,7 +22,11 @@ const HTTP = (url, token = null) =>
 
 const k4Client = HTTP('https://k4.ersnet.org/prod/v2/Front');
 
+const eid = process.env.NODE_ENV === 'development' ? process.env.SPOTME_DEV_APP : process.env.SPOTME_PROD_APP;
+const spotmeClient = HTTP(`https://ds.4pax.com/api/v1/event-proxy/${eid}/nodehandlers/ers/notify?accredited_link_token=${process.env.SPOTME_NOTIFICATION_KEY}`);
+
 module.exports = {
   HTTP,
-  k4Client
+  k4Client,
+  spotmeClient
 };
