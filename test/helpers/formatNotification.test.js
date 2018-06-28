@@ -201,12 +201,12 @@ describe('\'formatNotification\' helper', () => {
   });
 
   it('[and] does not format the notification it is not published', () => {
-    const r = s({body:{_cloudcms:{node:{object:{published:false}}}}}, true);
+    const r = s({_cloudcms:{node:{object:{published:false}}}}, true);
     expect(r).not.to.be.ok;
   });
 
   it('[and] does not format the notification publication status is not available', () => {
-    const r = s({body:{_cloudcms:{node:{object:{}}}}}, true);
+    const r = s({_cloudcms:{node:{object:{}}}}, true);
     expect(r).not.to.be.ok;
   });
 });

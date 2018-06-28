@@ -1,12 +1,5 @@
 {
-    "_id":"5b31eeb12e8ce90014145669",
-    "timestamp":"2018-06-26T07:43:45.505Z",
-    "method":"POST",
-    "url":"/api/touch",
-    "ip":"::ffff:10.97.211.167",
-    "hostname":"",
-    "body":{
-       "_cloudcms":{
+   "_cloudcms":{
           "requestId":"7679c80f84e9d121c31a",
           "platformId":"18dbd4f08d5f428ba9c2",
           "node":{
@@ -203,6 +196,5 @@
              "qname":"p:afterUpdateNode"
           }
        }
-    }
  }
  

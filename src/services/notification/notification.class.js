@@ -27,7 +27,6 @@ class Service {
     ];
 
     return new Promise(async (resolve, reject) => {
-      console.log(data);
       if (params.query.pw !== process.env.WPW) {
         reject(new errors.Forbidden({message: 'password did not match'}));
       }
@@ -36,8 +35,8 @@ class Service {
         modified_by,
         modified_by_principal_domain_id,
         modified_by_principal_id
-      } = data.body._cloudcms.node.object._system;
-      const { _doc } = data.body._cloudcms.node.object;
+      } = data._cloudcms.node.object._system;
+      const { _doc } = data._cloudcms.node.object;
       const allowed = allowedSenders.includes(`${modified_by_principal_domain_id}/${modified_by_principal_id}`);
 
       if (!allowed) {

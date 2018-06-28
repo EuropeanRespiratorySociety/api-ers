@@ -18,7 +18,7 @@ const formatNotification = (obj, and = false) => {
     members = false,
     myERS = false,
     sendDateTime = false
-  } = obj.body._cloudcms.node.object;
+  } = obj._cloudcms.node.object;
 
   let targetsArray = [];
   let targetObj = {};

@@ -1,224 +1,217 @@
 {
-    "_id":"5b31eeb12e8ce90014145669",
-    "timestamp":"2018-06-26T07:43:45.505Z",
-    "method":"POST",
-    "url":"/api/touch",
-    "ip":"::ffff:10.97.211.167",
-    "hostname":"",
-    "body":{
-       "_cloudcms":{
-          "requestId":"7679c80f84e9d121c31a",
-          "platformId":"18dbd4f08d5f428ba9c2",
-          "node":{
-             "repositoryId":"607e97e4474d46e40345",
-             "branchId":"b6b2871b2d9cf6b4996b",
-             "changesetId":"54721:0a847457f1ed25c62336",
-             "changesetRev":54721,
-             "id":"d3b8816c45e55a3a50a3",
-             "object":{
-                "published":true,
-                "title":"This is a test notification",
-                "body":"This is the body of the notification",
-                "notificationType":"schedule",
-                "channel": "alerts",
-                "sendDateTime":"06/30/2018 14:22:21",
-                "members":true,
-                "myERS":true,
-                "contentType":"article",
-                "article":{
-                   "ref":"node://18dbd4f08d5f428ba9c2/607e97e4474d46e40345/b6b2871b2d9cf6b4996b/fb223c84b73e27db8464",
-                   "id":"fb223c84b73e27db8464",
-                   "title":"New CME Online module: A case of difficult asthma",
-                   "qname":"o:fb223c84b73e27db8464",
-                   "typeQName":"ers:article",
-                   "slug":"new-cme-online-module-a-case-of-difficult-asthma"
+    "_cloudcms":{
+        "requestId":"7679c80f84e9d121c31a",
+        "platformId":"18dbd4f08d5f428ba9c2",
+        "node":{
+            "repositoryId":"607e97e4474d46e40345",
+            "branchId":"b6b2871b2d9cf6b4996b",
+            "changesetId":"54721:0a847457f1ed25c62336",
+            "changesetRev":54721,
+            "id":"d3b8816c45e55a3a50a3",
+            "object":{
+            "published":true,
+            "title":"This is a test notification",
+            "body":"This is the body of the notification",
+            "notificationType":"schedule",
+            "channel": "alerts",
+            "sendDateTime":"06/30/2018 14:22:21",
+            "members":true,
+            "myERS":true,
+            "contentType":"article",
+            "article":{
+                "ref":"node://18dbd4f08d5f428ba9c2/607e97e4474d46e40345/b6b2871b2d9cf6b4996b/fb223c84b73e27db8464",
+                "id":"fb223c84b73e27db8464",
+                "title":"New CME Online module: A case of difficult asthma",
+                "qname":"o:fb223c84b73e27db8464",
+                "typeQName":"ers:article",
+                "slug":"new-cme-online-module-a-case-of-difficult-asthma"
+            },
+            "diseases":[
+                "Paediatric respiratory diseases",
+                "Respiratory critical care",
+                "Respiratory infections"
+            ],
+            "methods":[
+                "Epidemiology",
+                "Pulmonary function testing"
+            ],
+            "_system":{
+                "deleted":false,
+                "changeset":"54721:0a847457f1ed25c62336",
+                "created_on":{
+                    "timestamp":"26-Jun-2018 07:23:23",
+                    "year":2018,
+                    "month":5,
+                    "day_of_month":26,
+                    "hour":7,
+                    "minute":23,
+                    "second":23,
+                    "millisecond":191,
+                    "ms":1529997803191,
+                    "iso_8601":"2018-06-26T07:23:23Z"
                 },
-                "diseases":[
-                   "Paediatric respiratory diseases",
-                   "Respiratory critical care",
-                   "Respiratory infections"
-                ],
-                "methods":[
-                   "Epidemiology",
-                   "Pulmonary function testing"
-                ],
-                "_system":{
-                   "deleted":false,
-                   "changeset":"54721:0a847457f1ed25c62336",
-                   "created_on":{
-                      "timestamp":"26-Jun-2018 07:23:23",
-                      "year":2018,
-                      "month":5,
-                      "day_of_month":26,
-                      "hour":7,
-                      "minute":23,
-                      "second":23,
-                      "millisecond":191,
-                      "ms":1529997803191,
-                      "iso_8601":"2018-06-26T07:23:23Z"
-                   },
-                   "created_by":"samuel",
-                   "created_by_principal_id":"b053fcddb8b70b299821",
-                   "created_by_principal_domain_id":"869b74f51afe687b5b74",
-                   "modified_on":{
-                      "timestamp":"26-Jun-2018 07:43:44",
-                      "year":2018,
-                      "month":5,
-                      "day_of_month":26,
-                      "hour":7,
-                      "minute":43,
-                      "second":44,
-                      "millisecond":921,
-                      "ms":1529999024921,
-                      "iso_8601":"2018-06-26T07:43:44Z"
-                   },
-                   "modified_by":"samuel",
-                   "modified_by_principal_id":"b053fcddb8b70b299821",
-                   "modified_by_principal_domain_id":"869b74f51afe687b5b74",
-                   "edited_on":{
-                      "timestamp":"26-Jun-2018 07:43:44",
-                      "year":2018,
-                      "month":5,
-                      "day_of_month":26,
-                      "hour":7,
-                      "minute":43,
-                      "second":44,
-                      "millisecond":921,
-                      "ms":1529999024921,
-                      "iso_8601":"2018-06-26T07:43:44Z"
-                   },
-                   "edited_by":"samuel",
-                   "edited_by_principal_id":"b053fcddb8b70b299821",
-                   "edited_by_principal_domain_id":"869b74f51afe687b5b74",
-                   "previousChangeset":"54720:4630fac3584603bfe4dd"
+                "created_by":"samuel",
+                "created_by_principal_id":"b053fcddb8b70b299821",
+                "created_by_principal_domain_id":"869b74f51afe687b5b74",
+                "modified_on":{
+                    "timestamp":"26-Jun-2018 07:43:44",
+                    "year":2018,
+                    "month":5,
+                    "day_of_month":26,
+                    "hour":7,
+                    "minute":43,
+                    "second":44,
+                    "millisecond":921,
+                    "ms":1529999024921,
+                    "iso_8601":"2018-06-26T07:43:44Z"
                 },
-                "_doc":"d3b8816c45e55a3a50a3",
-                "_qname":"o:d3b8816c45e55a3a50a3",
-                "_features":{
-                   "f:audit":{
- 
-                   },
-                   "f:titled":{
- 
-                   },
-                   "f:filename":{
-                      "filename":"This_is_a_test_notification"
-                   },
-                   "f:geolocation":{
- 
-                   },
-                   "f:indexable":{
- 
-                   },
-                   "ers:doi":{
-                      "enabled":true
-                   },
-                   "ers:diseases":{
-                      "enabled":true
-                   },
-                   "ers:methods":{
-                      "enabled":true
-                   }
+                "modified_by":"samuel",
+                "modified_by_principal_id":"b053fcddb8b70b299821",
+                "modified_by_principal_domain_id":"869b74f51afe687b5b74",
+                "edited_on":{
+                    "timestamp":"26-Jun-2018 07:43:44",
+                    "year":2018,
+                    "month":5,
+                    "day_of_month":26,
+                    "hour":7,
+                    "minute":43,
+                    "second":44,
+                    "millisecond":921,
+                    "ms":1529999024921,
+                    "iso_8601":"2018-06-26T07:43:44Z"
                 },
-                "_type":"ers:notifications"
-             },
-             "paths":{
- 
-             }
-          },
-          "user":{
-             "domainId":"869b74f51afe687b5b74",
-             "id":"b053fcddb8b70b299821",
-             "name":"samuel",
-             "email":"samuel.pouyt@ersnet.org",
-             "object":{
-                "TYPE":"USER",
-                "_doc":"b053fcddb8b70b299821",
-                "_system":{
-                   "attachments":{
-                      "_preview_avatar_activity-preview-64_64":{
-                         "contentType":"image/png",
-                         "length":8423,
-                         "objectId":"attachment_principal_b053fcddb8b70b299821__preview_avatar_activity-preview-64_64",
-                         "filename":"_preview_avatar_activity-preview-64_64"
-                      },
-                      "_preview_avatar_activity_list32_32":{
-                         "contentType":"image/jpeg",
-                         "length":1258,
-                         "objectId":"attachment_principal_b053fcddb8b70b299821__preview_avatar_activity_list32_32",
-                         "filename":"_preview_avatar_activity_list32_32"
-                      },
-                      "_preview_avatar_activity_list64_64":{
-                         "contentType":"image/jpeg",
-                         "length":2015,
-                         "objectId":"attachment_principal_b053fcddb8b70b299821__preview_avatar_activity_list64_64",
-                         "filename":"_preview_avatar_activity_list64_64"
-                      },
-                      "_preview_avatar_avatar_64":{
-                         "contentType":"image/jpeg",
-                         "length":2015,
-                         "objectId":"attachment_principal_b053fcddb8b70b299821__preview_avatar_avatar_64",
-                         "filename":"_preview_avatar_avatar_64"
-                      },
-                      "_preview_avatar_user-preview_128":{
-                         "contentType":"image/jpeg",
-                         "length":4208,
-                         "objectId":"attachment_principal_b053fcddb8b70b299821__preview_avatar_user-preview_128",
-                         "filename":"_preview_avatar_user-preview_128"
-                      },
-                      "avatar":{
-                         "contentType":"image/jpeg",
-                         "length":36403,
-                         "objectId":"attachment_principal_b053fcddb8b70b299821_avatar",
-                         "filename":"sam.jpg"
-                      }
-                   },
-                   "created_by":"cloudcms",
-                   "created_by_principal_domain_id":"47854b2d1aa78755d26f",
-                   "created_by_principal_id":"84c6cefa4eed09f060ce",
-                   "created_on":{
-                      "timestamp":"15-Apr-2016 14:29:15",
-                      "year":2016,
-                      "month":3,
-                      "day_of_month":15,
-                      "hour":14,
-                      "minute":29,
-                      "second":15,
-                      "millisecond":766,
-                      "ms":1460730555766
-                   },
-                   "modified_by":"samuel",
-                   "modified_by_principal_domain_id":"869b74f51afe687b5b74",
-                   "modified_by_principal_id":"b053fcddb8b70b299821",
-                   "modified_on":{
-                      "timestamp":"18-Apr-2016 10:28:59",
-                      "year":2016,
-                      "month":3,
-                      "day_of_month":18,
-                      "hour":10,
-                      "minute":28,
-                      "second":59,
-                      "millisecond":997,
-                      "ms":1460975339997
-                   }
+                "edited_by":"samuel",
+                "edited_by_principal_id":"b053fcddb8b70b299821",
+                "edited_by_principal_domain_id":"869b74f51afe687b5b74",
+                "previousChangeset":"54720:4630fac3584603bfe4dd"
+            },
+            "_doc":"d3b8816c45e55a3a50a3",
+            "_qname":"o:d3b8816c45e55a3a50a3",
+            "_features":{
+                "f:audit":{
+
                 },
-                "companyName":"European Respiratory Society",
-                "directoryId":"bf71aecc7374316c5f8d",
-                "domainId":"47854b2d1aa78755d26f",
-                "email":"samuel.pouyt@ersnet.org",
-                "firstName":"Samuel",
-                "identityId":"7dff086e00349a7be5e0",
-                "invitedDomainId":"47854b2d1aa78755d26f",
-                "invitedPrincipalId":"af6460a1b2ec9fec831e",
-                "lastName":"Pouyt",
-                "name":"samuel",
-                "type":"USER"
-             }
-          },
-          "policy":{
-             "qname":"p:afterUpdateNode"
-          }
-       }
+                "f:titled":{
+
+                },
+                "f:filename":{
+                    "filename":"This_is_a_test_notification"
+                },
+                "f:geolocation":{
+
+                },
+                "f:indexable":{
+
+                },
+                "ers:doi":{
+                    "enabled":true
+                },
+                "ers:diseases":{
+                    "enabled":true
+                },
+                "ers:methods":{
+                    "enabled":true
+                }
+            },
+            "_type":"ers:notifications"
+            },
+            "paths":{
+
+            }
+        },
+        "user":{
+            "domainId":"869b74f51afe687b5b74",
+            "id":"b053fcddb8b70b299821",
+            "name":"samuel",
+            "email":"samuel.pouyt@ersnet.org",
+            "object":{
+            "TYPE":"USER",
+            "_doc":"b053fcddb8b70b299821",
+            "_system":{
+                "attachments":{
+                    "_preview_avatar_activity-preview-64_64":{
+                        "contentType":"image/png",
+                        "length":8423,
+                        "objectId":"attachment_principal_b053fcddb8b70b299821__preview_avatar_activity-preview-64_64",
+                        "filename":"_preview_avatar_activity-preview-64_64"
+                    },
+                    "_preview_avatar_activity_list32_32":{
+                        "contentType":"image/jpeg",
+                        "length":1258,
+                        "objectId":"attachment_principal_b053fcddb8b70b299821__preview_avatar_activity_list32_32",
+                        "filename":"_preview_avatar_activity_list32_32"
+                    },
+                    "_preview_avatar_activity_list64_64":{
+                        "contentType":"image/jpeg",
+                        "length":2015,
+                        "objectId":"attachment_principal_b053fcddb8b70b299821__preview_avatar_activity_list64_64",
+                        "filename":"_preview_avatar_activity_list64_64"
+                    },
+                    "_preview_avatar_avatar_64":{
+                        "contentType":"image/jpeg",
+                        "length":2015,
+                        "objectId":"attachment_principal_b053fcddb8b70b299821__preview_avatar_avatar_64",
+                        "filename":"_preview_avatar_avatar_64"
+                    },
+                    "_preview_avatar_user-preview_128":{
+                        "contentType":"image/jpeg",
+                        "length":4208,
+                        "objectId":"attachment_principal_b053fcddb8b70b299821__preview_avatar_user-preview_128",
+                        "filename":"_preview_avatar_user-preview_128"
+                    },
+                    "avatar":{
+                        "contentType":"image/jpeg",
+                        "length":36403,
+                        "objectId":"attachment_principal_b053fcddb8b70b299821_avatar",
+                        "filename":"sam.jpg"
+                    }
+                },
+                "created_by":"cloudcms",
+                "created_by_principal_domain_id":"47854b2d1aa78755d26f",
+                "created_by_principal_id":"84c6cefa4eed09f060ce",
+                "created_on":{
+                    "timestamp":"15-Apr-2016 14:29:15",
+                    "year":2016,
+                    "month":3,
+                    "day_of_month":15,
+                    "hour":14,
+                    "minute":29,
+                    "second":15,
+                    "millisecond":766,
+                    "ms":1460730555766
+                },
+                "modified_by":"samuel",
+                "modified_by_principal_domain_id":"869b74f51afe687b5b74",
+                "modified_by_principal_id":"b053fcddb8b70b299821",
+                "modified_on":{
+                    "timestamp":"18-Apr-2016 10:28:59",
+                    "year":2016,
+                    "month":3,
+                    "day_of_month":18,
+                    "hour":10,
+                    "minute":28,
+                    "second":59,
+                    "millisecond":997,
+                    "ms":1460975339997
+                }
+            },
+            "companyName":"European Respiratory Society",
+            "directoryId":"bf71aecc7374316c5f8d",
+            "domainId":"47854b2d1aa78755d26f",
+            "email":"samuel.pouyt@ersnet.org",
+            "firstName":"Samuel",
+            "identityId":"7dff086e00349a7be5e0",
+            "invitedDomainId":"47854b2d1aa78755d26f",
+            "invitedPrincipalId":"af6460a1b2ec9fec831e",
+            "lastName":"Pouyt",
+            "name":"samuel",
+            "type":"USER"
+            }
+        },
+        "policy":{
+            "qname":"p:afterUpdateNode"
+        }
     }
- }
+}
+
  
