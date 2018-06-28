@@ -27,7 +27,7 @@ class Service {
     ];
 
     return new Promise(async (resolve, reject) => {
-      console.log(params, data);
+      console.log(data);
       if (params.query.pw !== process.env.WPW) {
         reject(new errors.Forbidden({message: 'password did not match'}));
       }
