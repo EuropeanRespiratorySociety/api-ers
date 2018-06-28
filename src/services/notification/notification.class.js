@@ -25,14 +25,20 @@ class Service {
       '869b74f51afe687b5b74/e00928e3e82b80adb710', // Steph
       '869b74f51afe687b5b74/b053fcddb8b70b299821'  // Sam
     ];
-    const { modified_by, modified_by_principal_domain_id, modified_by_principal_id } = data.body._cloudcms.node.object._system;
-    const { _doc } = data.body._cloudcms.node.object;
-    const allowed = allowedSenders.includes(`${modified_by_principal_domain_id}/${modified_by_principal_id}`);
 
     return new Promise(async (resolve, reject) => {
+      console.log(params, data);
       if (params.query.pw !== process.env.WPW) {
         reject(new errors.Forbidden({message: 'password did not match'}));
       }
+
+      const { 
+        modified_by,
+        modified_by_principal_domain_id,
+        modified_by_principal_id
+      } = data.body._cloudcms.node.object._system;
+      const { _doc } = data.body._cloudcms.node.object;
+      const allowed = allowedSenders.includes(`${modified_by_principal_domain_id}/${modified_by_principal_id}`);
 
       if (!allowed) {
         const message = `${modified_by}, you are not allowed to send app notifications`;
