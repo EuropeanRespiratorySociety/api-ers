@@ -3,6 +3,8 @@ const errors = require('@feathersjs/errors');
 const f = require('../../helpers/formatNotification');
 const r = require('../../helpers/requests');
 const { spotmeClient } = require('../../helpers/HTTP');
+const dotenv = require('dotenv');
+dotenv.load();
 
 class Service {
   constructor (options) {
@@ -28,6 +30,10 @@ class Service {
     const allowed = allowedSenders.includes(`${modified_by_principal_domain_id}/${modified_by_principal_id}`);
 
     return new Promise(async (resolve, reject) => {
+      if (params.query.pw !== process.env.WPW) {
+        reject(new errors.Forbidden({message: 'password did not match'}));
+      }
+
       if (!allowed) {
         const message = `${modified_by}, you are not allowed to send app notifications`;
         // no need to wait for the reply
