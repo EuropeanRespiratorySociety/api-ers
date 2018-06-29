@@ -7,6 +7,7 @@ const mock = require('../mocks/notification.json');
 const mockWithError = require('../mocks/notificationWithError.json');
 const mockPush = require('../mocks/pushNotification.json');
 const mockPushToUrl = require('../mocks/pushNotificationToUrl.json');
+const membersOnly = require('../mocks/membersOnly.json');
 
 describe('\'formatNotification\' helper', () => {
   it('is correctly imported', () => {
@@ -239,6 +240,37 @@ describe('\'formatNotification\' helper', () => {
       .to.be.an('object');
     expect(r.params.channel).to.equal(valid.params.channel);
     expect(r.params.mode).to.equal(valid.params.mode);
+    expect(r.params.url).to.equal(valid.params.url);
+    expect(r.params.slug).to.be.undefined;
+    expect(r.params.send_at).to.be.undefined;
+  });
+
+  it('[or] adds notification for members or myERS', () => {
+    const valid = {
+      params: {
+        body: 'This is the body of the notification',
+        targets: [
+          { 
+            'MbshipStatus': true
+          },
+          { 
+            'logged_in_with_ers': true
+          }
+        ],
+        title: 'This is a test notification', 
+        url: 'http://link.somewhere.com',
+        channel: 'alerts',
+        mode: 'push',
+      }
+    };
+    const r = s(membersOnly);
+    expect(r).to.be.an('object')
+      .to.haveOwnProperty('params')
+      .to.be.an('object');
+    expect(r.params.channel).to.equal(valid.params.channel);
+    expect(r.params.mode).to.equal(valid.params.mode);
+    expect(r.params.targets[0]).to.deep.equal({ logged_in_with_ers: true });
+    expect(r.params.targets[1]).to.deep.equal({ MbshipStatus: true });
     expect(r.params.url).to.equal(valid.params.url);
     expect(r.params.slug).to.be.undefined;
     expect(r.params.send_at).to.be.undefined;

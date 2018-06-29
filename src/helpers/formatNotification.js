@@ -19,7 +19,6 @@ const formatNotification = (obj, and = false) => {
     myERS = false,
     sendDateTime = false
   } = obj._cloudcms.node.object;
-
   let targetsArray = [];
   let targetObj = {};
 
@@ -49,6 +48,14 @@ const formatNotification = (obj, and = false) => {
     and
       ? targetObj['logged_in_with_ers'] = true
       : targetsArray.forEach(i => i['logged_in_with_ers'] = true );
+  }
+
+  if (myERS && !diseases && !methods) {
+    targetsArray.push({ ['logged_in_with_ers']: true });
+  }
+
+  if (members && !diseases && !methods) {
+    targetsArray.push({ ['MbshipStatus']: true });
   }
   
 
