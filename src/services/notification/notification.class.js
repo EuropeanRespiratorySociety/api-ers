@@ -39,7 +39,11 @@ class Service {
       const { _doc, sent = false } = data._cloudcms.node.object;
       const allowed = allowedSenders.includes(`${modified_by_principal_domain_id}/${modified_by_principal_id}`);
 
-      if (!allowed && !sent) {
+      if(modified_by.includes('appuser-')) {
+        reject(new errors.Forbidden({message: 'system call, rejected'}));
+      }
+
+      if (!allowed) {
         const message = `${modified_by}, you are not allowed to send app notifications`;
         // no need to wait for the reply
         r.addComment(branch, {_doc}, message );
@@ -62,8 +66,7 @@ class Service {
 
       // post notification to spotme
       if (allowed && notification && !sent) {
-        // const result = await spotmeClient.post(null, notification);
-        const result = {data:{ok:true}};
+        const result = await spotmeClient.post(null, notification);
         if(result.data.ok) {
           const message = `the notification has been sent/scheduled | notification id: ${result.data.id} status: ${result.status}`;
           await r.addComment(branch, {_doc}, message );
