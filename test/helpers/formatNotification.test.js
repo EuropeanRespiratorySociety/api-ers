@@ -63,13 +63,31 @@ describe('\'formatNotification\' helper', () => {
       params: {
         body: 'This is the body of the notification',
         targets: [
-          { 'interest:Epidemiology': true },
-          { 'interest:Pulmonary function testing': true },
-          { 'interest:Paediatric respiratory diseases': true },
-          { 'interest:Respiratory critical care': true },
-          { 'interest:Respiratory infections': true },
-          { 'logged_in_with_ers': true },
-          { 'MbshipStatus': true }
+          {
+            'interest:Epidemiology': true,
+            'MbshipStatus': true,
+            'logged_in_with_ers': true
+          },
+          {
+            'interest:Pulmonary function testing': true,
+            'MbshipStatus': true,
+            'logged_in_with_ers': true
+          },
+          {
+            'interest:Paediatric respiratory diseases': true,
+            'MbshipStatus': true,
+            'logged_in_with_ers': true
+          },
+          {
+            'interest:Respiratory critical care': true,
+            'MbshipStatus': true,
+            'logged_in_with_ers': true
+          },
+          {
+            'interest:Respiratory infections': true,
+            'MbshipStatus': true,
+            'logged_in_with_ers': true
+          }
         ],
         title: 'This is a test notification',
         slug: 'new-cme-online-module-a-case-of-difficult-asthma',
@@ -88,14 +106,22 @@ describe('\'formatNotification\' helper', () => {
     expect(r.params.mode).to.equal(valid.params.mode);
     expect(r.params.send_at).to.equal(valid.params.send_at);
     expect(r.params.slug).to.equal(valid.params.slug);
-    expect(r.params.targets).to.be.an('array').to.have.lengthOf(7);
+    expect(r.params.targets).to.be.an('array').to.have.lengthOf(5);
     expect(r.params.targets[3]['interest:Epidemiology']).to.be.ok;
+    expect(r.params.targets[3]['logged_in_with_ers']).to.be.ok;
+    expect(r.params.targets[3]['MbshipStatus']).to.be.ok;
     expect(r.params.targets[0]['interest:Paediatric respiratory diseases']).to.be.ok;
+    expect(r.params.targets[0]['logged_in_with_ers']).to.be.ok;
+    expect(r.params.targets[0]['MbshipStatus']).to.be.ok;
     expect(r.params.targets[4]['interest:Pulmonary function testing']).to.be.ok;
+    expect(r.params.targets[4]['logged_in_with_ers']).to.be.ok;
+    expect(r.params.targets[4]['MbshipStatus']).to.be.ok;
     expect(r.params.targets[1]['interest:Respiratory critical care']).to.be.ok;
+    expect(r.params.targets[1]['logged_in_with_ers']).to.be.ok;
+    expect(r.params.targets[1]['MbshipStatus']).to.be.ok;
     expect(r.params.targets[2]['interest:Respiratory infections']).to.be.ok;
-    expect(r.params.targets[6]['logged_in_with_ers']).to.be.ok;
-    expect(r.params.targets[5]['MbshipStatus']).to.be.ok;
+    expect(r.params.targets[2]['logged_in_with_ers']).to.be.ok;
+    expect(r.params.targets[2]['MbshipStatus']).to.be.ok;
     expect(r.params.url).to.be.undefined;
   });
 
@@ -104,13 +130,31 @@ describe('\'formatNotification\' helper', () => {
       params: {
         body: 'This is the body of the notification',
         targets: [
-          { 'interest:Epidemiology': true },
-          { 'interest:Pulmonary function testing': true },
-          { 'interest:Paediatric respiratory diseases': true },
-          { 'interest:Respiratory critical care': true },
-          { 'interest:Respiratory infections': true },
-          { 'logged_in_with_ers': true },
-          { 'MbshipStatus': true }
+          {
+            'interest:Epidemiology': true,
+            'MbshipStatus': true,
+            'logged_in_with_ers': true
+          },
+          {
+            'interest:Pulmonary function testing': true,
+            'MbshipStatus': true,
+            'logged_in_with_ers': true
+          },
+          {
+            'interest:Paediatric respiratory diseases': true,
+            'MbshipStatus': true,
+            'logged_in_with_ers': true
+          },
+          {
+            'interest:Respiratory critical care': true,
+            'MbshipStatus': true,
+            'logged_in_with_ers': true
+          },
+          {
+            'interest:Respiratory infections': true,
+            'MbshipStatus': true,
+            'logged_in_with_ers': true
+          }
         ],
         title: 'This is a test notification',
         slug: 'new-cme-online-module-a-case-of-difficult-asthma',
@@ -128,7 +172,7 @@ describe('\'formatNotification\' helper', () => {
     expect(r.params.title).to.equal(valid.params.title);
     expect(r.params.mode).to.equal(valid.params.mode);
     expect(r.params.slug).to.equal(valid.params.slug);
-    expect(r.params.targets).to.be.an('array').to.have.lengthOf(7);
+    expect(r.params.targets).to.be.an('array').to.have.lengthOf(5);
     expect(r.params.targets[0]['interest:Paediatric respiratory diseases']).to.be.ok;
     expect(r.params.url).to.be.undefined;
     expect(r.params.send_at).to.be.undefined;

@@ -42,13 +42,13 @@ const formatNotification = (obj, and = false) => {
   if (members) {
     and
       ? targetObj['MbshipStatus'] = true
-      : targetsArray.push({ MbshipStatus: true });
+      : targetsArray.forEach(i => i['MbshipStatus'] = true );
   }
 
   if (myERS) {
     and
       ? targetObj['logged_in_with_ers'] = true
-      : targetsArray.push({ logged_in_with_ers: true });
+      : targetsArray.forEach(i => i['logged_in_with_ers'] = true );
   }
   
 
