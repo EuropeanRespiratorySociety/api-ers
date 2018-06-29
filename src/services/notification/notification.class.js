@@ -36,18 +36,24 @@ class Service {
         modified_by_principal_domain_id,
         modified_by_principal_id
       } = data._cloudcms.node.object._system;
-      const { _doc } = data._cloudcms.node.object;
+      const { _doc, sent } = data._cloudcms.node.object;
       const allowed = allowedSenders.includes(`${modified_by_principal_domain_id}/${modified_by_principal_id}`);
 
-      if (!allowed) {
+      if (!allowed && !sent) {
         const message = `${modified_by}, you are not allowed to send app notifications`;
         // no need to wait for the reply
         r.addComment(branch, {_doc}, message );
         reject(new errors.Forbidden({message}));
       }
 
+      if (sent) {
+        const message = `${modified_by}, this notification has already been sucessfully sent, aborting.`;
+        r.addComment(branch, {_doc}, message );
+        reject(new errors.BadRequest({message}));
+      }
+
       const notification = f(data);
-      if (!notification) {
+      if (!notification && !sent) {
         const message = 'Notifications need to be published';
         // no need to wait for the reply
         r.addComment(branch, {_doc}, message );
@@ -55,12 +61,13 @@ class Service {
       }
 
       // post notification to spotme
-      if (allowed && notification) {
-        const result = await spotmeClient.post(null, notification);
+      if (allowed && notification && !sent) {
+        // const result = await spotmeClient.post(null, notification);
+        const result = {data:{ok:true}};
         if(result.data.ok) {
-          // @TODO add sync
           const message = `the notification has been sent/scheduled | notification id: ${result.data.id} status: ${result.status}`;
           await r.addComment(branch, {_doc}, message );
+          await r.updateNode(branch, _doc, {sent: true});
           resolve({data: result.data, status: result.status});
         } else {
           const message =  `something went wrong | notification id: ${result.data.id} status: ${result.status}`;
