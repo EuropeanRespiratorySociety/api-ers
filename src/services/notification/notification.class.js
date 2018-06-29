@@ -36,7 +36,7 @@ class Service {
         modified_by_principal_domain_id,
         modified_by_principal_id
       } = data._cloudcms.node.object._system;
-      const { _doc, sent } = data._cloudcms.node.object;
+      const { _doc, sent = false } = data._cloudcms.node.object;
       const allowed = allowedSenders.includes(`${modified_by_principal_domain_id}/${modified_by_principal_id}`);
 
       if (!allowed && !sent) {
