@@ -41,6 +41,7 @@ class Service {
 
       if(modified_by.includes('appuser-')) {
         reject(new errors.Forbidden({message: 'system call, rejected'}));
+        return;
       }
 
       if (!allowed) {
@@ -48,34 +49,39 @@ class Service {
         // no need to wait for the reply
         r.addComment(branch, {_doc}, message );
         reject(new errors.Forbidden({message}));
+        return;
       }
 
       if (sent) {
         const message = `${modified_by}, this notification has already been sucessfully sent, aborting.`;
         r.addComment(branch, {_doc}, message );
         reject(new errors.BadRequest({message}));
+        return;
       }
 
       const notification = f(data);
-      if (!notification && !sent) {
+      if (!notification) {
         const message = 'Notifications need to be published';
         // no need to wait for the reply
         r.addComment(branch, {_doc}, message );
         reject(new errors.BadRequest({message}));
+        return;
       }
 
       // post notification to spotme
-      if (allowed && notification && !sent) {
+      if (allowed && notification) {
         const result = await spotmeClient.post(null, notification);
         if(result.data.ok) {
           const message = `the notification has been sent/scheduled | notification id: ${result.data.id} status: ${result.status}`;
           await r.addComment(branch, {_doc}, message );
           await r.updateNode(branch, _doc, {sent: true});
           resolve({data: result.data, status: result.status});
+          return;
         } else {
           const message =  `something went wrong | notification id: ${result.data.id} status: ${result.status}`;
           await r.addComment(branch, {_doc}, message );
           reject(new errors.BadRequest({data: result.data, status: result.status}));
+          return;
         }
       }
 
