@@ -30,9 +30,9 @@ class Service {
     return pw !== process.env.WPW
       ? error()
       : type === 'save-congress-sessions'
-      ? h.upsertSessions(this.app, congress, e, seeding)
+      ? h.upsertSessions(this.app, congress, e, seeding, force)
       : type === 'save-congress-presentations'
-      ? presentations(this.app, congress, e, seeding)
+      ? presentations(this.app, congress, e, seeding, force)
       : type === 'save-congress-abstracts'
       ? h.upsertAbstracts(this.app, congress, e, seeding, force)
       : type === 'index-congress-abstracts'

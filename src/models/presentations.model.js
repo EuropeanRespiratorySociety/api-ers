@@ -37,7 +37,8 @@ module.exports = function (app) {
       lastName: String,
       city: String,
       country: String,
-      shortName: String
+      shortName: String,
+      ersId: Number
     }],
     creationDate: Date,
     lastModificationDate: Date,

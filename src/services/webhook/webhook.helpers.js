@@ -22,12 +22,12 @@ class Helpers {
     this.k4Params = `?key=${this.k4Key}`; // 5 -> 2015 - 8 -> 2016 - 42 -> 2017 - 90 -> 2018
   }
 
-  async upsertSessions (app, congress, eventId, seeding) {
+  async upsertSessions (app, congress, eventId, seeding, force = false) {
     const privateMeetings = ['Private meeting', 'Committee meeting'];
 
     console.log(chalk.cyan('[webhook]'), 'Fetching data...');
     console.time('request');
-    const [a, b, c, d, e, f, g, h, i, j, k] = await Promise.all([
+    const [a, b, c, d, e, f, g, h, i, j, k, l] = await Promise.all([
       this.k4.get(`/Program/Assemblies${this.k4Params}&e=${eventId}`),
       this.k4.get(`/Program/AssemblyGroups${this.k4Params}&e=${eventId}`),
       this.k4.get(`/Program/Types${this.k4Params}&e=${eventId}`),
@@ -38,7 +38,8 @@ class Helpers {
       this.k4.get(`/Program/Stands${this.k4Params}&e=${eventId}`),
       this.k4.get(`/Program/Institutions${this.k4Params}&e=${eventId}`),
       this.k4.get(`/Program/Faculties${this.k4Params}&e=${eventId}`),
-      this.k4.get(`/Program/Sessions${this.k4Params}&e=${eventId}`)
+      this.k4.get(`/Program/Sessions${this.k4Params}&e=${eventId}`),
+      this.k4.get(`/Program/Methods${this.k4Params}&e=${eventId}`)
     ]);    
     const requestTime = console.timeEnd('request');
 
@@ -57,6 +58,7 @@ class Helpers {
     const institutions = i.data;
     const faculties = j.data;
     const sessions = k.data;
+    const methods = l.data;
 
     console.log(chalk.cyan('[webhook]'), `sessions #: ${sessions.length}`);
     console.log(chalk.cyan('[webhook]'), 'Parsing...');
@@ -75,6 +77,7 @@ class Helpers {
       s.room = rooms.filter(r => r.id === s.roomID);
       s.tags = u.setProperties(s.tagIDs, tags);
       s.tracks = u.setProperties(s.trackIDs, tracks);
+      s.methods = u.setProperties(s.methodIDs, methods);
       s.assemblies = u.setProperties(s.assemblyIDs, assemblies);
       s.groups = s.assemblygroupIDs.map(i => {
         const gr = groups.filter(o => o.id === i)[0];
@@ -103,10 +106,10 @@ class Helpers {
       return { message: 'seeded'};
     }
 
-    return await save(s, 'sessions', congress, parsedSessions, requestTime, parsingTime);
+    return await save(s, 'sessions', congress, parsedSessions, requestTime, parsingTime, force);
   }
 
-  async upsertPresentations (app, congress, eventId, seeding) {
+  async upsertPresentations (app, congress, eventId, seeding, force = false) {
     console.log(chalk.cyan('[webhook]'), 'Fetching data...');
     const faculties = await this.k4.get(`/Program/Faculties${this.k4Params}&e=${eventId}`);
     console.time('request');
@@ -136,7 +139,7 @@ class Helpers {
       return { message: 'seeded'};
     }
 
-    return await save(s, 'presentations', congress, prezis, requestTime, parsingTime);
+    return await save(s, 'presentations', congress, prezis, requestTime, parsingTime, force);
   }
 
   async upsertAbstracts (app, congress, eventId, seeding, force = false) {
