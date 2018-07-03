@@ -7,6 +7,10 @@ const client = redis.createClient();
 const expect = chai.expect;
 
 describe('\'crmInterests\' hook', () => {
+  after(function() {
+    client.del('crmInterests');
+  });
+
   it('runs the hook', () => {
     // Initialize our hook with no options
     const hook = crmInterests();

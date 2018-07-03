@@ -21,10 +21,11 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
             sureThing(crmClient.get('/Methods'))
           ]);
 
+          const cmsInterests = await hook.app.service('interests').find();
           let interests = {};
 
-          if(a.ok) interests.diseases = a.response.data;
-          if(b.ok) interests.methods = b.response.data;
+          if(a.ok) interests.diseases = a.response.data.map(i => formatName(i,cmsInterests, 'diseases'));
+          if(b.ok) interests.methods = b.response.data.map(i => formatName(i,cmsInterests, 'methods'));
 
           client.set('crmInterests', JSON.stringify(interests));
           hook.params.crmInterests = interests;
@@ -37,5 +38,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         }
       });
     });
-  }
+  };
 };
+
+function formatName (crmInterestObject, cmsInterestsObject, property) {
+  crmInterestObject.Name = cmsInterestsObject.data
+    .filter(tmp => tmp.title === property)[0].values
+    .filter(i => i.toLowerCase() === crmInterestObject.Name.toLowerCase())[0];
+  return crmInterestObject;
+}

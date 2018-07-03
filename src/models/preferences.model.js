@@ -5,7 +5,10 @@
 module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const preferences = new mongooseClient.Schema({
-    layout: { type: String, required: false },
+    layout: {
+      type: String,
+      required: false
+    },
     spotmeId: { 
       type: [String],
       required: false

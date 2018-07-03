@@ -27,10 +27,10 @@ module.exports = function (app) {
       unique: true, 
       sparse: true
     },
-    // spotmeId: { // this is app related, it makes more sense in app stuff such as preferences for now.
-    //   type: [String],
-    //   required: false
-    // },
+    spotmeId: { // this is app related, it would makes more sense in app stuff such as preferences for now.
+      type: [String],
+      required: false
+    },
     key4Token: {
       type: String,
       unique: true, 
