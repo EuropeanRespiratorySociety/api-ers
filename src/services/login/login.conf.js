@@ -59,5 +59,7 @@ module.exports=[
   'Changes',
   'Duplicates',
   'Merges',
-  'FullNameAndId'
+  'FullNameAndId',
+  'Diseases',
+  'Methods'
 ];

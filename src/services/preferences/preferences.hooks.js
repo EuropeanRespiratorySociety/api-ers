@@ -4,6 +4,9 @@ const { iff, isProvider }= require('feathers-hooks-common');
 const isOwner = require('../../hooks/isOwner').isOwner;
 const addId = require('../../hooks/add-id');
 const push = require('../../hooks/push-spotmeId-to-array');
+const { crmAuth } = require('../../hooks/crmAuth');
+const crmInterests = require('../../hooks/crm-interests');
+const sync = require('../../hooks/crm-sync-interests');
 
 const restrict = [
   authenticate('jwt'),
@@ -25,9 +28,33 @@ module.exports = {
         isProvider('external'), 
         ...restrict)
     ],
-    create: [authenticate('jwt'), addId()],
-    update: [...restrict, push()],
-    patch: [...restrict, push()],
+    create: [
+      iff(
+        isProvider('external'),
+        authenticate('jwt'),
+        addId()
+      )
+    ],
+    update: [
+      crmAuth(),
+      crmInterests(), 
+      iff(
+        isProvider('external'), 
+        ...restrict,
+        push(),
+        sync()
+      )
+    ],
+    patch: [
+      crmAuth(),
+      crmInterests(), 
+      iff(
+        isProvider('external'), 
+        ...restrict,
+        push(),
+        sync()
+      )
+    ],
     remove: [...restrict]
   },
 

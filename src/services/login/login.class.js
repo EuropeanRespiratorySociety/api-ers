@@ -19,12 +19,12 @@ class Service {
 
   async create(data, params) {
     return new Promise(async (resolve, reject) => {
+      const { crmToken, crmInterests } = params;
       const payload = Object.assign({},{ include: conf }, data);
       const crmEndpoint = '/Contacts/Authenticate';
-      const crmClient = HTTP('https://crmapi.ersnet.org', params.crmToken);
+      const crmClient = HTTP('https://crmapi.ersnet.org', crmToken);
       const k4Endpoint = '/Agenda/ConferenceCompassAuthentification';
       const k4Request = `${k4Endpoint}?user[username]=${payload.username}&user[password]=${payload.password}`;
-
       const [myCRM, key4] = await Promise.all([
         sureThing(crmClient.post(crmEndpoint, payload)),
         sureThing(k4Client.get(k4Request))
@@ -93,11 +93,33 @@ class Service {
             );
 
             preferences.get(apiUserId).then(p => {
-            // @TODO #25 we need to merge the preferences with myCRM store preferences
               result.preferences = p;
-              resolve(result);
+              // @TODO #25 we need to merge the preferences with myCRM store preferences
+              // if no data found in the CRM... not much to think about.
+              if (data.Diseases.length === 0 && data.Methods.length === 0) {
+                resolve(result);
+              }
+
+              // CRM is considered master, lets write the data to the preference object
+              preferences.patch(apiUserId, {
+                interests: formatInterests(data, crmInterests)
+              })
+                .then(() => {
+                  resolve(result);
+                });
             }).catch(err => {
-              resolve(result);
+              // if no preference found for the user we create it and return the preferences
+              preferences.create({
+                _id: apiUserId,
+                interests: formatInterests(data, crmInterests)
+              }).then(pref => {
+                result.preferences = pref;
+                resolve(result);
+              }).catch(e => {
+                console.log(e);
+                // for now we ignore the creation problem
+                resolve(result);
+              });
             });
           });
         }).catch(e => {
@@ -115,3 +137,10 @@ module.exports = function (options) {
 };
 
 module.exports.Service = Service;
+
+function formatInterests (data, interests) {
+  return [
+    ...data.Diseases.map(i => interests.diseases.filter(ii => ii.DiseaseId === i.DiseaseId)[0].Name), 
+    ...data.Methods.map(i => interests.methods.filter(ii => ii.MethodId === i.MethodId)[0].Name), 
+  ];
+}

@@ -4,7 +4,6 @@
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async function (hook) {
     const { spotmeId = false } = await hook.service.get(hook.id);
-
     if (spotmeId) {
       // legacy checks (we switched from string to array)
       const id = Array.isArray(spotmeId) ? spotmeId : [spotmeId];
