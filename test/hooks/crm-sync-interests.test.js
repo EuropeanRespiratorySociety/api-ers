@@ -1,10 +1,24 @@
 const assert = require('assert');
-const syncInteresests = require('../../src/hooks/sync-interesests');
+const syncInteresests = require('../../src/hooks/crm-sync-interests');
 
 describe('\'syncInteresests\' hook', () => {
   it('runs the hook', () => {
     // A mock hook object
-    const mock = {};
+    const mock = {
+      data: {
+        interests: []
+      },
+      params: {
+        crmToken: 'thisIsTheToken',
+        crmInterests: {
+          diseases:[],
+          methods:[]
+        },
+        user: {
+          ersId: 123456
+        }
+      }
+    };
     // Initialize our hook with no options
     const hook = syncInteresests();
 

@@ -116,7 +116,9 @@ class Service {
                 result.preferences = pref;
                 resolve(result);
               }).catch(e => {
-                console.log(e)
+                console.log(e);
+                // for now we ignore the creation problem
+                resolve(result);
               });
             });
           });

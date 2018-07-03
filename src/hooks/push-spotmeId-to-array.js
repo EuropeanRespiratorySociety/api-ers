@@ -8,8 +8,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       // legacy checks (we switched from string to array)
       const id = Array.isArray(spotmeId) ? spotmeId : [spotmeId];
       const newId = Array.isArray(hook.data.spotmeId) ? hook.data.spotmeId : [hook.data.spotmeId];
-      const final = [...new Set([...id, ...newId])];
-      if (final.length === 1 && final[0] !== undefined) hook.data.spotmeId = final;
+      hook.data.spotmeId = [...new Set([...id, ...newId])];
     }
     return Promise.resolve(hook);
   };
