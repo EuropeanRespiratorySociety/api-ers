@@ -98,6 +98,58 @@ module.exports = {
     });
   },
 
+  /** Update a  node with new properties or update current ones
+   * @param {Object} branch
+   * @param {Object} node - the node to update
+   * @param {Object} payload - the data that needs to change
+   */
+  updateNode: (branch, node, payload) => {
+    return new Promise(resolve => {
+      branch
+        .trap(function(e){
+          resolve({ok: false, message:e.message, status: e.status});
+        })
+        .readNode(node)
+        .then(function() {
+          Object.keys(payload).map(key => {
+            this[key] = payload[key];
+          });
+          this.update();
+          resolve({ok:true, node});
+        });
+    });
+  },
+
+  /**
+   * Given a branch and a node, a comment is hadded to that node.
+   * @param {Object} branch
+   * @param {Object} node - the node to which a comment is added
+   * @param {String} message - the comment message
+   */
+  addComment: (branch, node, message) => {
+    return new Promise(resolve => {
+      branch
+        .trap(function(e){
+          resolve({ok: false, message:e.message, status: e.status});
+        }).createNode({
+          _type: 'n:comment',
+          rating: 0
+        })
+        .then(function () {
+          const commentNode = this;
+          this.subchain(branch)
+            .readNode(commentNode._doc)
+            .attach('default', 'text/plain', message);
+          this.subchain(branch)
+            .readNode(node._doc)
+            .associate(commentNode._doc, 'a:has_comment', { order: 1 })
+            .then(function () {
+              resolve({ok: true});
+            });
+        });
+    });
+  },
+
   relatives: (branch, qname, type, options) => {
     const { 
       body = {}, 

@@ -30,6 +30,7 @@
   },
   "scripts": {
     "test": "npm run eslint && nyc --require babel-core/register npm run mocha",
+    "test:single":"nyc --require babel-core/register npm run mocha:helpers:single",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "node src/",
     "mocha": "mocha ./test/ --recursive --exit",
@@ -39,8 +40,9 @@
     "mocha:hooks:watch": "mocha ./test/hooks --recursive",
     "mocha:webhook": "mocha test/webhook --recursive --watch",
     "mocha:helpers": "mocha test/helpers --recursive",
+    "mocha:helpers:single": "mocha test/helpers/formatNotification.test.js --watch",
     "mocha:watch": "mocha test/ --recursive --watch",
-    "mocha:single": "mocha test/services/calendar.test.js",
+    "mocha:single": "mocha test/services/notification.test.js --watch",
     "coverage": "nyc report --reporter=text",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"

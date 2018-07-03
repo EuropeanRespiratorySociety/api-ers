@@ -30,6 +30,7 @@ module.exports = function (app) {
     targetaudienceIDs: [Number],
     tagIDs: [Number],
     trackIDs: [Number],
+    methodIDs: [Number],
     assemblyIDs: [Number],
     assemblygroupIDs: [Number],
     creationDate: Date,
@@ -48,7 +49,8 @@ module.exports = function (app) {
         lastName: String,
         city: String,
         country: String,
-        shortName: String
+        shortName: String,
+        ersId: Number,
       }
     ],
     chairs: [{
@@ -58,7 +60,8 @@ module.exports = function (app) {
       lastName: String,
       city: String,
       country: String,
-      shortName: String
+      shortName: String,
+      ersId: Number
     }],
     room: [{
       id: Number,
@@ -69,6 +72,10 @@ module.exports = function (app) {
       name: String
     }],
     tracks: [{
+      id: Number,
+      name: String
+    }],
+    methods: [{
       id: Number,
       name: String
     }],

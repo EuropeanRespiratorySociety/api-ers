@@ -24,6 +24,7 @@ const highlights = require('./highlights/highlights.service.js');
 const journals = require('./journals/journals.service.js');
 const search = require('./search/search.service.js');
 const appHighlights = require('./app-highlights/app-highlights.service.js');
+const notification = require('./notification/notification.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
@@ -43,6 +44,7 @@ module.exports = function () {
   app.configure(login); // This is merged with the previous one
   app.configure(metanav);
   app.configure(news);
+  app.configure(notification);
   app.configure(preferences);
   app.configure(publications);
   app.configure(relatives);

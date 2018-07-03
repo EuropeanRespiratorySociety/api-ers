@@ -33,7 +33,7 @@ describe('\'formatJournal\' hook', () => {
     const hook = formatJournal();
 
     return hook(mock).then(result => {
-      assert.equal(result.result.publication_date, m(date).format('DD MMMM, YYYY'));
+      assert.equal(result.result.publication_date, m(date).format('D MMMM, YYYY'));
     });
   });
 
@@ -71,8 +71,8 @@ describe('\'formatJournal\' hook', () => {
     const hook = formatJournal();
 
     return hook(mock).then(result => {
-      assert.equal(result.result.data[0].publication_date, m(date).format('DD MMMM, YYYY'));
-      assert.equal(result.result.data[1].publication_date, m(date).format('DD MMMM, YYYY'));
+      assert.equal(result.result.data[0].publication_date, m(date).format('D MMMM, YYYY'));
+      assert.equal(result.result.data[1].publication_date, m(date).format('D MMMM, YYYY'));
     });
   });
 

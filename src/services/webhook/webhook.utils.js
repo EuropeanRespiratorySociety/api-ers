@@ -33,9 +33,15 @@ class Utils {
   }
 
   setProperties(arrayOfIds, arrayOfValues, id = 'id') {
-    return arrayOfIds.map(i => 
-      arrayOfValues.filter(o => o[id] === i)[0]
-    );
+    return arrayOfIds.map(i => {
+      let r = arrayOfValues.filter(o => {
+        return o[id] === i;
+      })[0];
+      if (r && r.ersID) {
+        r.ersId = parseInt(r.ersID);
+      }
+      return r;
+    });
   }
 
   parse (item) {
