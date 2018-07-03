@@ -30,7 +30,7 @@
   },
   "scripts": {
     "test": "npm run eslint && nyc --require babel-core/register npm run mocha",
-    "test:single":"nyc --require babel-core/register npm run mocha:helpers:single",
+    "test:single": "nyc --require babel-core/register npm run mocha:helpers:single",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "node src/",
     "mocha": "mocha ./test/ --recursive --exit",
@@ -100,7 +100,7 @@
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "coveralls": "^3.0.1",
-    "eslint": "^4.19.1",
+    "eslint": "^5.0.1",
     "istanbul": "^0.4.5",
     "istanbul-middleware": "^0.2.2",
     "mocha": "^5.2.0",
