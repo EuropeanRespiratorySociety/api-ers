@@ -59,7 +59,9 @@ class Cache {
 module.exports = new Cache();
 
 async function singleItem(client, item, reply, category = false, index = false) {
-  const group = reply.cache.parent; // eslint-disable-line
+  const group = reply.cache.parent;
+  const [head, ...tail] = reply.cache.group.split('-'); // eslint-disable-line
+  const group2 = tail.joint('-');
   console.log(group);
   // temporary, we (try to) clean the ers main website cache
   const a = axios.post(`https://www.ersnet.org/cache?url=${reply.data.url}`);
@@ -91,6 +93,7 @@ async function singleItem(client, item, reply, category = false, index = false) 
   const req = !category 
     ? `/${group}/${reply.cache.key}`
     : `/${group}`;
+  console.log('>>>>', group, group2);
   // await client.get(req);
   // add the new item right away to the cache
   const article = await client.get(req);
