@@ -18,7 +18,7 @@ module.exports = () => {
     }
 
     if (hook.error) {
-      logger.error(hook.error);
+      // logger.error(hook.error);
     }
     return hook;
   };
