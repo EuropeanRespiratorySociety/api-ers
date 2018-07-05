@@ -91,7 +91,7 @@ async function singleItem(client, item, reply, category = false, index = false) 
   // add the new item right away to the cache
   const article = await client.get(req);
 
-  console.log('>>>> inspect prod', article);
+  console.log('>>>> inspect prod');
 
   // we parse the item to return minimal data to Elasticsearch
   const parsed = u.parse(article.data.data);
