@@ -59,8 +59,7 @@ class Cache {
 module.exports = new Cache();
 
 async function singleItem(client, item, reply, category = false, index = false) {
-  const [head, ...tail] = reply.cache.group.split('-')[1]; // eslint-disable-line
-  const group = tail.join('-');
+  const group = reply.cache.parent; // eslint-disable-line
   console.log(group);
   // temporary, we (try to) clean the ers main website cache
   const a = axios.post(`https://www.ersnet.org/cache?url=${reply.data.url}`);
