@@ -198,6 +198,18 @@ describe('Request to the calendar service', function() {
       });
   }).timeout(4000);
   
+  it('returns all events', (done) => {
+    chai.request(host) 
+      .get('/calendar?type=all')
+      .set('Content-Type', 'application/json')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(JSON.parse(res.text).data.length)
+          .to.greaterThan(10);
+        done();
+      });
+  }).timeout(4000);
+  
   it('returns 5 ers events', (done) => {
     chai.request(host) 
       .get('/calendar?&limit=5')
