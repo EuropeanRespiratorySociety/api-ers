@@ -1,5 +1,5 @@
 {
-    "settings": {
+"settings": {
     "analysis": {
       "filter": {
         "http_dropper": {
@@ -35,7 +35,7 @@
         }
       }
     }
-  },
+},
 "mappings": {
     "_doc": {
         "properties": {

@@ -1,393 +1,414 @@
 {
     "settings": {
-        "index.mapping.ignore_malformed": true 
-    },
-    "mappings": {
-        "_doc": {
-            "properties": {
-                "_doc": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "author": {
-                    "properties": {
-                        "id": {
-                            "type": "text",
-                            "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                            }
-                        },
-                        "qname": {
-                            "type": "text",
-                            "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                            }
-                        },
-                        "ref": {
-                            "type": "text",
-                            "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                            }
-                        },
-                        "title": {
-                            "type": "text",
-                            "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                            }
-                        },
-                        "typeQName": {
-                            "type": "text",
-                            "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                            }
-                        }
-                        }
-                },
-                "body": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword"
-                        }
-                    }
-                },
-                "category": {
-                    "properties": {
-                    "id": {
-                        "type": "text",
-                        "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                        }
-                    },
-                    "qname": {
-                        "type": "text",
-                        "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                        }
-                    },
-                    "ref": {
-                        "type": "text",
-                        "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                        }
-                    },
-                    "title": {
-                        "type": "text",
-                        "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                        }
-                    },
-                    "typeQName": {
-                        "type": "text",
-                        "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                        }
-                    }
-                    }
-                },
-                "category2": {
-                    "properties": {
-                        "id": {
-                            "type": "text",
-                            "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                            }
-                        },
-                        "qname": {
-                            "type": "text",
-                            "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                            }
-                        },
-                        "ref": {
-                            "type": "text",
-                            "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                            }
-                        },
-                        "title": {
-                            "type": "text",
-                            "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                            }
-                        },
-                        "typeQName": {
-                            "type": "text",
-                            "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                            }
-                        }
-                        }
-                },
-                "createdOn": {
-                    "type": "date"
-                },
-                "earlybirdDeadline": {
-                    "type": "date"
-                },
-                "ebusDate": {
-                    "type": "date"
-                },
-                "endDate": {
-                    "type": "date"
-                },
-                "ersDeadline": {
-                    "type": "boolean"
-                },
-                "ersEndorsedEvent": {
-                    "type": "boolean"
-                },
-                "eventDate": {
-                    "type": "date"
-                },
-                "eventDates": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 150
-                        }
-                    }
-                },
-                "eventEndDate": {
-                    "type": "date"
-                },
-                "eventLocation": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 150
-                        }
-                    }
-                },
-                "extendedDeadline": {
-                    "type": "date"
-                },
-                "faculty": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 150
-                        }
-                    }
-                },
-                "hasAuthor": {
-                    "type": "boolean"
-                },
-                "hasRelatedArticles": {
-                    "type": "boolean"
-                },
-                "image": {
-                    "type": "text",
-                    "fields": {
-                    "keyword": {
-                        "type": "keyword",
-                        "ignore_above": 256
-                    }
-                    }
-                },
-                "leadParagraph": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 500
-                        }
-                    }
-                },
-                "loc": {
-                    "type": "geo_point"
-                },
-                "modifiedOn": {
-                    "type": "date"
-                },
-                "ms": {
-                    "type": "date",
-                    "format": "epoch_millis"
-                },
-                "nonErsCalendarItem": {
-                    "type": "boolean"
-                },
-                "openingDate": {
-                    "type": "date"
-                },
-                "organisers": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "registerButton": {
-                    "properties": {
-                        "link": {
-                            "type": "text",
-                            "fields": {
-                                "keyword": {
-                                    "type": "keyword",
-                                    "ignore_above": 256
-                                }
-                            }
-                        },
-                        "text": {
-                            "type": "text",
-                            "fields": {
-                                "keyword": {
-                                    "type": "keyword",
-                                    "ignore_above": 256
-                                }
-                            }
-                        }
-                    }
-                },
-                "slug": {
-                    "type": "text",
-                    "fields": {
-                    "keyword": {
-                        "type": "keyword",
-                        "ignore_above": 256
-                    }
-                    }
-                },
-                "subTitle": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "tags": {
-                    "type": "text",
-                    "fields": {
-                    "keyword": {
-                        "type": "keyword",
-                        "ignore_above": 256
-                    }
-                    }
-                },
-                "title": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "methods": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },  
-                "diseases": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "contentType": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },   
-                "type": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "unPublished": {
-                    "type": "boolean"
-                },
-                "uri": {
-                    "type": "text",
-                    "fields": {
-                    "keyword": {
-                        "type": "keyword",
-                        "ignore_above": 256
-                    }
-                    }
-                },
-                "url": {
-                    "type": "text",
-                    "fields": {
-                    "keyword": {
-                        "type": "keyword",
-                        "ignore_above": 256
-                    }
-                    }
-                }
+      "index.mapping.ignore_malformed": true,
+      "index" : {
+        "analysis" : {
+          "filter" : {
+              "synonym_filter" : {
+                "type" : "synonym",
+                "synonyms" : [
+                  "bylaws, by laws, by-laws => bylaws, by laws, by-laws"
+                ]
+              }
+            },
+            "analyzer" : {
+              "synonym_analyzer" : {
+                "tokenizer" : "standard",
+                "filter" : ["lowercase", "synonym_filter"] 
+              }
             }
+          }
         }
-    }
-}
+      },
+      "mappings": {
+          "_doc": {
+              "properties": {
+                  "_doc": {
+                      "type": "text",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                      }
+                  },
+                  "author": {
+                      "properties": {
+                          "id": {
+                              "type": "text",
+                              "fields": {
+                              "keyword": {
+                                  "type": "keyword",
+                                  "ignore_above": 256
+                              }
+                              }
+                          },
+                          "qname": {
+                              "type": "text",
+                              "fields": {
+                              "keyword": {
+                                  "type": "keyword",
+                                  "ignore_above": 256
+                              }
+                              }
+                          },
+                          "ref": {
+                              "type": "text",
+                              "fields": {
+                              "keyword": {
+                                  "type": "keyword",
+                                  "ignore_above": 256
+                              }
+                              }
+                          },
+                          "title": {
+                              "type": "text",
+                              "fields": {
+                              "keyword": {
+                                  "type": "keyword",
+                                  "ignore_above": 256
+                              }
+                              }
+                          },
+                          "typeQName": {
+                              "type": "text",
+                              "fields": {
+                              "keyword": {
+                                  "type": "keyword",
+                                  "ignore_above": 256
+                              }
+                              }
+                          }
+                          }
+                  },
+                  "body": {
+                      "type": "text",
+                      "analyzer": "synonym_analyzer",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword"
+                          }
+                      }
+                  },
+                  "category": {
+                      "properties": {
+                      "id": {
+                          "type": "text",
+                          "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                          }
+                      },
+                      "qname": {
+                          "type": "text",
+                          "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                          }
+                      },
+                      "ref": {
+                          "type": "text",
+                          "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                          }
+                      },
+                      "title": {
+                          "type": "text",
+                          "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                          }
+                      },
+                      "typeQName": {
+                          "type": "text",
+                          "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                          }
+                      }
+                      }
+                  },
+                  "category2": {
+                      "properties": {
+                          "id": {
+                              "type": "text",
+                              "fields": {
+                              "keyword": {
+                                  "type": "keyword",
+                                  "ignore_above": 256
+                              }
+                              }
+                          },
+                          "qname": {
+                              "type": "text",
+                              "fields": {
+                              "keyword": {
+                                  "type": "keyword",
+                                  "ignore_above": 256
+                              }
+                              }
+                          },
+                          "ref": {
+                              "type": "text",
+                              "fields": {
+                              "keyword": {
+                                  "type": "keyword",
+                                  "ignore_above": 256
+                              }
+                              }
+                          },
+                          "title": {
+                              "type": "text",
+                              "fields": {
+                              "keyword": {
+                                  "type": "keyword",
+                                  "ignore_above": 256
+                              }
+                              }
+                          },
+                          "typeQName": {
+                              "type": "text",
+                              "fields": {
+                              "keyword": {
+                                  "type": "keyword",
+                                  "ignore_above": 256
+                              }
+                              }
+                          }
+                          }
+                  },
+                  "createdOn": {
+                      "type": "date"
+                  },
+                  "earlybirdDeadline": {
+                      "type": "date"
+                  },
+                  "ebusDate": {
+                      "type": "date"
+                  },
+                  "endDate": {
+                      "type": "date"
+                  },
+                  "ersDeadline": {
+                      "type": "boolean"
+                  },
+                  "ersEndorsedEvent": {
+                      "type": "boolean"
+                  },
+                  "eventDate": {
+                      "type": "date"
+                  },
+                  "eventDates": {
+                      "type": "text",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 150
+                          }
+                      }
+                  },
+                  "eventEndDate": {
+                      "type": "date"
+                  },
+                  "eventLocation": {
+                      "type": "text",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 150
+                          }
+                      }
+                  },
+                  "extendedDeadline": {
+                      "type": "date"
+                  },
+                  "faculty": {
+                      "type": "text",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 150
+                          }
+                      }
+                  },
+                  "hasAuthor": {
+                      "type": "boolean"
+                  },
+                  "hasRelatedArticles": {
+                      "type": "boolean"
+                  },
+                  "image": {
+                      "type": "text",
+                      "fields": {
+                      "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                      }
+                      }
+                  },
+                  "leadParagraph": {
+                      "type": "text",
+                      "analyzer": "synonym_analyzer",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 500
+                          }
+                      }
+                  },
+                  "loc": {
+                      "type": "geo_point"
+                  },
+                  "modifiedOn": {
+                      "type": "date"
+                  },
+                  "ms": {
+                      "type": "date",
+                      "format": "epoch_millis"
+                  },
+                  "nonErsCalendarItem": {
+                      "type": "boolean"
+                  },
+                  "openingDate": {
+                      "type": "date"
+                  },
+                  "organisers": {
+                      "type": "text",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                      }
+                  },
+                  "registerButton": {
+                      "properties": {
+                          "link": {
+                              "type": "text",
+                              "fields": {
+                                  "keyword": {
+                                      "type": "keyword",
+                                      "ignore_above": 256
+                                  }
+                              }
+                          },
+                          "text": {
+                              "type": "text",
+                              "fields": {
+                                  "keyword": {
+                                      "type": "keyword",
+                                      "ignore_above": 256
+                                  }
+                              }
+                          }
+                      }
+                  },
+                  "slug": {
+                      "type": "text",
+                      "fields": {
+                      "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                      }
+                      }
+                  },
+                  "subTitle": {
+                      "type": "text",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                      }
+                  },
+                  "tags": {
+                      "type": "text",
+                      "fields": {
+                      "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                      }
+                      }
+                  },
+                  "title": {
+                      "type": "text",
+                      "analyzer": "synonym_analyzer",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                      }
+                  },
+                  "methods": {
+                      "type": "text",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                      }
+                  },  
+                  "diseases": {
+                      "type": "text",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                      }
+                  },
+                  "contentType": {
+                      "type": "text",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                      }
+                  },   
+                  "type": {
+                      "type": "text",
+                      "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          }
+                      }
+                  },
+                  "unPublished": {
+                      "type": "boolean"
+                  },
+                  "uri": {
+                      "type": "text",
+                      "fields": {
+                      "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                      }
+                      }
+                  },
+                  "url": {
+                      "type": "text",
+                      "fields": {
+                      "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                      }
+                      }
+                  }
+              }
+          }
+      }
+  }
