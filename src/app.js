@@ -9,7 +9,7 @@ const feathers = require('@feathersjs/feathers');
 const express = require('@feathersjs/express');
 const configuration = require('@feathersjs/configuration');
 const rest = require('@feathersjs/express/rest');
-const socketio = require('@feathersjs/socketio');
+// const socketio = require('@feathersjs/socketio');
 const redisClient = require('feathers-hooks-rediscache').redisClient;
 const router = require('./helpers/router');
 const middleware = require('./middleware');
@@ -49,7 +49,7 @@ app.use('/cache', router(app));
 // Set up Plugins and providers
 app.configure(mongodb);
 app.configure(rest());
-app.configure(socketio());
+// app.configure(socketio());
 
 // Configure Swagger
 app.configure(swagger(swOptions));
