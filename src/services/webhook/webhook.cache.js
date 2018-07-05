@@ -91,6 +91,8 @@ async function singleItem(client, item, reply, category = false, index = false) 
   // add the new item right away to the cache
   const article = await client.get(req);
 
+  console.log('>>>> inspect prod', article);
+
   // we parse the item to return minimal data to Elasticsearch
   const parsed = u.parse(article.data.data);
 
@@ -105,6 +107,18 @@ async function singleItem(client, item, reply, category = false, index = false) 
   // return temporary object
   return result;
 }
+
+// This is temporary until we change the website
+const urlToBust = [
+  'https://www.ersnet.org'
+];
+
+const calendarUrlToBust = [
+  'https://www.ersnet.org/congress-and-events/events-calendar?type=deadline',
+  'https://www.ersnet.org/congress-and-events/events-calendar?type=endorsed',
+  'https://www.ersnet.org/congress-and-events/events-calendar?type=non-ers',
+  'https://www.ersnet.org/congress-and-events/events-calendar?type=all'
+]
   
 function clearCalendar(client, item) {
   if(item.category.title === 'Events Calendar') {
@@ -118,6 +132,11 @@ function clearCalendar(client, item) {
       }
     };
     singleItem(client, item, data, true);
+    axios.post(`https://www.ersnet.org/cache?url=${urlToBust[0]}`);
+    axios.post(`https://www.ersnet.org/cache?url=${calendarUrlToBust[0]}`);
+    axios.post(`https://www.ersnet.org/cache?url=${calendarUrlToBust[1]}`);
+    axios.post(`https://www.ersnet.org/cache?url=${calendarUrlToBust[2]}`);
+    axios.post(`https://www.ersnet.org/cache?url=${calendarUrlToBust[3]}`);
   }
 }
   
@@ -129,9 +148,27 @@ function clearNews(client, item) {
         group: 'group-news'
       },
       data: {
-        url: 'https://www.ersnet.org/congress-and-events/events-calendar'
+        url: 'https://www.ersnet.org/the-society/news'
       }
     };
     singleItem(client, item, data, true);
+    // let's clear other urls while thinking about it:
+    axios.post(`https://www.ersnet.org/cache?url=${urlToBust[0]}`)
   }
 }
+
+// function clearAppHighlights(client, item) {
+//   if(item.category.id === 'id": "ec586ddd9c918191be2b') {
+//     const data = {
+//       cache: {
+//         key: 'app-highlights',
+//         group: 'group-app-highlights'
+//       },
+//       data: {
+//         url: 'https://www.ersnet.org/the-society/news'
+//       }
+//     };
+//     singleItem(client, item, data, true);
+//     // let's clear other urls while thinking about it:
+//   }
+// }
