@@ -78,8 +78,11 @@ async function singleItem(client, item, reply, category = false, index = false) 
       group: tc.data
     }
   }; 
+
   // eslint-disable-next-line no-console
-  // console.log(result);
+  console.log(result);
+  console.log(group);
+  console.log(reply);
   
   // 1. use cache status (200) to push to log index in ES
   await es.log('api-webhook-logs', '_doc', result);
