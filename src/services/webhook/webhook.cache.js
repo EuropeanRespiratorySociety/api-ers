@@ -36,8 +36,6 @@ class Cache {
     // Getting the item from the cache (Redis)
     const reply = JSON.parse(await u.getAsync(item.slug));
 
-    console.log(reply);
-
     // clear a single item and its parent
     if(reply) {
       singleItem(this.client, item, reply, false, true);
@@ -61,7 +59,6 @@ module.exports = new Cache();
 async function singleItem(client, item, reply, category = false, index = false) {
   const [head, ...tail] = reply.cache.group.split('-'); // eslint-disable-line
   const group = tail.join('-');
-  console.log(group);
   // temporary, we (try to) clean the ers main website cache
   const a = axios.post(`https://www.ersnet.org/cache?url=${reply.data.url}`);
   // the cache is not always busted: @TODO fix it! issue #24 
@@ -161,19 +158,3 @@ function clearNews(client, item) {
     axios.post(`https://www.ersnet.org/cache?url=${urlToBust[0]}`);
   }
 }
-
-// function clearAppHighlights(client, item) {
-//   if(item.category.id === 'id": "ec586ddd9c918191be2b') {
-//     const data = {
-//       cache: {
-//         key: 'app-highlights',
-//         group: 'group-app-highlights'
-//       },
-//       data: {
-//         url: 'https://www.ersnet.org/the-society/news'
-//       }
-//     };
-//     singleItem(client, item, data, true);
-//     // let's clear other urls while thinking about it:
-//   }
-// }
