@@ -19,7 +19,7 @@ class Cache {
 
   async clear (data) {
     const item = data._cloudcms.node.object;
-    console.log(data)
+    console.log(item)
 
     // special case for events
     if(item.hasOwnProperty('category')) {
@@ -36,6 +36,8 @@ class Cache {
     
     // Getting the item from the cache (Redis)
     const reply = JSON.parse(await u.getAsync(item.slug));
+
+    console.log(reply);
 
     // clear a single item and its parent
     if(reply) {
@@ -81,7 +83,7 @@ async function singleItem(client, item, reply, category = false, index = false) 
   // }; 
 
   // eslint-disable-next-line no-console
-  console.log(result);
+  // console.log(result);
   console.log(group);
   console.log(reply);
   
