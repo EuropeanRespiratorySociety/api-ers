@@ -5,5 +5,6 @@
   "paginate": {
     "default": 25,
     "max": 100
-  }
+  },
+  "logs": "info"
 }
