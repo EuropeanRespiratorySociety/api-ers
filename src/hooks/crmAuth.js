@@ -14,7 +14,7 @@ const data = qs.stringify({
 });
 
 /* eslint-disable no-console */
-exports.crmAuth = function(options) { // eslint-disable-line no-unused-vars
+const crmAuth = function(options) { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
   return function(hook) {
@@ -41,5 +41,24 @@ exports.crmAuth = function(options) { // eslint-disable-line no-unused-vars
       });
     });     
   };      
+};
+
+/* eslint-disable no-console */
+const verifyUser = function(options) { // eslint-disable-line no-unused-vars
+  options = Object.assign({}, defaults, options);
+
+  return function(hook) {
+    return new Promise((resolve, reject) => {
+      if(hook.params.user.ersId === parseInt(hook.id)) {
+        resolve(hook);
+      }
+      reject(new errors.Forbidden('You are not allowed to view this ressource'));
+    });
+  };
+};
+
+module.exports = {
+  crmAuth,
+  verifyUser
 };
 

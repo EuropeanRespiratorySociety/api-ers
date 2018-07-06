@@ -1,21 +1,13 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const checkPermissions = require('feathers-permissions');
 const { iff, isProvider } = require('feathers-hooks-common');
-const { crmAuth } = require('../../hooks/crmAuth');
+const { crmAuth, verifyUser } = require('../../hooks/crmAuth');
 const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-rediscache');
+// const { restrictToOwner } = require('feathers-authentication-hooks');
 
 module.exports = {
   before: {
-    all: [ 
-      crmAuth(), 
-      iff(isProvider('external'), [
-        authenticate('jwt'), 
-        checkPermissions({
-          roles: ['admin']
-        }),
-        redisBeforeHook()
-      ])
-    ],
+    all: [],
     find: [ 
       crmAuth(), 
       iff(isProvider('external'), [
@@ -29,9 +21,10 @@ module.exports = {
     get: [ 
       crmAuth(), 
       iff(isProvider('external'), [
-        authenticate('jwt'), 
+        authenticate('jwt'),
+        verifyUser(),
         checkPermissions({
-          roles: ['admin', 'crm-user, myERS']
+          roles: ['admin', 'crm-user', 'myERS']
         }),
         redisBeforeHook()
       ])
