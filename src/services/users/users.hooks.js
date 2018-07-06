@@ -2,7 +2,7 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 const { when, discard, iff, isProvider }= require('feathers-hooks-common');
 const { restrictToOwner } = require('feathers-authentication-hooks');
 const checkPermissions = require('feathers-permissions');
-const checkIsAdmin = require('../../hooks/check-is-admin');
+// const checkIsAdmin = require('../../hooks/check-is-admin');
 
 const { hashPassword } = require('@feathersjs/authentication-local').hooks;
 const restrict = [
@@ -33,7 +33,13 @@ module.exports = {
     ],
     update: [ ...restrict, hashPassword() ],
     patch: [ 
-      iff(isProvider('external'), ...restrict, checkIsAdmin()), 
+      iff(
+        isProvider('external'),
+        // ...restrict, 
+        checkPermissions({
+          roles: ['admin']
+        })
+      ), 
       hashPassword() ],
     remove: [ ...restrict ]
   },
