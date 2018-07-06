@@ -35,7 +35,7 @@ module.exports = {
     patch: [ 
       iff(
         isProvider('external'),
-        // ...restrict, 
+        authenticate('jwt'),
         checkPermissions({
           roles: ['admin']
         })
