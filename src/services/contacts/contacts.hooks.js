@@ -25,8 +25,7 @@ module.exports = {
         verifyUser(),
         checkPermissions({
           roles: ['admin', 'crm-user', 'myERS']
-        }),
-        redisBeforeHook()
+        })
       ])
     ],
     create: [],
@@ -42,10 +41,7 @@ module.exports = {
       hookCache({ duration: 3600 * 24 * 7 }), 
       redisAfterHook()
     ],
-    get: [
-      hookCache({ duration: 3600 * 24 * 7 }), 
-      redisAfterHook()
-    ],
+    get: [],
     create: [],
     update: [],
     patch: [],
