@@ -49,7 +49,10 @@ const verifyUser = function(options) { // eslint-disable-line no-unused-vars
 
   return function(hook) {
     return new Promise((resolve, reject) => {
-      if(hook.params.user.ersId === parseInt(hook.id)) {
+      const isAdmin = hook.params.user.permissions.reduce((a, i) => {
+        return i.includes('admin') ? true : a;
+      }, false);
+      if(hook.params.user.ersId === parseInt(hook.id) || isAdmin) {
         resolve(hook);
       }
       reject(new errors.Forbidden('You are not allowed to view this ressource'));

@@ -8,7 +8,6 @@ const _ = f.lodash;
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function (hook) {
     return new Promise((resolve, reject) => { 
-      console.log(hook.params.user)
       const isAdmin = hook.params.user.permissions.includes('admin');
       if (!isAdmin) _.map(hook.data, (v, i) => {
         if(i === 'permissions' || v.permissions) {
