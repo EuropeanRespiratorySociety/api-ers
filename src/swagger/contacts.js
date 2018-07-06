@@ -52,7 +52,7 @@ module.exports = {
       bearer: []
     }],
     description: 'Returns a contact object based on the contact id - to use this endpoint you need to have a CRM user role, the user data is cached',
-    summary: 'Get a contact based on its id [admin, crm-user, myERS roles]',
+    summary: 'Get a contact based on its id [admin, myERS[owner] roles]',
     parameters: [
       params.contactId
     ],
