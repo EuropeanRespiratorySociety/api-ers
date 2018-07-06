@@ -11,7 +11,7 @@ module.exports = {
       iff(isProvider('external'), [
         authenticate('jwt'), 
         checkPermissions({
-          roles: ['admin:*']
+          roles: ['admin']
         }),
         redisBeforeHook()
       ])
@@ -21,7 +21,7 @@ module.exports = {
       iff(isProvider('external'), [
         authenticate('jwt'), 
         checkPermissions({
-          roles: ['admin:*', 'crm-user:*']
+          roles: ['admin', 'crm-user']
         }),
         redisBeforeHook()
       ])
@@ -31,7 +31,7 @@ module.exports = {
       iff(isProvider('external'), [
         authenticate('jwt'), 
         checkPermissions({
-          roles: ['admin:*', 'crm-user:*, myERS:*']
+          roles: ['admin', 'crm-user, myERS']
         }),
         redisBeforeHook()
       ])
