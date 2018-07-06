@@ -11,13 +11,31 @@ module.exports = {
       iff(isProvider('external'), [
         authenticate('jwt'), 
         checkPermissions({
-          roles: ['admin', 'crm-user', 'myERS']
+          roles: ['admin:*']
         }),
         redisBeforeHook()
       ])
     ],
-    find: [],
-    get: [],
+    find: [ 
+      crmAuth(), 
+      iff(isProvider('external'), [
+        authenticate('jwt'), 
+        checkPermissions({
+          roles: ['admin:*', 'crm-user:*']
+        }),
+        redisBeforeHook()
+      ])
+    ],
+    get: [ 
+      crmAuth(), 
+      iff(isProvider('external'), [
+        authenticate('jwt'), 
+        checkPermissions({
+          roles: ['admin:*', 'crm-user:*, myERS:*']
+        }),
+        redisBeforeHook()
+      ])
+    ],
     create: [],
     update: [],
     patch: [],

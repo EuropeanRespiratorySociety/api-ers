@@ -19,14 +19,14 @@ module.exports = {
     find: [ 
       authenticate('jwt'), 
       checkPermissions({
-        roles: ['admin']
+        roles: ['admin:*']
       }) 
     ],
     get: [ ...restrict ],
     create: [ 
       authenticate('jwt'),
       checkPermissions({
-        roles: ['admin']
+        roles: ['admin:*']
       }),
       hashPassword(),
 
