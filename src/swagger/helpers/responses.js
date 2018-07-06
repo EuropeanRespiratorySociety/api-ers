@@ -188,6 +188,33 @@ module.exports = {
       }
     },
   },
+  successCommunity: {
+    description: 'successful operation',
+    schema: {
+      type: 'object',
+      example:{
+        data: [
+          {
+            content: 'string',
+            fp_status: 'string',
+            parent_doc_id: 'string',
+            extra_content: 'string',
+            order: 'int',
+            created_at:'string',
+            image_url: 'string'
+          }
+        ],
+        _sys: {
+          next: 'string',
+          prev: 'string',
+          limit: 'int',
+          skip: 'int',
+          total: 'int',
+          status: 'int'
+        }
+      }
+    },
+  },
   successMyCRMOneItem: {
     description: 'sucessful operation',
     schema: {
