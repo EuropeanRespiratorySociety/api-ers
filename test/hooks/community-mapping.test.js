@@ -4,7 +4,9 @@ const communityMapping = require('../../src/hooks/community-mapping');
 describe('\'communityMapping\' hook', () => {
   it('runs the hook', () => {
     // A mock hook object
-    const mock = {};
+    const mock = {
+      result: { data: [] }
+    };
     // Initialize our hook with no options
     const hook = communityMapping();
 
