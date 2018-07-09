@@ -13,7 +13,8 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         extra_content: i.leadParagraph ? i.leadParagraph : undefined,
         // order: undefined,
         created_at: i.ms,
-        image_url: i.image
+        image_url: i.image,
+        post_id: i._doc
       };
     });
     hook.result.data = m;
