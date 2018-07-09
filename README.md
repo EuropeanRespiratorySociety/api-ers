@@ -173,27 +173,25 @@ or you can clean idividual routes:
 1. Clone this project
 2. Install dependencies:
     `npm install`
-3. add a `.env` file with the following keys (all cloudcms keys from gitana.json):
-```
-    NODE_ENV=local|production|test
-    CACHE_DEBUG=true|false
-    CACHE_ENABLED=true|false
-    MONGODB=<path-to-your-db>/<name-of-your-db>
-    API_URL=<domain-of-api>
-    clientKey=<your-key>
-    clientSecret=<your-coloud-cms-secret>
-    username=<your-cloud-cms-username>
-    password=<your-cloud-cms-password>
-    baseURL=https://api.cloudcms.com
-    application=<your-cloud-cms-application>
-```    
-4. run your server:
-    `npm start`
+3. rename `env.txt` -> `.env` and add all the necessary key values. (all cloudcms keys from gitana.json):  
+4. install databases by running `$ docker-compose up` or in detached mode: `$ docker-compose up -d` 
+5. run your server:
+    `$ npm start`
     or
-    `pm2 start src/`
-    `nodemon start src/`
+    `$ pm2 start src/`
+    `$ nodemon start src/`
     etc.
-5. to run tests
-    `npm run test`
-6. to send coverage results to coveralls (add a .coveralls.yml with your key)
-    `npm run coveralls`
+6. to run tests
+    `$ npm run test`
+7. Give a user admin rights:
+    1. connect to mongo: `$ mongo`
+    2. switch to correct db: `>>> use ers-api`
+    3. find the user, i usally save the collection as a varaiable: `>>> u = db.users` then `>>> u.find({"ersId": 123456})` or `>>> u.find()` to list all users
+    4. update persmissions either by replacing the whole object:
+        ```
+        u.update({"_id": ObjectId("5b42ed8456a353f33b9c6e1f")}, {"ersId" : 203041, "__v" : 0, "createdAt" : ISODate("2018-07-09T05:07:16.188Z"), "email" : "<the-email>", "key4Token" : "<the-token>", "password" : "<the-hashed-password>", "permissions" : [ "the-list, "of-permissions" ], "updatedAt" : ISODate("2018-07-09T05:07:16.188Z")})" ], "updatedAt" : ISODate("2018-07-09T05:07:16.188Z")})
+        ```
+        or by updating the permissions property
+        ```
+        u.update({"_id" : ObjectId("5b42ed8456a353f33b9c6e1f")}, {$addToSet:{permissions: "<the-permission-to-add>"}})
+        ```
