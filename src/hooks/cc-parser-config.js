@@ -46,6 +46,7 @@ module.exports = {
     'eventDate',
     'diseases',
     'appCommunity',
+    'communityPostStatus',
     'methods', 
     'eventEndDate', 
     'eventLocation', 

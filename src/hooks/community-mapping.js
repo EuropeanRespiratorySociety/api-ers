@@ -8,7 +8,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     const m = hook.result.data.map(i => {
       return {
         content: i.title,
-        fp_status: 'approved',
+        fp_status: i.communityPostStatus || 'approved',
         parent_doc_id: i.appCommunity,
         extra_content: i.leadParagraph ? i.leadParagraph : undefined,
         // order: undefined,
