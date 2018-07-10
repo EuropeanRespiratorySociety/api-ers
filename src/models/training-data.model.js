@@ -10,6 +10,12 @@ module.exports = function (app) {
       {
         diseases: [String],
         methods: [String],
+        predictions:[
+          {
+            label: String,
+            probability: Number
+          }
+        ],
         version: String
       }
     ],
