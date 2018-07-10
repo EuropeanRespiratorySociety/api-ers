@@ -276,6 +276,26 @@ module.exports = {
 
     }
   }, 
+  successTrainingCreated: {
+    description: 'sucessful operation',
+    schema: {
+      type: 'object',
+      properties: {
+        text: {type: 'string'},
+        classifiers: {type: 'array'},
+        source: {type:'string'},
+        diseases: {type: 'array'},
+        methods: {type: 'array'},
+        reviewers: {type: 'array'},
+        doi: {type: 'string'},
+        _doc: {type: 'string'},
+        _id: {type: 'string'}
+      },
+      example: {
+      }
+
+    }
+  }, 
   successNoResult: {
     description: 'No result returned for request, but request sucessful',
     schema: {

@@ -54,11 +54,11 @@ module.exports = function () {
   app.configure(respiratoryMatters);
   app.configure(search);
   app.configure(sleepandbreathing);
+  app.configure(trainingData);
   app.configure(users);
   app.configure(vision);
   app.configure(webhook);
   // Has to be last
   // For now graphql endpoint is offline
   // app.configure(graphql);
-  app.configure(trainingData);
 };
