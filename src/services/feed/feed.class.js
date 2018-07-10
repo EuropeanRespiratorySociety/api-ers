@@ -1,12 +1,13 @@
 const F = require('ers-utils').Format;
 const format = new F();
-const setFilter = require('../../helpers/setFilters');
+const setFilters = require('../../helpers/setFilters');
 
 /* eslint-disable no-unused-vars */
 class Service {
   constructor (options) {
     this.options = options || {};
     this.setFilter = setFilter;
+    this.setFilters = setFilters;
   }
 
   setup(app) {
@@ -17,15 +18,14 @@ class Service {
     const q = params.query;
     const direction = parseInt(q.sortDirection) || -1;
     const sortBy = q.sortBy || '_system.created_on.ms';
+    const type = q.type || 'ers:article';
+    const contentType = q.contentType || 'news';
+    const filter = this.setFilter(contentType, type);
     const limit = format.setLimit(q.limit, this.options.paginate);
-    const filters = this.setFilter(q.filterBy || false);
+    const filters = this.setFilters(q.filterBy || false);
     const body = Object.assign(
       params.body || {}, 
-      {
-        _type: q.type || 'ers:article',
-        type: 'News',
-        unPublished: { $ne: true}
-      },
+      filter,
       filters
     );
 
@@ -81,3 +81,31 @@ module.exports = function (options) {
 };
 
 module.exports.Service = Service;
+
+const setFilter = (contentType, type) => {
+  // const base = {eventDate: {'$gte': m().format('MM/DD/YYYY')}};
+  // for now date filtering does not work as expected.
+  const base = {};
+  if(contentType === 'news'){
+    return {...base, ...{
+      _type: type || 'ers:article',
+      type: 'News',
+      unPublished: { $ne: true }
+    }};
+  }
+
+  if(contentType === 'published'){
+    return {...base, ...{
+      _type: type || 'ers:article',
+      unPublished: { $ne: true }
+    }};
+  }
+
+  if(contentType === 'all'){
+    return {...base, ...{
+      _type: type || 'ers:article'
+    }};
+  }
+
+  return base;
+};

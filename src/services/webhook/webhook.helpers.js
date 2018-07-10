@@ -184,7 +184,7 @@ class Helpers {
     
     // 1. Divide total by batches 
     const data = await s.find({
-      query:{ full: true, type, limit }
+      query:{ full: true, type, contenType: 'published', limit }
     });
     const firstBatch = data.data;
     const batches = Math.ceil(data._sys.total / limit);
