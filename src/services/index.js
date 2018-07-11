@@ -26,6 +26,7 @@ const search = require('./search/search.service.js');
 const appHighlights = require('./app-highlights/app-highlights.service.js');
 const notification = require('./notification/notification.service.js');
 const appCommunity = require('./app-community/app-community.service.js');
+const trainingData = require('./training-data/training-data.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
@@ -53,6 +54,7 @@ module.exports = function () {
   app.configure(respiratoryMatters);
   app.configure(search);
   app.configure(sleepandbreathing);
+  app.configure(trainingData);
   app.configure(users);
   app.configure(vision);
   app.configure(webhook);
