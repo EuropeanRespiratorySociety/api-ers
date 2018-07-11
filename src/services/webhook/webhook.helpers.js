@@ -200,7 +200,7 @@ class Helpers {
     let i = 1;
     for(i; i < batches; i++) {
       const b = await s.find({
-        query:{ full: true, type, limit, skip: i * limit }
+        query:{ full: true, type, contenType: 'published', limit, skip: i * limit }
       });
 
       console.log(chalk.cyan('[webhook]'), `Indexing batch #${i + 1}...`);

@@ -2,6 +2,7 @@
 const h = require('./webhook.helpers');
 const j = require('./webhook.journals');
 const s = require('./webhook.static-pages');
+const c = require('./webhook.classify');
 const cache = require('./webhook.cache');
 const errors = require('@feathersjs/errors');
 //  making sure it .env is loaded
@@ -49,6 +50,8 @@ class Service {
       ? h.indexErsContent(this.app, 'sb:article')
       : type === 'index-journals'
       ? j.indexJournals(this.app, printErrors, force)
+      : type === 'classify-training-data'
+      ? c.classifyTrainingData(this.app, printErrors)
       : 'no such processing available';
     /* eslint-enable indent */
   }

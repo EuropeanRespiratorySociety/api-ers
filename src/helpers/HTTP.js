@@ -2,6 +2,8 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.load();
 
+const eid = process.env.NODE_ENV === 'development' ? process.env.SPOTME_DEV_APP : process.env.SPOTME_PROD_APP;
+const nlpServer = process.env.NLP_SERVER;
 /**
  * 
  * @param {String} url - base url
@@ -21,12 +23,12 @@ const HTTP = (url, token = null) =>
   );
 
 const k4Client = HTTP('https://k4.ersnet.org/prod/v2/Front');
-
-const eid = process.env.NODE_ENV === 'development' ? process.env.SPOTME_DEV_APP : process.env.SPOTME_PROD_APP;
 const spotmeClient = HTTP(`https://ds.4pax.com/api/v1/event-proxy/${eid}/nodehandlers/ers/notify?accredited_link_token=${process.env.SPOTME_NOTIFICATION_KEY}`);
+const nlpClient = HTTP(nlpServer);
 
 module.exports = {
   HTTP,
   k4Client,
-  spotmeClient
+  spotmeClient,
+  nlpClient
 };
