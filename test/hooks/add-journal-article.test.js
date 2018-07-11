@@ -152,6 +152,7 @@ describe('\'addJournalArticle\' hook', () => {
       result: {
         data: {
           doi: '10.1183/20734735.008617',
+          title: 'this is a title',
           body: 'test body'
         }
       },
@@ -183,7 +184,8 @@ describe('\'addJournalArticle\' hook', () => {
       expect(body).to.be.a('string')
         .to.have.string('<br />');
       expect(title).to.be.a('string')
-        .to.equal('Breathe: biomedical engineering in respiratory disorders');
+        .to.equal('this is a title');
+      expect(body).to.have.string('<h3>Breathe: biomedical engineering in respiratory disorders</h3>');
       expect(body).to.have.string('This issue is dedicated to technological');
       expect(body).to.have.string('test body');
     });
@@ -258,8 +260,9 @@ describe('\'addJournalArticle\' hook', () => {
       expect(data[0]).to.be.an('object')
         .to.haveOwnProperty('body')
         .to.have.string('This issue is dedicated to technological');
+      expect(data[0].body).to.have.string('<h3>Breathe: biomedical engineering in respiratory disorders</h3>');
       expect(data[0]).to.haveOwnProperty('title')
-        .to.equal('Breathe: biomedical engineering in respiratory disorders');
+        .to.equal('Test Article with DOI');
       expect(data[1]).to.be.an('object')
         .not.to.haveOwnProperty('doi');
       expect(data[1]).to.be.an('object')

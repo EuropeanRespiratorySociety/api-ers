@@ -18,8 +18,10 @@ const oneArticle = function (options = {}) { // eslint-disable-line no-unused-va
         const article = a.data[0];
 
         if (article) {
-          hook.result.data.body = `${hook.result.data.body ? hook.result.data.body + '<br />' : ''}${article.abstract}`;
-          hook.result.data.title = article.title;
+          hook.result.data.body = `
+            ${hook.result.data.body ? hook.result.data.body + '<br />' : ''}
+            <h3>${article.title}</h3>
+            ${article.abstract}`;
           resolve(hook);
         }
 
@@ -50,8 +52,10 @@ const manyArticle = function (options = {}) {
 
             const article = a.data[0];
             if (article) {
-              i.body = `${i.body ? i.body + '<br />' : ''}${article.abstract}`;
-              i.title = article.title;
+              i.body = `
+                ${hook.result.data.body ? hook.result.data.body + '<br />' : ''}
+                <h3>${article.title}</h3>
+                ${article.abstract}`;
               return i;
             }
 
