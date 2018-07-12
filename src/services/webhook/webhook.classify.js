@@ -1,5 +1,6 @@
 const chalk = require('chalk');
 const { nlpClient } = require('../../helpers/HTTP');
+const sureThing = require('../../helpers/sureThing');
 
 /*eslint no-console: off*/
 class Classifier {
@@ -8,8 +9,8 @@ class Classifier {
     this.nlpClient = nlpClient;
   }
 
-  async classifyTrainingData (app) {
-    const limit = 1;
+  async classifyCloudCMSContent (app) {
+    const limit = 30;
     const training = app.service('training-data');
     const feed = app.service('feed');
 
@@ -17,30 +18,32 @@ class Classifier {
     console.log(chalk.cyan('[webhook]'), 'Retreiving training data...');
     // 1. Divide total by batches 
     const data = await feed.find({
-      query:{ full: true, format: 'raw', type: 'ers:article', contenType: 'all', limit }
+      query:{ full: true, format: 'raw', type: 'ers:article', contentType: 'all', limit}
     });
     const firstBatch = data.data;
     const batches = Math.ceil(data._sys.total / limit);
+    console.log(chalk.cyan('[webhook]'), `${data._sys.total} to classify in ${batches} batches`);
 
     // We already have the data for the first batch
-    // let result = [];
+    let result = [];
     console.log(chalk.cyan('[webhook]'), 'Classifying batch #1...');
     console.time('training');
-    const r1 = await this.train(firstBatch, training);
-    // r1.map(i => result.push({item: i._id, stats: i}));
+    const r1 = await this.trainOnCloudCMSData(firstBatch, training);
+    r1.map(i => result.push(i));
 
-    // let i = 1;
-    // for(i; i < batches; i++) {
-    //   const b = await feed.find({
-    //     query:{ full: true, type: 'ers:article', format: 'raw', contenType: 'published', limit, skip: i * limit }
-    //   });
+    let i = 1;
+    for(i; i < batches; i++) {
+      const b = await feed.find({
+        query:{ full: true, type: 'ers:article', format: 'raw', contentType: 'all', limit, skip: i * limit}
+      });
 
-    //   console.log(chalk.cyan('[webhook]'), `Classifying batch #${i + 1}...`);
-    //   const rn = await this.train(b.data, training);
-    //   rn.map(i => result.push({item: i._id, stats: i}));
-    // }
+      console.log(chalk.cyan('[webhook]'), `Classifying batch #${i + 1}...`);
+      const rn = await this.trainOnCloudCMSData(b.data, training);
+      rn.map(i => result.push(i));
+    }
+
     console.timeEnd('training');
-    return r1;
+    return result;
   }
 
   /**
@@ -48,37 +51,49 @@ class Classifier {
    * @param {*} array - data to classify
    * @param {*} t - training-data service (to save/update results)
    */
-  async train (array, t) {
-    return array.map(async i => {
+  async trainOnCloudCMSData (array, t) {
+    return await Promise.all(array.map(async (i) => {
       // classify
-      const text = `${i.leadParagraph ? i.leadParagraph: ''} ${i.body ? i.body: ''}`.replace(/(\r\n\t|\n|\r\t)/gm, '');
-      const r = await this.nlpClient.post('/analyse', { text });
-      console.log(chalk.cyan('>>> '), {id: i._doc, status: 'Classified'});
+      const text = `${i.leadParagraph ? i.leadParagraph: ''} ${i.body ? i.body: ''}`.replace(/(\r\n\t|\n|\r\t)/gm, ' ');
+
+      const { ok, response, error } = await sureThing(this.nlpClient.post('/analyse', { text }));
+      // console.log(chalk.cyan('>>> '), {id: i._doc, status: ok ? 'Classified' : 'Something went wrong', error});
+
+      const category = [];
+      i.category.title ? category.push({ id: i.category.id, title: i.category.title}) : undefined;
+      i.category2.length > 0 && i.category2[0].title ? i.category2.forEach(d => {
+        category.push({ id: d.category.id, title: d.category.title });
+      }) : undefined;
 
       // save
       const c = {
-        text: r.data.text,
+        text: response.data.text,
         _doc: i._doc,
         source: 'Cloud CMS',
-        $addToSet: { classifiers: [
+        category,
+        $addToSet: { classifiers: 
           {
-            diseases: r.data.diseases,
-            methods: r.data.methods,
-            predictions: r.data.predictions,
-            version: r.data.version
+            diseases: response.data.diseases,
+            methods: response.data.methods === 'coming soon' ? undefined : response.data.methods,
+            predictions: response.data.predictions,
+            version: response.data.version
           }
-        ] }
+        }
       };
 
-      console.log({text,r, c});
-      const result = await t.patch(
+      console.log('category:', c.category);
+
+      const result = await sureThing(t.patch(
         null,
         c,
-        { mongoose: { upsert: true }}
-      );
-      console.log(chalk.cyan('>>> '), {id: i._doc, status: 'Saved'});
-      return result;
-    });
+        {
+          query: { _doc: i._doc },
+          mongoose: { upsert: true }
+        }
+      ));
+      console.log(chalk.cyan('>>> '), {id: i._doc, status: result.ok ? 'Saved' : 'Error', error});
+      return {id: i._doc, classification: ok, status: result.ok ? 'Saved' : 'Error'};
+    }));
   }
 }
 

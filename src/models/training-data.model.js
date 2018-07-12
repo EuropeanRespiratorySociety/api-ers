@@ -13,22 +13,28 @@ module.exports = function (app) {
         predictions:[
           {
             label: String,
-            probability: Number
+            probability: Number,
+            _id: false
           }
         ],
-        version: String
+        version: String,
+        classifiedOn: { type: Date, default: Date.now },
+        _id: false
       }
     ],
     source: {
       type: String, required: true
     },
-    doi: String,
-    _doc: String,
+    categories: [String],
+    doi: { type: String, unique: true, sparse:true },
+    _doc: { type: String, unique: true, sparse:true },
     reviewers: [
       {
         ersId: Number,
         disease: [String],
-        methods: [String]
+        methods: [String],
+        reviewedOn: { type: Date, default: Date.now },
+        _id: false
       }
     ],
     createdAt: { type: Date, default: Date.now },

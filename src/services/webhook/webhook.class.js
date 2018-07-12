@@ -50,8 +50,8 @@ class Service {
       ? h.indexErsContent(this.app, 'sb:article')
       : type === 'index-journals'
       ? j.indexJournals(this.app, printErrors, force)
-      : type === 'classify-training-data'
-      ? c.classifyTrainingData(this.app, printErrors)
+      : type === 'classify-cloud-cms-content'
+      ? classifyCloudCMS(this.app)
       : 'no such processing available';
     /* eslint-enable indent */
   }
@@ -104,4 +104,9 @@ function error() {
 function presentations(app, congress, e, seeding) {
   h.upsertPresentations(app, congress, e, seeding);
   return { message: 'This process runs for a long time, check the logs in ES to know where we are at' };
+}
+
+function classifyCloudCMS (app) {
+  c.classifyCloudCMSContent(app);
+  return { message: 'This process runs for a long time, check the logs to know where we are at' };
 }
