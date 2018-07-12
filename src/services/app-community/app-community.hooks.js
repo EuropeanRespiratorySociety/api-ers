@@ -15,7 +15,11 @@ module.exports = {
 
   after: {
     all: [],
-    find: [ccParserCategory(), metadata(), communityMapping()],
+    find: [
+      ccParserCategory(),
+      metadata(),
+      communityMapping()
+    ],
     get: [],
     create: [],
     update: [],

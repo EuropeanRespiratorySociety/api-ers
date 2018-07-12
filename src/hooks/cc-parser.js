@@ -20,7 +20,7 @@ exports.ccParserCategory = options => { // eslint-disable-line no-unused-vars
   return async hook => {
     const q = Object.assign({}, hook.params.query);
     const full = q.full || false;
-    const type = q.format || 'html';
+    const type = q.format || 'markdown';
 
     const cache = hook.result.cache || {cached:false};
     if(hook.result.status === 200 && !cache.cached) {
