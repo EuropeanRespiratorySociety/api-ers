@@ -59,10 +59,10 @@ class Classifier {
       const { ok, response, error } = await sureThing(this.nlpClient.post('/analyse', { text }));
       // console.log(chalk.cyan('>>> '), {id: i._doc, status: ok ? 'Classified' : 'Something went wrong', error});
 
-      const category = [];
-      i.category.title ? category.push({ id: i.category.id, title: i.category.title}) : undefined;
+      const categories = [];
+      i.category.title ? categories.push({ id: i.category.id, title: i.category.title}) : undefined;
       i.category2.length > 0 && i.category2[0].title ? i.category2.forEach(d => {
-        category.push({ id: d.category.id, title: d.category.title });
+        categories.push({ id: d.id, title: d.title });
       }) : undefined;
 
       // save
@@ -70,7 +70,8 @@ class Classifier {
         text: response.data.text,
         _doc: i._doc,
         source: 'Cloud CMS',
-        category,
+        categories,
+        slug: i.slug,
         $addToSet: { classifiers: 
           {
             diseases: response.data.diseases,
@@ -80,8 +81,6 @@ class Classifier {
           }
         }
       };
-
-      console.log('category:', c.category);
 
       const result = await sureThing(t.patch(
         null,

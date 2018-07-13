@@ -1,6 +1,8 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const checkPermissions = require('feathers-permissions');
 const { iff, isProvider } = require('feathers-hooks-common');
+const addReviewer = require('../../hooks/add-reviewer');
+const {before, after} = require('../../hooks/training-aggs');
 
 module.exports = {
   before: {
@@ -10,7 +12,8 @@ module.exports = {
         authenticate('jwt'),
         checkPermissions({
           roles: ['admin', 'training']
-        })
+        }),
+        before()
       ])
     ],
     get: [
@@ -42,7 +45,8 @@ module.exports = {
         authenticate('jwt'),
         checkPermissions({
           roles: ['admin', 'training']
-        })
+        }),
+        addReviewer()
       ])],
     remove: [
       iff(isProvider('external'), [
@@ -56,7 +60,7 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
+    find: [after()],
     get: [],
     create: [],
     update: [],

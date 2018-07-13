@@ -28,10 +28,11 @@ module.exports = function (app) {
     categories: [String],
     doi: { type: String, unique: true, sparse:true },
     _doc: { type: String, unique: true, sparse:true },
+    slug: { type: String, unique: true, sparse:true },
     reviewers: [
       {
         ersId: Number,
-        disease: [String],
+        diseases: [String],
         methods: [String],
         reviewedOn: { type: Date, default: Date.now },
         _id: false
