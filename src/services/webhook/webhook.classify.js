@@ -1,6 +1,8 @@
 const chalk = require('chalk');
 const { nlpClient } = require('../../helpers/HTTP');
 const sureThing = require('../../helpers/sureThing');
+const { Format } = require('ers-utils');
+const f = new Format();
 
 /*eslint no-console: off*/
 class Classifier {
@@ -18,7 +20,7 @@ class Classifier {
     console.log(chalk.cyan('[webhook]'), 'Retreiving training data...');
     // 1. Divide total by batches 
     const data = await feed.find({
-      query:{ full: true, format: 'raw', type: 'ers:article', contentType: 'all', limit}
+      query:{ full: true, type: 'ers:article', contentType: 'all', limit}
     });
     const firstBatch = data.data;
     const batches = Math.ceil(data._sys.total / limit);
@@ -34,7 +36,7 @@ class Classifier {
     let i = 1;
     for(i; i < batches; i++) {
       const b = await feed.find({
-        query:{ full: true, type: 'ers:article', format: 'raw', contentType: 'all', limit, skip: i * limit}
+        query:{ full: true, type: 'ers:article', contentType: 'all', limit, skip: i * limit}
       });
 
       console.log(chalk.cyan('[webhook]'), `Classifying batch #${i + 1}...`);
@@ -53,8 +55,8 @@ class Classifier {
    */
   async trainOnCloudCMSData (array, t) {
     return await Promise.all(array.map(async (i) => {
-      // classify
-      const text = `${i.leadParagraph ? i.leadParagraph: ''} ${i.body ? i.body: ''}`.replace(/(\r\n\t|\n|\r\t)/gm, ' ');
+      const originalText = `${i.leadParagraph ? i.leadParagraph: ''} ${i.body ? i.body: ''}`;
+      const text = f.clean(originalText).replace(/(\r\n\t|\n|\r\t)/gm, ' ');
 
       const { ok, response, error } = await sureThing(this.nlpClient.post('/analyse', { text }));
       // console.log(chalk.cyan('>>> '), {id: i._doc, status: ok ? 'Classified' : 'Something went wrong', error});
@@ -67,6 +69,7 @@ class Classifier {
 
       // save
       const c = {
+        originalText,
         text: response.data.text,
         _doc: i._doc,
         source: 'Cloud CMS',

@@ -6,6 +6,7 @@ module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const trainingData = new mongooseClient.Schema({
     text: { type: String, required: true },
+    originalText: { type: String, required: true },
     classifiers: [
       {
         diseases: [String],
@@ -38,6 +39,7 @@ module.exports = function (app) {
         _id: false
       }
     ],
+    skippedBy: [Number],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });

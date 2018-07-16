@@ -6,7 +6,6 @@ const before = function (options = {}) { // eslint-disable-line no-unused-vars
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
     // classifier results
-
     return new Promise((resolve, reject) => {
       // const pipeline = [
       //   { $unwind: {  path: '$classifiers'} }, 
@@ -22,7 +21,7 @@ const before = function (options = {}) { // eslint-disable-line no-unused-vars
 
       // reviewers results
       const pipelineReviewers = [
-        { $unwind: {  path: '$reviewers'} }, 
+        { $unwind: {  path: '$reviewers'} },
         { $unwind: {  path: '$reviewers.diseases'} }, 
         { 
           $group: {
@@ -34,9 +33,20 @@ const before = function (options = {}) { // eslint-disable-line no-unused-vars
       ];
 
       hook.service.Model.aggregate(pipelineReviewers).then(r => {
-        // let's find out which class is less represented
+        // Let's reset query and set some defaults
+        hook.params.query = {};
         hook.params.query.$limit = 1;
         hook.params.query['reviewers.ersId'] = {'$ne': hook.params.user.ersId};
+        // if the user did not know the answer and skipped, no need propose it again
+        hook.params.query['skippedBy'] = {'$ne': hook.params.user.ersId};
+        // we want to add for now at most three reviewers
+        hook.params.query['$or'] = [
+          {reviewers:{$size: 2}},
+          {reviewers:{$size: 1}},
+          {reviewers:{$size: 0}},
+          {reviewers:{$exists: false}},
+        ];
+        // let's find out which class is less represented
         // we have 8 diseases
         if (r.length < 8) {
           const classesToExclude = r.reduce((a, i) => {

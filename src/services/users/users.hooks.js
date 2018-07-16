@@ -1,10 +1,11 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const { when, discard, iff, isProvider }= require('feathers-hooks-common');
+const { iff, isProvider }= require('feathers-hooks-common');
 const { restrictToOwner } = require('feathers-authentication-hooks');
 const checkPermissions = require('feathers-permissions');
 // const checkIsAdmin = require('../../hooks/check-is-admin');
 
-const { hashPassword } = require('@feathersjs/authentication-local').hooks;
+const { hashPassword, protect } = require('@feathersjs/authentication-local').hooks;
+
 const restrict = [
   authenticate('jwt'),
   restrictToOwner({
@@ -46,10 +47,7 @@ module.exports = {
 
   after: {
     all: [
-      when(
-        hook => hook.params.provider,
-        discard('password')
-      )
+      protect('password')
     ],
     find: [],
     get: [],
