@@ -11,7 +11,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         content: i.title,
         fp_status: i.communityPostStatus || 'approved',
         parent_doc_id: i.appCommunity,
-        extra_content: i.leadParagraph ? i.leadParagraph : undefined,
+        extra_content: `${i.leadParagraph ? i.leadParagraph : undefined} ${generateHashtags(i.diseases)} ${generateHashtags(i.methods)}`,
         // order: undefined,
         created_at: moment(i._system.created_on.iso_8601).unix(),
         image_url: i.image,
@@ -22,3 +22,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     return Promise.resolve(hook);
   };
 };
+
+function generateHashtags(array) {
+  return array.map(i => `#${i.split(' ').map(s => s.replace(/\w/, f => f.toUpperCase())).join('')}`);
+}
