@@ -60,7 +60,7 @@ const before = function (options = {}) { // eslint-disable-line no-unused-vars
             if (i.count < a.count) a = i;
             return a;
           });
-          hook.params.query['classifiers.diseases'] = {'$in': classToLookup._id};
+          hook.params.query['classifiers.diseases'] = {'$in': classToLookup._id === 'Paediatric respiratory diseases' ? 'Paediatric lung diseases' : classToLookup._id};
           resolve(hook);
         }
 

@@ -58,43 +58,47 @@ class Classifier {
       const originalText = `${i.leadParagraph ? i.leadParagraph: ''} ${i.body ? i.body: ''}`;
       const text = f.clean(originalText).replace(/(\r\n\t|\n|\r\t)/gm, ' ');
 
-      const { ok, response, error } = await sureThing(this.nlpClient.post('/analyse', { text }));
-      // console.log(chalk.cyan('>>> '), {id: i._doc, status: ok ? 'Classified' : 'Something went wrong', error});
-
-      const categories = [];
-      i.category.title ? categories.push({ id: i.category.id, title: i.category.title}) : undefined;
-      i.category2.length > 0 && i.category2[0].title ? i.category2.forEach(d => {
-        categories.push({ id: d.id, title: d.title });
-      }) : undefined;
-
-      // save
-      const c = {
-        originalText,
-        text: response.data.text,
-        _doc: i._doc,
-        source: 'Cloud CMS',
-        categories,
-        slug: i.slug,
-        $addToSet: { classifiers: 
-          {
-            diseases: response.data.diseases,
-            methods: response.data.methods === 'coming soon' ? undefined : response.data.methods,
-            predictions: response.data.predictions,
-            version: response.data.version
+      if (i.leadParagraph || i.body) {
+        const { ok, response, error } = await sureThing(this.nlpClient.post('/analyse', { text }));
+        // console.log(chalk.cyan('>>> '), {id: i._doc, status: ok ? 'Classified' : 'Something went wrong', error});
+  
+        const categories = [];
+        i.category.title ? categories.push({ id: i.category.id, title: i.category.title}) : undefined;
+        i.category2.length > 0 && i.category2[0].title ? i.category2.forEach(d => {
+          categories.push({ id: d.id, title: d.title });
+        }) : undefined;
+  
+        // save
+        const c = {
+          originalText,
+          text: response.data.text,
+          _doc: i._doc,
+          source: 'Cloud CMS',
+          categories,
+          slug: i.slug,
+          $addToSet: { classifiers: 
+            {
+              diseases: response.data.diseases,
+              methods: response.data.methods === 'coming soon' ? undefined : response.data.methods,
+              predictions: response.data.predictions,
+              version: response.data.version
+            }
           }
-        }
-      };
-
-      const result = await sureThing(t.patch(
-        null,
-        c,
-        {
-          query: { _doc: i._doc },
-          mongoose: { upsert: true }
-        }
-      ));
-      console.log(chalk.cyan('>>> '), {id: i._doc, status: result.ok ? 'Saved' : 'Error', error});
-      return {id: i._doc, classification: ok, status: result.ok ? 'Saved' : 'Error'};
+        };
+  
+        const result = await sureThing(t.patch(
+          null,
+          c,
+          {
+            query: { _doc: i._doc },
+            mongoose: { upsert: true }
+          }
+        ));
+        console.log(chalk.cyan('>>> '), {id: i._doc, status: result.ok ? 'Saved' : 'Error', error});
+        return {id: i._doc, classification: ok, status: result.ok ? 'Saved' : 'Error'};
+      }
+      console.log(chalk.cyan('>>> '), {id: i._doc, message: 'Item not classified - no useful text'});
+      return {id: i._doc, message: 'Item not classified - no useful text'};
     }));
   }
 }

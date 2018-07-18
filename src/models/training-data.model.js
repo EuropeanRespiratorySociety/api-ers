@@ -26,7 +26,12 @@ module.exports = function (app) {
     source: {
       type: String, required: true
     },
-    categories: [String],
+    categories: [
+      { 
+        id: String,
+        title: String
+      }
+    ],
     doi: { type: String, unique: true, sparse:true },
     _doc: { type: String, unique: true, sparse:true },
     slug: { type: String, unique: true, sparse:true },
