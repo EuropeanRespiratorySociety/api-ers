@@ -1,6 +1,6 @@
 // Application hooks that run for every service
 const logger = require('./hooks/logger');
-const local = require('@feathersjs/authentication-local');
+// const local = require('@feathersjs/authentication-local');
 
 module.exports = {
   before: {
@@ -14,8 +14,7 @@ module.exports = {
   },
 
   after: {
-    all: [ logger(),       
-      local.hooks.protect('password')
+    all: [ logger()
     ],
     find: [],
     get: [],

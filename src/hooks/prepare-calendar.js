@@ -18,6 +18,7 @@ module.exports = options => { // eslint-disable-line no-unused-vars
     const timeline = hook.params.query.timeline == 'true';
     const reverse = hook.params.query.reverse == 'true';
     const limit = parseInt(hook.params.query.limit) || null; 
+    
     /* eslint-disable indent */
     hook.result.data = !hook.result._sys.status === 200 
       ? {}
@@ -34,7 +35,6 @@ module.exports = options => { // eslint-disable-line no-unused-vars
     if(limit) {
       hook.result.data = hook.result.data.slice(0, limit);
     }
-
     return hook;
   };
 };

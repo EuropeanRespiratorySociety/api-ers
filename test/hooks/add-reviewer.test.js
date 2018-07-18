@@ -4,7 +4,10 @@ const addReviewer = require('../../src/hooks/add-reviewer');
 describe('\'add-reviewer\' hook', () => {
   it('runs the hook', () => {
     // A mock hook object
-    const mock = {};
+    const mock = {
+      data: {},
+      params: {user: {ersId: 123456}}
+    };
     // Initialize our hook with no options
     const hook = addReviewer();
 
