@@ -6,12 +6,22 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function (hook) {
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
+
     const m = hook.result.data.map(i => {
+      const extra_content = [
+        i.leadParagraph ? i.leadParagraph : '',
+        generateHashtags(i.diseases).join(' '),
+        generateHashtags(i.methods).join(' ')
+      ].reduce((a, c) => {
+        if (c.length > 0) a = a + ' ' + c;
+        return a;
+      }, '');
+
       return {
         content: i.title,
         fp_status: i.communityPostStatus || 'approved',
         parent_doc_id: i.appCommunity,
-        extra_content: `${i.leadParagraph ? i.leadParagraph : undefined} ${generateHashtags(i.diseases)} ${generateHashtags(i.methods)}`,
+        extra_content,
         // order: undefined,
         created_at: moment(i._system.created_on.iso_8601).unix(),
         image_url: i.image,
