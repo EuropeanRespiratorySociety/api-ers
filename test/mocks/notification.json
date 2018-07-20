@@ -14,8 +14,8 @@
             "body":"This is the body of the notification",
             "notificationType":"schedule",
             "channel": "alerts",
-            "sendDateTime":"06/30/2018 14:22:21",
-            "members":true,
+            "sendDateTime":"06/30/2018 14:22:21",  
+            "members": "A",
             "myERS":true,
             "contentType":"article",
             "article":{

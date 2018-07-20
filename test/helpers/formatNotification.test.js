@@ -26,7 +26,7 @@ describe('\'formatNotification\' helper', () => {
             'interest:Respiratory critical care': true,
             'interest:Respiratory infections': true,
             'logged_in_with_ers': true,
-            'MbshipStatus': true
+            'MbshipStatus': 'A'
           }
         ],
         title: 'This is a test notification',
@@ -55,7 +55,7 @@ describe('\'formatNotification\' helper', () => {
     expect(r.params.targets[0]['interest:Respiratory critical care']).to.be.ok;
     expect(r.params.targets[0]['interest:Respiratory infections']).to.be.ok;
     expect(r.params.targets[0]['logged_in_with_ers']).to.be.ok;
-    expect(r.params.targets[0]['MbshipStatus']).to.be.ok;
+    expect(r.params.targets[0]['MbshipStatus']).to.equal('A');
     expect(r.params.url).to.be.undefined;
   });
 
@@ -66,27 +66,27 @@ describe('\'formatNotification\' helper', () => {
         targets: [
           {
             'interest:Epidemiology': true,
-            'MbshipStatus': true,
+            'MbshipStatus': 'A',
             'logged_in_with_ers': true
           },
           {
             'interest:Pulmonary function testing': true,
-            'MbshipStatus': true,
+            'MbshipStatus': 'A',
             'logged_in_with_ers': true
           },
           {
             'interest:Paediatric respiratory diseases': true,
-            'MbshipStatus': true,
+            'MbshipStatus': 'A',
             'logged_in_with_ers': true
           },
           {
             'interest:Respiratory critical care': true,
-            'MbshipStatus': true,
+            'MbshipStatus': 'A',
             'logged_in_with_ers': true
           },
           {
             'interest:Respiratory infections': true,
-            'MbshipStatus': true,
+            'MbshipStatus': 'A',
             'logged_in_with_ers': true
           }
         ],
@@ -110,19 +110,19 @@ describe('\'formatNotification\' helper', () => {
     expect(r.params.targets).to.be.an('array').to.have.lengthOf(5);
     expect(r.params.targets[3]['interest:Epidemiology']).to.be.ok;
     expect(r.params.targets[3]['logged_in_with_ers']).to.be.ok;
-    expect(r.params.targets[3]['MbshipStatus']).to.be.ok;
+    expect(r.params.targets[3]['MbshipStatus']).to.equal('A');
     expect(r.params.targets[0]['interest:Paediatric respiratory diseases']).to.be.ok;
     expect(r.params.targets[0]['logged_in_with_ers']).to.be.ok;
-    expect(r.params.targets[0]['MbshipStatus']).to.be.ok;
+    expect(r.params.targets[0]['MbshipStatus']).to.equal('A');
     expect(r.params.targets[4]['interest:Pulmonary function testing']).to.be.ok;
     expect(r.params.targets[4]['logged_in_with_ers']).to.be.ok;
-    expect(r.params.targets[4]['MbshipStatus']).to.be.ok;
+    expect(r.params.targets[4]['MbshipStatus']).to.equal('A');
     expect(r.params.targets[1]['interest:Respiratory critical care']).to.be.ok;
     expect(r.params.targets[1]['logged_in_with_ers']).to.be.ok;
-    expect(r.params.targets[1]['MbshipStatus']).to.be.ok;
+    expect(r.params.targets[1]['MbshipStatus']).to.equal('A');
     expect(r.params.targets[2]['interest:Respiratory infections']).to.be.ok;
     expect(r.params.targets[2]['logged_in_with_ers']).to.be.ok;
-    expect(r.params.targets[2]['MbshipStatus']).to.be.ok;
+    expect(r.params.targets[2]['MbshipStatus']).to.equal('A');
     expect(r.params.url).to.be.undefined;
   });
 
@@ -133,27 +133,27 @@ describe('\'formatNotification\' helper', () => {
         targets: [
           {
             'interest:Epidemiology': true,
-            'MbshipStatus': true,
+            'MbshipStatus': 'A',
             'logged_in_with_ers': true
           },
           {
             'interest:Pulmonary function testing': true,
-            'MbshipStatus': true,
+            'MbshipStatus': 'A',
             'logged_in_with_ers': true
           },
           {
             'interest:Paediatric respiratory diseases': true,
-            'MbshipStatus': true,
+            'MbshipStatus': 'A',
             'logged_in_with_ers': true
           },
           {
             'interest:Respiratory critical care': true,
-            'MbshipStatus': true,
+            'MbshipStatus': 'A',
             'logged_in_with_ers': true
           },
           {
             'interest:Respiratory infections': true,
-            'MbshipStatus': true,
+            'MbshipStatus': 'A',
             'logged_in_with_ers': true
           }
         ],
@@ -191,7 +191,7 @@ describe('\'formatNotification\' helper', () => {
             'interest:Respiratory critical care': true,
             'interest:Respiratory infections': true,
             'logged_in_with_ers': true,
-            'MbshipStatus': true
+            'MbshipStatus': 'A'
           }
         ],
         title: 'This is a test notification',

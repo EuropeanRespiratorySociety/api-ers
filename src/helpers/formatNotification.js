@@ -2,7 +2,8 @@ const m = require('moment');
 
 /**
  * Given a CloudCMS Object, formats it as a Spotme notification
- * @param {string} filter - Airway diseases,Public health
+ * @param {*} obj 
+ * @param {*} and 
  */
 const formatNotification = (obj, and = false) => {
   const {
@@ -40,8 +41,8 @@ const formatNotification = (obj, and = false) => {
 
   if (members) {
     and
-      ? targetObj['MbshipStatus'] = true
-      : targetsArray.forEach(i => i['MbshipStatus'] = true );
+      ? targetObj['MbshipStatus'] = members
+      : targetsArray.forEach(i => i['MbshipStatus'] = members );
   }
 
   if (myERS) {

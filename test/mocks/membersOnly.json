@@ -16,7 +16,7 @@
                  "channel": "alerts",
                  "contentType":"link",
                  "link": "http://link.somewhere.com",
-                 "members":true,
+                 "members":"A",
                  "myERS":true,
                  "_system":{
                     "deleted":false,
