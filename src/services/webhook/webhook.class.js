@@ -101,8 +101,8 @@ function error() {
   throw new errors.Forbidden('The password did not match. You are not authorized to use this webhook');
 }
 
-function presentations(app, congress, e, seeding) {
-  h.upsertPresentations(app, congress, e, seeding);
+function presentations(app, congress, e, seeding, force) {
+  h.upsertPresentations(app, congress, e, seeding, force);
   return { message: 'This process runs for a long time, check the logs in ES to know where we are at' };
 }
 
