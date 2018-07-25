@@ -7,6 +7,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
     const m = hook.result.data.map(i => {
+      const { apiPath = false } = i.category || {};
       const extra_content = [
         i.leadParagraph ? i.leadParagraph : '',
         generateHashtags(i.diseases).join(' '),
@@ -15,8 +16,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         if (c.length > 0) a = a + ' ' + c;
         return a;
       }, '');
-
-      const { apiPath = false } = i.category;
 
       return {
         content: i.title,

@@ -3,7 +3,7 @@ const format = new F();
 
 /* eslint-disable no-unused-vars */
 class Service {
-  constructor (options) {
+  constructor(options) {
     this.options = options || {};
   }
 
@@ -17,10 +17,10 @@ class Service {
     const sortBy = q.sortBy || '_system.created_on.ms';
     const limit = format.setLimit(q.limit, this.options.paginate);
     const body = Object.assign(
-      params.body || {}, 
+      params.body || {},
       {
         postInAppCommunity: true,
-        unPublished: { $ne: true } 
+        unPublished: { $ne: true }
       }
     );
 
@@ -31,19 +31,19 @@ class Service {
       skip: parseInt(q.skip) || 0,
       sort: { [sortBy]: direction }
     };
-    
+
     params.options = opts;
     params.path = this.options.name;
 
     return new Promise((resolve, reject) => {
       global.cloudcms.queryNodes(body, opts)
-        .trap(function(e){
-          resolve({message:e.message, status: e.status});
+        .trap(function (e) {
+          resolve({ message: e.message, status: e.status });
         })
-        .each(function(){
+        .each(function () {
           this._system = this.getSystemMetadata();
         })
-        .then(function(){
+        .then(function () {
           const total = this.__totalRows();
           const items = JSON.parse(JSON.stringify(this.asArray()));
           resolve({
@@ -51,7 +51,7 @@ class Service {
             items,
             status: 200,
             total,
-            _sys: {status:200}
+            _sys: { status: 200 }
           });
         });
     });
