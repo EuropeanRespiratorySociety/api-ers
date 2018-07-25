@@ -72,6 +72,7 @@ class Classifier {
         const c = {
           originalText,
           text: response.data.text,
+          title: i.title,
           _doc: i._doc,
           source: 'Cloud CMS',
           categories,

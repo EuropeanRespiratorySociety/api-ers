@@ -5,11 +5,11 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function (hook) {
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
-    const { diseases = undefined, methods = undefined, skippedBy = false } = hook.data;
-    hook.data = !skippedBy 
+    const { diseases = undefined, methods = undefined, type = 'content', skippedBy = false } = hook.data;
+    hook.data = !skippedBy
       ? {
         $push: {
-          reviewers: {
+          [`${type}Reviewers`]: {
             ersId: hook.params.user.ersId,
             diseases,
             methods
@@ -17,6 +17,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         }
       }
       : { $push: { skippedBy } };
+
     return Promise.resolve(hook);
   };
 };

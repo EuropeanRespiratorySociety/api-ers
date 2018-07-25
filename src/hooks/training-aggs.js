@@ -21,31 +21,40 @@ const before = function (options = {}) { // eslint-disable-line no-unused-vars
 
       // reviewers results
       const pipelineReviewers = [
-        { $unwind: {  path: '$reviewers'} },
-        { $unwind: {  path: '$reviewers.diseases'} }, 
-        { 
+        { $unwind: { path: '$contentReviewers' } },
+        { $unwind: { path: '$contentReviewers.diseases' } },
+        {
           $group: {
-            _id: '$reviewers.diseases',  
-            count: {$sum:1},  
-            ids: {$addToSet: '$_doc'}
+            _id: '$contentReviewers.diseases',
+            count: { $sum: 1 },
+            ids: { $addToSet: '$_doc' }
           }
-        }  
+        }
       ];
+
+      if ('_totals' in hook.params.query) {
+        hook.service.Model.aggregate(pipelineReviewers).then(r => {
+          hook.result = r;
+          resolve(hook);
+        });
+      }
 
       hook.service.Model.aggregate(pipelineReviewers).then(r => {
         // Let's reset query and set some defaults
-        hook.params.query = {};
-        hook.params.query.$limit = 1;
-        hook.params.query['reviewers.ersId'] = {'$ne': hook.params.user.ersId};
-        // if the user did not know the answer and skipped, no need propose it again
-        hook.params.query['skippedBy'] = {'$ne': hook.params.user.ersId};
-        // we want to add for now at most three reviewers
-        hook.params.query['$or'] = [
-          {reviewers:{$size: 2}},
-          {reviewers:{$size: 1}},
-          {reviewers:{$size: 0}},
-          {reviewers:{$exists: false}},
-        ];
+        const query = {
+          $limit: 1,
+          'contentReviewers.ersId': { '$ne': hook.params.user.ersId },
+          'titleReviewers.ersId': { '$ne': hook.params.user.ersId },
+          'skyppedBy': { '$ne': hook.params.user.ersId },
+          '$or': [
+            { reviewers: { $size: 2 } },
+            { reviewers: { $size: 1 } },
+            { reviewers: { $size: 0 } },
+            { reviewers: { $exists: false } }
+          ]
+        };
+
+        hook.params.query = query;
         // let's find out which class is less represented
         // we have 8 diseases
         if (r.length < 8) {
@@ -53,19 +62,20 @@ const before = function (options = {}) { // eslint-disable-line no-unused-vars
             a.push(i._id);
             return a;
           }, []);
-          hook.params.query['classifiers.diseases'] = {'$nin': classesToExclude};
+          hook.params.query['classifiers.diseases'] = { '$nin': classesToExclude };
           resolve(hook);
         } else {
-          const classToLookup = r.reduce((a,i) => {
+          const classToLookup = r.reduce((a, i) => {
             if (i.count < a.count) a = i;
             return a;
           });
-          hook.params.query['classifiers.diseases'] = {'$in': classToLookup._id === 'Paediatric respiratory diseases' ? 'Paediatric lung diseases' : classToLookup._id};
+          hook.params.query['classifiers.diseases'] = { '$in': classToLookup._id === 'Paediatric respiratory diseases' ? 'Paediatric lung diseases' : classToLookup._id };
           resolve(hook);
         }
 
         reject('something went wrong');
       });
+
     });
   };
 };
@@ -74,16 +84,18 @@ const after = function (options = {}) { // eslint-disable-line no-unused-vars
   return function (hook) {
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
-    hook.result.data[0].classifiers = hook.result.data[0].classifiers.map(c => {
-      if(c.diseases.length === 0) {
-        const r = c.predictions.reduce((a, i) => {
-          if(a.probability < i.probability) a = i;
-          return a;
-        });
-        c.diseases.push(r.label);
-      }
-      return c;
-    });
+    if (!('_totals' in hook.params.query) && hook.result.data[0].classifiers) {
+      hook.result.data[0].classifiers = hook.result.data[0].classifiers.map(c => {
+        if (c.diseases.length === 0) {
+          const r = c.predictions.reduce((a, i) => {
+            if (a.probability < i.probability) a = i;
+            return a;
+          });
+          c.diseases.push(r.label);
+        }
+        return c;
+      });
+    }
 
     return Promise.resolve(hook);
   };

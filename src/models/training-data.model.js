@@ -7,11 +7,12 @@ module.exports = function (app) {
   const trainingData = new mongooseClient.Schema({
     text: { type: String, required: true },
     originalText: { type: String, required: true },
+    title: { type: String, required: true },
     classifiers: [
       {
         diseases: [String],
         methods: [String],
-        predictions:[
+        predictions: [
           {
             label: String,
             probability: Number,
@@ -27,19 +28,30 @@ module.exports = function (app) {
       type: String, required: true
     },
     categories: [
-      { 
+      {
         id: String,
         title: String
       }
     ],
-    doi: { type: String, unique: true, sparse:true },
-    _doc: { type: String, unique: true, sparse:true },
-    slug: { type: String, unique: true, sparse:true },
-    reviewers: [
+    doi: { type: String, unique: true, sparse: true },
+    _doc: { type: String, unique: true, sparse: true },
+    slug: { type: String },
+    contentReviewers: [
       {
         ersId: Number,
         diseases: [String],
         methods: [String],
+        reviewingType: String,
+        reviewedOn: { type: Date, default: Date.now },
+        _id: false
+      }
+    ],
+    titleReviewers: [
+      {
+        ersId: Number,
+        diseases: [String],
+        methods: [String],
+        reviewingType: String,
         reviewedOn: { type: Date, default: Date.now },
         _id: false
       }
