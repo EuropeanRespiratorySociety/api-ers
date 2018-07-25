@@ -37,45 +37,44 @@ const before = function (options = {}) { // eslint-disable-line no-unused-vars
           hook.result = r;
           resolve(hook);
         });
+      } else {
+        hook.service.Model.aggregate(pipelineReviewers).then(r => {
+          // Let's reset query and set some defaults
+          const query = {
+            $limit: 1,
+            'contentReviewers.ersId': { '$ne': hook.params.user.ersId },
+            'titleReviewers.ersId': { '$ne': hook.params.user.ersId },
+            'skippedBy': { '$ne': hook.params.user.ersId },
+            '$or': [
+              { reviewers: { $size: 2 } },
+              { reviewers: { $size: 1 } },
+              { reviewers: { $size: 0 } },
+              { reviewers: { $exists: false } }
+            ]
+          };
+
+          hook.params.query = query;
+          // let's find out which class is less represented
+          // we have 8 diseases
+          if (r.length < 8) {
+            const classesToExclude = r.reduce((a, i) => {
+              a.push(i._id);
+              return a;
+            }, []);
+            hook.params.query['classifiers.diseases'] = { '$nin': classesToExclude };
+            resolve(hook);
+          } else {
+            const classToLookup = r.reduce((a, i) => {
+              if (i.count < a.count) a = i;
+              return a;
+            });
+            hook.params.query['classifiers.diseases'] = { '$in': classToLookup._id === 'Paediatric respiratory diseases' ? 'Paediatric lung diseases' : classToLookup._id };
+            resolve(hook);
+          }
+
+          reject('something went wrong');
+        });
       }
-
-      hook.service.Model.aggregate(pipelineReviewers).then(r => {
-        // Let's reset query and set some defaults
-        const query = {
-          $limit: 1,
-          'contentReviewers.ersId': { '$ne': hook.params.user.ersId },
-          'titleReviewers.ersId': { '$ne': hook.params.user.ersId },
-          'skyppedBy': { '$ne': hook.params.user.ersId },
-          '$or': [
-            { reviewers: { $size: 2 } },
-            { reviewers: { $size: 1 } },
-            { reviewers: { $size: 0 } },
-            { reviewers: { $exists: false } }
-          ]
-        };
-
-        hook.params.query = query;
-        // let's find out which class is less represented
-        // we have 8 diseases
-        if (r.length < 8) {
-          const classesToExclude = r.reduce((a, i) => {
-            a.push(i._id);
-            return a;
-          }, []);
-          hook.params.query['classifiers.diseases'] = { '$nin': classesToExclude };
-          resolve(hook);
-        } else {
-          const classToLookup = r.reduce((a, i) => {
-            if (i.count < a.count) a = i;
-            return a;
-          });
-          hook.params.query['classifiers.diseases'] = { '$in': classToLookup._id === 'Paediatric respiratory diseases' ? 'Paediatric lung diseases' : classToLookup._id };
-          resolve(hook);
-        }
-
-        reject('something went wrong');
-      });
-
     });
   };
 };
