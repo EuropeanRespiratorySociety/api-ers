@@ -6,7 +6,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function (hook) {
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
-
     const m = hook.result.data.map(i => {
       const extra_content = [
         i.leadParagraph ? i.leadParagraph : '',
@@ -17,6 +16,8 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         return a;
       }, '');
 
+      const { apiPath = false } = i.category;
+
       return {
         content: i.title,
         fp_status: i.communityPostStatus || 'approved',
@@ -25,7 +26,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         // order: undefined,
         created_at: moment(i._system.created_on.iso_8601).unix(),
         image_url: i.image,
-        post_id: i._doc
+        post_id: i._doc,
+        related_post: {
+          endpoint: apiPath ? apiPath.split('/')[1] : '',
+          apiPath: apiPath ? apiPath : '',
+          slug: i.slug
+        }
       };
     });
     hook.result.data = m;

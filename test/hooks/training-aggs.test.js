@@ -1,5 +1,5 @@
 const assert = require('assert');
-const {before, after} = require('../../src/hooks/training-aggs');
+const { before, after } = require('../../src/hooks/training-aggs');
 
 describe('\'training-aggs\' hook', () => {
   it('runs the before hook', () => {
@@ -14,7 +14,7 @@ describe('\'training-aggs\' hook', () => {
       service: {
         Model: {
           aggregate: () => {
-            return new Promise((resolve) => {resolve([]);});
+            return new Promise((resolve) => { resolve([]); });
           }
         }
       }
@@ -32,6 +32,9 @@ describe('\'training-aggs\' hook', () => {
   it('runs the after hook', () => {
     // A mock hook object
     const mock = {
+      params: {
+        query: {}
+      },
       result: {
         data: [
           {
