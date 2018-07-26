@@ -19,8 +19,6 @@ const crmAuth = function (options) { // eslint-disable-line no-unused-vars
 
   return function (hook) {
     return new Promise((resolve, reject) => {
-      console.log(hook.params.headers);
-      console.log('>>>> id', hook.id);
       client.get('myCrm_api_key', (err, reply) => {
         if (reply) {
           //console.log("response from redis: ", reply)
