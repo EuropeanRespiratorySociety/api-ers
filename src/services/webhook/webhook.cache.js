@@ -17,27 +17,27 @@ class Cache {
     this.client = HTTP(process.env.API_URL);
   }
 
-  async clear (data) {
+  async clear(data) {
     const item = data._cloudcms.node.object;
 
     // special case for events
-    if(item.hasOwnProperty('category')) {
+    if (item.hasOwnProperty('category')) {
       clearCalendar(this.client, item);
       clearNews(this.client, item);
     }
 
-    if(item.hasOwnProperty('category2')) {
+    if (item.hasOwnProperty('category2')) {
       item.category2.map(i => {
         clearCalendar(this.client, i);
         clearNews(this.client, i);
       });
     }
-    
+
     // Getting the item from the cache (Redis)
     const reply = JSON.parse(await u.getAsync(item.slug));
 
     // clear a single item and its parent
-    if(reply) {
+    if (reply) {
       singleItem(this.client, item, reply, false, true);
     } else {
       // temporary, we (try to) clean the ers main website cache
@@ -48,9 +48,9 @@ class Cache {
     }
   }
 
-  e (data, type) {
-    if(type === 404) throw new errors.NotFound(`The item '${data.title}' was not found in the cache, therefore the new content should be available`);
-    if(type === 500) throw new errors.GeneralError('Something happened :(', data);
+  e(data, type) {
+    if (type === 404) throw new errors.NotFound(`The item '${data.title}' was not found in the cache, therefore the new content should be available`);
+    if (type === 500) throw new errors.GeneralError('Something happened :(', data);
   }
 }
 
@@ -65,9 +65,9 @@ async function singleItem(client, item, reply, category = false, index = false) 
   const b = client.get(`/cache/clear/single/${reply.cache.key}`);
   const c = client.get(`/cache/clear/group/${group}`);
   const [ta, tb, tc] = await Promise.all([a, b, c]);
-  
+
   const result = {
-    timestamp :  m().format('x'),
+    timestamp: m().format('x'),
     date: new Date(),
     item: {
       title: item.title,
@@ -78,15 +78,15 @@ async function singleItem(client, item, reply, category = false, index = false) 
       single: tb.data,
       group: tc.data
     }
-  }; 
+  };
 
   // eslint-disable-next-line no-console
   // console.log(result);
-  
+
   // 1. use cache status (200) to push to log index in ES
   await es.log('api-webhook-logs', '_doc', result);
   // 2. fetch new item by API and update the content in ES
-  const req = !category 
+  const req = !category
     ? `/${group}/${reply.cache.key}`
     : `/${group}`;
 
@@ -98,7 +98,7 @@ async function singleItem(client, item, reply, category = false, index = false) 
   // we parse the item to return minimal data to Elasticsearch
   const parsed = u.parse(article.data.data);
 
-  if(index) {
+  if (index) {
     item.unpublished
       ? await es.unIndex(item)
       : await es.index(parsed, 'content', parsed._doc);
@@ -121,9 +121,9 @@ const calendarUrlToBust = [
   'https://www.ersnet.org/congress-and-events/events-calendar?type=non-ers',
   'https://www.ersnet.org/congress-and-events/events-calendar?type=all'
 ];
-  
+
 function clearCalendar(client, item) {
-  if(item.category.title === 'Events Calendar') {
+  if (item.category && item.category.title === 'Events Calendar') {
     const data = {
       cache: {
         key: 'calendar',
@@ -141,9 +141,9 @@ function clearCalendar(client, item) {
     axios.post(`https://www.ersnet.org/cache?url=${calendarUrlToBust[3]}`);
   }
 }
-  
+
 function clearNews(client, item) {
-  if(item.category.title === 'News and Features') {
+  if (item.category && item.category.title === 'News and Features') {
     const data = {
       cache: {
         key: 'news',
