@@ -7,20 +7,21 @@ const client = require('../helpers/redis');
 const dotenv = require('dotenv');
 dotenv.load();
 
-const data = qs.stringify({ 
+const data = qs.stringify({
   grant_type: 'password',
   username: process.env.CRM_USER,
   password: process.env.CRM_PW
 });
 
 /* eslint-disable no-console */
-const crmAuth = function(options) { // eslint-disable-line no-unused-vars
+const crmAuth = function (options) { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
-  return function(hook) {
+  return function (hook) {
     return new Promise((resolve, reject) => {
+      console.log(hook.params.headers);
       client.get('myCrm_api_key', (err, reply) => {
-        if(reply) {
+        if (reply) {
           //console.log("response from redis: ", reply)
           hook.params.crmToken = reply;
           resolve(hook);
@@ -29,7 +30,7 @@ const crmAuth = function(options) { // eslint-disable-line no-unused-vars
             .post('https://crmapi.ersnet.org/Token', data)
             .then(response => {
               client.set('myCrm_api_key', response.data.access_token);
-              client.expire('myCrm_api_key', response.data.expires_in - 30 );
+              client.expire('myCrm_api_key', response.data.expires_in - 30);
               hook.params.crmToken = response.data.access_token;
               resolve(hook);
             })
@@ -39,20 +40,20 @@ const crmAuth = function(options) { // eslint-disable-line no-unused-vars
             });
         }
       });
-    });     
-  };      
+    });
+  };
 };
 
 /* eslint-disable no-console */
-const verifyUser = function(options) { // eslint-disable-line no-unused-vars
+const verifyUser = function (options) { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);
 
-  return function(hook) {
+  return function (hook) {
     return new Promise((resolve, reject) => {
       const isAdmin = hook.params.user.permissions.reduce((a, i) => {
         return i.includes('admin') ? true : a;
       }, false);
-      if(hook.params.user.ersId === parseInt(hook.id) || isAdmin) {
+      if (hook.params.user.ersId === parseInt(hook.id) || isAdmin) {
         resolve(hook);
       }
       reject(new errors.Forbidden('You are not allowed to view this ressource'));
