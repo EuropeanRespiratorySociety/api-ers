@@ -6,12 +6,12 @@ const f = new Format();
 
 /*eslint no-console: off*/
 class Classifier {
-  constructor (options) {
+  constructor(options) {
     this.options = options || {};
     this.nlpClient = nlpClient;
   }
 
-  async classifyCloudCMSContent (app) {
+  async classifyCloudCMSContent(app) {
     const limit = 30;
     const training = app.service('training-data');
     const feed = app.service('feed');
@@ -20,7 +20,7 @@ class Classifier {
     console.log(chalk.cyan('[webhook]'), 'Retreiving training data...');
     // 1. Divide total by batches 
     const data = await feed.find({
-      query:{ full: true, type: 'ers:article', contentType: 'all', limit}
+      query: { full: true, type: 'ers:article', contentType: 'all', limit }
     });
     const firstBatch = data.data;
     const batches = Math.ceil(data._sys.total / limit);
@@ -34,9 +34,9 @@ class Classifier {
     r1.map(i => result.push(i));
 
     let i = 1;
-    for(i; i < batches; i++) {
+    for (i; i < batches; i++) {
       const b = await feed.find({
-        query:{ full: true, type: 'ers:article', contentType: 'all', limit, skip: i * limit}
+        query: { full: true, type: 'ers:article', contentType: 'all', limit, skip: i * limit }
       });
 
       console.log(chalk.cyan('[webhook]'), `Classifying batch #${i + 1}...`);
@@ -53,21 +53,22 @@ class Classifier {
    * @param {*} array - data to classify
    * @param {*} t - training-data service (to save/update results)
    */
-  async trainOnCloudCMSData (array, t) {
+  async trainOnCloudCMSData(array, t) {
     return await Promise.all(array.map(async (i) => {
-      const originalText = `${i.leadParagraph ? i.leadParagraph: ''} ${i.body ? i.body: ''}`;
+      const originalText = `${i.leadParagraph ? i.leadParagraph : ''} ${i.body ? i.body : ''}`;
       const text = f.clean(originalText).replace(/(\r\n\t|\n|\r\t)/gm, ' ');
 
       if (i.leadParagraph || i.body) {
         const { ok, response, error } = await sureThing(this.nlpClient.post('/analyse', { text }));
         // console.log(chalk.cyan('>>> '), {id: i._doc, status: ok ? 'Classified' : 'Something went wrong', error});
-  
+
         const categories = [];
-        i.category.title ? categories.push({ id: i.category.id, title: i.category.title}) : undefined;
+        i.category.title ? categories.push({ id: i.category.id, title: i.category.title }) : undefined;
         i.category2.length > 0 && i.category2[0].title ? i.category2.forEach(d => {
           categories.push({ id: d.id, title: d.title });
         }) : undefined;
-  
+
+        console.log({ ok, response });
         // save
         const c = {
           originalText,
@@ -77,7 +78,8 @@ class Classifier {
           source: 'Cloud CMS',
           categories,
           slug: i.slug,
-          $addToSet: { classifiers: 
+          $addToSet: {
+            classifiers:
             {
               diseases: response.data.diseases,
               methods: response.data.methods === 'coming soon' ? undefined : response.data.methods,
@@ -86,7 +88,7 @@ class Classifier {
             }
           }
         };
-  
+
         const result = await sureThing(t.patch(
           null,
           c,
@@ -95,11 +97,11 @@ class Classifier {
             mongoose: { upsert: true }
           }
         ));
-        console.log(chalk.cyan('>>> '), {id: i._doc, status: result.ok ? 'Saved' : 'Error', error});
-        return {id: i._doc, classification: ok, status: result.ok ? 'Saved' : 'Error'};
+        console.log(chalk.cyan('>>> '), { id: i._doc, status: result.ok ? 'Saved' : 'Error', error });
+        return { id: i._doc, classification: ok, status: result.ok ? 'Saved' : 'Error' };
       }
-      console.log(chalk.cyan('>>> '), {id: i._doc, message: 'Item not classified - no useful text'});
-      return {id: i._doc, message: 'Item not classified - no useful text'};
+      console.log(chalk.cyan('>>> '), { id: i._doc, message: 'Item not classified - no useful text' });
+      return { id: i._doc, message: 'Item not classified - no useful text' };
     }));
   }
 }
