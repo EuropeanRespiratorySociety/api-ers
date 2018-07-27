@@ -129,7 +129,6 @@ class Classifier {
 
     let i = 1;
     for (i; i < batches; i++) {
-      console.log({ i, limit, $skip: i * limit })
       const b = await s.find({
         query: { $limit: limit, $skip: i * limit }
       });

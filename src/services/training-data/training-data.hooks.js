@@ -12,7 +12,7 @@ module.exports = {
       iff(isProvider('external'), [
         authenticate('jwt'),
         checkPermissions({
-          roles: ['admin', 'training']
+          roles: ['admin', 'myERS']
         }),
         before(),
         test()
@@ -22,7 +22,7 @@ module.exports = {
       iff(isProvider('external'), [
         authenticate('jwt'),
         checkPermissions({
-          roles: ['admin', 'training']
+          roles: ['admin', 'myERS']
         })
       ])
     ],
@@ -46,7 +46,7 @@ module.exports = {
       iff(isProvider('external'), [
         authenticate('jwt'),
         checkPermissions({
-          roles: ['admin', 'training']
+          roles: ['admin', 'myERS']
         }),
         addReviewer()
       ])],
