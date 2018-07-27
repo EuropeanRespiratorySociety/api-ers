@@ -153,7 +153,6 @@ class Classifier {
       if (i.abstract && i.abstract.length > 10) {
         const text = cleanHtml(i.abstract);
         const { ok, response, error } = await sureThing(this.nlpClient.post('/analyse', { text }));
-        console.log({ i, response })
         // save
         const c = {
           originalText: i.abstract,
@@ -180,11 +179,11 @@ class Classifier {
             mongoose: { upsert: true }
           }
         ));
-        console.log(chalk.cyan('>>> '), { id: i._doc, status: result.ok ? 'Saved' : 'Error', error });
-        return { id: i._doc, classification: ok, status: result.ok ? 'Saved' : 'Error' };
+        console.log(chalk.cyan('>>> '), { id: i._id, status: result.ok ? 'Saved' : 'Error', error });
+        return { id: i._id, classification: ok, status: result.ok ? 'Saved' : 'Error' };
       }
-      console.log(chalk.cyan('>>> '), { id: i._doc, message: 'Item not classified - no useful text' });
-      return { id: i._doc, message: 'Item not classified - no useful text' };
+      console.log(chalk.cyan('>>> '), { id: i._id, message: 'Item not classified - no useful text' });
+      return { id: i._id, message: 'Item not classified - no useful text' };
     }));
   }
 }
