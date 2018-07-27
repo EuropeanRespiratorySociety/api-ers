@@ -35,6 +35,7 @@ module.exports = function (app) {
     ],
     doi: { type: String, unique: true, sparse: true },
     _doc: { type: String, unique: true, sparse: true },
+    _journal: { type: String },
     slug: { type: String },
     contentReviewers: [
       {

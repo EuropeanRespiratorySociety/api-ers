@@ -10,7 +10,7 @@ const dotenv = require('dotenv');
 dotenv.load();
 
 class Service {
-  constructor (options) {
+  constructor(options) {
     this.options = options || {};
   }
 
@@ -18,7 +18,7 @@ class Service {
     this.app = app;
   }
 
-  async find (params) {
+  async find(params) {
     const type = params.query.type;
     const congress = params.query.year;
     const pw = params.query.pw;
@@ -28,35 +28,38 @@ class Service {
     const seeding = params.query.seeding == 'true' ? true : false; // this param will create problem is you seed twice...
 
     /* eslint-disable indent */
+    // prettier-ignore-start
     return pw !== process.env.WPW
       ? error()
       : type === 'save-congress-sessions'
-      ? h.upsertSessions(this.app, congress, e, seeding, force)
-      : type === 'save-congress-presentations'
-      ? presentations(this.app, congress, e, seeding, force)
-      : type === 'save-congress-abstracts'
-      ? h.upsertAbstracts(this.app, congress, e, seeding, force)
-      : type === 'index-congress-abstracts'
-      ? h.indexCongress(this.app, 'abstracts', congress)
-      : type === 'index-congress-sessions'
-      ? h.indexCongress(this.app, 'sessions', congress)
-      : type === 'index-congress-presentations'
-      ? h.indexCongress(this.app, 'presentations', congress)
-      : type === 'index-ers-content'
-      ? h.indexErsContent(this.app, 'ers:article', printErrors)
-      : type === 'index-ers-static-content'
-      ? s.index(this.app, 'ers:article', printErrors)
-      : type === 'index-sb-content'
-      ? h.indexErsContent(this.app, 'sb:article')
-      : type === 'index-journals'
-      ? j.indexJournals(this.app, printErrors, force)
-      : type === 'classify-cloud-cms-content'
-      ? classifyCloudCMS(this.app)
-      : 'no such processing available';
+        ? h.upsertSessions(this.app, congress, e, seeding, force)
+        : type === 'save-congress-presentations'
+          ? presentations(this.app, congress, e, seeding, force)
+          : type === 'save-congress-abstracts'
+            ? h.upsertAbstracts(this.app, congress, e, seeding, force)
+            : type === 'index-congress-abstracts'
+              ? h.indexCongress(this.app, 'abstracts', congress)
+              : type === 'index-congress-sessions'
+                ? h.indexCongress(this.app, 'sessions', congress)
+                : type === 'index-congress-presentations'
+                  ? h.indexCongress(this.app, 'presentations', congress)
+                  : type === 'index-ers-content'
+                    ? h.indexErsContent(this.app, 'ers:article', printErrors)
+                    : type === 'index-ers-static-content'
+                      ? s.index(this.app, 'ers:article', printErrors)
+                      : type === 'index-sb-content'
+                        ? h.indexErsContent(this.app, 'sb:article')
+                        : type === 'index-journals'
+                          ? j.indexJournals(this.app, printErrors, force)
+                          : type === 'classify-cloud-cms-content'
+                            ? classifyCloudCMS(this.app)
+                            : type === 'classify-journals'
+                              ? classifyJournals(this.app)
+                              : 'no such processing available';
     /* eslint-enable indent */
   }
 
-  async create (data, params) {
+  async create(data, params) {
     const type = params.query.type;
     const pw = params.query.pw;
     const force = params.query.force == 'true' ? true : false;
@@ -71,10 +74,10 @@ class Service {
     return pw !== process.env.WPW && !isCloudCMS(data)
       ? error()
       : type === 'cache' || isCloudCMS(data)
-      ? cache.clear(data)
-      : type === 'save-journal-abstract'
-      ? j.upsertJournalAbstract(this.app, data, true ) // temporarily forcing
-      : 'other method not yet implemented';
+        ? cache.clear(data)
+        : type === 'save-journal-abstract'
+          ? j.upsertJournalAbstract(this.app, data, true) // temporarily forcing
+          : 'other method not yet implemented';
     /* eslint-enable indent */
   }
 
@@ -93,7 +96,7 @@ module.exports = function (options) {
 
 module.exports.Service = Service;
 
-function isCloudCMS (data) {
+function isCloudCMS(data) {
   return data.hasOwnProperty('_cloudcms');
 }
 
@@ -106,7 +109,12 @@ function presentations(app, congress, e, seeding, force) {
   return { message: 'This process runs for a long time, check the logs in ES to know where we are at' };
 }
 
-function classifyCloudCMS (app) {
+function classifyCloudCMS(app) {
   c.classifyCloudCMSContent(app);
+  return { message: 'This process runs for a long time, check the logs to know where we are at' };
+}
+
+function classifyJournals(app) {
+  c.classifyJournals(app);
   return { message: 'This process runs for a long time, check the logs to know where we are at' };
 }
