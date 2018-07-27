@@ -48,44 +48,6 @@ class Classifier {
     return result;
   }
 
-  async classifyJournals(app) {
-    const limit = 30;
-    const training = app.service('training-data');
-    const s = app.service('journals');
-
-
-    console.log(chalk.cyan('[webhook]'), 'Retreiving training data...');
-    // 1. Divide total by batches 
-    const data = await s.find({
-      query: { $limit: limit }
-    });
-    const firstBatch = data.data;
-    const batches = Math.ceil(data.total / limit);
-    console.log(chalk.cyan('[webhook]'), `${data.total} to classify in ${batches} batches`);
-
-    // We already have the data for the first batch
-    let result = [];
-    console.log(chalk.cyan('[webhook]'), 'Classifying batch #1...');
-    console.time('training');
-    const r1 = await this.trainOnJournalAbstracts(firstBatch, training);
-    // @TODO if necessary, we could train the full text
-    r1.map(i => result.push(i));
-
-    let i = 1;
-    for (i; i < batches; i++) {
-      const b = await s.find({
-        query: { $limit: limit, $skip: i * limit }
-      });
-
-      console.log(chalk.cyan('[webhook]'), `Classifying batch #${i + 1}...`);
-      const rn = await this.trainOnJournalAbstracts(b.data, training);
-      rn.map(i => result.push(i));
-    }
-
-    console.timeEnd('training');
-    return result;
-  }
-
   /**
    * training and results saving method
    * @param {*} array - data to classify
@@ -142,6 +104,45 @@ class Classifier {
     }));
   }
 
+  async classifyJournals(app) {
+    const limit = 30;
+    const training = app.service('training-data');
+    const s = app.service('journals');
+
+
+    console.log(chalk.cyan('[webhook]'), 'Retreiving training data...');
+    // 1. Divide total by batches 
+    const data = await s.find({
+      query: { $limit: limit }
+    });
+    const firstBatch = data.data;
+    const batches = Math.ceil(data.total / limit);
+    console.log(chalk.cyan('[webhook]'), `${data.total} to classify in ${batches} batches`);
+
+    // We already have the data for the first batch
+    let result = [];
+    console.log(chalk.cyan('[webhook]'), 'Classifying batch #1...');
+    console.time('training');
+    const r1 = await this.trainOnJournalAbstracts(firstBatch, training);
+    // @TODO if necessary, we could train the full text
+    r1.map(i => result.push(i));
+
+    let i = 1;
+    for (i; i < batches; i++) {
+      console.log({ i, limit, $skip: i * limit })
+      const b = await s.find({
+        query: { $limit: limit, $skip: i * limit }
+      });
+
+      console.log(chalk.cyan('[webhook]'), `Classifying batch #${i + 1}...`);
+      const rn = await this.trainOnJournalAbstracts(b.data, training);
+      rn.map(i => result.push(i));
+    }
+
+    console.timeEnd('training');
+    return result;
+  }
+
   /**
    * training and results saving method
    * @param {*} array - data to classify
@@ -149,38 +150,44 @@ class Classifier {
    */
   async trainOnJournalAbstracts(array, t) {
     return await Promise.all(array.map(async (i) => {
-      console.log(i)
       if (i.abstract && i.abstract.length > 10) {
         const text = cleanHtml(i.abstract);
         const { ok, response, error } = await sureThing(this.nlpClient.post('/analyse', { text }));
         // save
-        const c = {
-          originalText: i.abstract,
-          text: response.data.text,
-          title: i.title,
-          _journal: i._id,
-          source: 'Journals',
-          $addToSet: {
-            classifiers:
-            {
-              diseases: response.data.diseases,
-              methods: response.data.methods === 'coming soon' ? undefined : response.data.methods,
-              predictions: response.data.predictions,
-              version: response.data.version
+        if (ok) {
+          const c = {
+            originalText: i.abstract,
+            text: response.data.text,
+            title: i.title,
+            _journal: i._id,
+            source: 'Journals',
+            $addToSet: {
+              classifiers:
+              {
+                diseases: response.data.diseases,
+                methods: response.data.methods === 'coming soon' ? undefined : response.data.methods,
+                predictions: response.data.predictions,
+                version: response.data.version
+              }
             }
-          }
-        };
+          };
 
-        const result = await sureThing(t.patch(
-          null,
-          c,
-          {
-            query: { _journal: i._id },
-            mongoose: { upsert: true }
-          }
-        ));
-        console.log(chalk.cyan('>>> '), { id: i._id, status: result.ok ? 'Saved' : 'Error', error });
-        return { id: i._id, classification: ok, status: result.ok ? 'Saved' : 'Error' };
+          const result = await sureThing(t.patch(
+            null,
+            c,
+            {
+              query: { _journal: i._id },
+              mongoose: { upsert: true }
+            }
+          ));
+
+          console.log(chalk.cyan('>>> '), { id: i._id, status: result.ok ? 'Saved' : 'Error', error });
+          return { id: i._id, classification: ok, status: result.ok ? 'Saved' : 'Error' };
+        }
+
+        console.log(chalk.cyan('>>> '), { id: i._id, status: 'Error', error });
+        return { id: i._id, classification: ok, status: 'Error', error };
+
       }
       console.log(chalk.cyan('>>> '), { id: i._id, message: 'Item not classified - no useful text' });
       return { id: i._id, message: 'Item not classified - no useful text' };
