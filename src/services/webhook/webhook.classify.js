@@ -68,7 +68,6 @@ class Classifier {
           categories.push({ id: d.id, title: d.title });
         }) : undefined;
 
-        console.log({ ok, response });
         // save
         const c = {
           originalText,
