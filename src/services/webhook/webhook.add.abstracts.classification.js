@@ -4,7 +4,7 @@ const sureThing = require('../../helpers/sureThing');
 /*eslint no-console: off*/
 const abstracts = async (app) => {
   const s = app.service('congress/abstracts');
-  return await Promise.all(data.map(async (i, k) => {
+  return await Promise.all(data.map(async (i) => {
     console.log(i.title);
     const { diseases, methods } = i;
     const { ok, response, error } = await sureThing(s.patch(
