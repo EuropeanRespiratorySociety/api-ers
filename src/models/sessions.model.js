@@ -51,6 +51,13 @@ module.exports = function (app) {
         country: String,
         shortName: String,
         ersId: Number,
+        isFaculty: Boolean,
+        COI: {
+          COI: Boolean,
+          Detail: String,
+          Comments: String,
+          Position: String
+        }
       }
     ],
     chairs: [{
@@ -61,7 +68,14 @@ module.exports = function (app) {
       city: String,
       country: String,
       shortName: String,
-      ersId: Number
+      ersId: Number,
+      isFaculty: Boolean,
+      COI: {
+        COI: Boolean,
+        Detail: String,
+        Comments: String,
+        Position: String
+      }
     }],
     room: [{
       id: Number,
@@ -93,7 +107,7 @@ module.exports = function (app) {
       }
     }],
     institutions: Array,
-    targets: [            {
+    targets: [{
       id: Number,
       name: String
     }]

@@ -30,7 +30,7 @@ module.exports = function (app) {
       abstractFigure: []
     },
     EPosterUrl: String,
-    speakers:[{
+    speakers: [{
       guid: String,
       fullName: String,
       firstName: String,
@@ -38,7 +38,14 @@ module.exports = function (app) {
       city: String,
       country: String,
       shortName: String,
-      ersId: Number
+      ersId: Number,
+      isFaculty: Boolean,
+      COI: {
+        COI: Boolean,
+        Detail: String,
+        Comments: String,
+        Position: String
+      }
     }],
     creationDate: Date,
     lastModificationDate: Date,
