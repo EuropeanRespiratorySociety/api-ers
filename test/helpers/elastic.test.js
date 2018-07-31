@@ -15,14 +15,14 @@ dotenv.load();
 
 describe('\'elastic\' helper', () => {
   it('is correctly imported', () => {
-    
+
     expect(r).to.be.an('object');
   });
 
   it('is correctly configured', () => {
     expect(r.client.transport._config.host).to.be.contain('https://api:');
   });
-  
+
   it('gives access to methods', () => {
     expect(r).to.respondTo('log');
     expect(r).to.respondTo('index');
@@ -30,25 +30,25 @@ describe('\'elastic\' helper', () => {
 
   it('logs data in a test index', async () => {
     const now = m().format();
-    const response = await r.log('test', '_doc', {id: now, test:'some content'});
+    const response = await r.log('abcde', '_doc', { id: now, test: 'some content' });
 
     expect(response)
       .to.be.an('object')
-      .to.haveOwnProperty('_index').to.equal('test');
+      .to.haveOwnProperty('_index').to.equal('abcde');
     expect(response).to.be.an('object')
       .to.haveOwnProperty('_type')
       .to.equal('_doc');
     expect(response).to.be.an('object')
       .to.haveOwnProperty('result')
       .to.equal('created');
-  }).timeout(10000);
+  }).timeout(20000);
 
   it('index data in a test index', async () => {
-    const response = await r.index({_doc: '123456', test:'some content'},'test-index');
+    const response = await r.index({ _doc: '123456', test: 'some content' }, 'bcdef');
 
     expect(response)
       .to.be.an('object')
-      .to.haveOwnProperty('_index').to.equal('test-index');
+      .to.haveOwnProperty('_index').to.equal('bcdef');
     expect(response).to.be.an('object')
       .to.haveOwnProperty('_type')
       .to.equal('_doc');
@@ -58,14 +58,14 @@ describe('\'elastic\' helper', () => {
     expect(response).to.be.an('object')
       .to.haveOwnProperty('_id')
       .to.equal('123456');
-  }).timeout(10000);
+  }).timeout(20000);
 
   it('index data in a test index with arbitrary id', async () => {
-    const response = await r.index({test:'some content'},'test-index', '123abc');
+    const response = await r.index({ test: 'some content' }, 'bcdef', '123abc');
 
     expect(response)
       .to.be.an('object')
-      .to.haveOwnProperty('_index').to.equal('test-index');
+      .to.haveOwnProperty('_index').to.equal('bcdef');
     expect(response).to.be.an('object')
       .to.haveOwnProperty('_type')
       .to.equal('_doc');
@@ -75,14 +75,14 @@ describe('\'elastic\' helper', () => {
     expect(response).to.be.an('object')
       .to.haveOwnProperty('_id')
       .to.equal('123abc');
-  }).timeout(10000);
+  }).timeout(20000);
 
   it('Un-index data in a test index', async () => {
-    const response = await r.unIndex({test:'some content'},'test-index', '123abc');
+    const response = await r.unIndex({ test: 'some content' }, 'bcdef', '123abc');
     expect(response.result).to.equal('deleted');
-  }).timeout(10000);
+  }).timeout(20000);
 
   after(async () => {
-    await r.client.indices.delete({index:'test,test-index'});
+    await r.client.indices.delete({ index: 'abcde,bcdef' });
   });
 });

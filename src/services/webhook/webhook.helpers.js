@@ -15,14 +15,14 @@ const clean = (string) => {
 };
 
 class Helpers {
-  constructor () {
+  constructor() {
     this.client = HTTP(process.env.API_URL);
     this.k4 = k4Client;
     this.k4Key = process.env.K4KEY;
     this.k4Params = `?key=${this.k4Key}`; // 5 -> 2015 - 8 -> 2016 - 42 -> 2017 - 90 -> 2018
   }
 
-  async upsertSessions (app, congress, eventId, seeding, force = false) {
+  async upsertSessions(app, congress, eventId, seeding, force = false) {
     const privateMeetings = ['Private meeting', 'Committee meeting'];
 
     console.log(chalk.cyan('[webhook]'), 'Fetching data...');
@@ -40,10 +40,9 @@ class Helpers {
       this.k4.get(`/Program/Faculties${this.k4Params}&e=${eventId}`),
       this.k4.get(`/Program/Sessions${this.k4Params}&e=${eventId}`),
       this.k4.get(`/Program/Methods${this.k4Params}&e=${eventId}`)
-    ]);    
+    ]);
     const requestTime = console.timeEnd('request');
 
-    
     // this.k4.get(`/Conference${this.k4Params}&e=${eventId}`)
     // this.k4.get(`/Event${this.k4Params}&e=${eventId}`)
 
@@ -84,38 +83,38 @@ class Helpers {
         gr.assembly = assemblies.filter(o => o.id === gr.assemblyID)[0];
         return gr;
       });
-      s.institutions = congress > 2016  
+      s.institutions = congress > 2016
         ? s.institutionIDs.map(i => {
           let inst = institutions.filter(o => o.id === i)[0];
-          inst.exhibitorStand =  stands.filter(o => o.id === inst.exhibitorStandID);
+          inst.exhibitorStand = stands.filter(o => o.id === inst.exhibitorStandID);
           inst.craStand = stands.filter(o => o.id === inst.craStandID);
-          return inst; 
-        }) 
+          return inst;
+        })
         : undefined;
       s.targets = u.setProperties(s.targetaudienceIDs, targets);
       return s;
     });
     const parsingTime = console.timeEnd('parsing');
 
-    
+
     const s = app.service('congress/sessions');
     // Seeding database
-    if(seeding) {
+    if (seeding) {
       const res = await s.Model.insertMany(parsedSessions);
       console.log(chalk.cyan('[webhook]'), 'DB seed status - ', `submitted #: ${parsedSessions.length}, inserted #: ${res.length}`);
-      return { message: 'seeded'};
+      return { message: 'seeded' };
     }
 
     return await save(s, 'sessions', congress, parsedSessions, requestTime, parsingTime, force);
   }
 
-  async upsertPresentations (app, congress, eventId, seeding, force = false) {
+  async upsertPresentations(app, congress, eventId, seeding, force = false) {
     console.log(chalk.cyan('[webhook]'), 'Fetching data...');
     const faculties = await this.k4.get(`/Program/Faculties${this.k4Params}&e=${eventId}`);
     console.time('request');
     const p = await this.k4.get(`/Program/Presentations${this.k4Params}&e=${eventId}`);
     const requestTime = console.timeEnd('request');
-    
+
     console.log(chalk.cyan('[webhook]'), 'Parsing...');
     console.time('parsing');
     const prezis = p.data.map(p => {
@@ -133,16 +132,16 @@ class Helpers {
 
     const s = app.service('congress/presentations');
     // seeding the database
-    if(seeding) {
+    if (seeding) {
       const res = await s.Model.insertMany(prezis);
       console.log(chalk.cyan('[webhook]'), 'DB seed status - ', `submitted #: ${prezis.length}, inserted #: ${res.length}`);
-      return { message: 'seeded'};
+      return { message: 'seeded' };
     }
 
     return await save(s, 'presentations', congress, prezis, requestTime, parsingTime, force);
   }
 
-  async upsertAbstracts (app, congress, eventId, seeding, force = false) {
+  async upsertAbstracts(app, congress, eventId, seeding, force = false) {
     console.log(chalk.cyan('[webhook]'), 'Fetching data...');
     console.time('request');
     const [a, b] = await Promise.all([
@@ -158,7 +157,7 @@ class Helpers {
       i.k4EventNumber = eventId;
       i.authors = u.setProperties(i.authorIDs, b.data);
       i.abstractTextOriginal = i.abstractText;
-      i.abstractText = clean(i.abstractText).replace(/(\r\n\t|\n|\r\t)/gm,' ').replace(/  +/g, ' ');
+      i.abstractText = clean(i.abstractText).replace(/(\r\n\t|\n|\r\t)/gm, ' ').replace(/  +/g, ' ');
       i.AbstractEmbargoDateTime = u.parseDate(i.AbstractEmbargoDateTime);
       return i;
     });
@@ -166,10 +165,10 @@ class Helpers {
 
     const s = app.service('congress/abstracts');
     // seeding the database
-    if(seeding) {
+    if (seeding) {
       const res = await s.Model.insertMany(parsedAbstracts);
       console.log(chalk.cyan('[webhook]'), 'DB seed status - ', `submitted #: ${parsedAbstracts.length}, inserted #: ${res.length}`);
-      return { message: 'seeded'};
+      return { message: 'seeded' };
     }
 
     return await save(s, 'abstracts', congress, parsedAbstracts, requestTime, parsingTime, force);
@@ -181,10 +180,10 @@ class Helpers {
     // -- prefix = sessions, presentations, abstracts
     const limit = 100;
     const s = app.service('feed');
-    
+
     // 1. Divide total by batches 
     const data = await s.find({
-      query:{ full: true, type, contenType: 'published', limit }
+      query: { full: true, type, contenType: 'published', limit }
     });
     const firstBatch = data.data;
     const batches = Math.ceil(data._sys.total / limit);
@@ -195,23 +194,23 @@ class Helpers {
     console.log(chalk.cyan('[webhook]'), 'Indexing batch #1...');
     console.time('indexing');
     const r1 = await indexData(firstBatch);
-    r1.map(i => result.push({item: i._id, stats: i}));
+    r1.map(i => result.push({ item: i._id, stats: i }));
 
     let i = 1;
-    for(i; i < batches; i++) {
+    for (i; i < batches; i++) {
       const b = await s.find({
-        query:{ full: true, type, contenType: 'published', limit, skip: i * limit }
+        query: { full: true, type, contenType: 'published', limit, skip: i * limit }
       });
 
       console.log(chalk.cyan('[webhook]'), `Indexing batch #${i + 1}...`);
       const rn = await indexData(b.data);
-      rn.map(i => result.push({item: i._id, stats: i}));
+      rn.map(i => result.push({ item: i._id, stats: i }));
     }
     console.timeEnd('indexing');
-    
+
     // 3. @TODO record failures and retry
-    
-    if(printErrors) {
+
+    if (printErrors) {
       const errors = result.filter(i => !u.isSucess(i));
       console.log('Errors: ', errors);
     }
@@ -222,7 +221,7 @@ class Helpers {
 
   }
 
-  async indexCongress (app, prefix, congress) {
+  async indexCongress(app, prefix, congress) {
     // use internal service 
     // -- prefix = sessions, presentations, abstracts
     const limit = 100;
@@ -241,20 +240,20 @@ class Helpers {
     console.log(chalk.cyan('[webhook]'), 'Indexing batch #1...');
     console.time('indexing');
     const r1 = await indexCongressData(firstBatch, prefix, congress);
-    r1.map(i => result.push({item: i._id, stats: i}));
+    r1.map(i => result.push({ item: i._id, stats: i }));
 
     let i = 1;
-    for(i; i < batches; i++) {
+    for (i; i < batches; i++) {
       const b = await s.find({
         query: Object.assign({}, query, { $skip: i * limit })
       });
 
       console.log(chalk.cyan('[webhook]'), `Indexing batch #${i + 1}...`);
       const rn = await indexCongressData(b.data, prefix, congress);
-      rn.map(i => result.push({item: i._id, stats: i}));
+      rn.map(i => result.push({ item: i._id, stats: i }));
     }
     console.timeEnd('indexing');
-    
+
     // 3. @TODO record failures and retry
 
     // 4. preparing some stats and finishing up
@@ -265,12 +264,12 @@ class Helpers {
 
 module.exports = new Helpers();
 
-async function indexCongressData (array, prefix, congress) {
+async function indexCongressData(array, prefix, congress) {
   try {
     return await Promise.all(array.map(async (item) => {
       // this property is reserved in Elastic Search, 
       // we undefined it as it is more performant than deletein V8 
-      item._id = undefined; 
+      item._id = undefined;
       return await es.index(item, `${prefix}-congress-${congress}`, item.id);
     }));
   } catch (e) {
@@ -279,7 +278,7 @@ async function indexCongressData (array, prefix, congress) {
   }
 }
 
-async function indexData (array, alias = 'content') {
+async function indexData(array, alias = 'content') {
   try {
     return await Promise.all(array.map(async (item) => {
       const parsed = alias === 'journals'
@@ -298,28 +297,27 @@ async function updateLocalData(service, dataArray, lastUpdate, force = false) {
   const total = dataArray.length;
   let updated = 0;
   let inserted = 0;
-  const operations = await Promise.all(dataArray.map(async (i) =>
-  {
+  const operations = await Promise.all(dataArray.map(async (i) => {
     let item;
 
     try {
       item = await service.get(i.id);
     } catch (e) {
-      if(e.code === 404) {
+      if (e.code === 404) {
         await service.patch(i.id, i, { mongoose: { upsert: true } });
         inserted++;
-        return {id: i.id, status: 'Inserted'};
+        return { id: i.id, status: 'Inserted' };
       }
     }
 
     if (m(item.lastModificationDate) > m(lastUpdate) || force) {
       await service.patch(i.id, i, { mongoose: { upsert: true } });
       updated++;
-      return {id: i.id, status: 'Updated'};
+      return { id: i.id, status: 'Updated' };
     }
-    return {id: i.id, status: 'Not updated'};
+    return { id: i.id, status: 'Not updated' };
   })).catch(e => e);
-  return {submitted: total, updated, inserted, updatedItems: operations};
+  return { submitted: total, updated, inserted, updatedItems: operations };
 }
 
 async function save(service, type, congress, data, requestTime, parsingTime, force = false) {
@@ -329,7 +327,7 @@ async function save(service, type, congress, data, requestTime, parsingTime, for
   const result = await updateLocalData(service, data, lastUpdate, force);
   const savingTime = console.timeEnd('saving');
   const now = m().format();
-  if(result.updated) await u.setAsync(`latest-${type}-update`, m().format());
+  if (result.updated) await u.setAsync(`latest-${type}-update`, m().format());
   console.log(chalk.cyan('[webhook]'), `Saved/Updated/Inserted ${type}:
   >>> submitted #: ${result.submitted} 
   >>> updated #: ${result.updated}
@@ -350,7 +348,7 @@ async function save(service, type, congress, data, requestTime, parsingTime, for
   return result;
 }
 
-async function logIndexingStats (total, type, success) {
+async function logIndexingStats(total, type, success) {
   const now = m().format();
   console.log(chalk.cyan('[webhook]'), `Saved/Updated/Inserted ${type}:
   >>> type: ${type} 
