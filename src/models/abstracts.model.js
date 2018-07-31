@@ -19,6 +19,8 @@ module.exports = function (app) {
     abstractTextOriginal: String,
     abstractFigure: [],
     EPosterUrl: String,
+    methods: [String],
+    diseases: [String],
     authors: [{
       id: Number,
       fullName: String,

@@ -3,6 +3,7 @@ const h = require('./webhook.helpers');
 const j = require('./webhook.journals');
 const s = require('./webhook.static-pages');
 const c = require('./webhook.classify');
+const abstracts = require('./webhook.add.abstracts.classification');
 const cache = require('./webhook.cache');
 const errors = require('@feathersjs/errors');
 //  making sure it .env is loaded
@@ -55,7 +56,9 @@ class Service {
                             ? classifyCloudCMS(this.app)
                             : type === 'classify-journals'
                               ? classifyJournals(this.app)
-                              : 'no such processing available';
+                              : type === 'add-abstract-classification'
+                                ? abstracts(this.app)
+                                : 'no such processing available';
     /* eslint-enable indent */
   }
 
