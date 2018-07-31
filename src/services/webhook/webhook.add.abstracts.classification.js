@@ -1,4 +1,4 @@
-const data = require('./data/abstracts.json');
+const data = require('./classified-data/abstracts.json');
 const sureThing = require('../../helpers/sureThing');
 
 /*eslint no-console: off*/
