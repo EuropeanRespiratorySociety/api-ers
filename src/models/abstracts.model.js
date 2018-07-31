@@ -14,11 +14,12 @@ module.exports = function (app) {
     AbstractEmbargoDate: String,
     authorIDs: [Number],
     authorText: String,
+    abstractTitle: String,
     abstractText: String,
     abstractTextOriginal: String,
     abstractFigure: [],
     EPosterUrl: String,
-    authors:[{
+    authors: [{
       id: Number,
       fullName: String,
       firstName: String,
