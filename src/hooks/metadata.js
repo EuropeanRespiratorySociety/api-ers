@@ -23,15 +23,15 @@ module.exports.metadata = (options = {}) => { // eslint-disable-line no-unused-v
     const path = hook.params.path || hook.path;
     const url = apiUrl + '/' + path;
 
-    const queryParams = format.mapModel(q, { limit:options.limit}); 
+    const queryParams = format.mapModel(q, { limit: options.limit });
     hook.result.data = addItemMetadata(hook.result.data, full);
 
     hook.result = hook.result._sys.status === 200 ? format.mapModel(hook.result, {
       _sys: {
-        next: url + format.serializeQuery(format.mapModel(queryParams, {skip: skip})),
-        prev: url + format.serializeQuery(format.mapModel(queryParams, {skip: back})),
+        next: url + format.serializeQuery(format.mapModel(queryParams, { skip: skip })),
+        prev: url + format.serializeQuery(format.mapModel(queryParams, { skip: back })),
         limit: options.limit,
-        skip: options.skip, 
+        skip: options.skip,
         total: total,
         status: hook.result._sys.status
       },
@@ -45,10 +45,10 @@ module.exports.metadata = (options = {}) => { // eslint-disable-line no-unused-v
  * @param {Object[]} array
  * @param {boolean} full - display the full article or the lead
  * @return {Object[]}
- */ 
-function addItemMetadata(array, full){
+ */
+function addItemMetadata(array, full) {
   full = full || false;
-  return array.map(item => {   
+  return array.map(item => {
     const created = item._system.created_on;
     const modified = item._system.modified_on;
     item.ms = created.ms;
@@ -57,8 +57,8 @@ function addItemMetadata(array, full){
     // but it is not supported by the ersDate() method. Will do.
     item.createdOn = date.ersDate(`${created.month + 1}/${created.day_of_month}/${created.year}`);
     item.modifiedOn = date.ersDate(`${modified.month + 1}/${modified.day_of_month}/${modified.year}`);
-    item.shortLead = format.truncate(format.clean(item.leadParagraph), 145);
-    if(full){ 
+    item.shortLead = item.leadParagraph ? format.truncate(format.clean(item.leadParagraph), 145) : false;
+    if (full) {
       item.hasRelatedArticles = item._statistics['ers:related-association'] || 0;
       item.hasAuthor = item._statistics['ers:author-association'] || 0;
     }
