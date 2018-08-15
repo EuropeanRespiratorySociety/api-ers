@@ -101,7 +101,7 @@
     "chai-http": "^4.0.0",
     "coveralls": "^3.0.1",
     "eslint": "^5.0.1",
-    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-prettier": "^3.0.0",
     "istanbul": "^0.4.5",
     "istanbul-middleware": "^0.2.2",
     "mocha": "^5.2.0",
