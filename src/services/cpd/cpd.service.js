@@ -14,10 +14,10 @@ module.exports = function () {
   };
 
   // Initialize our service with any options it requires
-  app.use('/cdp', Object.assign(createService(options), { docs, id: 'slug' }));
+  app.use('/cpd', Object.assign(createService(options), { docs, id: 'slug' }));
 
   // Get our initialized service so that we can register hooks and filters
-  const service = app.service('cdp');
+  const service = app.service('cpd');
 
   service.hooks(hooks);
 
