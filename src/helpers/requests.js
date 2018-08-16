@@ -2,13 +2,13 @@
 
 module.exports = {
   menuItems: (branch, qname) => {
-    const body =  {
+    const body = {
       traverse: {
         associations: {
           'a:parent-menu-association': 'INCOMING'
         },
         depth: 10,
-        types:['custom:menu']
+        types: ['custom:menu']
       }
     };
 
@@ -18,16 +18,16 @@ module.exports = {
 
     return new Promise((resolve) => {
       branch
-        .trap(function(e){
-          resolve({message:e.message, status: e.status});
-        })      
-        .then(function(){
-          const node = this.readNode(qname);              
-          node.then(function(){
+        .trap(function (e) {
+          resolve({ message: e.message, status: e.status });
+        })
+        .then(function () {
+          const node = this.readNode(qname);
+          node.then(function () {
             const nodes = this.subchain(node).find(body, opts);
-            nodes.then(function(){
+            nodes.then(function () {
               const r = JSON.parse(JSON.stringify(this.asArray()));
-              resolve({item: node.json(), items: r, status: 200});
+              resolve({ item: node.json(), items: r, status: 200 });
             });
           });
         });
@@ -37,61 +37,61 @@ module.exports = {
   item: (branch, slug) => {
     return new Promise((resolve) => {
       branch
-        .trap(function(e){
-          resolve({message:e.message, status: e.status});
+        .trap(function (e) {
+          resolve({ message: e.message, status: e.status });
         })
         .queryNodes({
           slug: slug,
-          unPublished: { $ne: true}
-        },{
+          unPublished: { $ne: true }
+        }, {
           metadata: true
         })
-        .each(function(){
+        .each(function () {
           this._system = this.getSystemMetadata();
           this._statistics = this.__stats();
           this._qname = this.__qname();
         })
-        .then(function(){
-          if(this.asArray().length > 0) {
+        .then(function () {
+          if (this.asArray().length > 0) {
             const article = JSON.parse(JSON.stringify(this.asArray()));
-            resolve({item: [article[0]], status: 200});
+            resolve({ item: [article[0]], status: 200 });
           }
-          resolve({message: `The slug: ${slug} did not return any result` , status: 404});
+          resolve({ message: `The slug: ${slug} did not return any result`, status: 404 });
         });
-    }); 
+    });
   },
 
   breadcrumb: (branch, qname) => {
     const body = {
-      traverse:    {
+      traverse: {
         associations: {
           'a:menu-association': 'INCOMING',
           'a:parent-menu-association': 'OUTGOING'
-          ,'a:category-association': 'OUTGOING'
+          , 'a:category-association': 'OUTGOING'
         },
         depth: 10,
-        types:['custom:menu']
+        types: ['custom:menu']
       }
     };
     return new Promise((resolve) => {
       branch
-        .trap(function(e){
-          resolve({message:e.message, status: e.status});
-        })      
-        .then(function(){
+        .trap(function (e) {
+          resolve({ message: e.message, status: e.status });
+        })
+        .then(function () {
           const node = this.readNode(qname);
-          
-          node.then(function(){
+
+          node.then(function () {
             const item = this;
-            const nodes = this.subchain(node).find(body, {metadata:true});
+            const nodes = this.subchain(node).find(body, { metadata: true });
             nodes
-              .each(function(){
+              .each(function () {
                 this._stats = this.__stats();
               })
-              .then(function(){
+              .then(function () {
                 //const total = nodes.__totaRows();
                 const r = JSON.parse(JSON.stringify(nodes.asArray()));
-                resolve({item: [item.json()], items: r, status: 200});
+                resolve({ item: [item.json()], items: r, status: 200 });
               });
           });
         });
@@ -106,16 +106,16 @@ module.exports = {
   updateNode: (branch, node, payload) => {
     return new Promise(resolve => {
       branch
-        .trap(function(e){
-          resolve({ok: false, message:e.message, status: e.status});
+        .trap(function (e) {
+          resolve({ ok: false, message: e.message, status: e.status });
         })
         .readNode(node)
-        .then(function() {
+        .then(function () {
           Object.keys(payload).map(key => {
             this[key] = payload[key];
           });
           this.update();
-          resolve({ok:true, node});
+          resolve({ ok: true, node });
         });
     });
   },
@@ -129,8 +129,8 @@ module.exports = {
   addComment: (branch, node, message) => {
     return new Promise(resolve => {
       branch
-        .trap(function(e){
-          resolve({ok: false, message:e.message, status: e.status});
+        .trap(function (e) {
+          resolve({ ok: false, message: e.message, status: e.status });
         }).createNode({
           _type: 'n:comment',
           rating: 0
@@ -144,25 +144,25 @@ module.exports = {
             .readNode(node._doc)
             .associate(commentNode._doc, 'a:has_comment', { order: 1 })
             .then(function () {
-              resolve({ok: true});
+              resolve({ ok: true });
             });
         });
     });
   },
 
   relatives: (branch, qname, type, options) => {
-    const { 
-      body = {}, 
-      sortDirection = -1, 
+    const {
+      body = {},
+      sortDirection = -1,
       metadata = false,
-      full = false, 
-      sortBy = '_system.modified_on.ms', 
-      limit = 25, 
-      skip = 0 
+      full = false,
+      sortBy = '_system.modified_on.ms',
+      limit = 25,
+      skip = 0
     } = options || {};
 
     const b = Object.assign(body, {
-      unPublished: { $ne: true}
+      unPublished: { $ne: true }
     });
 
     const config = {
@@ -173,34 +173,34 @@ module.exports = {
       metadata: metadata || true,
       limit: limit,
       skip: parseInt(skip) || 0,
-      sort: { [sortBy]: sortDirection }
+      sort: { [sortBy]: parseInt(sortDirection) }
     };
 
     return new Promise((resolve) => {
       branch
-        .trap(function(e){
-          resolve({message:e.message, status: e.status});
+        .trap(function (e) {
+          resolve({ message: e.message, status: e.status });
         })
-        .then(function(){
+        .then(function () {
           const node = this.readNode(qname);
           node
-            .then(function(){
+            .then(function () {
               const nodes = this.subchain(node).queryRelatives(b, config, opts);
               nodes
-                .each(function(){
+                .each(function () {
                   this._system = this.getSystemMetadata();
-                  if(full){
+                  if (full) {
                     this._statistics = this.__stats();
                     this._qname = this.__qname();
                   }
                 })
-                .then(function(){
+                .then(function () {
                   const total = nodes.__totalRows();
                   const relatives = JSON.parse(JSON.stringify(nodes.asArray()));
-                  resolve({item: [node.json()], items: relatives, status: 200, total: total});
+                  resolve({ item: [node.json()], items: relatives, status: 200, total: total });
                 });
             });
         });
-    });      
+    });
   }
 };

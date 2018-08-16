@@ -27,14 +27,14 @@ const appHighlights = require('./app-highlights/app-highlights.service.js');
 const notification = require('./notification/notification.service.js');
 const appCommunity = require('./app-community/app-community.service.js');
 const trainingData = require('./training-data/training-data.service.js');
-const cdp = require('./cdp/cdp.service.js');
+const cpd = require('./cpd/cpd.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
   app.configure(appCommunity);
   app.configure(appHighlights);
   app.configure(calendar);
-  app.configure(cdp);
+  app.configure(cpd);
   app.configure(sessions); // this appears under "congress"
   app.configure(presentations); // this appears under "congress"
   app.configure(abstracts); // this appears under "congress"

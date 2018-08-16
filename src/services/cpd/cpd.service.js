@@ -1,6 +1,6 @@
 // Initializes the `cdp` service on path `/cdp`
 const createService = require('../../helpers/service.class');
-const hooks = require('./cdp.hooks');
+const hooks = require('./cpd.hooks');
 const docs = require('../../swagger/cpd');
 
 module.exports = function () {
