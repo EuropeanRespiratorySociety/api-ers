@@ -2,7 +2,6 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 const checkPermissions = require('feathers-permissions');
 const { iff, isProvider } = require('feathers-hooks-common');
 const addReviewer = require('../../hooks/add-reviewer');
-const test = require('../../hooks/test');
 const { before, after } = require('../../hooks/training-aggs');
 
 module.exports = {
@@ -14,8 +13,7 @@ module.exports = {
         checkPermissions({
           roles: ['admin', 'myERS']
         }),
-        before(),
-        test()
+        before()
       ])
     ],
     get: [
