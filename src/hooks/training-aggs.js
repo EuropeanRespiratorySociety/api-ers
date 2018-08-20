@@ -54,10 +54,14 @@ const before = function (options = {}) { // eslint-disable-line no-unused-vars
             'titleReviewers.ersId': { '$ne': hook.params.user.ersId },
             'skippedBy': { '$ne': hook.params.user.ersId },
             '$or': [
-              { reviewers: { $size: 2 } },
-              { reviewers: { $size: 1 } },
-              { reviewers: { $size: 0 } },
-              { reviewers: { $exists: false } }
+              { titleReviewers: { $size: 2 } },
+              { titleReviewers: { $size: 1 } },
+              { titleReviewers: { $size: 0 } },
+              { titleReviewers: { $exists: false } },
+              { contentReviewers: { $size: 2 } },
+              { contentReviewers: { $size: 1 } },
+              { contentReviewers: { $size: 0 } },
+              { contentReviewers: { $exists: false } }
             ]
           };
 
