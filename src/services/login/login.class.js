@@ -56,10 +56,6 @@ class Service {
           mongoose: { upsert: true }
         };
 
-        console.log(key4);
-        console.log(k4Request);
-        console.log('Token', key4Token);
-
         const user = {
           email: data.SmtpAddress1,
           ersId: contactId,
