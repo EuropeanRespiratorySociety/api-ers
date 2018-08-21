@@ -8,12 +8,12 @@ module.exports = function (app) {
   const { Schema } = mongoose;
   const users = new Schema({
     email: {
-      type: String,        
+      type: String,
       trim: true,
       lowercase: true,
       unique: true,
       required: true,
-      validate: { validator: value => validator.isEmail(value) , message: 'Invalid email.' }
+      validate: { validator: value => validator.isEmail(value), message: 'Invalid email.' }
     },
     username: {
       type: String,
@@ -24,7 +24,7 @@ module.exports = function (app) {
     ersId: {
       type: Number,
       required: false,
-      unique: true, 
+      unique: true,
       sparse: true
     },
     spotmeId: { // this is app related, it would makes more sense in app stuff such as preferences for now.
@@ -33,8 +33,7 @@ module.exports = function (app) {
     },
     key4Token: {
       type: String,
-      unique: true, 
-      sparse: true
+      required: false
     },
     password: {
       type: String,
@@ -44,7 +43,7 @@ module.exports = function (app) {
       type: [String],
       required: false
     }
-  }, 
+  },
   {
     timestamps: true
   });

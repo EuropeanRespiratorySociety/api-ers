@@ -9,7 +9,7 @@ const conf = require('./login.conf').join(',');
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 class Service {
-  constructor (options) {
+  constructor(options) {
     this.options = options || {};
   }
 
@@ -20,7 +20,7 @@ class Service {
   async create(data, params) {
     return new Promise(async (resolve, reject) => {
       const { crmToken, crmInterests } = params;
-      const payload = Object.assign({},{ include: conf }, data);
+      const payload = Object.assign({}, { include: conf }, data);
       const crmEndpoint = '/Contacts/Authenticate';
       const crmClient = HTTP('https://crmapi.ersnet.org', crmToken);
       const k4Endpoint = '/Agenda/ConferenceCompassAuthentification';
@@ -34,18 +34,18 @@ class Service {
       const key4Token = key4.ok && key4.response.data.user
         ? key4.response.data.user.token
         : key4.ok && key4.response.data.error
-        ? key4.response.data.error
-        : 'Something went wrong with Key4 server'; // The key4 error is html... 
+          ? key4.response.data.error
+          : 'Something went wrong with Key4 server'; // The key4 error is html... 
       /* eslint-enable indent */
 
       if (!myCRM.ok) {
         const rejected = myCRM.error.response.status === 500
-          ? new errors.GeneralError('MyCRM API is probably down, no way to check credentials, please contact the ERS with this message.', { errors: { message: myCRM.error.response.statusText }})
-          : new errors.NotAuthenticated('Invalid credentials ', { errors: { message: myCRM.error.response.statusText }});
+          ? new errors.GeneralError('MyCRM API is probably down, no way to check credentials, please contact the ERS with this message.', { errors: { message: myCRM.error.response.statusText } })
+          : new errors.NotAuthenticated('Invalid credentials ', { errors: { message: myCRM.error.response.statusText } });
         reject(rejected);
       }
-      
-      if(myCRM.ok){
+
+      if (myCRM.ok) {
         const data = myCRM.response.data;
         const contactId = data.ContactId;
         const users = this.app.service('users');
@@ -55,7 +55,11 @@ class Service {
           },
           mongoose: { upsert: true }
         };
-        
+
+        console.log(key4);
+        console.log(k4Request);
+        console.log('Token', key4Token);
+
         const user = {
           email: data.SmtpAddress1,
           ersId: contactId,
@@ -65,8 +69,8 @@ class Service {
         };
 
         // Update or create the user (upsert)
-        users.patch(null, user, params).then( u => {
-          if(u && u.length === 0) {
+        users.patch(null, user, params).then(u => {
+          if (u && u.length === 0) {
             reject(new errors.NotFound(data));
           }
 
@@ -83,12 +87,12 @@ class Service {
             const result = Object.assign(
               { data },
               r,
-              { 
-                apiUserId, 
-                key4Token, 
+              {
+                apiUserId,
+                key4Token,
                 spotmeId,
-                permissions, 
-                preferences: {} 
+                permissions,
+                preferences: {}
               }
             );
 
@@ -138,9 +142,9 @@ module.exports = function (options) {
 
 module.exports.Service = Service;
 
-function formatInterests (data, interests) {
+function formatInterests(data, interests) {
   return [
-    ...data.Diseases.map(i => interests.diseases.filter(ii => ii.DiseaseId === i.DiseaseId)[0].Name), 
-    ...data.Methods.map(i => interests.methods.filter(ii => ii.MethodId === i.MethodId)[0].Name), 
+    ...data.Diseases.map(i => interests.diseases.filter(ii => ii.DiseaseId === i.DiseaseId)[0].Name),
+    ...data.Methods.map(i => interests.methods.filter(ii => ii.MethodId === i.MethodId)[0].Name),
   ];
 }
