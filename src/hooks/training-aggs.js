@@ -37,6 +37,20 @@ const before = function (options = {}) { // eslint-disable-line no-unused-vars
           hook.result = r;
           resolve(hook);
         });
+      } else if ('_classifiedContent' in hook.params.query) {
+        delete hook.params.query._classifiedContent;
+        hook.params.query['$or'] = [
+          { contentReviewers: { $exists: true } }
+        ];
+        resolve(hook);
+        // hook.pamams.query
+      } else if ('_classifiedTitle' in hook.params.query) {
+        delete hook.params.query._classifiedTitle;
+        hook.params.query['$or'] = [
+          { titleReviewers: { $exists: true } }
+        ];
+        resolve(hook);
+        // hook.pamams.query
       } else if ('_classified' in hook.params.query) {
         delete hook.params.query._classified;
         hook.params.query['$or'] = [
@@ -95,7 +109,11 @@ const after = function (options = {}) { // eslint-disable-line no-unused-vars
   return function (hook) {
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
-    if (!('_totals' in hook.params.query || '_classified' in hook.params.query) && hook.result.data[0].classifiers) {
+    if (!('_totals' in hook.params.query
+      || '_classifiedContent' in hook.params.query
+      || '_classifiedTitle' in hook.params.query
+      || '_classified' in hook.params.query)
+      && hook.result.data[0].classifiers) {
       hook.result.data[0].classifiers = hook.result.data[0].classifiers.map(c => {
         if (c.diseases.length === 0) {
           const r = c.predictions.reduce((a, i) => {
