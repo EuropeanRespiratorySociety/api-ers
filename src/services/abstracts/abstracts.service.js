@@ -13,13 +13,13 @@ module.exports = function (app) {
     name: 'abstracts',
     Model,
     paginate,
-    id: 'id'
+    id: '_id'
   };
 
   // Initialize our service with any options it requires
   app.use('/congress/abstracts', Object.assign(createService(options), {
     docs: def,
-    id: 'id' 
+    id: '_id'
   }));
 
   // Get our initialized service so that we can register hooks and filters
