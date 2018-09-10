@@ -19,7 +19,6 @@ class Cache {
 
   async clear(data) {
     const item = data._cloudcms.node.object;
-    console.log(item);
 
     // special case for events
     if (item.hasOwnProperty('category')) {
@@ -36,7 +35,6 @@ class Cache {
 
     // Getting the item from the cache (Redis)
     const reply = JSON.parse(await u.getAsync(item.slug));
-    console.log('reply: ', reply);
     // clear a single item and its parent
     if (reply) {
       singleItem(this.client, item, reply, false, true);
@@ -160,6 +158,7 @@ function clearNews(client, item) {
   }
   // app-highlights
   if (item.category && item.category._qname === 'o:ec586ddd9c918191be2b') {
+    console.log('>>>>>>>>>>>>>>>> : hello');
     const appData = {
       cache: {
         key: 'app-highlights?format=html',
