@@ -156,10 +156,8 @@ function clearNews(client, item) {
     // let's clear other urls while thinking about it:
     axios.post(`https://www.ersnet.org/cache?url=${urlToBust[0]}`);
   }
-  console.log('you should be somewere here ;)', item);
   // app-highlights
-  if (item.category && item.category._qname === 'o:ec586ddd9c918191be2b') {
-    console.log('>>>>>>>>>>>>>>>> : hello');
+  if (item.category && item.category.qname === 'o:ec586ddd9c918191be2b') {
     const appData = {
       cache: {
         key: 'app-highlights?format=html',
