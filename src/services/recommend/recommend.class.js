@@ -12,14 +12,14 @@ class Service {
   }
 
   async create(data, params) {
-    const { abstract = false } = data;
+    const { abstract = false, similarityOnly = false } = data;
     const abstractService = this.app.service('congress/abstracts');
     if (abstract) {
-      const r = await recommenderClient.post('/recommend', { abstract, user: `${params.user.ersId}` });
-      const results = await Promise.all(r.data.papers.map(async (i) => {
-        const result = await abstractService.get(i);
-        return result;
-      }));
+      const r = await recommenderClient.post('/recommend', {
+        abstract,
+        user: similarityOnly ? `${-1}` : `${params.user.ersId}`
+      });
+      const results = await Promise.all(r.data.papers.map(async (i) => await abstractService.get(i)));
       return results;
     }
 
