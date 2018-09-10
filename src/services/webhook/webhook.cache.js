@@ -36,7 +36,7 @@ class Cache {
 
     // Getting the item from the cache (Redis)
     const reply = JSON.parse(await u.getAsync(item.slug));
-
+    console.log('reply: ', reply);
     // clear a single item and its parent
     if (reply) {
       singleItem(this.client, item, reply, false, true);
