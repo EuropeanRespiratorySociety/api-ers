@@ -19,6 +19,7 @@ class Cache {
 
   async clear(data) {
     const item = data._cloudcms.node.object;
+    console.log(item);
 
     // special case for events
     if (item.hasOwnProperty('category')) {
