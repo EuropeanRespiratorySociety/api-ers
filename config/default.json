@@ -33,7 +33,7 @@
       "idField": "_id"
     }
   },
-  "redisCache" : {
+  "redisCache": {
     "defaultDuration": 3600,
     "removePathFromCacheKey": true,
     "env": "NODE_ENV"
