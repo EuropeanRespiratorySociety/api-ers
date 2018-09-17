@@ -58,10 +58,10 @@ module.exports = [
   // 'BillToCountry',
   'Staff',
   'Roles',
-  // 'Preferences',
+  'Preferences',
   'Changes',
   'Duplicates',
-  'Merges',
+  // 'Merges',
   'FullNameAndId',
   'Diseases',
   'Methods'
