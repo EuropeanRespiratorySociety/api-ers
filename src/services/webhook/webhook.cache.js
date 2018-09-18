@@ -35,7 +35,6 @@ class Cache {
 
     // Getting the item from the cache (Redis)
     const reply = JSON.parse(await u.getAsync(item.slug));
-
     // clear a single item and its parent
     if (reply) {
       singleItem(this.client, item, reply, false, true);
@@ -154,6 +153,21 @@ function clearNews(client, item) {
       }
     };
     singleItem(client, item, data, true);
+    // let's clear other urls while thinking about it:
+    axios.post(`https://www.ersnet.org/cache?url=${urlToBust[0]}`);
+  }
+  // app-highlights
+  if (item.category && item.category.qname === 'o:ec586ddd9c918191be2b') {
+    const appData = {
+      cache: {
+        key: 'app-highlights?format=html',
+        group: 'group-app-highlights'
+      },
+      data: {
+        url: 'https://www.ersnet.org/the-society/news'
+      }
+    };
+    singleItem(client, item, appData, true);
     // let's clear other urls while thinking about it:
     axios.post(`https://www.ersnet.org/cache?url=${urlToBust[0]}`);
   }
