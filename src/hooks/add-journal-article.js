@@ -18,12 +18,12 @@ const oneArticle = function (options = {}) { // eslint-disable-line no-unused-va
         const article = a.data[0];
 
         if (article) {
-          const link = `<a target="_blank" href="${article.canonical}">Read full article</a>`;
+          const link = `<a href="${article.canonical}">Read full article</a>`;
           hook.result.data.body = `
               ${hook.result.data.body ? hook.result.data.body + '<br />' : ''}
               <h3>${article.title}</h3>
               ${article.abstract}
-              '<br />' ${link}
+              <br /><br /> ${link}
             `;
           resolve(hook);
         }
@@ -55,12 +55,12 @@ const manyArticle = function (options = {}) {
 
           const article = a.data[0];
           if (article) {
-            const link = `<a target="_blank" href="${article.canonical}">Read full article</a>`;
+            const link = `<a href="${article.canonical}">Read full article</a>`;
             i.body = `
                 ${hook.result.data.body ? hook.result.data.body + '<br />' : ''}
                 <h3>${article.title}</h3>
                 ${article.abstract}
-                '<br />' ${link}`;
+                <br /><br />${link}`;
             return i;
           }
 
