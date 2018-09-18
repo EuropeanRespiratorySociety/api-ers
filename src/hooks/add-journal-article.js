@@ -55,10 +55,12 @@ const manyArticle = function (options = {}) {
 
           const article = a.data[0];
           if (article) {
+            const link = `<a target="_blank" href="${article.canonical}">Read full article</a>`;
             i.body = `
                 ${hook.result.data.body ? hook.result.data.body + '<br />' : ''}
                 <h3>${article.title}</h3>
-                ${article.abstract}`;
+                ${article.abstract}
+                '<br />' ${link}`;
             return i;
           }
 
