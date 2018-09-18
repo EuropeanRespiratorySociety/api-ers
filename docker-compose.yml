@@ -1,13 +1,12 @@
-mongo:
-  image: mongo:latest
-  volumes:
-    - /data/db/mongo
-  ports:
-    - "27017:27017"
+version: "3"
+services:
+  mongodb:
+    image: mongo:latest
+    ports: 
+      - 27017:27017
 
-redis:
-  image: redis
-  volumes:
-    - /data/db/redis
-  ports:
-    - "6379:6379"
+  redis:
+    image: redis:alpine
+    ports: 
+      - 6379:6379
+
