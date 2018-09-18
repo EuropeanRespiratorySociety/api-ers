@@ -5,7 +5,7 @@ const errors = require('@feathersjs/errors');
 const oneArticle = function (options = {}) { // eslint-disable-line no-unused-vars
   return hook => {
     return new Promise(async (resolve, reject) => {
-      const  doi = hook.result.data.doi;
+      const doi = hook.result.data.doi;
       const cached = (hook.result.cache && hook.result.cache.cached) || false;
 
       if (doi && !cached) {
@@ -18,10 +18,14 @@ const oneArticle = function (options = {}) { // eslint-disable-line no-unused-va
         const article = a.data[0];
 
         if (article) {
+          const link = article.abstract.includes('//ow.ly/')
+            ? false
+            : `<a href="${article.canonical}">Read full article</a>`;
           hook.result.data.body = `
             ${hook.result.data.body ? hook.result.data.body + '<br />' : ''}
             <h3>${article.title}</h3>
-            ${article.abstract}`;
+            ${article.abstract}
+            ${link ? '<br />' + link : ''}`;
           resolve(hook);
         }
 
@@ -40,36 +44,35 @@ const manyArticle = function (options = {}) {
   return async hook => {
     return new Promise(async (resolve, reject) => {
       const cached = (hook.result.cache && hook.result.cache.cached) || false;
-        const data =  hook.result.data.map(async i => {
-          const  doi = i.doi || false;
-          if (doi && !cached) {
-            const a = await hook.app.service('journals').find({
-              query
+      const data = hook.result.data.map(async i => {
+        const doi = i.doi || false;
+        if (doi && !cached) {
+          const a = await hook.app.service('journals').find({
+            query
               : {
-                doi
-              }
-            });
+              doi
+            }
+          });
 
-            const article = a.data[0];
-            if (article) {
-              i.body = `
+          const article = a.data[0];
+          if (article) {
+            i.body = `
                 ${hook.result.data.body ? hook.result.data.body + '<br />' : ''}
                 <h3>${article.title}</h3>
                 ${article.abstract}`;
-              return i;
-            }
-
-            i.body = `${i.body ? i.body + '<br />' : ''} The DOI did not return any article from any of the ERS journals`
             return i;
-
           }
+
+          i.body = `${i.body ? i.body + '<br />' : ''} The DOI did not return any article from any of the ERS journals`
           return i;
-        });
-       Promise.all(data).then(r =>
-         {
-           hook.result.data = r;
-           resolve(hook);
-        });
+
+        }
+        return i;
+      });
+      Promise.all(data).then(r => {
+        hook.result.data = r;
+        resolve(hook);
+      });
     });
   };
 };
