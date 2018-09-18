@@ -28,6 +28,7 @@ const notification = require('./notification/notification.service.js');
 const appCommunity = require('./app-community/app-community.service.js');
 const trainingData = require('./training-data/training-data.service.js');
 const cpd = require('./cpd/cpd.service.js');
+const recommend = require('./recommend/recommend.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
@@ -63,4 +64,5 @@ module.exports = function () {
   // Has to be last
   // For now graphql endpoint is offline
   // app.configure(graphql);
+  app.configure(recommend);
 };

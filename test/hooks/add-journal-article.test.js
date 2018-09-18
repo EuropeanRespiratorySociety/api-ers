@@ -11,10 +11,10 @@ const failMock = {
     }
   },
   app: {
-    service (which) {
-      if(which === 'journals')
+    service(which) {
+      if (which === 'journals')
         return {
-          find (params) {
+          find(params) {
             if (params.query.doi === 'does-not-exist-123456') {
               return {
                 total: 0,
@@ -27,7 +27,7 @@ const failMock = {
         };
     }
   }
-};  
+};
 
 describe('\'addJournalArticle\' hook', () => {
   it('runs the oneArticle hook', () => {
@@ -39,17 +39,17 @@ describe('\'addJournalArticle\' hook', () => {
         }
       },
       app: {
-        service (which) {
-          if(which === 'journals') {
+        service(which) {
+          if (which === 'journals') {
             return {
-              find (params) {
+              find(params) {
                 if (params.query.doi === '10.1183/20734735.008617') {
                   return article;
                 }
               }
             };
           }
-    
+
           return {
             total: 0,
             limit: 25,
@@ -59,7 +59,7 @@ describe('\'addJournalArticle\' hook', () => {
         }
       }
     };
-    
+
     const hook = oneArticle();
     return hook(mock).then(result => {
       expect(result.result).to.be.an('object')
@@ -77,20 +77,20 @@ describe('\'addJournalArticle\' hook', () => {
           doi: '10.1183/20734735.008617',
           body: false
         },
-        cache: {cached: true}
+        cache: { cached: true }
       },
       app: {
-        service (which) {
-          if(which === 'journals') {
+        service(which) {
+          if (which === 'journals') {
             return {
-              find (params) {
+              find(params) {
                 if (params.query.doi === '10.1183/20734735.008617') {
                   return article;
                 }
               }
             };
           }
-    
+
           return {
             total: 0,
             limit: 25,
@@ -101,7 +101,7 @@ describe('\'addJournalArticle\' hook', () => {
       }
     };
 
-    mock.result.cache = {cached: true};
+    mock.result.cache = { cached: true };
     const hook = oneArticle();
     return hook(mock).then(r => {
       const body = r.result.data.body;
@@ -118,17 +118,17 @@ describe('\'addJournalArticle\' hook', () => {
         }
       },
       app: {
-        service (which) {
-          if(which === 'journals') {
+        service(which) {
+          if (which === 'journals') {
             return {
-              find (params) {
+              find(params) {
                 if (params.query.doi === '10.1183/20734735.008617') {
                   return article;
                 }
               }
             };
           }
-    
+
           return {
             total: 0,
             limit: 25,
@@ -142,7 +142,7 @@ describe('\'addJournalArticle\' hook', () => {
     return hook(mock).then(r => {
       const body = r.result.data.body;
       expect(body).to.be.a('string')
-        .to.not.have.string('<br />');
+        .to.have.string('http://breathe.ersjournals.com/content/13/2/75');
       expect(body).to.have.string('This issue is dedicated to technological');
     });
   });
@@ -157,17 +157,17 @@ describe('\'addJournalArticle\' hook', () => {
         }
       },
       app: {
-        service (which) {
-          if(which === 'journals') {
+        service(which) {
+          if (which === 'journals') {
             return {
-              find (params) {
+              find(params) {
                 if (params.query.doi === '10.1183/20734735.008617') {
                   return article;
                 }
               }
             };
           }
-    
+
           return {
             total: 0,
             limit: 25,
@@ -180,7 +180,7 @@ describe('\'addJournalArticle\' hook', () => {
 
     const hook = oneArticle();
     return hook(mock).then(r => {
-      const {body, title} = r.result.data;
+      const { body, title } = r.result.data;
       expect(body).to.be.a('string')
         .to.have.string('<br />');
       expect(title).to.be.a('string')
@@ -202,7 +202,7 @@ describe('\'addJournalArticle\' hook', () => {
 
 });
 
-describe('\'addJournalArticle\' hook', () => { 
+describe('\'addJournalArticle\' hook', () => {
 
   it('runs the manyArticle hook', () => {
     // A mock hook object
@@ -212,13 +212,13 @@ describe('\'addJournalArticle\' hook', () => {
       }
     };
     // Initialize our hook with no options
-    const hook = manyArticle(); 
+    const hook = manyArticle();
     // Run the hook function (which returns a promise)
     // and compare the resulting hook object
     return hook(mock).then(result => {
       assert.equal(result, mock, 'Returns the expected hook object');
     });
-  });  
+  });
 
   it('adds journal content if DOI is present', () => {
     // A mock hook object
@@ -227,17 +227,17 @@ describe('\'addJournalArticle\' hook', () => {
         data: appHighligths.data
       },
       app: {
-        service (which) {
-          if(which === 'journals') {
+        service(which) {
+          if (which === 'journals') {
             return {
-              find (params) {
+              find(params) {
                 if (params.query.doi === '10.1183/20734735.008617') {
                   return article;
                 }
               }
             };
           }
-    
+
           return {
             total: 0,
             limit: 25,
@@ -248,7 +248,7 @@ describe('\'addJournalArticle\' hook', () => {
       }
     };
     // Initialize our hook with no options
-    const hook = manyArticle(); 
+    const hook = manyArticle();
     // Run the hook function (which returns a promise)
     // and compare the resulting hook object
     return hook(mock).then(result => {
@@ -270,39 +270,39 @@ describe('\'addJournalArticle\' hook', () => {
         .to.equal('<p>We will welcome moderator Vivienne Parry OBE, writer and broadcaster, alongside our panel of experts to facilitate a lively and interactive discussion with the audience on the topic of education in respiratory medicine.</p>\n<p>Participation in this session is free.</p>\n<ul>\n<li><a href="https://erscongress.org/programme-2018/educational-programme/educational-forum.html">Learn more</a></li>\n<li><a href="https://erscongress.org/registration-2018/registration-fees.html">Register for Congress by 10 July for an early-bird discount</a></li>\n</ul>\n');
       expect(data[2].body).to.be.a('string')
         .to.have.string('This issue is dedicated to technological');
-      expect(data[2].body).to.not.have.string('<br />');
+      expect(data[2].body).to.have.string('http://breathe.ersjournals.com/content/13/2/75');
     });
-  });  
+  });
 
   it('Adds message when DOI is not found', () => {
     const mock = {
       result: {
         data: [
-          { 
+          {
             title: 'DOI not found',
             slug: 'doi-not-found',
             type: 'News',
-            leadParagraph:'<p>The Educational Forum will return to this year’s ERS Congress with an engaging new format. </p>\n',
-            shortLead:'The Educational Forum will return to this year’s ERS Congress with an engaging new format. \n',
+            leadParagraph: '<p>The Educational Forum will return to this year’s ERS Congress with an engaging new format. </p>\n',
+            shortLead: 'The Educational Forum will return to this year’s ERS Congress with an engaging new format. \n',
             body: false,
             doi: 'will-not-be-found'
           },
-          { 
+          {
             title: 'DOI not found 2',
             slug: 'doi-not-found',
             type: 'News',
-            leadParagraph:'<p>The Educational Forum will return to this year’s ERS Congress with an engaging new format. </p>\n',
-            shortLead:'The Educational Forum will return to this year’s ERS Congress with an engaging new format. \n',
+            leadParagraph: '<p>The Educational Forum will return to this year’s ERS Congress with an engaging new format. </p>\n',
+            shortLead: 'The Educational Forum will return to this year’s ERS Congress with an engaging new format. \n',
             body: 'this is a text',
             doi: 'will-not-be-found-2'
           }
         ]
       },
       app: {
-        service (which) {
-          if(which === 'journals') {
+        service(which) {
+          if (which === 'journals') {
             return {
-              find (params) {
+              find(params) {
                 if (params.query.doi === '10.1183/20734735.008617') {
                   return article;
                 }
@@ -327,7 +327,7 @@ describe('\'addJournalArticle\' hook', () => {
       }
     };
     // Initialize our hook with no options
-    const hook = manyArticle(); 
+    const hook = manyArticle();
     // Run the hook function (which returns a promise)
     // and compare the resulting hook object
     return hook(mock).then(result => {
@@ -346,24 +346,24 @@ describe('\'addJournalArticle\' hook', () => {
   it('Does not touch cached objects', () => {
     const mock = {
       result: {
-        cache: {cached: true},
+        cache: { cached: true },
         data: [
-          { 
+          {
             title: 'DOI not found',
             slug: 'doi-not-found',
             type: 'News',
-            leadParagraph:'<p>The Educational Forum will return to this year’s ERS Congress with an engaging new format. </p>\n',
-            shortLead:'The Educational Forum will return to this year’s ERS Congress with an engaging new format. \n',
+            leadParagraph: '<p>The Educational Forum will return to this year’s ERS Congress with an engaging new format. </p>\n',
+            shortLead: 'The Educational Forum will return to this year’s ERS Congress with an engaging new format. \n',
             body: false,
             doi: 'will-not-be-found'
           }
         ]
       },
       app: {
-        service (which) {
-          if(which === 'journals') {
+        service(which) {
+          if (which === 'journals') {
             return {
-              find (params) {
+              find(params) {
                 if (params.query.doi === '10.1183/20734735.008617') {
                   return article;
                 }
@@ -388,7 +388,7 @@ describe('\'addJournalArticle\' hook', () => {
       }
     };
     // Initialize our hook with no options
-    const hook = manyArticle(); 
+    const hook = manyArticle();
     // Run the hook function (which returns a promise)
     // and compare the resulting hook object
     return hook(mock).then(result => {
@@ -460,41 +460,41 @@ const article = {
     }]
 };
 
-const appHighligths = { 
-  data: [ 
-    { 
+const appHighligths = {
+  data: [
+    {
       title: 'Test Article with DOI',
       slug: 'test-article-with-doi',
       leadParagraph: false,
       shortLead: 'false',
       body: 'This issue is dedicated to technological advances and their contribution to the advancement of respiratory medicine. Our understanding of the fundamental aspects of breathing and respiration would not have been possible without simultaneous advances in technology based in the physical, engineering and chemical sciences. From the Lavoisiers to Boyle, the Curies to Röntgen, without the equipment to conduct the necessary experiments, we would have proceeded even more slowly towards our grasp of oxygen, Boyle’s law, the chest radiograph and the fundamental principles of tumour irradiation. As far as respiratory physiology goes, West [1] has eloquently stated that surges in our understanding often occur during times of war, when challenges to human physiology spur on technological innovation. War can also create conditions during which talented individuals set aside their different research interests and collaborate effectively. However, technological advances also occur outwith such an environment and in the last three decades, the digital revolution, the Internet, and a number of key discoveries in the biomechanical and engineering fields have revolutionised our approach to evaluating, diagnosing and managing medical disorders. We hope that you will enjoy reading and learning more about ultrasonography and its application to diagnosing diseases of the pleural space and lungs, technical innovations in noninvasive ventilationand our online exclusive on wearable technology and the Internet of Things.\n\nThe June issue of Breathe looks at biomedical engineering in respiratory disorders <http://ow.ly/rn7N30c2qvg>',
-      doi: '10.1183/20734735.008617',
+      doi: '10.1183/20734735.008617'
     },
-    { 
+    {
       title: 'New style Educational Forum at ERS 2018',
       slug: 'new-style-educational-forum-at-ers-2018',
       type: 'News',
       leadParagraph: '<p>The Educational Forum will return to this year’s ERS Congress with an engaging new format. </p>\n',
-      shortLead:'The Educational Forum will return to this year’s ERS Congress with an engaging new format. \n',
+      shortLead: 'The Educational Forum will return to this year’s ERS Congress with an engaging new format. \n',
       body:
-       '<p>We will welcome moderator Vivienne Parry OBE, writer and broadcaster, alongside our panel of experts to facilitate a lively and interactive discussion with the audience on the topic of education in respiratory medicine.</p>\n<p>Participation in this session is free.</p>\n<ul>\n<li><a href="https://erscongress.org/programme-2018/educational-programme/educational-forum.html">Learn more</a></li>\n<li><a href="https://erscongress.org/registration-2018/registration-fees.html">Register for Congress by 10 July for an early-bird discount</a></li>\n</ul>\n'
+        '<p>We will welcome moderator Vivienne Parry OBE, writer and broadcaster, alongside our panel of experts to facilitate a lively and interactive discussion with the audience on the topic of education in respiratory medicine.</p>\n<p>Participation in this session is free.</p>\n<ul>\n<li><a href="https://erscongress.org/programme-2018/educational-programme/educational-forum.html">Learn more</a></li>\n<li><a href="https://erscongress.org/registration-2018/registration-fees.html">Register for Congress by 10 July for an early-bird discount</a></li>\n</ul>\n'
     },
-    { 
+    {
       title: 'New style Educational Forum at ERS 2018',
       slug: 'new-style-educational-forum-at-ers-2018',
       type: 'News',
       leadParagraph: '<p>The Educational Forum will return to this year’s ERS Congress with an engaging new format. </p>\n',
-      shortLead:'The Educational Forum will return to this year’s ERS Congress with an engaging new format. \n',
+      shortLead: 'The Educational Forum will return to this year’s ERS Congress with an engaging new format. \n',
       body: false,
       doi: '10.1183/20734735.008617',
     },
-    { 
+    {
       title: 'Ban e-cigarette flavourings and misleading adverts to protect youth, says international respiratory group',
       slug: 'ban-e-cigarette-flavourings-and-misleading-adverts-to-protect-youth',
       type: 'News',
       leadParagraph: '<p>In a statement published in the <em>European Respiratory Journal</em>, the Forum of International Respiratory Societies (<a href="https://www.firsnet.org/">FIRS</a>) have warned of the dangers posed to children and adolescents by electronic cigarettes.</p>\n',
       shortLead: 'In a statement published in the European Respiratory Journal, the Forum of International Respiratory Societies (FIRS) have warned of the...',
       body: '<p>As a result, they are calling for an immediate ban on flavourings and on marketing e-cigarettes as lower risk alternatives to children and adolescents.</p>\n<p>The paper brings together a wide range of research findings on e-cigarettes. It highlights evidence that children and adolescents are highly susceptible to nicotine addiction, and that use of e-cigarettes has risen steeply in this age group to become the most commonly used tobacco-related product among adolescents in some countries.</p>\n<p>The authors lay out a set of evidence-based recommendations for protecting youth from nicotine addiction and its harmful effects.</p>\n<p>The paper was co-authored by Thomas Ferkol MD, Alexis Hartmann professor of paediatrics and professor of cell biology and physiology at Washington University in St. Louis, USA. He said: “Until recently, the risks of e-cigarettes and their rising popularity with children and adolescents were under-recognised or ignored. We wrote this statement to address growing public health concerns over e-cigarette use among youths.</p>\n<p>“Product design, flavours, marketing, and perception of safety and acceptability have increased the appeal of e-cigarettes to young people. These products are ‘normalising’ smoking and leading to new generations addicted to nicotine.”</p>\n<p>The authors found growing evidence that e-cigarettes act as a “one-way bridge” to cigarette smoking in adolescents.</p>\n<p>Professor Ferkol added: “Some people truly believe e-cigarettes could be used as a smoking cessation technique, but these products also are an entry to nicotine addiction and tobacco use in young people.”</p>\n<p>Charlotta Pisinger, clinical professor of tobacco control at Bispebjerg and Frederiksberg Hospital and University of Copenhagen, Denmark was also a co-author. She said: “Although exposure to potentially harmful ingredients from electronic cigarettes may be lower than traditional cigarettes, this does not mean that e-cigarettes are harmless.</p>\n<p>“And when we’re talking about children and adolescents who are trying e-cigarettes for the first time, we should not be comparing their use to traditional cigarettes. We should be comparing them to no tobacco use.”</p>\n<p>The paper puts forward a series of expert recommendations that the authors say will protect this vulnerable group. They state that e-cigarettes should be regulated in the same way as tobacco products and included in smoke-free policies. They say that there should be a ban on sales to youths worldwide, which must be enforced. Advertising e-cigarettes as lower-risk alternatives directed to youths and young adults should cease.</p>\n<p>The paper also calls for a ban on flavoured products, because there is evidence that flavourings draw young people to e-cigarettes. There are currently more than 7,500 different flavoured e-cigarettes and refills available. Finally, the authors recommended further research on the health effects of e-cigarettes as well as surveillance of use across different countries.</p>\n<p>Regulation of e-cigarettes varies widely around the world. For example, legislation on a minimum age for buying e-cigarettes is non-existent or not enforced in most countries.</p>\n<p>Dr Aneesa Vanker, a senior specialist in paediatric pulmonology, at the Red Cross War Memorial Children’s Hospital, University of Cape Town, South Africa, was also a co-author the paper. She added: “E-cigarettes are largely unregulated, particularly in low and middle-income countries. They are marketed as a smoking cessation tool and a safer alternative to tobacco cigarettes.</p>\n<p>“However, there is growing evidence that nicotine has many acute and long-term adverse effects, including addiction. Young people are at particular risk for this. </p>\n<p>“We want local, national, and regional decision-makers to recognise the growing public health threat that e-cigarettes pose to children and adolescents. Inhaling something other than air is never good for a child’s lungs.”</p>\n<ul>\n<li><a href="http://erj.ersjournals.com/content/51/5/1800278">Read the article</a> </li>\n</ul>\n'
-    } 
+    }
   ]
 };
