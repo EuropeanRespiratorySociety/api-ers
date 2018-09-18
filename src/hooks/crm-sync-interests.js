@@ -28,12 +28,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       sureThing(crmClient.put(`/contacts/${user.ersId}/methods`, methods)),
     ]);
 
-    if(d.ok && m.ok) return Promise.resolve(hook);
-    if(!d.ok || !m.ok) {
+    if (d.ok && m.ok) return Promise.resolve(hook);
+    if (!d.ok || !m.ok) {
       console.log(`CRM sync failed: disease error: ${d.error}, method.error: ${m.error}`);
       // We continue as we want to save the data locally nevertheless will sync another time.
       return Promise.resolve(hook);
     }
- 
+
   };
 };

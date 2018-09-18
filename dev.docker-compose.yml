@@ -1,0 +1,13 @@
+version: '3'
+services:
+
+  # The API
+  app:
+    build:
+      context: ./
+      dockerfile: dev.dockerfile
+    working_dir: /usr/api
+    volumes:
+      - ./:/usr/api
+    ports:
+      - 3030:3030

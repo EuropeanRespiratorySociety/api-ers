@@ -1,4 +1,4 @@
-module.exports=[
+module.exports = [
   'ContactId',
   // 'Adonix',
   'Title',
@@ -39,7 +39,7 @@ module.exports=[
   // 'BillToStateCode',
   // 'BillToCountryCode',
   'AssemblyGroup1',
-  'AssemblyGroup2', 
+  'AssemblyGroup2',
   'AssemblyGroup3',
   'Phone1',
   'Phone2',
@@ -58,10 +58,10 @@ module.exports=[
   // 'BillToCountry',
   'Staff',
   'Roles',
-  // 'Preferences',
+  'Preferences',
   'Changes',
   'Duplicates',
-  'Merges',
+  // 'Merges',
   'FullNameAndId',
   'Diseases',
   'Methods'

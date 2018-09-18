@@ -14,13 +14,13 @@ const es = require('../../helpers/elastic.js');
 
 class Utils {
 
-  constructor () {
+  constructor() {
     this.getAsync = getAsync;
     this.setAsync = setAsync;
 
   }
 
-  setDocProperty (item) {
+  setDocProperty(item) {
     item._doc = item._id.toString();
     item._id = undefined;
     item.references = item.references ? item.references.map(i => {
@@ -44,13 +44,13 @@ class Utils {
     });
   }
 
-  parse (item) {
+  parse(item) {
     let parsed = format.lodash.pickBy(format.filter(item, addToES), this.isTrue);
     // @TODO change property in Cloud CMS to get rid of this.
     parsed.loc = this.hasLocation(parsed)
-      ? { lat: parsed.loc.lat, lon: parsed.loc.long } 
+      ? { lat: parsed.loc.lat, lon: parsed.loc.long }
       : undefined;
-    if(parsed.registerButton) {
+    if (parsed.registerButton) {
       parsed.registerButton = this.setRegisterButton(parsed);
     }
     parsed.hasAuthor = parsed.hasAuthor === 0 ? false : true;
@@ -60,35 +60,35 @@ class Utils {
     return parsed;
   }
 
-  parseDate (date) {
+  parseDate(date) {
     return date !== null ? m(date).format() : null;
   }
 
-  hasLocation (item) {
+  hasLocation(item) {
     return !format.lodash.isEmpty(item.loc) && 'lat' in item.loc && item.loc.lat !== false;
   }
 
-  setRegisterButton (item) {
+  setRegisterButton(item) {
     const obj = item.registerButton;
 
     /* eslint-disable */
     return obj.link && !obj.text
       ? { link: obj.link }
       : obj.link && obj.text
-      ? obj
-      : undefined;
+        ? obj
+        : undefined;
     /* eslint-enable */
   }
 
-  isTrue (item) {
+  isTrue(item) {
     return item !== false;
   }
 
-  isSucess (item) { 
-    return  item.stats.result === 'created' || item.stats.result === 'updated'; 
+  isSucess(item) {
+    return item.stats.result === 'created' || item.stats.result === 'updated';
   }
 
-  async indexData (array, alias = 'content') {
+  async indexData(array, alias = 'content') {
     try {
       return await Promise.all(array.map(async (item) => {
         const parsed = alias === 'journals'
@@ -102,23 +102,23 @@ class Utils {
     }
   }
 
-  async logIndexingStats (total, type, success) {
+  async logIndexingStats(total, type, success) {
     const now = m().format();
     console.log(chalk.cyan('[webhook]'), `Saved/Updated/Inserted ${type}:
     >>> type: ${type} 
     >>> local items #: ${total} 
     >>> indexed #: ${success}
     >>> indexed On #: ${now}`);
-  
+
     await this.setAsync(`last-${type}-indexed-job`, now);
-  
+
     const stats = {
       localItems: total,
       indexingType: type,
       indexingSuccess: success,
       indexedOn: now
     };
-  
+
     try {
       await es.log('api-webhook-indexing-logs', '_doc', stats);
       return stats;

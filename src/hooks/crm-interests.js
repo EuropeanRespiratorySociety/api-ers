@@ -8,14 +8,14 @@ const errors = require('@feathersjs/errors');
 /* eslint-disable no-console */
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async function (hook) {
-    return new Promise( async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       client.get('crmInterests', async (err, reply) => {
-        if(reply) {
+        if (reply) {
           // console.log('response from redis: ', reply);
           hook.params.crmInterests = JSON.parse(reply);
           resolve(hook);
         } else {
-          const crmClient = HTTP('https://crmapi.ersnet.org', hook.params.crmToken); 
+          const crmClient = HTTP('https://crmapi.ersnet.org', hook.params.crmToken);
           const [a, b] = await Promise.all([
             sureThing(crmClient.get('/Diseases')),
             sureThing(crmClient.get('/Methods'))
@@ -24,14 +24,14 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
           const cmsInterests = await hook.app.service('interests').find();
           let interests = {};
 
-          if(a.ok) interests.diseases = a.response.data.map(i => formatName(i,cmsInterests, 'diseases'));
-          if(b.ok) interests.methods = b.response.data.map(i => formatName(i,cmsInterests, 'methods'));
+          if (a.ok) interests.diseases = a.response.data.map(i => formatName(i, cmsInterests, 'diseases'));
+          if (b.ok) interests.methods = b.response.data.map(i => formatName(i, cmsInterests, 'methods'));
 
           client.set('crmInterests', JSON.stringify(interests));
           hook.params.crmInterests = interests;
           resolve(hook);
 
-          if (!a.ok, !b.ok){
+          if (!a.ok, !b.ok) {
             console.log('CRM Hook: ', a.error, b.error);
             reject(new errors.GeneralError('MyCRM is probably down, please contact the ERS with this message.', a.error, b.error));
           }
@@ -41,7 +41,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   };
 };
 
-function formatName (crmInterestObject, cmsInterestsObject, property) {
+function formatName(crmInterestObject, cmsInterestsObject, property) {
   crmInterestObject.Name = cmsInterestsObject.data
     .filter(tmp => tmp.title === property)[0].values
     .filter(i => i.toLowerCase() === crmInterestObject.Name.toLowerCase())[0];
