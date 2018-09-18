@@ -19,7 +19,7 @@ module.exports = function (app) {
   // Initialize our service with any options it requires
   app.use('/congress/abstracts', Object.assign(createService(options), {
     docs: def,
-    id: '_id'
+    id: 'id'
   }));
 
   // Get our initialized service so that we can register hooks and filters
