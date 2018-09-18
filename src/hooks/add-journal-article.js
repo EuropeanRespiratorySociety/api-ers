@@ -18,9 +18,7 @@ const oneArticle = function (options = {}) { // eslint-disable-line no-unused-va
         const article = a.data[0];
 
         if (article) {
-          const link = article.abstract.includes('//ow.ly/')
-            ? false
-            : `<a href="${article.canonical}">Read full article</a>`;
+          const link = `<a href="${article.canonical}">Read full article</a>`;
           hook.result.data.body = `
             ${hook.result.data.body ? hook.result.data.body + '<br />' : ''}
             <h3>${article.title}</h3>
