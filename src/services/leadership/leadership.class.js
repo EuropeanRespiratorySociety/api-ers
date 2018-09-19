@@ -11,8 +11,8 @@ class Service {
   async find(params) {
     const client = HTTP(this.baseUrl, params.crmToken);
 
-    const a = client.get('/Officers?groups=EXE&doiIncluded=true');
-    const b = client.get('/Officers?groups=CO&types=CHC&doiIncluded=true');
+    const a = client.get('/Officers?groups=EXE&doiIncluded=true&doiTolerance=1');
+    const b = client.get('/Officers?groups=CO&types=CHC&doiIncluded=true&doiTolerance=1');
     const t = await Promise.all([a, b]);
     let z = [];
     t.map(i => { i.data.map(i => { z.push(i); }); });
