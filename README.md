@@ -199,3 +199,10 @@ or you can clean idividual routes:
     1. `redis-cli`
     2. `AUTH <password>`
     3. `CONFIG SET requirepass ""` Removes the password
+
+# Docker
+Run the dev environment by:
+
+```js
+$ docker-compose up -d // -d = detached mode (no output to console)
+```

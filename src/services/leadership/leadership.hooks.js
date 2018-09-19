@@ -6,7 +6,7 @@ module.exports = {
   before: {
     all: [],
     find: [
-      redisBeforeHook(), 
+      // redisBeforeHook(), 
       crmAuth()],
     get: [],
     create: [],
@@ -19,8 +19,8 @@ module.exports = {
     all: [],
     find: [
       sort(),
-      hookCache({duration: 3600 * 24 * 7}),
-      redisAfterHook()
+      // hookCache({duration: 3600 * 24 * 7}),
+      // redisAfterHook()
     ],
     get: [],
     create: [],
