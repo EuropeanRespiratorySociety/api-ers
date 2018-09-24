@@ -20,7 +20,8 @@ services:
       - ./:/usr/api
     ports:
       - 3030:3030
+    links:
+      - mongodb
     environment:
-      - CORS_ORIGIN=http://localhost:3030
       - REDIS_URL=redis:6379://redis:6379/0
 
