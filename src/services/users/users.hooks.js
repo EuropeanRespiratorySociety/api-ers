@@ -1,5 +1,5 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const { iff, isProvider }= require('feathers-hooks-common');
+const { iff, isProvider } = require('feathers-hooks-common');
 const { restrictToOwner } = require('feathers-authentication-hooks');
 const checkPermissions = require('feathers-permissions');
 // const checkIsAdmin = require('../../hooks/check-is-admin');
@@ -17,14 +17,14 @@ const restrict = [
 module.exports = {
   before: {
     all: [],
-    find: [ 
-      authenticate('jwt'), 
+    find: [
+      authenticate('jwt'),
       checkPermissions({
         roles: ['admin']
-      }) 
+      })
     ],
-    get: [ ...restrict ],
-    create: [ 
+    get: [...restrict],
+    create: [
       authenticate('jwt'),
       checkPermissions({
         roles: ['admin']
@@ -32,17 +32,17 @@ module.exports = {
       hashPassword(),
 
     ],
-    update: [ ...restrict, hashPassword() ],
-    patch: [ 
+    update: [...restrict, hashPassword()],
+    patch: [
       iff(
         isProvider('external'),
         authenticate('jwt'),
         checkPermissions({
           roles: ['admin']
         })
-      ), 
-      hashPassword() ],
-    remove: [ ...restrict ]
+      ),
+      hashPassword()],
+    remove: [...restrict]
   },
 
   after: {
