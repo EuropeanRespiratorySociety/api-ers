@@ -160,7 +160,7 @@ function clearNews(client, item) {
   if (item.category && item.category.qname === 'o:ec586ddd9c918191be2b') {
     const appData = {
       cache: {
-        key: 'app-highlights?format=html',
+        key: item.slug,
         group: 'group-app-highlights'
       },
       data: {
