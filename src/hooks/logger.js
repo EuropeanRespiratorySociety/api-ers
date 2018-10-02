@@ -1,5 +1,11 @@
 // A hook that logs service method before, after and error
-const logger = require('winston');
+const winston = require('winston');
+const logger = winston.createLogger({
+  format: winston.format.simple(),
+  transports: [
+    new winston.transports.Console()
+  ]
+});
 
 module.exports = () => {
   return hook => {
@@ -8,6 +14,7 @@ module.exports = () => {
     if (hook.type === 'error') {
       message += ` - Error: ${hook.error.message}`;
     }
+
 
     logger.info(message);
     logger.debug('hook.data', hook.data);
@@ -23,3 +30,8 @@ module.exports = () => {
     return hook;
   };
 };
+
+[
+  new winston.transports.Console(),
+  new winston.transports.File({ filename: 'logfile.log' })
+];
