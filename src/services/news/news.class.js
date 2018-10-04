@@ -4,7 +4,7 @@ const setFilter = require('../../helpers/setFilters');
 
 /* eslint-disable no-unused-vars */
 class Service {
-  constructor (options) {
+  constructor(options) {
     this.options = options || {};
     this.setFilter = setFilter;
   }
@@ -20,10 +20,11 @@ class Service {
     const limit = format.setLimit(q.limit, this.options.paginate);
     const filters = this.setFilter(q.filterBy || false);
     const body = Object.assign(
-      params.body || {}, 
+      params.body || {},
       {
         type: 'News',
-        unPublished: { $ne: true } 
+        unPublished: { $ne: true },
+        'category2.id': { $nin: ['ec586ddd9c918191be2b'] } // App highlights
       },
       filters
     );
@@ -35,36 +36,36 @@ class Service {
       skip: parseInt(q.skip) || 0,
       sort: { [sortBy]: direction }
     };
-    
+
     params.options = opts;
     params.path = this.options.name;
 
     return new Promise((resolve, reject) => {
       const nodes = global.cloudcms.queryNodes(body, opts)
-        .trap(function(e){
-          resolve({message:e.message, status: e.status});
+        .trap(function (e) {
+          resolve({ message: e.message, status: e.status });
         })
-        .then(function(){
+        .then(function () {
           const cat = global.cloudcms.readNode('o:c827cc6bf4de31ce385b');
-          cat.then(function(){
+          cat.then(function () {
             nodes
-              .each(function(){
+              .each(function () {
                 this._system = this.getSystemMetadata();
-                if(q.full){
+                if (q.full) {
                   this._statistics = this.__stats();
                   this._qname = this.__qname();
                 }
               })
-              .then(function(){
+              .then(function () {
                 const total = nodes.__totalRows();
                 const news = JSON.parse(JSON.stringify(nodes.asArray()));
                 // status is there only for leagcy reasons.
                 resolve({
-                  item: [cat.json()], 
-                  items: news, 
+                  item: [cat.json()],
+                  items: news,
                   status: 200,
                   total: total,
-                  _sys: {status:200}
+                  _sys: { status: 200 }
                 });
               });
           });
@@ -74,7 +75,7 @@ class Service {
 
   get(slug, params) {
     const relatives = this.app.service('relatives');
-    return relatives.get(slug, {query: params.query}).then(result => Object.assign(result, {_sys:{status:200}}));
+    return relatives.get(slug, { query: params.query }).then(result => Object.assign(result, { _sys: { status: 200 } }));
   }
 }
 

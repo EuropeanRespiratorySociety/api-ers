@@ -42,6 +42,7 @@ module.exports = {
     'leadParagraph',
     'body',
     'category',
+    'category2',
     'author',
     'type',
     'eventDate',
