@@ -76,7 +76,7 @@
     "gitana": "^1.0.270",
     "graphql": "^14.0.2",
     "graphql-server-express": "^1.4.0",
-    "graphql-tools": "^3.1.1",
+    "graphql-tools": "^4.0.1",
     "helmet": "^3.13.0",
     "mongodb": "^3.1.6",
     "mongoose": "^5.2.15",
