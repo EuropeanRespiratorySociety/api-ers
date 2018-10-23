@@ -23,20 +23,15 @@ const crmAuth = function (options) { // eslint-disable-line no-unused-vars
 
   return function (hook) {
     return new Promise((resolve, reject) => {
-      console.log('Step1');
       client.get('myCrm_api_key', (err, reply) => {
-        console.log('Step Redis', err, reply);
         if (reply) {
-          console.log('Step Redis 2');
           //console.log("response from redis: ", reply)
           hook.params.crmToken = reply;
           resolve(hook);
         } else {
-          console.log('Step2');
           axios
             .post('https://crmapi.ersnet.org/Token', data)
             .then(response => {
-              console.log('Step3');
               client.set('myCrm_api_key', response.data.access_token);
               client.expire('myCrm_api_key', response.data.expires_in - 30);
               hook.params.crmToken = response.data.access_token;
