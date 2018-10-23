@@ -19,7 +19,7 @@ describe('\'webhook\' utils', () => {
     expect(u).to.respondTo('setAsync');
   });
 
-  it.only('parses an item', () => {
+  it('parses an item', () => {
     const mock = {
       _doc: 'thisIsAStringId-123456',
       shouldNotbeInclueded: 'yes, we do not want this in ES',
