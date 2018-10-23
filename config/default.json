@@ -34,7 +34,8 @@
     }
   },
   "redis": {
-    "host": "REDIS_HOST"
+    "host": "REDIS_HOST",
+    "password": "REDISPW"
   },
   "redisCache": {
     "defaultDuration": 3600,
