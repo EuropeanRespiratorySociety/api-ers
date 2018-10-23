@@ -13,6 +13,10 @@ const data = qs.stringify({
   password: process.env.CRM_PW
 });
 
+// This is mendatory until we change the certificate
+// But we trust the server... it is ours.
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+
 /* eslint-disable no-console */
 const crmAuth = function (options) { // eslint-disable-line no-unused-vars
   options = Object.assign({}, defaults, options);

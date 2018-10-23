@@ -195,7 +195,7 @@ or you can clean idividual routes:
         ```
         u.update({"_id" : ObjectId("5b42ed8456a353f33b9c6e1f")}, {$addToSet:{permissions: "<the-permission-to-add>"}})
         ```
-8. Redis local conf:
+8. Redis: How to remove the password:
     1. `redis-cli`
     2. `AUTH <password>`
     3. `CONFIG SET requirepass ""` Removes the password

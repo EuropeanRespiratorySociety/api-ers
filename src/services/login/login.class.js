@@ -5,6 +5,10 @@ const sureThing = require('../../helpers/sureThing');
 const { HTTP, k4Client } = require('../../helpers/HTTP');
 const conf = require('./login.conf').join(',');
 
+// This is mendatory until we change the certificate
+// But we trust the server... it is ours.
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+
 // @TODO async/await #26
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */

@@ -1,6 +1,10 @@
 const { HTTP } = require('../../helpers/HTTP');
 const map = require('./leadership.map');
 
+// This is mendatory until we change the certificate
+// But we trust the server... it is ours.
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+
 /* eslint-disable no-unused-vars */
 class Service {
   constructor(options) {
