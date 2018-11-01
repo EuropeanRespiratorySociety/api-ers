@@ -1,0 +1,27 @@
+version: "3"
+services:
+  mongodb:
+    image: mongo:latest
+    ports: 
+      - 27017:27017
+
+  redis:
+    image: redis:alpine
+    ports: 
+      - 6379:6379
+
+  # The API
+  app:
+    build:
+      context: ./
+      dockerfile: dev.dockerfile
+    working_dir: /usr/api
+    volumes:
+      - ./:/usr/api
+    ports:
+      - 3030:3030
+    links:
+      - mongodb
+    environment:
+      - REDIS_URL=redis:6379://redis:6379/0
+
