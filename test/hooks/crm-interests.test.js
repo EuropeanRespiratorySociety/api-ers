@@ -7,7 +7,7 @@ const client = redis.createClient();
 const expect = chai.expect;
 
 describe('\'crmInterests\' hook', () => {
-  after(function() {
+  after(function () {
     client.del('crmInterests');
   });
 
@@ -23,9 +23,9 @@ describe('\'crmInterests\' hook', () => {
     };
     client.del('crmInterests');
     client.set('crmInterests', JSON.stringify({
-      diseases:[
+      diseases: [
         {
-          DiseaseId: 4,
+          DiseaseId: 6,
           Name: 'Sleep and Breathing disorders',
           Order: 7,
           IsActive: true
@@ -33,7 +33,7 @@ describe('\'crmInterests\' hook', () => {
       ],
       methods: [
         {
-          MethodId: 19,
+          MethodId: 14,
           Name: 'Transplantation',
           Order: 11,
           IsActive: true
@@ -49,8 +49,8 @@ describe('\'crmInterests\' hook', () => {
       expect(i).to.be.an('object')
         .to.haveOwnProperty('methods')
         .to.be.an('array');
-      expect(i.diseases[0].DiseaseId).to.equal(4);
-      expect(i.methods[0].MethodId).to.equal(19);
+      expect(i.diseases[0].DiseaseId).to.equal(6);
+      expect(i.methods[0].MethodId).to.equal(14);
     });
   });
 
