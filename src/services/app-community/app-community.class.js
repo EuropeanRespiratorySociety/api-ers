@@ -46,6 +46,7 @@ class Service {
         .then(function () {
           const total = this.__totalRows();
           const items = JSON.parse(JSON.stringify(this.asArray()));
+          const obj = 
           resolve({
             item: [],
             items,
