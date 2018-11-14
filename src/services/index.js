@@ -32,6 +32,7 @@ const recommend = require('./recommend/recommend.service.js');
 
 const testCustomservice = require('./test-customservice/test-customservice.service.js');
 const testMongoose = require('./test-mongoose/test-mongoose.service.js');
+const testCloudcms = require('./test-cloudcms/test-cloudcms.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
@@ -70,5 +71,5 @@ module.exports = function () {
   app.configure(recommend);
   app.configure(testCustomservice);
   app.configure(testMongoose);
-
+  app.configure(testCloudcms);
 };
