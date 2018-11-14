@@ -29,14 +29,10 @@ const appCommunity = require('./app-community/app-community.service.js');
 const trainingData = require('./training-data/training-data.service.js');
 const cpd = require('./cpd/cpd.service.js');
 const recommend = require('./recommend/recommend.service.js');
-<<<<<<< HEAD
-
 const testCustomservice = require('./test-customservice/test-customservice.service.js');
 const testMongoose = require('./test-mongoose/test-mongoose.service.js');
-=======
-const testMongoose = require('./test-mongoose/test-mongoose.service.js');
 const testCloudcms = require('./test-cloudcms/test-cloudcms.service.js');
->>>>>>> 0033caf572f35e138e15d371d84af57b25c3a3c8
+
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   // A -> Z documentation is generated based on this order.
