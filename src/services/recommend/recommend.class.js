@@ -16,7 +16,6 @@ class Service {
       abstract = false,
       similarityOnly = false,
       interests = [] } = data;
-    const abstractService = this.app.service('congress/abstracts');
     if (abstract) {
       const r = await recommenderClient.post('/recommend', {
         interests,
