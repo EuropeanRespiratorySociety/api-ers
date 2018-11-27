@@ -100,7 +100,7 @@ module.exports = {
 
   /** Update a  node with new properties or update current ones
    * @param {Object} branch
-   * @param {Object} node - the node to update
+   * @param {String} node - the node to update (_doc property)
    * @param {Object} payload - the data that needs to change
    */
   updateNode: (branch, node, payload) => {

@@ -58,6 +58,7 @@
     "@feathersjs/feathers": "^3.2.3",
     "@feathersjs/rest-client": "^1.4.5",
     "@feathersjs/socketio": "^3.2.6",
+    "@google/maps": "^0.5.5",
     "axios": "^0.18.0",
     "babel": "^6.23.0",
     "body-parser": "^1.18.3",

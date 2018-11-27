@@ -3,6 +3,7 @@ const h = require('./webhook.helpers');
 const j = require('./webhook.journals');
 const s = require('./webhook.static-pages');
 const c = require('./webhook.classify');
+const coordinates = require('./webhook.coordinates');
 const abstracts = require('./webhook.add.abstracts.classification');
 const cache = require('./webhook.cache');
 const errors = require('@feathersjs/errors');
@@ -76,11 +77,13 @@ class Service {
     /* eslint-disable indent */
     return pw !== process.env.WPW && !isCloudCMS(data)
       ? error()
-      : type === 'cache' || isCloudCMS(data)
+      : type === 'cache'
         ? cache.clear(data)
         : type === 'save-journal-abstract'
           ? j.upsertJournalAbstract(this.app, data, true) // temporarily forcing
-          : 'other method not yet implemented';
+            : type === 'coordinate'
+            ? await coordinates.save(await coordinates.generate(data), data) // eslint-disable-line no-console
+              : 'other method not yet implemented';
     /* eslint-enable indent */
   }
 
