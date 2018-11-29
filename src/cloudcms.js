@@ -32,7 +32,7 @@ module.exports = () => {
     }
 
     // read the master branch
-    this.datastore('content').readBranch('master').then(function() {
+    this.datastore('content').readBranch(process.env.CCBranch).then(function() {
       global.cloudcms = this;
       console.log('');
       console.log(chalk.yellow('--------------------------------------'));

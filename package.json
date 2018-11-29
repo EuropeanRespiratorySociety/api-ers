@@ -33,6 +33,7 @@
     "test:single": "nyc --require babel-core/register npm run mocha:helpers:single",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "node src/",
+    "start:dev": "nodemon src/",
     "mocha": "mocha ./test/ --recursive --exit",
     "mocha:filters": "mocha test/services/filters.test.js",
     "mocha:class": "mocha test/classes",
