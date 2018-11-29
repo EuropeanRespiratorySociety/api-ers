@@ -16,6 +16,8 @@ class Service {
       abstract = false,
       similarityOnly = false,
       interests = [] } = data;
+    // This is an example on how to get a service from a service
+    // const abstractService = this.app.service('congress/abstracts');
     if (abstract) {
       const r = await recommenderClient.post('/recommend', {
         interests,

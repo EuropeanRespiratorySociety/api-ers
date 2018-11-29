@@ -81,9 +81,9 @@ class Service {
         ? cache.clear(data)
         : type === 'save-journal-abstract'
           ? j.upsertJournalAbstract(this.app, data, true) // temporarily forcing
-            : type === 'coordinate'
+          : type === 'coordinates'
             ? await coordinates.save(await coordinates.generate(data), data) // eslint-disable-line no-console
-              : 'other method not yet implemented';
+            : 'other method not yet implemented';
     /* eslint-enable indent */
   }
 
