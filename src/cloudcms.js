@@ -4,6 +4,10 @@ const gitana = require('gitana');
 const dotenv = require('dotenv');
 dotenv.load();
 
+const branch = process.env.CCBranch === undefined
+  ? 'master'
+  : process.env.CCBranch;
+
 module.exports = () => {
   // connect to Cloud CMS
   // this looks for gitana.json in local directory
@@ -14,14 +18,14 @@ module.exports = () => {
     password: process.env.CCpassword,
     baseURL: process.env.baseURL,
     application: process.env.application
-  }, function(err) {
+  }, function (err) {
 
     if (err) {
       console.log('');
       console.log(chalk.red('There was a problem connecting to Cloud CMS'));
-      if(process.env.NODE_ENV === 'test'){
+      if (process.env.NODE_ENV === 'test') {
         // Limiting what is publicly displayed on travis 
-        if(err) console.log(chalk.red('---- Error report ----'));
+        if (err) console.log(chalk.red('---- Error report ----'));
         console.log('Status text: ', err.statusText);
         console.log('Status code: ', err.status);
         console.log('Error type code: ', err.errorType);
@@ -32,15 +36,17 @@ module.exports = () => {
     }
 
     // read the master branch
-    this.datastore('content').readBranch(process.env.CCBranch).then(function() {
+    this.datastore('content').readBranch(branch).then(function () {
       global.cloudcms = this;
+      const message = `  Connected to Cloud CMS
+      Branch set (${this.title})`;
       console.log('');
       console.log(chalk.yellow('--------------------------------------'));
       console.log('');
-      console.log(chalk.yellow('  Connected to Cloud CMS, Branch set'));
+      console.log(chalk.yellow(message));
       console.log('');
       console.log(chalk.yellow('--------------------------------------'));
       process.emit('Cloud CMS connected');
-    });          
+    });
   });
 };
