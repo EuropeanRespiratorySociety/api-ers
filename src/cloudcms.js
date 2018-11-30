@@ -38,8 +38,7 @@ module.exports = () => {
     // read the master branch
     this.datastore('content').readBranch(branch).then(function () {
       global.cloudcms = this;
-      const message = `  Connected to Cloud CMS
-      Branch set (${this.title})`;
+      const message = `  Connected to Cloud CMS\n  Branch set (${this.title})`;
       console.log('');
       console.log(chalk.yellow('--------------------------------------'));
       console.log('');
