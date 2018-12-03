@@ -29,6 +29,7 @@ const appCommunity = require('./app-community/app-community.service.js');
 const trainingData = require('./training-data/training-data.service.js');
 const cpd = require('./cpd/cpd.service.js');
 const recommend = require('./recommend/recommend.service.js');
+const cmeOnline = require('./cme-online/cme-online.service.js');
 
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
@@ -40,6 +41,7 @@ module.exports = function () {
   app.configure(sessions); // this appears under "congress"
   app.configure(presentations); // this appears under "congress"
   app.configure(abstracts); // this appears under "congress"
+  app.configure(cmeOnline);
   app.configure(courses);
   app.configure(contacts); // This shows up as ers in the documentation
   app.configure(feed);

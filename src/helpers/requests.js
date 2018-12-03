@@ -150,7 +150,13 @@ module.exports = {
     });
   },
 
-  relatives: (branch, qname, type, options) => {
+  /**
+   * @param {Object} branch - Cloud CMS object (global.cloudcms)
+   * @param {String} qname - of the category
+   * @param {String} [type] - association to follow
+   * @param {Object} [options] - sorting and query options
+   */
+  relatives: (branch, qname, type = 'ers:category-association', options = {}) => {
     const {
       body = {},
       sortDirection = -1,
@@ -159,19 +165,19 @@ module.exports = {
       sortBy = '_system.modified_on.ms',
       limit = 25,
       skip = 0
-    } = options || {};
+    } = options;
 
     const b = Object.assign(body, {
       unPublished: { $ne: true }
     });
 
     const config = {
-      type: type
+      type
     };
 
     const opts = {
       metadata: metadata || true,
-      limit: limit,
+      limit,
       skip: parseInt(skip) || 0,
       sort: { [sortBy]: parseInt(sortDirection) }
     };

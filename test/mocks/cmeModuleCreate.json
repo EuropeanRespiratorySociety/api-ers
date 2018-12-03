@@ -1,0 +1,91 @@
+{
+    "title": "Test by api",
+    "slug": "test-by-api",
+    "contentType": "cme_online",
+    "moodleCmeId": 123,
+    "cmeType": "case",
+    "itemImageAlignment": "center",
+    "itemImageBackgroundSize": "cover",
+    "imageSize": "small",
+    "cmeOrganisers": [
+        {
+            "name": "G. Rohde, MD",
+            "title": "Module Director",
+            "isMain": true
+        }
+    ],
+    "cmeOnlineModule": [
+        {
+            "title": "Introduction",
+            "panels": [
+                {
+                    "title": "I am Gernot Rohde, Director of this module. I will be accompanied by Prof. Peter Openshaw in order to guide you throughout this session...",
+                    "panelType": "tabs",
+                    "tabs": [
+                        {
+                            "title": "Introduction",
+                            "description": "Vaccination is amongst the most cost-effective measures available to us to improve health. The most notable example is the prevention of influenza by annual vaccination, but vaccination against pneumococcal pneumonia is also highly effective in selected populations."
+                        },
+                        {
+                            "title": "Educational objectives",
+                            "description": "After the completion of this module, you will be able to:  1. Recognise the burden and importance of influenza and pneumococcal pneumonia as causes of serious lung disease 2. Identify risk factors for severe disease and targeted vaccination. 3.  Explain the uses and limitations of vaccination in preventing viral and bacterial lung disease 4.  Discuss the ways in which viruses and bacterial infections of the lung interact.  5.  Outline the indications for an appropriate use of antivirals"
+                        },
+                        {
+                            "title": "Target audience",
+                            "description": "• Physicians caring for patients with lung infections"
+                        }
+                    ],
+                    "question": {
+                        "answers": []
+                    }
+                }
+            ]
+        },
+        {
+            "title": "Interactive Case - Simulation",
+            "panels": [
+                {
+                    "title": "Here is your case:",
+                    "description": "• 34 year old asthmatic woman • Middle of flu season • Patient have been in hospital prior to the event",
+                    "panelType": "tabs",
+                    "tabs": [
+                        {
+                            "title": "Presentation",
+                            "description": "• Shortness of breath + cough + fever One day prior:  • Haemoptysis, fever, pleuritic chest pain • Shortness of breath, no response to inhalers"
+                        }
+                    ],
+                    "question": {
+                        "answers": []
+                    }
+                },
+                {
+                    "title": "High on the list",
+                    "description": "Based on presentation you may have now a first differential diagnosis on your mind.",
+                    "panelType": "question",
+                    "tabs": [],
+                    "question": {
+                        "title": "High on the list of possibilities are",
+                        "type": "multiple",
+                        "answers": [
+                            {
+                                "text": "Bacterial pneumonia",
+                                "isCorrect": false
+                            },
+                            {
+                                "text": "Venous thromboembolism",
+                                "isCorrect": false
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "diseases": [
+        "Airway diseases",
+        "Interstitial lung diseases"
+    ],
+    "methods": [
+        "Epidemiology"
+    ]
+}
