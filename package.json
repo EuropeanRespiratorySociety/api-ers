@@ -43,7 +43,7 @@
     "mocha:helpers": "mocha test/helpers --recursive",
     "mocha:helpers:single": "mocha test/helpers/formatNotification.test.js --watch",
     "mocha:watch": "mocha test/ --recursive --watch",
-    "mocha:single": "mocha test/classes/cme-online.class.test.js --exit",
+    "mocha:single": "mocha test/classes/login.class.test.js --exit",
     "coverage": "nyc report --reporter=text",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
@@ -88,6 +88,7 @@
     "request-promise": "^4.2.2",
     "sanitize-html": "^1.19.1",
     "serve-favicon": "^2.5.0",
+    "turndown": "^5.0.1",
     "validator": "^10.8.0",
     "winston": "^3.0.1"
   },

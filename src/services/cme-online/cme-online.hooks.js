@@ -7,10 +7,10 @@ module.exports = {
   before: {
     all: [],
     find: [
-      redisBeforeHook()
+      //redisBeforeHook()
     ],
     get: [
-      redisBeforeHook()
+      //redisBeforeHook()
     ],
     create: [],
     update: [],
@@ -28,12 +28,12 @@ module.exports = {
   after: {
     all: [],
     find: [
-       hookCache({duration: 3600 * 24}), 
-       redisAfterHook()
+       //hookCache({duration: 3600 * 24}), 
+       //redisAfterHook()
     ],
     get: [
-      hookCache({duration: 3600 * 24 * 7}), 
-      redisAfterHook()
+      //hookCache({duration: 3600 * 24 * 7}), 
+      //redisAfterHook()
     ],
     create: [],
     update: [],

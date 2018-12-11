@@ -37,14 +37,14 @@ describe('Cme Online Class', function() {
     this.server.close(done);
   });
   
-  it('is correctly instantiated', () => {
+  xit('is correctly instantiated', () => {
     expect(service).to.be.an('object');
     expect(service).to.respondTo('find');
     expect(service).to.respondTo('get');
     expect(service).to.respondTo('create');
   });
 
-  it('creates new cme module', async() => {
+  xit('creates new cme module', async() => {
     try {
         const resultCreate = await service.create(cmeModuleMock);
         expect(resultCreate.status).to.equal(201);
@@ -53,7 +53,7 @@ describe('Cme Online Class', function() {
       }
   }).timeout(10000);
 
-  it('get cme module', async() => {
+  xit('get cme module', async() => {
     try {
         const cmeModule = await service.get(cmeModuleMock.slug);
         expect(cmeModule.item[0].title).to.equal(cmeModuleMock.title);
@@ -62,7 +62,7 @@ describe('Cme Online Class', function() {
       }
   }).timeout(10000);
 
-  it('delete cme module', async() => {
+  xit('delete cme module', async() => {
     try {
         const resultRemove = await service.remove(cmeModuleMock.slug);
         expect(resultRemove.status).to.equal(200);
