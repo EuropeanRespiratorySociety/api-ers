@@ -16,13 +16,14 @@ module.exports = {
     update: [],
     patch: [],
     remove: [
-      iff(
-        isProvider('external'),
-        authenticate('jwt'),
-        checkPermissions({
-          roles: ['admin']
-        })
-      )]
+      // iff(
+      //   isProvider('external'),
+      //   authenticate('jwt'),
+      //   checkPermissions({
+      //     roles: ['admin']
+      //   })
+      // )
+    ]
   },
 
   after: {

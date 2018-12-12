@@ -1,12 +1,12 @@
 const F = require('ers-utils').Format;
 const format = new F();
-const setFilter = require('../../helpers/setFilters');
+const setFilters = require('../../helpers/setFilters');
 
 /* eslint-disable no-unused-vars */
 class Service {
   constructor(options) {
     this.options = options || {};
-    this.setFilter = setFilter;
+    this.setFilter = setFilters.setFilter;
   }
 
   setup(app) {

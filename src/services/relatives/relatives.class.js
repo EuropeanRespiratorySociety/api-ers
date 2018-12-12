@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const F = require('ers-utils').Format;
 const format = new F();
-const setFilter = require('../../helpers/setFilters');
+const setFilters = require('../../helpers/setFilters');
 
 let config = {
   type: 'ers:category-association'
@@ -10,7 +10,7 @@ let config = {
 class Service {
   constructor (options) {
     this.options = options || {};
-    this.setFilter = setFilter;
+    this.setFilter = setFilters.setFilter;
   }
 
   setup(app) {

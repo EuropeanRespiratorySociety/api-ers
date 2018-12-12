@@ -1,7 +1,8 @@
 const F = require('ers-utils').Format;
 const format = new F();
-const setFilter = require('../../helpers/setFilters');
+const setFilters = require('../../helpers/setFilters');
 const r = require('../../helpers/requests');
+const setCmeOnlineFilter = setFilters.setCmeOnlineFilter;
 
 /* eslint-disable no-unused-vars */
 class Service {
@@ -11,7 +12,7 @@ class Service {
 
   async find (params) {
     const { query } = params;
-    const filters = setFilter(query.filterBy || false);
+    const filters = setCmeOnlineFilter(query.filterBy || false, query.type || false, query.category || false);
     return await r.relatives(global.cloudcms, 'o:8e1f9c610877206a850e', 'ers:category-association', {body: filters})
   }
 
@@ -42,31 +43,31 @@ class Service {
     });      
   }
 
-  async update (id, data, params) {
-    return data;
-  }
+  // async update (id, data, params) {
+  //   return data;
+  // }
 
-  async patch (id, data, params) {
-    return data;
-  }
+  // async patch (id, data, params) {
+  //   return data;
+  // }
 
-  async remove(slug, params){
-    return new Promise((resolve, reject) => {
-      global.cloudcms
-      .trap(function(e){
-        resolve({message:e.message, status: e.status});
-      })
-      .then(function(){
-        this.queryNodes({slug})
-        .then(function(){
-          this.del()
-          .then(function(){
-            resolve({status:200});
-          });
-        });
-      });
-    })
-  }
+  // async remove(slug, params){
+  //   return new Promise((resolve, reject) => {
+  //     global.cloudcms
+  //     .trap(function(e){
+  //       resolve({message:e.message, status: e.status});
+  //     })
+  //     .then(function(){
+  //       this.queryNodes({slug})
+  //       .then(function(){
+  //         this.del()
+  //         .then(function(){
+  //           resolve({status:200});
+  //         });
+  //       });
+  //     });
+  //   })
+  // }
 }
 
 module.exports = function (options) {

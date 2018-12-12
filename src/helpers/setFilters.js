@@ -38,4 +38,24 @@ const setFilter = (filter) => {
   /* eslint-enable indent */  
 };
 
-module.exports = setFilter;
+/**
+ * Set the filters for diseases and methods, Cme Type and Category
+ * @param {string} interest - Airway diseases,Public health
+ * @param {string} type - Case or Topic
+ * @param {string} category - COPD
+ */
+const setCmeOnlineFilter = (interest, type, category) => {
+  let filters = setFilter(interest);
+  if(type){
+    filters['cmeType'] = type;
+  }
+  if(category){
+    filters['cmeCategory'] = category;
+  }
+  return filters;
+};
+
+module.exports = {
+  setFilter,
+  setCmeOnlineFilter
+};
