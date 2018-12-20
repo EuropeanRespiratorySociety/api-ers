@@ -23,7 +23,8 @@ class Service {
       '869b74f51afe687b5b74/8c5cee229733b59b886f', // Tamki
       '869b74f51afe687b5b74/b0b92beef2f4044f4876', // Beth
       '869b74f51afe687b5b74/e00928e3e82b80adb710', // Steph
-      '869b74f51afe687b5b74/b053fcddb8b70b299821'  // Sam
+      '869b74f51afe687b5b74/b053fcddb8b70b299821',  // Sam
+      '869b74f51afe687b5b74/182db480d8e9428e229d',  // Tim
     ];
 
     return new Promise(async (resolve, reject) => {
