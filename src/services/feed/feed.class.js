@@ -7,7 +7,7 @@ class Service {
   constructor(options) {
     this.options = options || {};
     this.setFilter = setFilter;
-    this.setFilters = setFilters;
+    this.setFilters = setFilters.setFilter;
   }
 
   setup(app) {

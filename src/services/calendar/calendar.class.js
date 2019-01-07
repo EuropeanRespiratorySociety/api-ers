@@ -1,11 +1,11 @@
-const setFilterBy = require('../../helpers/setFilters');
+const setFilters = require('../../helpers/setFilters');
 // const m = require('moment');
 /* eslint-disable no-unused-vars */
 class Service {
   constructor (options) {
     this.options = options || {};
     this.setFilter = setFilter;
-    this.filterBy = setFilterBy;
+    this.filterBy = setFilters.setFilter;
   }
 
   setup(app) {
