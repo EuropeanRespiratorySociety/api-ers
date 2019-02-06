@@ -25,6 +25,7 @@ build/Release
 
 # Config
 .env
+.eslintrc.json
 
 # Dependency directory
 # Commenting this out is preferred by some people, see
