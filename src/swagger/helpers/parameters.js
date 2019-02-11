@@ -183,7 +183,7 @@ module.exports = {
     allowMultiple: false,
     type: 'integer',
     in: 'query',
-    enum:[1, -1]
+    enum: [1, -1]
   },
   full: {
     name: 'full',
@@ -191,7 +191,7 @@ module.exports = {
     required: false,
     allowMultiple: false,
     type: 'boolean',
-    in: 'query'  
+    in: 'query'
   },
   format: {
     name: 'format',
@@ -221,7 +221,7 @@ module.exports = {
     required: false,
     allowMultiple: false,
     type: 'boolean',
-    in: 'query'  
+    in: 'query'
   },
   reverse: {
     name: 'reverse',
@@ -229,16 +229,15 @@ module.exports = {
     required: false,
     allowMultiple: false,
     type: 'boolean',
-    in: 'query'  
+    in: 'query'
   },
   object: {
     name: 'object',
     description: 'The object sent to cloudcms',
     required: true,
     schema: {
-      properties: {
-      },
-      example:{
+      properties: {},
+      example: {
         tile: 'new title',
         url: 'new url'
       },
@@ -255,12 +254,13 @@ module.exports = {
       * non-ers - Events that have been approved in our calendar but that are nor endorsed nor ers
       * spirometry - Spirometry Training Programme - These events appear under ERS as they are ERS events, but they can also appear by their own on some pages
       * hermes - HERMES pages - These events appear under ERS as they are ERS events, but they can also appear by their own on some pages
+      * selfAssessment - Self-assessment course - These events appear under ERS as they are ERS events, but they can also appear by their own on some pages
       * all - ...
     `,
     required: false,
     type: 'string',
     in: 'query',
-    enum: ['ers', 'deadline', 'endorsed', 'non-ers', 'spirometry', 'all' ]
+    enum: ['ers', 'deadline', 'endorsed', 'non-ers', 'spirometry', 'all']
   },
   coursesType: {
     name: 'type',
@@ -288,7 +288,7 @@ module.exports = {
     required: true,
     schema: {
       properties: {},
-      example:{
+      example: {
         email: 'user email',
         username: 'username',
         password: 'user password',
@@ -304,19 +304,25 @@ module.exports = {
     required: true,
     schema: {
       properties: {
-        ersId: {type: 'integer'},
+        ersId: {
+          type: 'integer'
+        },
         spotmeId: [],
-        _id: {type: 'string'},
-        layout: {type: 'string'},
+        _id: {
+          type: 'string'
+        },
+        layout: {
+          type: 'string'
+        },
         notifications: [],
         interests: []
       },
-      example:{
+      example: {
         ersId: 'integer',
         spotMe: 'string',
         layout: 'string',
         notifications: [],
-        interests:[]
+        interests: []
       },
       type: 'object'
     },

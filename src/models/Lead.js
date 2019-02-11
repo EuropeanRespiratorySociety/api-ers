@@ -1,4 +1,4 @@
-module.exports = {    
+module.exports = {
   title: false,
   subTitle: false,
   slug: false,
@@ -6,13 +6,14 @@ module.exports = {
   tags: false,
   contentType: false,
   type: false,
+  selfAssessmentType: false,
   typeColor: false,
-  flags: [{ 
-    text: false, 
-    color: false 
+  flags: [{
+    text: false,
+    color: false
   }],
   leadParagraph: false,
-  shortLead:  false,
+  shortLead: false,
   body: false,
   displayModifiedOnDate: false,
   doNotDisplayCreatedOn: false,
@@ -27,7 +28,7 @@ module.exports = {
   eventDates: false,
   eventLocation: false,
   fullyBooked: false,
-  ms:  false,
+  ms: false,
   url: false,
   uri: false,
-};    
+};
