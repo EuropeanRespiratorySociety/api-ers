@@ -1,4 +1,4 @@
-{
+module.exports = {
   "env": {
     "es6": true,
     "node": true,
@@ -19,8 +19,7 @@
     ],
     "linebreak-style": [
       "error",
-      "unix",
-      "windows"
+      "unix"
     ],
     "quotes": [
       "error",
