@@ -1,9 +1,24 @@
-const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-rediscache');
-const { iff, isProvider } = require('feathers-hooks-common');
-const { authenticate } = require('@feathersjs/authentication').hooks;
+/*eslint-disable */
+const {
+  hookCache,
+  redisAfterHook,
+  redisBeforeHook
+} = require('feathers-hooks-rediscache');
+const {
+  iff,
+  isProvider
+} = require('feathers-hooks-common');
+const {
+  authenticate
+} = require('@feathersjs/authentication').hooks;
 const checkPermissions = require('feathers-permissions');
-const { ccParserCategory, ccParserItem } = require('../../hooks/cc-parser');
-const { metadata } = require('../../hooks/metadata');
+const {
+  ccParserCategory,
+  ccParserItem
+} = require('../../hooks/cc-parser');
+const {
+  metadata
+} = require('../../hooks/metadata');
 
 module.exports = {
   before: {
@@ -31,9 +46,9 @@ module.exports = {
   after: {
     all: [],
     find: [
-       ccParserCategory()
-       //hookCache({duration: 3600 * 24}), 
-       //redisAfterHook()
+      ccParserCategory()
+      //hookCache({duration: 3600 * 24}), 
+      //redisAfterHook()
     ],
     get: [
       ccParserItem()

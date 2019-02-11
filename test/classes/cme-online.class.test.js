@@ -46,28 +46,28 @@ describe('Cme Online Class', function() {
 
   it('get cme module', async() => {
     try {
-        const cmeModule = await service.get(cmeModuleMock.slug);
-        expect(cmeModule.item[0].title).to.equal(cmeModuleMock.title);
-      } catch (e) {
-        expect(true).to.equal(false);
-      }
+      const cmeModule = await service.get(cmeModuleMock.slug);
+      expect(cmeModule.item[0].title).to.equal(cmeModuleMock.title);
+    } catch (e) {
+      expect(true).to.equal(false);
+    }
   }).timeout(10000);
 
   xit('creates new cme module', async() => {
     try {
-        const resultCreate = await service.create(cmeModuleMock);
-        expect(resultCreate.status).to.equal(201);
-      } catch (e) {
-        expect(true).to.equal(false);
-      }
+      const resultCreate = await service.create(cmeModuleMock);
+      expect(resultCreate.status).to.equal(201);
+    } catch (e) {
+      expect(true).to.equal(false);
+    }
   }).timeout(10000);
 
   xit('delete cme module', async() => {
     try {
-        const resultRemove = await service.remove(cmeModuleMock.slug);
-        expect(resultRemove.status).to.equal(200);
-      } catch (e) {
-        expect(true).to.equal(false);
-      }
+      const resultRemove = await service.remove(cmeModuleMock.slug);
+      expect(resultRemove.status).to.equal(200);
+    } catch (e) {
+      expect(true).to.equal(false);
+    }
   }).timeout(10000);
 });

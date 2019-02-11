@@ -14,7 +14,10 @@ module.exports = function () {
 
   // Initialize our service with any options it requires
   //add documetation
-  app.use('/cme-online', Object.assign(createService(options), { docs, id: 'slug' }));
+  app.use('/cme-online', Object.assign(createService(options), {
+    docs,
+    id: 'slug'
+  }));
 
   // Get our initialized service so that we can register hooks
   const service = app.service('cme-online');
