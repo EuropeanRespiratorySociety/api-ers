@@ -18,10 +18,10 @@ describe('\'calendar\' service', () => {
   });
 });
 
-describe('Request to the calendar service', function() {
-  
+describe('Request to the calendar service', function () {
+
   it('returns calendar items', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
@@ -39,7 +39,7 @@ describe('Request to the calendar service', function() {
   }).timeout(8000);
 
   it('calendar items are in chronological order', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
@@ -52,7 +52,7 @@ describe('Request to the calendar service', function() {
   }).timeout(4000);
 
   it('returns calendar items in reverse order', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar?reverse=true')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
@@ -65,20 +65,20 @@ describe('Request to the calendar service', function() {
   }).timeout(4000);
 
   it('returns calendar with markdown format', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar?format=markdown')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
         expect(res).to.have.status(200);
         const r = JSON.parse(res.text).data[0];
-        
-        if(r.leadParagraph) {
+
+        if (r.leadParagraph) {
           expect(r.leadParagraph)
             .to.be.a('string')
             .not.to.include('<p>');
         }
 
-        if(r.body) {
+        if (r.body) {
           expect(r.body)
             .to.be.a('string')
             .not.to.include('<p>');
@@ -90,7 +90,7 @@ describe('Request to the calendar service', function() {
 
 
   it('returns raw calendar items', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar?format=raw&type=ers')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
@@ -98,40 +98,40 @@ describe('Request to the calendar service', function() {
         //This test fails when there is no lead :(
         const data = JSON.parse(res.text).data;
         /* eslint-disable indent */
-        data[0].leadParagraph
-        ? expect(data[0].leadParagraph)
+        data[0].leadParagraph ?
+          expect(data[0].leadParagraph)
           .to.be.a('string')
-          .not.to.include('<p>')
-        : data[1].leadParagraph
-        ? expect(data[1].leadParagraph)
+          .not.to.include('<p>') :
+          data[1].leadParagraph ?
+          expect(data[1].leadParagraph)
           .to.be.a('string')
-          .not.to.include('<p>')
-        : data[2].leadParagraph
-        ? expect(data[2].leadParagraph)
+          .not.to.include('<p>') :
+          data[2].leadParagraph ?
+          expect(data[2].leadParagraph)
           .to.be.a('string')
-          .not.to.include('<p>')
-        : expect(data[0].leadParagraph).to.be.false;
+          .not.to.include('<p>') :
+          expect(data[0].leadParagraph).to.be.false;
 
-        data[0].body
-        ? expect(data[0].body)
+        data[0].body ?
+          expect(data[0].body)
           .to.be.a('string')
-          .not.to.include('###')
-        : data[1].body
-        ? expect(data[1].body)
+          .not.to.include('###') :
+          data[1].body ?
+          expect(data[1].body)
           .to.be.a('string')
-          .not.to.include('###')
-        : data[2].body
-        ? expect(data[2].body)
+          .not.to.include('###') :
+          data[2].body ?
+          expect(data[2].body)
           .to.be.a('string')
-          .not.to.include('###')
-        : expect(data[0].body).to.be.false;
+          .not.to.include('###') :
+          expect(data[0].body).to.be.false;
 
         done();
       });
   }).timeout(4000);
 
   it('returns a timeline of calendar items', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar?timeline=true')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
@@ -145,9 +145,9 @@ describe('Request to the calendar service', function() {
         done();
       });
   }).timeout(4000);
-  
+
   it('returns ERS events only', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar?type=ers')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
@@ -159,9 +159,9 @@ describe('Request to the calendar service', function() {
         done();
       });
   }).timeout(4000);
-  
+
   it('returns non-ers events', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar?type=non-ers')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
@@ -173,21 +173,23 @@ describe('Request to the calendar service', function() {
         done();
       });
   }).timeout(8000);
-  
+
   it('returns ers endorsed events', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar?type=endorsed')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(JSON.parse(res.text).data[0].ersEndorsedEvent)
           .to.be.true;
+        expect(JSON.parse(res.text).data[0].selfAssessmentType)
+          .to.be.false;
         done();
       });
   }).timeout(4000);
-  
+
   it('returns all events, but only 5 items', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar?type=all&limit=5')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
@@ -197,9 +199,9 @@ describe('Request to the calendar service', function() {
         done();
       });
   }).timeout(4000);
-  
+
   it('returns all events', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar?type=all')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
@@ -209,9 +211,9 @@ describe('Request to the calendar service', function() {
         done();
       });
   }).timeout(4000);
-  
+
   it('returns 5 ers events', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar?&limit=5')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
@@ -221,15 +223,29 @@ describe('Request to the calendar service', function() {
         done();
       });
   }).timeout(4000);
-  
+
   it('returns 2 non-ers events', (done) => {
-    chai.request(host) 
+    chai.request(host)
       .get('/calendar?type=non-ers&limit=2')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(JSON.parse(res.text).data)
           .to.have.lengthOf(2);
+        done();
+      });
+  }).timeout(4000);
+
+  it('returns 2 self-assessment course events', (done) => {
+    chai.request(host)
+      .get('/calendar?type=selfAssessment&limit=2')
+      .set('Content-Type', 'application/json')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(JSON.parse(res.text).data)
+          .to.have.lengthOf(2);
+        expect(JSON.parse(res.text).data[0].selfAssessmentType)
+          .to.be.not.false;
         done();
       });
   }).timeout(4000);
@@ -251,7 +267,7 @@ describe('Request to the calendar service', function() {
   //       done();
   //     });
   // });
-    
+
   // it('returns ers endorsed events', (done) => {
   //   chai.request(host) 
   //     .get('/calendar?type=spirometry')
@@ -266,15 +282,19 @@ describe('Request to the calendar service', function() {
 
 });
 
-describe('Filter function', function() {
+describe('Filter function', function () {
   it('sets default value (ers)', () => {
     const filter = calendar().setFilter('ers');
     expect(filter).to.be.an('object')
       .to.have.property('ersEndorsedEvent')
-      .to.deep.equal({'$ne': true});
+      .to.deep.equal({
+        '$ne': true
+      });
     expect(filter)
       .to.have.property('nonErsCalendarItem')
-      .to.deep.equal({'$ne': true});
+      .to.deep.equal({
+        '$ne': true
+      });
   });
 
   it('sets deadline', () => {
@@ -310,6 +330,13 @@ describe('Filter function', function() {
     expect(filter).to.be.an('object')
       .to.have.property('type')
       .to.equal('ERS HERMES');
+  });
+
+  it('sets selfAssessment', () => {
+    const filter = calendar().setFilter('selfAssessment');
+    expect(filter).to.be.an('object')
+      .to.have.property('type')
+      .to.equal('Self-assessment course');
   });
 
   it('returns an empty object', () => {

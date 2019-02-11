@@ -2,7 +2,7 @@ const setFilters = require('../../helpers/setFilters');
 // const m = require('moment');
 /* eslint-disable no-unused-vars */
 class Service {
-  constructor (options) {
+  constructor(options) {
     this.options = options || {};
     this.setFilter = setFilter;
     this.filterBy = setFilters.setFilter;
@@ -12,17 +12,17 @@ class Service {
     this.app = app;
   }
 
-  async find (params) {
-    const relatives = this.app.service('relatives'); 
+  async find(params) {
+    const relatives = this.app.service('relatives');
     const q = params.query;
     const type = q.type || 'ers';
     const filter = this.setFilter(type);
     const filteredBy = this.filterBy(q.filterBy || false);
-    const body = Object.assign({},filter, filteredBy);
+    const body = Object.assign({}, filter, filteredBy);
     const q1 = {
-      qname:'o:cc1c5be57719dade0371',
+      qname: 'o:cc1c5be57719dade0371',
       full: q.full,
-      format: q.format|| 'html',
+      format: q.format || 'html',
       sortBy: 'eventDate',
       sortDirection: 1,
       // limit: parseInt(q.limit) || 200, //this is a bit off as filtering is done after the fact (isAlreadyPassed)
@@ -31,8 +31,18 @@ class Service {
     };
 
     // Temporary to make sure to get everything
-    const q2 = {...q1, ...{skip:100}};
-    const q3 = {...q1, ...{skip:200}};
+    const q2 = {
+      ...q1,
+      ...{
+        skip: 100
+      }
+    };
+    const q3 = {
+      ...q1,
+      ...{
+        skip: 200
+      }
+    };
 
     // Trying to save time querying in parallel
 
@@ -81,33 +91,73 @@ const setFilter = (type) => {
   // const base = {eventDate: {'$gte': m().format('MM/DD/YYYY')}};
   // for now date filtering does not work as expected.
   const base = {};
-  if(type === 'ers'){
-    return {...base, ...{
-      ersEndorsedEvent: { '$ne': true },
-      nonErsCalendarItem: { '$ne': true },
-    }};
+  if (type === 'ers') {
+    return {
+      ...base,
+      ...{
+        ersEndorsedEvent: {
+          '$ne': true
+        },
+        nonErsCalendarItem: {
+          '$ne': true
+        },
+      }
+    };
   }
 
-  if(type === 'deadline'){
-    return {...base, ...{ersDeadline: true}};
+  if (type === 'deadline') {
+    return {
+      ...base,
+      ...{
+        ersDeadline: true
+      }
+    };
   }
 
-  if(type === 'endorsed'){
-    return {...base, ...{ersEndorsedEvent: true}};
+  if (type === 'endorsed') {
+    return {
+      ...base,
+      ...{
+        ersEndorsedEvent: true
+      }
+    };
   }
 
-  if(type === 'non-ers'){
-    return {...base, ...{nonErsCalendarItem: true}};
+  if (type === 'non-ers') {
+    return {
+      ...base,
+      ...{
+        nonErsCalendarItem: true
+      }
+    };
   }
 
-  if(type === 'spirometry'){
-    return {...base, ...{type: 'Spirometry Programme'}};
+  if (type === 'spirometry') {
+    return {
+      ...base,
+      ...{
+        type: 'Spirometry Programme'
+      }
+    };
   }
 
-  if(type === 'hermes'){
-    return {...base, ...{type: 'ERS HERMES'}};
+  if (type === 'hermes') {
+    return {
+      ...base,
+      ...{
+        type: 'ERS HERMES'
+      }
+    };
+  }
+
+  if (type === 'selfAssessment') {
+    return {
+      ...base,
+      ...{
+        type: 'Self-assessment course'
+      }
+    };
   }
 
   return base;
 };
-

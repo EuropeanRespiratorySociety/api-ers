@@ -45,6 +45,7 @@ module.exports = {
     'category2',
     'author',
     'type',
+    'selfAssessmentType',
     'cmeType',
     'cmeCategory',
     'cmeOrganisers',

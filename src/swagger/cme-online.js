@@ -7,24 +7,24 @@ module.exports = {
     description: 'Returns list of CME Online Module', 
     summary: 'Get list of CME Online Module',
     parameters: [
-        params.full,
-        params.sortBy,
-        params.filterBy,
-        params.direction,
-        params.format,
-        params.limit,
-        params.skip,
-      ],
-      responses: {
-        '200': responses.success,
-        '404': responses.notFound
-      },
+      params.full,
+      params.sortBy,
+      params.filterBy,
+      params.direction,
+      params.format,
+      params.limit,
+      params.skip,
+    ],
+    responses: {
+      '200': responses.success,
+      '404': responses.notFound
+    },
     produces: ['application/json']
   },
   create: { //this is for the special post route /contacts/authenticate
     security: [    {
-        bearer: []
-      }],
+      bearer: []
+    }],
     description: 'Create a new CME Online Module', 
     summary: 'Create a new CME Online Module - Role [admin, cmeModule]',
     parameters: [

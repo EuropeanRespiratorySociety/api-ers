@@ -5,14 +5,15 @@ module.exports = {
   tags: false,
   contentType: false,
   type: false,
+  selfAssessmentType: false,
   typeColor: false,
-  cmeType:false,
-  cmeCategory:false,
-  cmeOrganisers:false,
-  cmeOnlineModule:false,
-  flags: [{ 
-    text: false, 
-    color: false 
+  cmeType: false,
+  cmeCategory: false,
+  cmeOrganisers: false,
+  cmeOnlineModule: false,
+  flags: [{
+    text: false,
+    color: false
   }],
   ebusDate: false,
   eventDate: false,
@@ -62,10 +63,10 @@ module.exports = {
   technicalInfo: false,
   popUp: false,
   popUpText: false,
-  feeList: { 
-    junior: false, 
-    ersMember: false, 
-    nonErsMember: false, 
+  feeList: {
+    junior: false,
+    ersMember: false,
+    nonErsMember: false,
     industry: false,
     liveStreaming: false
   },
@@ -73,82 +74,82 @@ module.exports = {
   travelInfo: false,
   organisers: false,
   faculty: false,
-  sponsors: [{ 
-    text: false, 
-    image: false 
+  sponsors: [{
+    text: false,
+    image: false
   }],
-  sponsorsAlliances: [{ 
-    text: false, 
-    image: false 
+  sponsorsAlliances: [{
+    text: false,
+    image: false
   }],
   documents: false,
   disclosure: false,
   rulesAndRegulations: false,
-  deadlines: { 
-    applicationDeadline: false, 
-    applicationDeadline2: false, 
-    notification: false, 
-    notification2: false, 
-    startDate: false, 
-    startDate2: false 
+  deadlines: {
+    applicationDeadline: false,
+    applicationDeadline2: false,
+    notification: false,
+    notification2: false,
+    startDate: false,
+    startDate2: false
   },
-  venue: { 
-    name: false, 
-    url: false, 
-    streetAddress: false, 
-    streetAddress2: false, 
-    streetAddress3: false, 
-    city: false, 
-    postalCode: false, 
-    country: false, 
-    phoneNumber: false, 
-    info: false 
+  venue: {
+    name: false,
+    url: false,
+    streetAddress: false,
+    streetAddress2: false,
+    streetAddress3: false,
+    city: false,
+    postalCode: false,
+    country: false,
+    phoneNumber: false,
+    info: false
   },
-  ebusVenues: [{ 
-    name: false, 
-    url: false, 
-    streetAddress: false, 
-    streetAddress2: false, 
-    streetAddress3: false, 
-    city: false, 
-    postalCode: false, 
-    country: false, 
-    phoneNumber: false, 
-    info: false 
+  ebusVenues: [{
+    name: false,
+    url: false,
+    streetAddress: false,
+    streetAddress2: false,
+    streetAddress3: false,
+    city: false,
+    postalCode: false,
+    country: false,
+    phoneNumber: false,
+    info: false
   }],
-  suggestedAccommodation: [{ 
-    name: false, 
-    url: false, 
-    streetAddress: false, 
-    streetAddress2: false, 
-    streetAddress3: false, 
-    city: false, 
-    postalCode: false, 
-    country: false, 
-    phoneNumber: false, 
-    info: false 
+  suggestedAccommodation: [{
+    name: false,
+    url: false,
+    streetAddress: false,
+    streetAddress2: false,
+    streetAddress3: false,
+    city: false,
+    postalCode: false,
+    country: false,
+    phoneNumber: false,
+    info: false
   }],
-  registerButton: { 
-    link: false, 
-    text: false 
+  registerButton: {
+    link: false,
+    text: false
   },
-  bursaryApplication: { 
-    text: false, 
-    deadline: false, 
-    notificationOfResults: false, 
-    applyButtonUrl: false 
+  bursaryApplication: {
+    text: false,
+    deadline: false,
+    notificationOfResults: false,
+    applyButtonUrl: false
   },
-  mentorship: { 
-    text: false, 
-    deadline: false, 
-    notificationOfResults: false, 
-    applyButtonUrl: false 
+  mentorship: {
+    text: false,
+    deadline: false,
+    notificationOfResults: false,
+    applyButtonUrl: false
   },
-  abstracts: { 
-    text: false, 
-    deadline: false, 
-    notificationOfResults: false, 
-    applyButtonUrl: false 
+  abstracts: {
+    text: false,
+    deadline: false,
+    notificationOfResults: false,
+    applyButtonUrl: false
   },
   availableOnHomepage: false,
   mainNews: false,
@@ -160,9 +161,9 @@ module.exports = {
   ersDeadline: false,
   fullyBooked: false,
   displayOrder: false,
-  loc: { 
-    lat: false, 
-    long: false 
+  loc: {
+    lat: false,
+    long: false
   },
   eventDates: false,
   startDateTimestamp: false,
@@ -175,8 +176,8 @@ module.exports = {
     month: false,
     timestamp: false
   },
-  ms:  false,
-  shortLead:  false,
+  ms: false,
+  shortLead: false,
   hasRelatedArticles: false,
   hasAuthor: false,
   salutation: false,

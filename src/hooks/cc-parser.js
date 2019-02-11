@@ -10,7 +10,10 @@ const defaults = {};
 const Article = require('../models/Article');
 const Lead = require('../models/Lead');
 const config = require('./cc-parser-config');
-const { Composition, Format } = require('ers-utils');
+const {
+  Composition,
+  Format
+} = require('ers-utils');
 const cp = new Composition();
 const format = new Format();
 
@@ -22,16 +25,18 @@ exports.ccParserCategory = options => { // eslint-disable-line no-unused-vars
     const full = q.full || false;
     const type = q.format || 'html';
 
-    const cache = hook.result.cache || {cached:false};
-    if(hook.result.status === 200 && !cache.cached) {
+    const cache = hook.result.cache || {
+      cached: false
+    };
+    if (hook.result.status === 200 && !cache.cached) {
       hook.result = {
         data: parse(hook.result.items, full, type),
         category: parse(hook.result.item, true, type),
-        _sys:{
+        _sys: {
           status: hook.result.status,
           total: hook.result.total
         }
-      };  
+      };
     }
     return hook;
   };
@@ -46,11 +51,11 @@ exports.ccParserItem = options => { // eslint-disable-line no-unused-vars
     const full = q.full == 'false' ? false : true;
     const type = q.format || 'html';
 
-    if(hook.result.status === 200) {
+    if (hook.result.status === 200) {
       hook.result = {
         data: parse(hook.result.item, full, type)[0],
         status: hook.result.status
-      };  
+      };
     } else {
       hook.result = {
         data: [],
@@ -68,20 +73,14 @@ exports.ccParserItem = options => { // eslint-disable-line no-unused-vars
  * @param { boolean} full - Full or Lead content
  * @param { boolean} type - Html, Markdown or Raw
  */
-function parse(array, full = false, type){
-
-  if(!full){
+function parse(array, full = false, type) {
+  if (!full) {
     array = array.map(item => format.filter(item, config.lead));
-  }  
+  }
 
   return array
     .map(item => cp.formatProperties(config, type)(item))
-    .map(item => full 
-      ? format.addImageFromHighResImage(format.mapModel(Article, item))
-      : format.addImageFromHighResImage(format.mapModel(Lead, item)) );
+    .map(item => full ?
+      format.addImageFromHighResImage(format.mapModel(Article, item)) :
+      format.addImageFromHighResImage(format.mapModel(Lead, item)));
 }
-
-
-
-
-
