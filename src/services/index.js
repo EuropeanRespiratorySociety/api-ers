@@ -30,6 +30,7 @@ const trainingData = require('./training-data/training-data.service.js');
 const cpd = require('./cpd/cpd.service.js');
 const recommend = require('./recommend/recommend.service.js');
 const cmeOnline = require('./cme-online/cme-online.service.js');
+const respiratoryDigest = require('./respiratory-digest/respiratory-digest.service.js');
 
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
@@ -57,6 +58,7 @@ module.exports = function () {
   app.configure(preferences);
   app.configure(publications);
   app.configure(relatives);
+  app.configure(respiratoryDigest);
   app.configure(respiratoryMatters);
   app.configure(search);
   app.configure(sleepandbreathing);

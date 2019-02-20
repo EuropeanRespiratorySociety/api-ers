@@ -43,7 +43,7 @@
     "mocha:helpers": "mocha test/helpers --recursive",
     "mocha:helpers:single": "mocha test/helpers/formatNotification.test.js --watch",
     "mocha:watch": "mocha test/ --recursive --watch",
-    "mocha:single": "mocha test/services/calendar.test.js --exit",
+    "mocha:single": "mocha test/classes/respiratory-digest.class.test.js --exit",
     "mocha:debug": "mocha --inspect-brk test/services/calendar.test.js",
     "coverage": "nyc report --reporter=text",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
