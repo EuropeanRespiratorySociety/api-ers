@@ -2,11 +2,11 @@ const {
   ccParserListItems,
   ccParserItem
 } = require('../../hooks/digest-parser');
-// const {
-//   hookCache,
-//   redisAfterHook,
-//   redisBeforeHook
-// } = require('feathers-hooks-rediscache');
+const {
+  hookCache,
+  redisAfterHook,
+  redisBeforeHook
+} = require('feathers-hooks-rediscache');
 const {
   metadata
 } = require('../../hooks/metadata');
@@ -15,10 +15,9 @@ module.exports = {
   before: {
     all: [],
     find: [
-      //redisBeforeHook()
+      redisBeforeHook()
     ],
-    get: [ //redisBeforeHook()
-    ],
+    get: [redisBeforeHook()],
     create: [],
     update: [],
     patch: [],
@@ -30,17 +29,17 @@ module.exports = {
     find: [
       ccParserListItems(),
       metadata(),
-      // hookCache({
-      //   duration: 3600 * 24 * 7
-      // }),
-      // redisAfterHook()
+      hookCache({
+        duration: 3600 * 24 * 7
+      }),
+      redisAfterHook()
     ],
     get: [
       ccParserItem(),
-      // hookCache({
-      //   duration: 3600 * 24 * 7
-      // }),
-      // redisAfterHook()
+      hookCache({
+        duration: 3600 * 24 * 7
+      }),
+      redisAfterHook()
     ],
     create: [],
     update: [],

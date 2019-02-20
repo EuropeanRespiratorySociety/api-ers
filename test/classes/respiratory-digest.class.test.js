@@ -6,8 +6,6 @@ const dotenv = require('dotenv');
 /*eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
 dotenv.load();
 
-// const cc = require('../../src/cloudcms');
-
 // Getting the service (we need hooks)
 const service = app.service('respiratory-digest');
 
@@ -41,25 +39,8 @@ describe('Respiratory digest Class', function () {
         full: false
       }
     });
-    expect(digests.items).to.be.an('array')
+    expect(digests.data).to.be.an('array')
       .to.have.lengthOf.at.least(1);
-  }).timeout(100000);
+  }).timeout(10000);
 
-  xit('find digest articles filtered by disease', async () => {
-    const digests = await service.find({
-      query: {
-        full: false,
-        filterBy: 'Airway diseases'
-      }
-    });
-    expect(digests.items).to.be.an('array')
-      .to.have.lengthOf(1);
-  }).timeout(100000);
-
-  xit('get digest articles by slug', async () => {
-    const digests = await service.get('test');
-    expect(digests.item).to.be.an('array')
-      .to.have.lengthOf(1);
-    expect(digests.item[0].slug).to.be.equal('test');
-  }).timeout(100000);
 });
