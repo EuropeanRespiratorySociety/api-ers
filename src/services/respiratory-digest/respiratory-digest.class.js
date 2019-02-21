@@ -1,7 +1,9 @@
 /*eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
 const F = require('ers-utils').Format;
+const DateUtils = require('ers-utils').DateUtils;
 const format = new F();
 const setFilters = require('../../helpers/setFilters');
+const date = new DateUtils;
 
 let config = {
   _type: 'ers:digest-article'
@@ -103,6 +105,8 @@ class Service {
         .then(function () {
           if (this.asArray().length > 0) {
             const digest = JSON.parse(JSON.stringify(this.asArray()));
+            const created = digest[0]._system.created_on;
+            digest[0].createdOn = date.ersDate(`${created.month + 1}/${created.day_of_month}/${created.year}`);
             resolve({
               item: [digest[0]],
               status: 200

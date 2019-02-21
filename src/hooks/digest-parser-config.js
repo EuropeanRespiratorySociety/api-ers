@@ -17,6 +17,11 @@ module.exports = {
     'digestAuthor',
     'url',
     'uri',
+    'diseases',
+    'methods',
+    'comments',
+    'unPublished',
+    'createdOn',
     '_system'
   ],
   educationTypes: [],

@@ -10,6 +10,10 @@ module.exports = {
   digestAuthor: false,
   url: false,
   uri: false,
+  diseases: false,
+  methods: false,
+  comments: false,
+  'unPublished': false,
   _system: false,
   _qname: false,
   _statistics: false
