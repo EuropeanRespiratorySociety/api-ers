@@ -15,6 +15,8 @@ module.exports = {
     'leadParagraph',
     'digestType',
     'digestAuthor',
+    'url',
+    'uri',
     '_system'
   ],
   educationTypes: [],

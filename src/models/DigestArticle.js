@@ -8,6 +8,8 @@ module.exports = {
   shortLead: false,
   digestType: false,
   digestAuthor: false,
+  url: false,
+  uri: false,
   _system: false,
   _qname: false,
   _statistics: false
