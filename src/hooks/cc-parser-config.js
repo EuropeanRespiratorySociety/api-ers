@@ -6,13 +6,17 @@ module.exports = {
     'popUp',
     'cancellationPolicy',
     'travelInfo',
-    'technicalInfo'
+    'technicalInfo',
+    'description',
+    'references'
   ],
+  toParseRecursivly: ['cmeOnlineModule'],
   childrenToParse: [
     'venue',
     'suggestedAccommodation',
     'ebusVenues',
-    'bursaryApplication'
+    'bursaryApplication',
+    'tabs'
   ],
   images: [
     'image',
