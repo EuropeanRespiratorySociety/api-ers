@@ -206,5 +206,6 @@ Run the dev environment by:
 ```js
 $ docker-compose up -d // -d = detached mode (no output to console)
 ```
+```js
 $ nodemon src // To let the api run
 ```
