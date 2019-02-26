@@ -33,14 +33,15 @@ describe('Respiratory digest Class', function () {
     expect(service).to.respondTo('get');
   });
 
-  it('find digest articles', async () => {
+  xit('find digest articles', async () => {
     const digests = await service.find({
       query: {
         full: false
       }
     });
+
     expect(digests.data).to.be.an('array')
-      .to.have.lengthOf.at.least(1);
+      .to.have.lengthOf(4);
   }).timeout(10000);
 
 });

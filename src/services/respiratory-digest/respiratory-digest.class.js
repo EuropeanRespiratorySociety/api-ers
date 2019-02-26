@@ -9,16 +9,22 @@ let config = {
   _type: 'ers:digest-article'
 };
 
+let deniedUsers = () => {
+  const denied = process.env.DIGEST_ARTICLE_DENIED_USERS;
+  if (denied) {
+    return denied.split(',');
+  }
+  return [];
+};
+
+
+
 class Service {
   constructor(options) {
     this.options = options || {};
     this.setFilter = setFilters.setFilter;
   }
-
-  setup(app) {
-    this.app = app;
-  }
-
+  //const allowed = allowedSenders.includes(`${modified_by_principal_domain_id}/${modified_by_principal_id}`);
   find(params) {
     const q = params.query || {};
     q.full = q.full == 'true';
@@ -30,6 +36,9 @@ class Service {
         _type: config._type,
         unPublished: {
           $ne: true
+        },
+        '_system.modified_by_principal_id': {
+          $nin: deniedUsers()
         }
       },
       filters
@@ -93,6 +102,9 @@ class Service {
           slug: slug,
           unPublished: {
             $ne: true
+          },
+          '_system.modified_by_principal_id': {
+            $nin: deniedUsers()
           }
         }, {
           metadata: true
