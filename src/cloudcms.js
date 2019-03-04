@@ -4,9 +4,9 @@ const gitana = require('gitana');
 const dotenv = require('dotenv');
 dotenv.load();
 
-const branch = process.env.CCBranch === undefined
-  ? 'master'
-  : process.env.CCBranch;
+const branch = process.env.CCBranch === undefined ?
+  'master' :
+  process.env.CCBranch;
 
 module.exports = () => {
   // connect to Cloud CMS
@@ -23,6 +23,7 @@ module.exports = () => {
     if (err) {
       console.log('');
       console.log(chalk.red('There was a problem connecting to Cloud CMS'));
+      //Use for travis because travis logs are public
       if (process.env.NODE_ENV === 'test') {
         // Limiting what is publicly displayed on travis 
         if (err) console.log(chalk.red('---- Error report ----'));

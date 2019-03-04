@@ -1,0 +1,10 @@
+{
+  "host": "localhost",
+  "port": 3031,
+  "public": "../public/",
+  "paginate": {
+    "default": 25,
+    "max": 100
+  },
+  "logs": "info"
+}
