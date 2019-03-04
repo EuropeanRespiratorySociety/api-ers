@@ -1,0 +1,139 @@
+{
+  "_cloudcms": {
+    "requestId": "49048f2ff9feb87fcff5",
+    "platformId": "18dbd4f08d5f428ba9c2",
+    "node": {
+      "repositoryId": "607e97e4474d46e40345",
+      "branchId": "b6b2871b2d9cf6b4996b",
+      "changesetId": "1338093:9c25443f4f832404deb4",
+      "changesetRev": 1338093,
+      "id": "4ea8af330511bc57ec52",
+      "object": {
+        "title": "ERS/ATS workshop report on respiratory health effects of household air pollution",
+        "slug": "ers-ats-workshop-report-on-respiratory-health-effects-of-household-air-pollution",
+        "author": "ERS",
+        "journal": "Eur Respir J 2018; 51: 1700698",
+        "journalLink": "https://www.ers-education.org/Media/Media.aspx?idMedia=394859",
+        "leadParagraph": "Lorem ipsum dolor sit met,consectetur  adipis cingelit,sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\nERS shares this stance with the [World Health Organization (WHO)](http://www.who.int/mediacentre/news/statements/2017/philip-morris-foundation/en/) and [other organisations](https://www.hsph.harvard.edu/deans-office/2018/01/26/smoke-free-world-letter/) that support smoking prevention and tobacco control efforts worldwide.\n\n[The WHO Framework Convention on Tobacco Control](http://www.who.int/fctc/en/) — the world’s first public health treaty — clearly states, “There is a fundamental and irreconcilable conflict between the tobacco industry’s interests and public health policy interests.” In keeping with this, ERS has an [explicit policy of prohibiting work funded by the tobacco industry](https://ers.app.box.com/s/pw91v38pt7vp0w141gkqg4tpv3r4calp) and [membership of the Society is not open to those who accept tobacco industry funding](https://ers.app.box.com/v/constitution).",
+        "digestType": "Guidelines",
+        "digestAuthor": "TF-2018-15 Lung Cancer Stage 1A",
+        "comments": true,
+        "diseases": [
+          "Paediatric respiratory diseases"
+        ],
+        "methods": [
+
+        ],
+        "url": "https://www.ersnet.org/professional-development/respiratory-digests/ers-ats-workshop-report-on-respiratory-health-effects-of-household-air-pollution",
+        "uri": "professional-development/respiratory-digests/ers-ats-workshop-report-on-respiratory-health-effects-of-household-air-pollution",
+        "_system": {
+          "deleted": false,
+          "changeset": "1338093:9c25443f4f832404deb4",
+          "created_on": {
+            "timestamp": "20-Feb-2019 13:59:55",
+            "year": 2019,
+            "month": 1,
+            "day_of_month": 20,
+            "hour": 13,
+            "minute": 59,
+            "second": 55,
+            "millisecond": 472,
+            "ms": 1550671195472,
+            "iso_8601": "2019-02-20T13:59:55Z"
+          },
+          "created_by": "fblocklet",
+          "created_by_principal_id": "54933ca487265db31b1b",
+          "created_by_principal_domain_id": "869b74f51afe687b5b74",
+          "modified_on": {
+            "timestamp": "28-Feb-2019 14:36:51",
+            "year": 2019,
+            "month": 1,
+            "day_of_month": 28,
+            "hour": 14,
+            "minute": 36,
+            "second": 51,
+            "millisecond": 368,
+            "ms": 1551364611368,
+            "iso_8601": "2019-02-28T14:36:51Z"
+          },
+          "modified_by": "fblocklettest1",
+          "modified_by_principal_id": "c78797ea0214d8993826",
+          "modified_by_principal_domain_id": "869b74f51afe687b5b74",
+          "edited_on": {
+            "timestamp": "28-Feb-2019 14:36:51",
+            "year": 2019,
+            "month": 1,
+            "day_of_month": 28,
+            "hour": 14,
+            "minute": 36,
+            "second": 51,
+            "millisecond": 368,
+            "ms": 1551364611368,
+            "iso_8601": "2019-02-28T14:36:51Z"
+          },
+          "edited_by": "fblocklet",
+          "edited_by_principal_id": "54933ca487265db31b1b",
+          "edited_by_principal_domain_id": "869b74f51afe687b5b74",
+          "previousChangeset": "1338092:9a8448efda9b28915b74"
+        },
+        "_doc": "4ea8af330511bc57ec52",
+        "_qname": "o:4ea8af330511bc57ec52",
+        "_features": {
+          "f:audit": {
+
+          },
+          "f:titled": {
+
+          },
+          "f:filename": {
+            "filename": "ERS%2FATS+workshop+report+on+respiratory+health+effects+of+household+air+pollution"
+          },
+          "f:geolocation": {
+
+          },
+          "f:indexable": {
+
+          },
+          "ers:diseases": {
+            "enabled": true
+          },
+          "ers:methods": {
+            "enabled": true
+          },
+          "ers:isPublished": {
+            "enabled": true
+          },
+          "ers:canonical": {
+            "enabled": true
+          }
+        },
+        "_type": "ers:digest-article"
+      },
+      "paths": {
+
+      }
+    },
+    "user": {
+      "domainId": null,
+      "id": "system",
+      "name": "system",
+      "email": null,
+      "object": {
+        "_system": {
+
+        },
+        "_doc": "system",
+        "type": "USER",
+        "name": "system"
+      }
+    },
+    "projects": [{
+      "id": "5a138baba2337b783074",
+      "title": "ERS content Hub",
+      "type": "default"
+    }],
+    "policy": {
+      "qname": "p:afterTouchNode"
+    }
+  }
+}
