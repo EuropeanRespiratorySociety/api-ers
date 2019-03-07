@@ -4,7 +4,9 @@ const axios = require('axios');
 const chalk = require('chalk');
 const m = require('moment');
 
-const { HTTP } = require('../../helpers/HTTP');
+const {
+  HTTP
+} = require('../../helpers/HTTP');
 const es = require('../../helpers/elastic.js');
 
 const errors = require('@feathersjs/errors');
@@ -85,9 +87,9 @@ async function singleItem(client, item, reply, category = false, index = false) 
   // 1. use cache status (200) to push to log index in ES
   await es.log('api-webhook-logs', '_doc', result);
   // 2. fetch new item by API and update the content in ES
-  const req = !category
-    ? `/${group}/${reply.cache.key}`
-    : `/${group}`;
+  const req = !category ?
+    `/${group}/${reply.cache.key}` :
+    `/${group}`;
 
   // await client.get(req);
   // add the new item right away to the cache
@@ -98,9 +100,9 @@ async function singleItem(client, item, reply, category = false, index = false) 
   const parsed = u.parse(article.data.data);
 
   if (index) {
-    item.unpublished
-      ? await es.unIndex(item)
-      : await es.index(parsed, 'content', parsed._doc);
+    item.unpublished ?
+      await es.unIndex(item) :
+      await es.index(parsed, 'content', parsed._doc);
   }
 
   // eslint-disable-next-line no-console

@@ -31,7 +31,7 @@
   "scripts": {
     "test": "npm run eslint && nyc --require babel-core/register npm run mocha",
     "test:single": "nyc --require babel-core/register npm run mocha:helpers:single",
-    "eslint": "eslint src/. test/. --config .eslintrc.json",
+    "eslint": "eslint src/. test/. --config .eslintrc.js",
     "start": "node src/",
     "start:dev": "nodemon src/",
     "mocha": "mocha ./test/ --recursive --exit",

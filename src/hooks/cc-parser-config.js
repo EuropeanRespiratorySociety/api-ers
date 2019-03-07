@@ -33,7 +33,7 @@ module.exports = {
     'practicalInfo',
     'disclosure',
     'documents',
-    'rulesAndRegulation'
+    'rulesAndRegulations'
   ],
   dateProperties: [
     'notificationOfResults',
