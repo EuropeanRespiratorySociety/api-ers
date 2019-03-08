@@ -26,33 +26,33 @@ class Service {
     return await r.item(global.cloudcms, slug);
   }
 
-  async create(data, params) {
-    data._type = 'ers:article';
-    data.imported = true;
-    data.category = {
-      id: '8e1f9c610877206a850e',
-      ref: 'node://18dbd4f08d5f428ba9c2/607e97e4474d46e40345/b4fb47ddf6c57cff771c/8e1f9c610877206a850e',
-      title: 'CME Online',
-      qname: 'o:8e1f9c610877206a850e',
-      typeQName: 'ers:category'
-    };
+  // async create(data, params) {
+  //   data._type = 'ers:article';
+  //   data.imported = true;
+  //   data.category = {
+  //     id: '8e1f9c610877206a850e',
+  //     ref: 'node://18dbd4f08d5f428ba9c2/607e97e4474d46e40345/b4fb47ddf6c57cff771c/8e1f9c610877206a850e',
+  //     title: 'CME Online',
+  //     qname: 'o:8e1f9c610877206a850e',
+  //     typeQName: 'ers:category'
+  //   };
 
-    return new Promise((resolve, reject) => {
-      global.cloudcms
-        .trap(function (e) {
-          resolve({
-            message: e.message,
-            status: e.status
-          });
-        })
-        .createNode(data)
-        .then(function () {
-          resolve({
-            status: 201
-          });
-        });
-    });
-  }
+  //   return new Promise((resolve, reject) => {
+  //     global.cloudcms
+  //       .trap(function (e) {
+  //         resolve({
+  //           message: e.message,
+  //           status: e.status
+  //         });
+  //       })
+  //       .createNode(data)
+  //       .then(function () {
+  //         resolve({
+  //           status: 201
+  //         });
+  //       });
+  //   });
+  // }
 
   // async update (id, data, params) {
   //   return data;

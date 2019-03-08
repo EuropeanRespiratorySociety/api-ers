@@ -19,7 +19,10 @@ module.exports = {
     return new Promise((resolve) => {
       branch
         .trap(function (e) {
-          resolve({ message: e.message, status: e.status });
+          resolve({
+            message: e.message,
+            status: e.status
+          });
         })
         .then(function () {
           const node = this.readNode(qname);
@@ -27,7 +30,11 @@ module.exports = {
             const nodes = this.subchain(node).find(body, opts);
             nodes.then(function () {
               const r = JSON.parse(JSON.stringify(this.asArray()));
-              resolve({ item: node.json(), items: r, status: 200 });
+              resolve({
+                item: node.json(),
+                items: r,
+                status: 200
+              });
             });
           });
         });
@@ -38,11 +45,16 @@ module.exports = {
     return new Promise((resolve) => {
       branch
         .trap(function (e) {
-          resolve({ message: e.message, status: e.status });
+          resolve({
+            message: e.message,
+            status: e.status
+          });
         })
         .queryNodes({
           slug: slug,
-          unPublished: { $ne: true }
+          unPublished: {
+            $ne: true
+          }
         }, {
           metadata: true
         })
@@ -54,9 +66,17 @@ module.exports = {
         .then(function () {
           if (this.asArray().length > 0) {
             const article = JSON.parse(JSON.stringify(this.asArray()));
-            resolve({ item: [article[0]], status: 200 });
+            /*eslint no-console: off*/
+            console.log(JSON.stringify(article[0]));
+            resolve({
+              item: [article[0]],
+              status: 200
+            });
           }
-          resolve({ message: `The slug: ${slug} did not return any result`, status: 404 });
+          resolve({
+            message: `The slug: ${slug} did not return any result`,
+            status: 404
+          });
         });
     });
   },
@@ -66,8 +86,8 @@ module.exports = {
       traverse: {
         associations: {
           'a:menu-association': 'INCOMING',
-          'a:parent-menu-association': 'OUTGOING'
-          , 'a:category-association': 'OUTGOING'
+          'a:parent-menu-association': 'OUTGOING',
+          'a:category-association': 'OUTGOING'
         },
         depth: 10,
         types: ['custom:menu']
@@ -76,14 +96,19 @@ module.exports = {
     return new Promise((resolve) => {
       branch
         .trap(function (e) {
-          resolve({ message: e.message, status: e.status });
+          resolve({
+            message: e.message,
+            status: e.status
+          });
         })
         .then(function () {
           const node = this.readNode(qname);
 
           node.then(function () {
             const item = this;
-            const nodes = this.subchain(node).find(body, { metadata: true });
+            const nodes = this.subchain(node).find(body, {
+              metadata: true
+            });
             nodes
               .each(function () {
                 this._stats = this.__stats();
@@ -91,7 +116,11 @@ module.exports = {
               .then(function () {
                 //const total = nodes.__totaRows();
                 const r = JSON.parse(JSON.stringify(nodes.asArray()));
-                resolve({ item: [item.json()], items: r, status: 200 });
+                resolve({
+                  item: [item.json()],
+                  items: r,
+                  status: 200
+                });
               });
           });
         });
@@ -107,7 +136,11 @@ module.exports = {
     return new Promise(resolve => {
       branch
         .trap(function (e) {
-          resolve({ ok: false, message: e.message, status: e.status });
+          resolve({
+            ok: false,
+            message: e.message,
+            status: e.status
+          });
         })
         .readNode(node)
         .then(function () {
@@ -115,7 +148,10 @@ module.exports = {
             this[key] = payload[key];
           });
           this.update();
-          resolve({ ok: true, node });
+          resolve({
+            ok: true,
+            node
+          });
         });
     });
   },
@@ -130,7 +166,11 @@ module.exports = {
     return new Promise(resolve => {
       branch
         .trap(function (e) {
-          resolve({ ok: false, message: e.message, status: e.status });
+          resolve({
+            ok: false,
+            message: e.message,
+            status: e.status
+          });
         }).createNode({
           _type: 'n:comment',
           rating: 0
@@ -142,9 +182,13 @@ module.exports = {
             .attach('default', 'text/plain', message);
           this.subchain(branch)
             .readNode(node._doc)
-            .associate(commentNode._doc, 'a:has_comment', { order: 1 })
+            .associate(commentNode._doc, 'a:has_comment', {
+              order: 1
+            })
             .then(function () {
-              resolve({ ok: true });
+              resolve({
+                ok: true
+              });
             });
         });
     });
@@ -168,7 +212,9 @@ module.exports = {
     } = options;
 
     const b = Object.assign(body, {
-      unPublished: { $ne: true }
+      unPublished: {
+        $ne: true
+      }
     });
 
     const config = {
@@ -179,13 +225,18 @@ module.exports = {
       metadata: metadata || true,
       limit,
       skip: parseInt(skip) || 0,
-      sort: { [sortBy]: parseInt(sortDirection) }
+      sort: {
+        [sortBy]: parseInt(sortDirection)
+      }
     };
 
     return new Promise((resolve) => {
       branch
         .trap(function (e) {
-          resolve({ message: e.message, status: e.status });
+          resolve({
+            message: e.message,
+            status: e.status
+          });
         })
         .then(function () {
           const node = this.readNode(qname);
@@ -203,7 +254,12 @@ module.exports = {
                 .then(function () {
                   const total = nodes.__totalRows();
                   const relatives = JSON.parse(JSON.stringify(nodes.asArray()));
-                  resolve({ item: [node.json()], items: relatives, status: 200, total: total });
+                  resolve({
+                    item: [node.json()],
+                    items: relatives,
+                    status: 200,
+                    total: total
+                  });
                 });
             });
         });

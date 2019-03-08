@@ -16,7 +16,8 @@ module.exports = {
     'suggestedAccommodation',
     'ebusVenues',
     'bursaryApplication',
-    'tabs'
+    'tabs',
+    'question'
   ],
   images: [
     'image',
