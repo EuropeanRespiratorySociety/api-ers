@@ -1,7 +1,10 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
-const { DateUtils, Format } = require('ers-utils');
+const {
+  DateUtils,
+  Format
+} = require('ers-utils');
 const format = new Format();
 const date = new DateUtils();
 const dotenv = require('dotenv');
@@ -9,7 +12,7 @@ dotenv.load();
 
 const apiUrl = process.env.API_URL;
 
-module.exports.metadata = (options = {}) => { // eslint-disable-line no-unused-vars
+const metadata = (options = {}) => { // eslint-disable-line no-unused-vars
   return async hook => {
     // Over writing the result 
     const options = hook.params.options || hook.result._sys;
@@ -23,13 +26,19 @@ module.exports.metadata = (options = {}) => { // eslint-disable-line no-unused-v
     const path = hook.params.path || hook.path;
     const url = apiUrl + '/' + path;
 
-    const queryParams = format.mapModel(q, { limit: options.limit });
+    const queryParams = format.mapModel(q, {
+      limit: options.limit
+    });
     hook.result.data = addItemMetadata(hook.result.data, full);
 
     hook.result = hook.result._sys.status === 200 ? format.mapModel(hook.result, {
       _sys: {
-        next: url + format.serializeQuery(format.mapModel(queryParams, { skip: skip })),
-        prev: url + format.serializeQuery(format.mapModel(queryParams, { skip: back })),
+        next: url + format.serializeQuery(format.mapModel(queryParams, {
+          skip: skip
+        })),
+        prev: url + format.serializeQuery(format.mapModel(queryParams, {
+          skip: back
+        })),
         limit: options.limit,
         skip: options.skip,
         total: total,
@@ -46,7 +55,8 @@ module.exports.metadata = (options = {}) => { // eslint-disable-line no-unused-v
  * @param {boolean} full - display the full article or the lead
  * @return {Object[]}
  */
-function addItemMetadata(array, full) {
+
+const addItemMetadata = (array, full) => {
   full = full || false;
   return array.map(item => {
     const created = item._system.created_on;
@@ -64,4 +74,9 @@ function addItemMetadata(array, full) {
     }
     return item;
   });
-}
+};
+
+module.exports = {
+  addItemMetadata,
+  metadata
+};
