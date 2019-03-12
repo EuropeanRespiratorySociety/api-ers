@@ -66,8 +66,6 @@ module.exports = {
         .then(function () {
           if (this.asArray().length > 0) {
             const article = JSON.parse(JSON.stringify(this.asArray()));
-            /*eslint no-console: off*/
-            console.log(JSON.stringify(article[0]));
             resolve({
               item: [article[0]],
               status: 200

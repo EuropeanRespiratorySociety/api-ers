@@ -10,7 +10,7 @@ module.exports = {
     'description',
     'references'
   ],
-  toParseRecursivly: ['cmeOnlineModule'],
+  toParseRecursively: ['cmeOnlineModule'],
   childrenToParse: [
     'venue',
     'suggestedAccommodation',

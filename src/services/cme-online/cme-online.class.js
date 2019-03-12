@@ -1,7 +1,4 @@
 /*eslint-disable */
-
-const F = require('ers-utils').Format;
-const format = new F();
 const setFilters = require('../../helpers/setFilters');
 const r = require('../../helpers/requests');
 const setCmeOnlineFilter = setFilters.setCmeOnlineFilter;
