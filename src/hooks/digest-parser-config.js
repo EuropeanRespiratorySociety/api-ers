@@ -2,6 +2,7 @@ module.exports = {
   toParse: [
     'leadParagraph',
   ],
+  toParseRecursively: [],
   childrenToParse: [],
   images: [],
   documents: [],

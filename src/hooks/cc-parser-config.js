@@ -6,28 +6,20 @@ module.exports = {
     'popUp',
     'cancellationPolicy',
     'travelInfo',
-    'technicalInfo',
-    'description',
-    'references'
+    'technicalInfo'
   ],
-  toParseRecursively: ['cmeOnlineModule'],
+  toParseRecursively: [],
   childrenToParse: [
     'venue',
     'suggestedAccommodation',
     'ebusVenues',
-    'bursaryApplication',
-    'tabs',
-    'question'
+    'bursaryApplication'
   ],
   images: [
     'image',
     'highResImage',
     'sponsor',
-    'sponsorsAlliances',
-    'cmeOrganisers',
-    'cmeOnlineModule',
-    'tabs',
-    'question'
+    'sponsorsAlliances'
   ],
   documents: [
     'programme',
@@ -55,9 +47,6 @@ module.exports = {
     'author',
     'type',
     'selfAssessmentType',
-    'cmeType',
-    'cmeCategory',
-    'cmeOrganisers',
     'eventDate',
     'diseases',
     'appCommunity',
