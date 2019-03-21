@@ -23,7 +23,7 @@ module.exports = {
     'slug',
     'leadParagraph',
     'cmeType',
-    'cmeCategory',
+    'cmeCategories',
     'cmeOrganisers',
     'diseases',
     'methods',

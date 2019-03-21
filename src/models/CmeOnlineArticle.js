@@ -3,7 +3,7 @@ module.exports = {
   slug: false,
   moodleCmeId: false,
   cmeType: false,
-  cmeCategory: false,
+  cmeCategories: false,
   leadParagraph: false,
   image: false,
   imageDescription: false,
