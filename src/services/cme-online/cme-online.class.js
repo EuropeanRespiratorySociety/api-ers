@@ -1,10 +1,9 @@
-/*eslint-disable */
-const setFilters = require("../../helpers/setFilters");
-const F = require("ers-utils").Format;
+const setFilters = require('../../helpers/setFilters');
+const F = require('ers-utils').Format;
 const format = new F();
 
 let config = {
-  _type: "ers:cme-online-article"
+  _type: 'ers:cme-online-article'
 };
 
 /* eslint-disable no-unused-vars */
@@ -15,10 +14,9 @@ class Service {
   }
 
   async find(params) {
-    debugger;
     const q = params.query || {};
     const direction = parseInt(q.sortDirection) || -1;
-    const sortBy = q.sortBy || "_system.created_on.ms";
+    const sortBy = q.sortBy || '_system.created_on.ms';
     const filters = this.setFilter(q.filterBy || false, q.type || false, q.categories || false);
     const body = Object.assign(
       params.body || {}, {
