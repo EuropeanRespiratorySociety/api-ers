@@ -2,39 +2,48 @@
  * Given a filter string, set the filters for diseases and methods
  * @param {string} filter - Airway diseases,Public health
  */
-const setFilter = (filter) => {
+const setFilter = filter => {
   /* eslint-disable indent */
   const f = filter ? filter.split(',').map(item => item.trim()) : [];
-  return f.length > 0 && !f.includes('highlights') && !f.includes('no-highlights') && !f.includes('main-news') ? {
-      $or: [{
-          diseases: {
-            $in: f
+  return f.length > 0 &&
+    !f.includes('highlights') &&
+    !f.includes('no-highlights') &&
+    !f.includes('main-news')
+    ? {
+        $or: [
+          {
+            diseases: {
+              $in: f
+            }
+          },
+          {
+            methods: {
+              $in: f
+            }
           }
-        },
-        {
-          methods: {
-            $in: f
-          }
+        ]
+      }
+    : f.length > 0 && f.includes('highlights')
+    ? {
+        availableOnHomepage: 'true', // this will need to change for a boolean
+        mainNews: {
+          $ne: true
         }
-      ]
-    } :
-    f.length > 0 && f.includes('highlights') ? {
-      'availableOnHomepage': 'true', // this will need to change for a boolean
-      'mainNews': {
-        '$ne': true
       }
-    } :
-    f.length > 0 && f.includes('no-highlights') ? {
-      'availableOnHomepage': {
-        '$ne': 'true'
-      }, // @TODO this will need to change for a boolean
-      'mainNews': {
-        '$ne': true
+    : f.length > 0 && f.includes('no-highlights')
+    ? {
+        availableOnHomepage: {
+          $ne: 'true'
+        }, // @TODO this will need to change for a boolean
+        mainNews: {
+          $ne: true
+        }
       }
-    } :
-    f.length > 0 && f.includes('main-news') ? {
-      'mainNews': true
-    } : {};
+    : f.length > 0 && f.includes('main-news')
+    ? {
+        mainNews: true
+      }
+    : {};
   /* eslint-enable indent */
 };
 
@@ -44,11 +53,11 @@ const setFilter = (filter) => {
  * @param {string} type - Case or Topic
  * @param {string} categories - COPD
  */
-const setCmeOnlineFilter = (interest, type, categories) => {
+const setCmeOnlineFilter = (interest, types, categories) => {
   let filters = setFilter(interest);
-  if (type) {
+  if (types) {
     filters['cmeType'] = {
-      $in: type.split(',').map(item => item.trim())
+      $in: types.split(',').map(item => item.trim())
     };
   }
   if (categories) {

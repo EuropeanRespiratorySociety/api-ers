@@ -17,7 +17,7 @@ class Service {
     const q = params.query || {};
     const direction = parseInt(q.sortDirection) || -1;
     const sortBy = q.sortBy || '_system.created_on.ms';
-    const filters = this.setFilter(q.filterBy || false, q.type || false, q.categories || false);
+    const filters = this.setFilter(q.filterBy || false, q.types || false, q.categories || false);
     const body = Object.assign(
       params.body || {}, {
         _type: config._type,
