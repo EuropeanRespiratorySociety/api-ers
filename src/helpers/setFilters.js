@@ -47,7 +47,9 @@ const setFilter = (filter) => {
 const setCmeOnlineFilter = (interest, type, categories) => {
   let filters = setFilter(interest);
   if (type) {
-    filters['cmeType'] = type;
+    filters['cmeType'] = {
+      $in: type.split(',').map(item => item.trim())
+    };
   }
   if (categories) {
     filters['cmeCategories'] = {

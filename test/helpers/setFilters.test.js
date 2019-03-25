@@ -100,10 +100,12 @@ describe('\'setFilters setCmeOnlineFilter\' helper', () => {
   });
 
   it('sets type cme filter', () => {
-    const obj = setCmeOnlineFilter(false, 'case', false);
+    const obj = setCmeOnlineFilter(false, 'case, topic', false);
     expect(obj).to.be.an('object');
     expect(obj).to.haveOwnProperty('cmeType')
-      .to.equal('case');
+      .to.be.an('object');
+    expect(obj.cmeType.$in[0]).to.equal('case');
+    expect(obj.cmeType.$in[1]).to.equal('topic');
     expect(obj).to.not.haveOwnProperty('$or');
     expect(obj).to.not.haveOwnProperty('cmeCategories');
   });
@@ -120,12 +122,15 @@ describe('\'setFilters setCmeOnlineFilter\' helper', () => {
   });
 
   it('sets interest and cme type and cme cmeCategories filter', () => {
-    const obj = setCmeOnlineFilter('Airway diseases,Public health', 'case', 'COPD, Other');
+    const obj = setCmeOnlineFilter('Airway diseases,Public health', 'case, topic', 'COPD, Other');
     expect(obj).to.be.an('object');
     expect(obj).to.haveOwnProperty('$or')
       .to.be.an('array')
       .to.have.lengthOf(2);
-    expect(obj).to.haveOwnProperty('cmeType');
+    expect(obj).to.haveOwnProperty('cmeType')
+      .to.be.an('object');
+    expect(obj.cmeType.$in).to.be.an('array')
+      .to.have.lengthOf(2);
     expect(obj).to.haveOwnProperty('cmeCategories')
       .to.be.an('object');
     expect(obj.cmeCategories.$in).to.be.an('array')
