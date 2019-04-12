@@ -13,9 +13,9 @@ const {
 } = require('@feathersjs/authentication').hooks;
 const checkPermissions = require('feathers-permissions');
 const {
-  ccParserCategory,
+  ccParserListItems,
   ccParserItem
-} = require('../../hooks/cc-parser');
+} = require('../../hooks/cmeOnline-parser');
 const {
   metadata
 } = require('../../hooks/metadata');
@@ -24,10 +24,10 @@ module.exports = {
   before: {
     all: [],
     find: [
-      //redisBeforeHook()
+      redisBeforeHook()
     ],
     get: [
-      //redisBeforeHook()
+      redisBeforeHook()
     ],
     create: [],
     update: [],
@@ -46,14 +46,19 @@ module.exports = {
   after: {
     all: [],
     find: [
-      ccParserCategory()
-      //hookCache({duration: 3600 * 24}), 
-      //redisAfterHook()
+      ccParserListItems(),
+      metadata(),
+      hookCache({
+        duration: 3600 * 24
+      }),
+      redisAfterHook()
     ],
     get: [
-      ccParserItem()
-      //hookCache({duration: 3600 * 24 * 7}), 
-      //redisAfterHook()
+      iff(hook => !hook.result.cache, [ccParserItem()]),
+      hookCache({
+        duration: 3600 * 24 * 7
+      }),
+      redisAfterHook()
     ],
     create: [],
     update: [],

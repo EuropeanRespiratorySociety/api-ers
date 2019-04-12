@@ -1,4 +1,3 @@
-
 const chai = require('chai');
 const expect = chai.expect;
 
@@ -59,14 +58,14 @@ describe('\'setFilters setFilter\' helper', () => {
     const obj = setFilter('no-highlights');
     expect(obj).to.be.an('object');
     expect(obj).to.haveOwnProperty('availableOnHomepage')
-      .to.be.an('object') 
+      .to.be.an('object')
       .to.haveOwnProperty('$ne')
-      .to.be.a('string')// @TODO this needs to change to a boolean
+      .to.be.a('string') // @TODO this needs to change to a boolean
       .to.equal('true');
     expect(obj).to.haveOwnProperty('mainNews')
-      .to.be.an('object') 
+      .to.be.an('object')
       .to.haveOwnProperty('$ne')
-      .to.be.a('boolean')// @TODO this needs to change to a boolean
+      .to.be.a('boolean') // @TODO this needs to change to a boolean
       .to.be.true;
   });
 });
@@ -83,7 +82,7 @@ describe('\'setFilters setCmeOnlineFilter\' helper', () => {
   });
 
   it('sets interest filter', () => {
-    const obj = setCmeOnlineFilter('Airway diseases,Public health', false, false);
+    const obj = setCmeOnlineFilter(' Airway diseases,Public health', false, false);
     expect(obj).to.be.an('object');
     expect(obj).to.haveOwnProperty('$or')
       .to.be.an('array')
@@ -97,34 +96,44 @@ describe('\'setFilters setCmeOnlineFilter\' helper', () => {
     expect(obj.$or[1].methods.$in[0]).to.equal('Airway diseases');
     expect(obj.$or[1].methods.$in[1]).to.equal('Public health');
     expect(obj).to.not.haveOwnProperty('cmeType');
-    expect(obj).to.not.haveOwnProperty('cmeCategory');
+    expect(obj).to.not.haveOwnProperty('cmeCategories');
   });
 
   it('sets type cme filter', () => {
-    const obj = setCmeOnlineFilter(false, 'case', false);
+    const obj = setCmeOnlineFilter(false, 'case, topic', false);
     expect(obj).to.be.an('object');
     expect(obj).to.haveOwnProperty('cmeType')
-      .to.equal('case');
+      .to.be.an('object');
+    expect(obj.cmeType.$in[0]).to.equal('case');
+    expect(obj.cmeType.$in[1]).to.equal('topic');
     expect(obj).to.not.haveOwnProperty('$or');
-    expect(obj).to.not.haveOwnProperty('cmeCategory');
+    expect(obj).to.not.haveOwnProperty('cmeCategories');
   });
 
   it('sets category cme filter', () => {
-    const obj = setCmeOnlineFilter(false, false, 'COPD');
+    const obj = setCmeOnlineFilter(false, false, 'COPD, Other');
     expect(obj).to.be.an('object');
-    expect(obj).to.haveOwnProperty('cmeCategory')
-      .to.equal('COPD');
+    expect(obj).to.haveOwnProperty('cmeCategories')
+      .to.be.an('object');
+    expect(obj.cmeCategories.$in[0]).to.equal('COPD');
+    expect(obj.cmeCategories.$in[1]).to.equal('Other');
     expect(obj).to.not.haveOwnProperty('$or');
     expect(obj).to.not.haveOwnProperty('cmeType');
   });
 
-  it('sets interest and cme type and cme catefory filter', () => {
-    const obj = setCmeOnlineFilter('Airway diseases,Public health', 'case', 'COPD');
+  it('sets interest and cme type and cme cmeCategories filter', () => {
+    const obj = setCmeOnlineFilter('Airway diseases,Public health', 'case, topic', 'COPD, Other');
     expect(obj).to.be.an('object');
     expect(obj).to.haveOwnProperty('$or')
       .to.be.an('array')
       .to.have.lengthOf(2);
-    expect(obj).to.haveOwnProperty('cmeType');
-    expect(obj).to.haveOwnProperty('cmeCategory');
+    expect(obj).to.haveOwnProperty('cmeType')
+      .to.be.an('object');
+    expect(obj.cmeType.$in).to.be.an('array')
+      .to.have.lengthOf(2);
+    expect(obj).to.haveOwnProperty('cmeCategories')
+      .to.be.an('object');
+    expect(obj.cmeCategories.$in).to.be.an('array')
+      .to.have.lengthOf(2);
   });
 });

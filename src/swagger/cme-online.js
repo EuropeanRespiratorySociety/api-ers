@@ -4,12 +4,14 @@ const responses = require('./helpers/responses');
 module.exports = {
   description: 'CME Online',
   find: {
-    description: 'Returns list of CME Online Module', 
+    description: 'Returns list of CME Online Module',
     summary: 'Get list of CME Online Module',
     parameters: [
       params.full,
       params.sortBy,
       params.filterBy,
+      params.cmeTypes,
+      params.cmeCategories,
       params.direction,
       params.format,
       params.limit,
@@ -22,26 +24,22 @@ module.exports = {
     produces: ['application/json']
   },
   create: { //this is for the special post route /contacts/authenticate
-    security: [    {
+    security: [{
       bearer: []
     }],
-    description: 'Create a new CME Online Module', 
+    description: 'Create a new CME Online Module',
     summary: 'Create a new CME Online Module - Role [admin, cmeModule]',
-    parameters: [
-      {     // @TODO #101 : Change with the good JSON   
-        name: 'body',
-        description: 'credential object',
-        required: true,
-        schema: {
-          properties: {
-          },
-          example:{
-          },
-          type: 'object'
-        },
-        in: 'body'
-      }
-    ],
+    parameters: [{ // @TODO #101 : Change with the good JSON   
+      name: 'body',
+      description: 'credential object',
+      required: true,
+      schema: {
+        properties: {},
+        example: {},
+        type: 'object'
+      },
+      in: 'body'
+    }],
     responses: {
       '200': responses.success,
       '404': responses.notFound,

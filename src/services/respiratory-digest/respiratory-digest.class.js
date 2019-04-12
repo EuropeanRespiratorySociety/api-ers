@@ -24,7 +24,7 @@ class Service {
     this.options = options || {};
     this.setFilter = setFilters.setFilter;
   }
-  //const allowed = allowedSenders.includes(`${modified_by_principal_domain_id}/${modified_by_principal_id}`);
+
   find(params) {
     const q = params.query || {};
     q.full = q.full == 'true';

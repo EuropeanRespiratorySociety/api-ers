@@ -7,10 +7,6 @@ module.exports = {
   type: false,
   selfAssessmentType: false,
   typeColor: false,
-  cmeType: false,
-  cmeCategory: false,
-  cmeOrganisers: false,
-  cmeOnlineModule: false,
   flags: [{
     text: false,
     color: false

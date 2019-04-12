@@ -346,6 +346,35 @@ module.exports = {
     allowMultiple: false,
     type: 'string',
     in: 'query'
+  },
+  cmeTypes: {
+    name: 'types',
+    description: `Allows to filter content based on cme type:
+    <ul>
+      <li>chain the types that are needed separated by a comma: Case based,Topic Based</li>
+    <ul>
+    <pre><code>
+      ?cmeTypes=Case based,Topic Based
+    </code></pre>
+    `,
+    required: false,
+    allowMultiple: false,
+    type: 'string',
+    in: 'query'
+  },
+  cmeCategories: {
+    name: 'categories',
+    description: `Allows to filter content based on cme categories:
+    <ul>
+      <li>chain the types that are needed separated by a comma: COPD,Astma</li>
+    <ul>
+    <pre><code>
+      ?cmeCategories=COPD,Astma
+    </code></pre>
+    `,
+    required: false,
+    allowMultiple: false,
+    type: 'string',
+    in: 'query'
   }
-
 };

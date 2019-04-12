@@ -8,6 +8,7 @@ module.exports = {
     'travelInfo',
     'technicalInfo'
   ],
+  toParseRecursively: [],
   childrenToParse: [
     'venue',
     'suggestedAccommodation',
@@ -46,9 +47,6 @@ module.exports = {
     'author',
     'type',
     'selfAssessmentType',
-    'cmeType',
-    'cmeCategory',
-    'cmeOrganisers',
     'eventDate',
     'diseases',
     'appCommunity',
@@ -89,14 +87,9 @@ module.exports = {
     'ERS Training programme',
     'Hands-on'
   ],
-  scientificTypes: [
-    'Long Term',
-    'Short Term',
-    'Summit',
-    'Research Seminar'
-  ],
+  scientificTypes: ['Long Term', 'Short Term', 'Summit', 'Research Seminar'],
   sci: 'label-scientific',
   edu: 'label-school',
   baseUrl: process.env.CDN_URL,
-  apiUrl: process.env.API_URL,
+  apiUrl: process.env.API_URL
 };
