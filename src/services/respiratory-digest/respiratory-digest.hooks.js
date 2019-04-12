@@ -1,4 +1,7 @@
 const {
+  iff
+} = require('feathers-hooks-common');
+const {
   ccParserListItems,
   ccParserItem
 } = require('../../hooks/digest-parser');
@@ -35,7 +38,7 @@ module.exports = {
       redisAfterHook()
     ],
     get: [
-      ccParserItem(),
+      iff(hook => !hook.result.cache, [ccParserItem()]),
       hookCache({
         duration: 3600 * 24 * 7
       }),

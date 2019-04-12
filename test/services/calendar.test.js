@@ -236,20 +236,6 @@ describe('Request to the calendar service', function () {
       });
   }).timeout(4000);
 
-  it('returns 2 self-assessment course events', (done) => {
-    chai.request(host)
-      .get('/calendar?type=selfAssessment&limit=2')
-      .set('Content-Type', 'application/json')
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(JSON.parse(res.text).data)
-          .to.have.lengthOf(2);
-        expect(JSON.parse(res.text).data[0].selfAssessmentType)
-          .to.be.not.false;
-        done();
-      });
-  }).timeout(4000);
-
   // ---------------
   // These tests might fail depending 
   // on what is published on the 

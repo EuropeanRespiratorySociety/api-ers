@@ -37,11 +37,11 @@ describe('Cme Online Class', function () {
     this.server.close(done);
   });
 
-  xit('is correctly instantiated', () => {
+  it('is correctly instantiated', () => {
     expect(service).to.be.an('object');
     expect(service).to.respondTo('find');
     expect(service).to.respondTo('get');
-    expect(service).to.respondTo('create');
+    //expect(service).to.respondTo('create');
   });
 
   xit('get cme module', async () => {
