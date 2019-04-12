@@ -325,6 +325,13 @@ describe('Filter function', function () {
       .to.equal('Self-assessment course');
   });
 
+  it('sets webinar', () => {
+    const filter = calendar().setFilter('webinar');
+    expect(filter).to.be.an('object')
+      .to.have.property('type')
+      .to.equal('ERS Webinar');
+  });
+
   it('returns an empty object', () => {
     const filter = calendar().setFilter();
     expect(filter).to.be.an('object').to.deep.equal({});
