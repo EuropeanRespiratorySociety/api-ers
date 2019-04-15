@@ -1,5 +1,5 @@
 module.exports = {
-  addToES: [ 
+  addToES: [
     '_doc',
     'author',
     'body',
@@ -11,8 +11,9 @@ module.exports = {
     'ersDeadline',
     'ersEndorsedEvent',
     'eventDate',
+    'eventTime',
     'eventDates',
-    'enventEndDate',
+    'eventEndDate',
     'eventLocation',
     'extendedDeadline',
     'faculty',
