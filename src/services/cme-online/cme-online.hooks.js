@@ -29,18 +29,16 @@ module.exports = {
     get: [
       redisBeforeHook()
     ],
-    create: [],
+    create: [iff(
+      isProvider('external'),
+      authenticate('jwt'),
+      checkPermissions({
+        roles: ['admin', 'cloudcms:cme']
+      })
+    )],
     update: [],
     patch: [],
-    remove: [
-      // iff(
-      //   isProvider('external'),
-      //   authenticate('jwt'),
-      //   checkPermissions({
-      //     roles: ['admin']
-      //   })
-      // )
-    ]
+    remove: []
   },
 
   after: {
