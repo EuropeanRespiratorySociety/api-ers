@@ -6,6 +6,27 @@ let config = {
   _type: 'ers:cme-online-article'
 };
 
+const selectMode = () => {
+  if (process.env.activePreview) {
+    return {
+      $or: [{
+        hasPreview: true
+      },
+      {
+        unPublished: {
+          $ne: true
+        }
+      }
+      ]
+    };
+  }
+  return {
+    unPublished: {
+      $ne: true
+    }
+  };
+};
+
 /* eslint-disable no-unused-vars */
 class Service {
   constructor(options) {
@@ -20,12 +41,10 @@ class Service {
     const filters = this.setFilter(q.filterBy || false, q.types || false, q.categories || false);
     const body = Object.assign(
       params.body || {}, {
-        _type: config._type,
-        unPublished: {
-          $ne: true
-        }
+        _type: config._type
       },
-      filters
+      filters,
+      selectMode()
     );
 
     const opts = {
@@ -74,6 +93,12 @@ class Service {
   }
 
   async get(slug) {
+    const body = Object.assign({
+      _type: config._type,
+      slug: slug,
+    },
+    selectMode()
+    );
     return new Promise(resolve => {
       global.cloudcms
         .trap(function (e) {
@@ -82,13 +107,7 @@ class Service {
             status: e.status
           });
         })
-        .queryNodes({
-          _type: config._type,
-          slug: slug,
-          unPublished: {
-            $ne: true
-          }
-        }, {
+        .queryNodes(body, {
           metadata: true
         })
         .each(function () {
@@ -113,7 +132,8 @@ class Service {
   }
 
   async create(data, params) {
-    data._type = 'ers:cme-online-article';
+    data._type = config._type;
+    data.hasPreview = true;
 
     return new Promise((resolve, reject) => {
       global.cloudcms
@@ -123,11 +143,29 @@ class Service {
             status: e.status
           });
         })
-        .createNode(data)
+        .queryNodes({
+          _type: config._type,
+          slug: data.slug
+        })
         .then(function () {
-          resolve({
-            status: 201
-          });
+          if (this.asArray().length > 0) {
+            resolve({
+              message: `The slug: ${data.slug} already exist`,
+              status: 404
+            });
+          }
+          global.cloudcms.trap(function (e) {
+            resolve({
+              message: e.message,
+              status: e.status
+            });
+          })
+            .createNode(data)
+            .then(function () {
+              resolve({
+                status: 201
+              });
+            });
         });
     });
   }

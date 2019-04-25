@@ -6,6 +6,7 @@ module.exports = {
   cmeCategories: false,
   leadParagraph: false,
   image: false,
+  externalImageLink: false,
   imageDescription: false,
   related: false,
   cmeOrganisers: false,
