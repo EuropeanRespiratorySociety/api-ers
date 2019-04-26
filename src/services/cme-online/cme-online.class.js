@@ -9,14 +9,15 @@ let config = {
 const selectMode = () => {
   if (process.env.activePreview) {
     return {
-      $or: [{
-        hasPreview: true
-      },
-      {
-        unPublished: {
-          $ne: true
+      $or: [
+        {
+          hasPreview: true
+        },
+        {
+          unPublished: {
+            $ne: true
+          }
         }
-      }
       ]
     };
   }
@@ -38,9 +39,14 @@ class Service {
     const q = params.query || {};
     const direction = parseInt(q.sortDirection) || -1;
     const sortBy = q.sortBy || '_system.created_on.ms';
-    const filters = this.setFilter(q.filterBy || false, q.types || false, q.categories || false);
+    const filters = this.setFilter(
+      q.filterBy || false,
+      q.types || false,
+      q.categories || false
+    );
     const body = Object.assign(
-      params.body || {}, {
+      params.body || {},
+      {
         _type: config._type
       },
       filters,
@@ -59,22 +65,22 @@ class Service {
     return new Promise(resolve => {
       const nodes = global.cloudcms
         .queryNodes(body, opts)
-        .trap(function (e) {
+        .trap(function(e) {
           resolve({
             message: e.message,
             status: e.status
           });
         })
-        .then(function () {
+        .then(function() {
           nodes
-            .each(function () {
+            .each(function() {
               this._system = this.getSystemMetadata();
               if (params.query.full) {
                 this._statistics = this.__stats();
                 this._qname = this.__qname();
               }
             })
-            .then(function () {
+            .then(function() {
               const total = nodes.__totalRows();
               const cmeOnlines = JSON.parse(JSON.stringify(nodes.asArray()));
               // status is there only for leagcy reasons.
@@ -93,15 +99,16 @@ class Service {
   }
 
   async get(slug) {
-    const body = Object.assign({
-      _type: config._type,
-      slug: slug,
-    },
-    selectMode()
+    const body = Object.assign(
+      {
+        _type: config._type,
+        slug: slug
+      },
+      selectMode()
     );
     return new Promise(resolve => {
       global.cloudcms
-        .trap(function (e) {
+        .trap(function(e) {
           resolve({
             message: e.message,
             status: e.status
@@ -110,12 +117,12 @@ class Service {
         .queryNodes(body, {
           metadata: true
         })
-        .each(function () {
+        .each(function() {
           this._system = this.getSystemMetadata();
           this._statistics = this.__stats();
           this._qname = this.__qname();
         })
-        .then(function () {
+        .then(function() {
           if (this.asArray().length > 0) {
             const cmeOnline = JSON.parse(JSON.stringify(this.asArray()));
             resolve({
@@ -134,10 +141,11 @@ class Service {
   async create(data, params) {
     data._type = config._type;
     data.hasPreview = true;
+    data.unPublished = true;
 
     return new Promise((resolve, reject) => {
       global.cloudcms
-        .trap(function (e) {
+        .trap(function(e) {
           resolve({
             message: e.message,
             status: e.status
@@ -147,21 +155,22 @@ class Service {
           _type: config._type,
           slug: data.slug
         })
-        .then(function () {
+        .then(function() {
           if (this.asArray().length > 0) {
             resolve({
               message: `The slug: ${data.slug} already exist`,
               status: 404
             });
           }
-          global.cloudcms.trap(function (e) {
-            resolve({
-              message: e.message,
-              status: e.status
-            });
-          })
+          global.cloudcms
+            .trap(function(e) {
+              resolve({
+                message: e.message,
+                status: e.status
+              });
+            })
             .createNode(data)
-            .then(function () {
+            .then(function() {
               resolve({
                 status: 201
               });
@@ -197,7 +206,7 @@ class Service {
   // }
 }
 
-module.exports = function (options) {
+module.exports = function(options) {
   return new Service(options);
 };
 
