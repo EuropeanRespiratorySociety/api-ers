@@ -159,5 +159,14 @@ const setFilter = (type) => {
     };
   }
 
+  if (type === 'webinar') {
+    return {
+      ...base,
+      ...{
+        type: 'ERS Webinar'
+      }
+    };
+  }
+
   return base;
 };

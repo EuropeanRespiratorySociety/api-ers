@@ -48,6 +48,7 @@ module.exports = {
     'type',
     'selfAssessmentType',
     'eventDate',
+    'eventTime',
     'diseases',
     'appCommunity',
     'communityPostStatus',

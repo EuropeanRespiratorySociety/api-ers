@@ -13,6 +13,7 @@ module.exports = {
   }],
   ebusDate: false,
   eventDate: false,
+  eventTime: false,
   eventEndDate: false,
   eventLocation: false,
   leadParagraph: false,
@@ -126,6 +127,10 @@ module.exports = {
     info: false
   }],
   registerButton: {
+    link: false,
+    text: false
+  },
+  contentLink: {
     link: false,
     text: false
   },

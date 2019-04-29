@@ -24,6 +24,7 @@ module.exports = {
   imageSize: false,
   video: false,
   eventDate: false,
+  eventTime: false,
   eventEndDate: false,
   eventDates: false,
   eventLocation: false,
