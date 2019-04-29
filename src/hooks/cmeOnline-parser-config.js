@@ -29,6 +29,7 @@ module.exports = {
     'methods',
     'createdOn',
     'image',
+    'externalImageLink',
     'imageDescription',
     'url',
     'uri',
