@@ -7,18 +7,9 @@ let config = {
 };
 
 const selectMode = () => {
-  if (process.env.activePreview) {
+  if (process.env.activePreview === 'true') {
     return {
-      $or: [
-        {
-          hasPreview: true
-        },
-        {
-          unPublished: {
-            $ne: true
-          }
-        }
-      ]
+      hasPreview: true
     };
   }
   return {
@@ -45,12 +36,10 @@ class Service {
       q.categories || false
     );
     const body = Object.assign(
-      params.body || {},
-      {
-        _type: config._type
+      params.body || {}, {
+        _type: config._type,
       },
-      filters,
-      selectMode()
+      filters, selectMode()
     );
 
     const opts = {
@@ -65,22 +54,22 @@ class Service {
     return new Promise(resolve => {
       const nodes = global.cloudcms
         .queryNodes(body, opts)
-        .trap(function(e) {
+        .trap(function (e) {
           resolve({
             message: e.message,
             status: e.status
           });
         })
-        .then(function() {
+        .then(function () {
           nodes
-            .each(function() {
+            .each(function () {
               this._system = this.getSystemMetadata();
               if (params.query.full) {
                 this._statistics = this.__stats();
                 this._qname = this.__qname();
               }
             })
-            .then(function() {
+            .then(function () {
               const total = nodes.__totalRows();
               const cmeOnlines = JSON.parse(JSON.stringify(nodes.asArray()));
               // status is there only for leagcy reasons.
@@ -99,16 +88,15 @@ class Service {
   }
 
   async get(slug) {
-    const body = Object.assign(
-      {
-        _type: config._type,
-        slug: slug
-      },
-      selectMode()
+    const body = Object.assign({
+      _type: config._type,
+      slug: slug
+    },
+    selectMode()
     );
     return new Promise(resolve => {
       global.cloudcms
-        .trap(function(e) {
+        .trap(function (e) {
           resolve({
             message: e.message,
             status: e.status
@@ -117,12 +105,12 @@ class Service {
         .queryNodes(body, {
           metadata: true
         })
-        .each(function() {
+        .each(function () {
           this._system = this.getSystemMetadata();
           this._statistics = this.__stats();
           this._qname = this.__qname();
         })
-        .then(function() {
+        .then(function () {
           if (this.asArray().length > 0) {
             const cmeOnline = JSON.parse(JSON.stringify(this.asArray()));
             resolve({
@@ -145,7 +133,7 @@ class Service {
 
     return new Promise((resolve, reject) => {
       global.cloudcms
-        .trap(function(e) {
+        .trap(function (e) {
           resolve({
             message: e.message,
             status: e.status
@@ -155,7 +143,7 @@ class Service {
           _type: config._type,
           slug: data.slug
         })
-        .then(function() {
+        .then(function () {
           if (this.asArray().length > 0) {
             resolve({
               message: `The slug: ${data.slug} already exist`,
@@ -163,14 +151,14 @@ class Service {
             });
           }
           global.cloudcms
-            .trap(function(e) {
+            .trap(function (e) {
               resolve({
                 message: e.message,
                 status: e.status
               });
             })
             .createNode(data)
-            .then(function() {
+            .then(function () {
               resolve({
                 status: 201
               });
@@ -206,7 +194,7 @@ class Service {
   // }
 }
 
-module.exports = function(options) {
+module.exports = function (options) {
   return new Service(options);
 };
 
