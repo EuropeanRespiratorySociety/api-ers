@@ -65,7 +65,8 @@ module.exports = {
     ersMember: false,
     nonErsMember: false,
     industry: false,
-    liveStreaming: false
+    liveStreaming: false,
+    liveStreamingNonErs: false
   },
   cancellationPolicy: false,
   travelInfo: false,
