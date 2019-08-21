@@ -70,7 +70,7 @@
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "elasticsearch": "^15.4.1",
-    "ers-utils": "^0.3.4",
+    "ers-utils": "^0.3.5",
     "feathers-authentication-hooks": "^0.3.1",
     "feathers-hooks-common": "^4.20.7",
     "feathers-hooks-rediscache": "^1.1.5",
