@@ -78,7 +78,7 @@
     "feathers-permissions": "^0.2.1",
     "feathers-swagger": "^0.7.2",
     "gitana": "^1.0.296",
-    "graphql": "^14.2.1",
+    "graphql": "^14.5.4",
     "graphql-server-express": "^1.4.0",
     "graphql-tools": "^3.1.1",
     "helmet": "^3.16.0",
