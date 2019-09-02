@@ -68,6 +68,36 @@ describe('\'setFilters setFilter\' helper', () => {
       .to.be.a('boolean') // @TODO this needs to change to a boolean
       .to.be.true;
   });
+
+  it('sets filter to reject highlights, take available-seat, take some interests', () => {
+    const obj = setFilter('no-highlights,available-seat,Airway diseases,Public health');
+    expect(obj).to.be.an('object');
+    expect(obj).to.haveOwnProperty('fullyBooked')
+      .to.be.an('object')
+      .to.haveOwnProperty('$ne')
+      .to.be.a('boolean') // @TODO this needs to change to a boolean
+      .to.be.true;
+    expect(obj).to.haveOwnProperty('availableOnHomepage')
+      .to.be.an('object')
+      .to.haveOwnProperty('$ne')
+      .to.be.a('string') // @TODO this needs to change to a boolean
+      .to.equal('true');
+    expect(obj).to.haveOwnProperty('mainNews')
+      .to.be.an('object')
+      .to.haveOwnProperty('$ne')
+      .to.be.a('boolean') // @TODO this needs to change to a boolean
+      .to.be.true;
+    expect(obj).to.haveOwnProperty('$or')
+      .to.be.an('array')
+      .to.have.lengthOf(2);
+    expect(obj.$or[0]).to.been.an('object')
+      .to.haveOwnProperty('diseases')
+      .to.be.an('object')
+      .to.haveOwnProperty('$in')
+      .to.be.an('array')
+      .to.have.lengthOf(2);
+    expect(obj.$or[1].methods.$in[0]).to.equal('Airway diseases');
+  });
 });
 
 describe('\'setFilters setCmeOnlineFilter\' helper', () => {

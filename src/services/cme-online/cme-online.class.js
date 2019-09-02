@@ -166,32 +166,6 @@ class Service {
         });
     });
   }
-
-  // async update (id, data, params) {
-  //   return data;
-  // }
-
-  // async patch (id, data, params) {
-  //   return data;
-  // }
-
-  // async remove(slug, params){
-  //   return new Promise((resolve, reject) => {
-  //     global.cloudcms
-  //     .trap(function(e){
-  //       resolve({message:e.message, status: e.status});
-  //     })
-  //     .then(function(){
-  //       this.queryNodes({slug})
-  //       .then(function(){
-  //         this.del()
-  //         .then(function(){
-  //           resolve({status:200});
-  //         });
-  //       });
-  //     });
-  //   })
-  // }
 }
 
 module.exports = function (options) {

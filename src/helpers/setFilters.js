@@ -1,17 +1,54 @@
 /**
  * Given a filter string, set the filters for diseases and methods
  * @param {string} filter - Airway diseases,Public health
+ * highlights - no-highlights - main-news are independant filter, you can choose just one
+ * available seat and interests can be combine with the others filters
  */
 const setFilter = filter => {
   /* eslint-disable indent */
-  const f = filter ? filter.split(',').map(item => item.trim()) : [];
-  return f.length > 0 &&
-    !f.includes('highlights') &&
-    !f.includes('no-highlights') &&
-    !f.includes('main-news')
-    ? {
-        $or: [
-          {
+  let f = filter ? filter.split(',').map(item => item.trim()) : [];
+  let buildFilter = {};
+
+  if (f.includes('highlights')) {
+    buildFilter = {
+      availableOnHomepage: 'true',
+      mainNews: {
+        $ne: true
+      }
+    };
+    f = arrayRemove(f, 'highlights');
+  } else if (f.includes('no-highlights')) {
+    buildFilter = {
+      availableOnHomepage: {
+        $ne: 'true'
+      },
+      mainNews: {
+        $ne: true
+      }
+    };
+    f = arrayRemove(f, 'no-highlights');
+  } else if (f.includes('main-news')) {
+    buildFilter = {
+      mainNews: true
+    };
+    f = arrayRemove(f, 'main-news');
+  }
+  if (f.includes('available-seat')) {
+    buildFilter = {
+      ...buildFilter,
+      ...{
+        'fullyBooked': {
+          $ne: true
+        }
+      }
+    };
+    f = arrayRemove(f, 'available-seat');
+  }
+  if (f.length > 0) {
+    buildFilter = {
+      ...buildFilter,
+      ...{
+        $or: [{
             diseases: {
               $in: f
             }
@@ -23,28 +60,9 @@ const setFilter = filter => {
           }
         ]
       }
-    : f.length > 0 && f.includes('highlights')
-    ? {
-        availableOnHomepage: 'true', // this will need to change for a boolean
-        mainNews: {
-          $ne: true
-        }
-      }
-    : f.length > 0 && f.includes('no-highlights')
-    ? {
-        availableOnHomepage: {
-          $ne: 'true'
-        }, // @TODO this will need to change for a boolean
-        mainNews: {
-          $ne: true
-        }
-      }
-    : f.length > 0 && f.includes('main-news')
-    ? {
-        mainNews: true
-      }
-    : {};
-  /* eslint-enable indent */
+    };
+  }
+  return buildFilter;
 };
 
 /**
@@ -67,6 +85,13 @@ const setCmeOnlineFilter = (interest, types, categories) => {
   }
   return filters;
 };
+
+function arrayRemove(arr, value) {
+  return arr.filter(function (ele) {
+    return ele != value;
+  });
+
+}
 
 module.exports = {
   setFilter,
