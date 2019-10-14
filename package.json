@@ -51,7 +51,7 @@
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "dependencies": {
-    "@feathersjs/authentication": "^2.1.16",
+    "@feathersjs/authentication": "^4.3.7",
     "@feathersjs/authentication-client": "^1.0.11",
     "@feathersjs/authentication-jwt": "^2.0.10",
     "@feathersjs/authentication-local": "^1.2.9",
