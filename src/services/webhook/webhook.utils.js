@@ -1,6 +1,10 @@
 /*eslint no-console: off*/
-const { Format } = require('ers-utils');
-const { promisify } = require('util');
+const {
+  Format
+} = require('ers-utils');
+const {
+  promisify
+} = require('util');
 const m = require('moment');
 const chalk = require('chalk');
 const format = new Format();
@@ -47,9 +51,12 @@ class Utils {
   parse(item) {
     let parsed = format.lodash.pickBy(format.filter(item, addToES), this.isTrue);
     // @TODO change property in Cloud CMS to get rid of this.
-    parsed.loc = this.hasLocation(parsed)
-      ? { lat: parsed.loc.lat, lon: parsed.loc.long }
-      : undefined;
+    parsed.loc = this.hasLocation(parsed) ?
+      {
+        lat: parsed.loc.lat,
+        lon: parsed.loc.long
+      } :
+      undefined;
     if (parsed.registerButton) {
       parsed.registerButton = this.setRegisterButton(parsed);
     }
@@ -72,11 +79,13 @@ class Utils {
     const obj = item.registerButton;
 
     /* eslint-disable */
-    return obj.link && !obj.text
-      ? { link: obj.link }
-      : obj.link && obj.text
-        ? obj
-        : undefined;
+    return obj.link && !obj.text ?
+      {
+        link: obj.link
+      } :
+      obj.link && obj.text ?
+      obj :
+      undefined;
     /* eslint-enable */
   }
 
@@ -91,13 +100,13 @@ class Utils {
   async indexData(array, alias = 'content') {
     try {
       return await Promise.all(array.map(async (item) => {
-        const parsed = alias === 'journals'
-          ? this.setDocProperty(item)
-          : this.parse(item);
+        const parsed = alias === 'journals' ?
+          this.setDocProperty(item) :
+          this.parse(item);
         return await es.index(parsed, alias, parsed._doc);
       }));
     } catch (e) {
-      console.log(e);
+      console.error(e.response);
       return e;
     }
   }

@@ -1,6 +1,8 @@
+/*eslint no-console: off*/
 const errors = require('@feathersjs/errors');
 const elasticsearch = require('elasticsearch');
 const dotenv = require('dotenv');
+const m = require('moment');
 dotenv.load();
 
 const user = process.env.ESUSERNAME;
@@ -40,6 +42,8 @@ const index = async (item, index, id) => {
       body: item
     });
   } catch (e) {
+    console.error(m().format() + ' - Response: ' + e.response);
+    console.error('Path: ' + e.path);
     return e;
   }
 };
@@ -52,6 +56,8 @@ const unIndex = async (item, index, id) => {
       id: id || item._doc
     });
   } catch (e) {
+    console.error(m().format() + ' - Response: ' + e.response);
+    console.error('Path: ' + e.path);
     return e;
   }
 };

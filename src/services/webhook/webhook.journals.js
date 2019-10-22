@@ -16,7 +16,9 @@ class Journals {
     let lastUpdate = m().subtract(10, 'minutes').format();
 
     if (abstract.doi === '10.1183/09031936.00000309' && abstract.page_url === 'http://err.ersjournals.com/content/18/112/125') {
-      return { status: 'this item has been arbitriraly discarded as it is a DOI duplicate, it should be sorted eventually.' };
+      return {
+        status: 'this item has been arbitriraly discarded as it is a DOI duplicate, it should be sorted eventually.'
+      };
     }
 
     try {
@@ -39,29 +41,60 @@ class Journals {
 
       lastUpdate = await u.getAsync(`journal-abstract-${id}`);
     } catch (e) {
-      return { status: 'Error', message: e };
+      return {
+        status: 'Error',
+        message: e
+      };
     }
 
     if (m(item.scrappedOn) > m(lastUpdate) || force) {
       if (abstract.article_type === '') {
-        console.log(chalk.cyan('>>> '), { id: id, status: 'Rejected - no article_type' });
-        return { id: id, status: 'Not inserted - no article_type' };
+        console.log(chalk.cyan('>>> '), {
+          id: id,
+          status: 'Rejected - no article_type'
+        });
+        return {
+          id: id,
+          status: 'Not inserted - no article_type'
+        };
       }
       if (id !== undefined) {
-        await service.patch(id, abstract, { mongoose: { upsert: true } });
+        await service.patch(id, abstract, {
+          mongoose: {
+            upsert: true
+          }
+        });
         await u.setAsync(`journal-abstract-${id}`, m().format());
-        console.log(chalk.cyan('>>> '), { id: id, status: 'Updated' });
-        return { id: id, status: 'Updated' };
+        console.log(chalk.cyan('>>> '), {
+          id: id,
+          status: 'Updated'
+        });
+        return {
+          id: id,
+          status: 'Updated'
+        };
       } else {
         const r = await service.create(abstract);
         id = r._id;
         await u.setAsync(`journal-abstract-${id}`, m().format());
-        console.log(chalk.cyan('>>> '), { id: id, status: 'Inserted' });
-        return { id: id, status: 'Inserted' };
+        console.log(chalk.cyan('>>> '), {
+          id: id,
+          status: 'Inserted'
+        });
+        return {
+          id: id,
+          status: 'Inserted'
+        };
       }
     }
-    console.log(chalk.cyan('>>> '), { id: id, status: 'Not updated' });
-    return { id: id, status: 'Not updated' };
+    console.log(chalk.cyan('>>> '), {
+      id: id,
+      status: 'Not updated'
+    });
+    return {
+      id: id,
+      status: 'Not updated'
+    };
   }
 
   async indexJournals(app, printErrors = false, force = false) {
@@ -75,20 +108,22 @@ class Journals {
     // 1. Divide total by batches 
     // there is a lot in this table, lets get only the updated one..
     const lastJob = await u.getAsync(`last-${type}-indexed-job`);
-    const time = lastJob
-      ? m(lastJob).format()
-      : m().subtract(10, 'minutes').format();
+    const time = lastJob ?
+      m(lastJob).format() :
+      m().subtract(10, 'minutes').format();
 
     const data = await s.find({
-      query: Object.assign(
-        {},
-        {
-          $limit: limit,
-          article_type: {
-            $ne: ''
-          }
-        },
-        force ? {} : { updatedAt: { $gte: time } }
+      query: Object.assign({}, {
+        $limit: limit,
+        article_type: {
+          $ne: ''
+        }
+      },
+      force ? {} : {
+        updatedAt: {
+          $gte: time
+        }
+      }
       )
     });
     const firstBatch = data.data;
@@ -100,26 +135,43 @@ class Journals {
     console.log(chalk.cyan('[webhook]'), 'Indexing batch #1...');
     console.time('indexing');
     const r1 = await u.indexData(firstBatch, 'journals');
-    r1.map(i => result.push({ item: i._id.toString(), stats: i }));
+    r1.map(i => {
+      if (i._id) {
+        result.push({
+          item: i._id.toString(),
+          stats: i
+        });
+      }
+    });
 
     let i = 1;
     for (i; i < batches; i++) {
       const b = await s.find({
-        query: Object.assign(
-          {},
-          {
-            $limit: limit, $skip: i * limit,
-            article_type: {
-              $ne: ''
-            }
-          },
-          force ? {} : { updatedAt: { $gte: time } }
+        query: Object.assign({}, {
+          $limit: limit,
+          $skip: i * limit,
+          article_type: {
+            $ne: ''
+          }
+        },
+        force ? {} : {
+          updatedAt: {
+            $gte: time
+          }
+        }
         )
       });
 
       console.log(chalk.cyan('[webhook]'), `Indexing batch #${i + 1}...`);
       const rn = await u.indexData(b.data, 'journals');
-      rn.map(i => result.push({ item: i._id.toString(), stats: i }));
+      rn.map(i => {
+        if (i._id) {
+          result.push({
+            item: i._id.toString(),
+            stats: i
+          });
+        }
+      });
     }
     console.timeEnd('indexing');
 
