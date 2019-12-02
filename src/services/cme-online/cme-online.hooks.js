@@ -1,9 +1,9 @@
 /*eslint-disable */
-const {
-  hookCache,
-  redisAfterHook,
-  redisBeforeHook
-} = require('feathers-hooks-rediscache');
+// const {
+//   hookCache,
+//   redisAfterHook,
+//   redisBeforeHook
+// } = require('feathers-hooks-rediscache');
 const {
   iff,
   isProvider
@@ -24,10 +24,10 @@ module.exports = {
   before: {
     all: [],
     find: [
-      redisBeforeHook()
+      // redisBeforeHook()
     ],
     get: [
-      redisBeforeHook()
+      // redisBeforeHook()
     ],
     create: [iff(
       isProvider('external'),
@@ -45,18 +45,19 @@ module.exports = {
     all: [],
     find: [
       ccParserListItems(),
-      metadata(),
-      hookCache({
-        duration: 3600 * 24
-      }),
-      redisAfterHook()
+      metadata()
+      // hookCache({
+      //   duration: 3600 * 24
+      // }),
+      // redisAfterHook()
     ],
     get: [
-      iff(hook => !hook.result.cache, [ccParserItem()]),
-      hookCache({
-        duration: 3600 * 24 * 7
-      }),
-      redisAfterHook()
+      //iff(hook => !hook.result.cache, [ccParserItem()]),
+      ccParserItem()
+      // hookCache({
+      //   duration: 3600 * 24 * 7
+      // }),
+      // redisAfterHook()
     ],
     create: [],
     update: [],
