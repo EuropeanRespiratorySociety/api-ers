@@ -5,11 +5,14 @@ const {
   redisAfterHook,
   redisBeforeHook
 } = require('feathers-hooks-rediscache');
+const {
+  iff
+} = require('feathers-hooks-common');
 
 module.exports = {
   before: {
     all: [],
-    find: [redisBeforeHook()],
+    find: [iff(process.env.CACHE_ENABLED === 'true', redisBeforeHook())],
     get: [],
     create: [],
     update: [],
@@ -20,10 +23,11 @@ module.exports = {
   after: {
     all: [],
     find: [
-      hookCache({
+      iff(process.env.CACHE_ENABLED === 'true', [hookCache({
         duration: 3600 * 24 * 7
       }),
-      redisAfterHook(),
+      redisAfterHook()
+      ]),
       prepareCalendar()
     ],
     get: [],

@@ -1,4 +1,6 @@
-const { crmAuth } = require('../../hooks/crmAuth');
+const {
+  crmAuth
+} = require('../../hooks/crmAuth');
 const crmInterests = require('../../hooks/crm-interests');
 // const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-rediscache');
 
@@ -6,8 +8,7 @@ module.exports = {
   before: {
     all: [
       crmAuth(),
-      crmInterests(), 
-      // redisBeforeHook()
+      crmInterests()
     ],
     find: [],
     get: [],
@@ -18,10 +19,7 @@ module.exports = {
   },
 
   after: {
-    all: [
-      // hookCache({ duration: 3600 * 24 }), 
-      // redisAfterHook()
-    ],
+    all: [],
     find: [],
     get: [],
     create: [],

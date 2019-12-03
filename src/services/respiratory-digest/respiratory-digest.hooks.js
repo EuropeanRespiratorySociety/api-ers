@@ -18,9 +18,9 @@ module.exports = {
   before: {
     all: [],
     find: [
-      redisBeforeHook()
+      iff(process.env.CACHE_ENABLED === 'true', redisBeforeHook())
     ],
-    get: [redisBeforeHook()],
+    get: [iff(process.env.CACHE_ENABLED === 'true', redisBeforeHook())],
     create: [],
     update: [],
     patch: [],
@@ -32,17 +32,18 @@ module.exports = {
     find: [
       ccParserListItems(),
       metadata(),
-      hookCache({
+      iff(process.env.CACHE_ENABLED === 'true', [hookCache({
         duration: 3600 * 24 * 7
       }),
       redisAfterHook()
+      ])
     ],
     get: [
-      iff(hook => !hook.result.cache, [ccParserItem()]),
-      hookCache({
-        duration: 3600 * 24 * 7
+      iff(process.env.CACHE_ENABLED === 'true', [iff(hook => !hook.result.cache, ccParserItem()), hookCache({
+        duration: 3600 * 24
       }),
       redisAfterHook()
+      ]).else(ccParserItem())
     ],
     create: [],
     update: [],

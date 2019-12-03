@@ -1,15 +1,25 @@
-
-const { ccParserCategory } = require('../../hooks/cc-parser');
-const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-rediscache');
-const { metadata } = require('../../hooks/metadata');
+const {
+  ccParserCategory
+} = require('../../hooks/cc-parser');
+const {
+  hookCache,
+  redisAfterHook,
+  redisBeforeHook
+} = require('feathers-hooks-rediscache');
+const {
+  metadata
+} = require('../../hooks/metadata');
+const {
+  iff
+} = require('feathers-hooks-common');
 
 module.exports = {
   before: {
     all: [],
     find: [
-      redisBeforeHook()
+      iff(process.env.CACHE_ENABLED === 'true', redisBeforeHook())
     ],
-    get: [redisBeforeHook()],
+    get: [iff(process.env.CACHE_ENABLED === 'true', redisBeforeHook())],
     create: [],
     update: [],
     patch: [],
@@ -21,12 +31,19 @@ module.exports = {
     find: [
       ccParserCategory(),
       metadata(),
-      hookCache({duration: 3600 * 24 * 7}),
+      iff(process.env.CACHE_ENABLED === 'true', [hookCache({
+        duration: 3600 * 24 * 7
+      }),
       redisAfterHook()
+      ])
     ],
     get: [
-      hookCache({duration: 3600 * 24 * 7}), // items are parsed in relatives service
-      redisAfterHook()],
+      iff(process.env.CACHE_ENABLED === 'true', [hookCache({
+        duration: 3600 * 24 * 7
+      }), // items are parsed in relatives service
+      redisAfterHook()
+      ])
+    ],
     create: [],
     update: [],
     patch: [],

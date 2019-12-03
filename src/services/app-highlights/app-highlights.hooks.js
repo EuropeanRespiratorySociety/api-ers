@@ -1,13 +1,23 @@
-const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-rediscache');
-const { oneArticle, manyArticle } = require('../../hooks/add-journal-article');
+const {
+  hookCache,
+  redisAfterHook,
+  redisBeforeHook
+} = require('feathers-hooks-rediscache');
+const {
+  oneArticle,
+  manyArticle
+} = require('../../hooks/add-journal-article');
+const {
+  iff
+} = require('feathers-hooks-common');
 
 module.exports = {
   before: {
     all: [],
     find: [
-      redisBeforeHook()
+      iff(process.env.CACHE_ENABLED === 'true', redisBeforeHook())
     ],
-    get: [redisBeforeHook()],
+    get: [iff(process.env.CACHE_ENABLED === 'true', redisBeforeHook())],
     create: [],
     update: [],
     patch: [],
@@ -18,13 +28,19 @@ module.exports = {
     all: [],
     find: [
       manyArticle(),
-      hookCache({duration: 3600 * 24}), 
+      iff(process.env.CACHE_ENABLED === 'true', [hookCache({
+        duration: 3600 * 24
+      }),
       redisAfterHook()
+      ])
     ],
     get: [
       oneArticle(),
-      hookCache({duration: 3600 * 24 * 7}), 
+      iff(process.env.CACHE_ENABLED === 'true', [hookCache({
+        duration: 3600 * 24 * 7
+      }),
       redisAfterHook()
+      ])
     ],
     create: [],
     update: [],

@@ -1,25 +1,37 @@
-const { authenticate } = require('@feathersjs/authentication').hooks;
+const {
+  authenticate
+} = require('@feathersjs/authentication').hooks;
 const checkPermissions = require('feathers-permissions');
-const { iff, isProvider } = require('feathers-hooks-common');
-const { crmAuth, verifyUser } = require('../../hooks/crmAuth');
-const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-rediscache');
+const {
+  iff,
+  isProvider
+} = require('feathers-hooks-common');
+const {
+  crmAuth,
+  verifyUser
+} = require('../../hooks/crmAuth');
+const {
+  hookCache,
+  redisAfterHook,
+  redisBeforeHook
+} = require('feathers-hooks-rediscache');
 // const { restrictToOwner } = require('feathers-authentication-hooks');
 
 module.exports = {
   before: {
     all: [],
-    find: [ 
-      crmAuth(), 
+    find: [
+      crmAuth(),
       iff(isProvider('external'), [
-        authenticate('jwt'), 
+        authenticate('jwt'),
         checkPermissions({
           roles: ['admin', 'crm-user']
         }),
-        redisBeforeHook()
+        iff(process.env.CACHE_ENABLED === 'true', redisBeforeHook())
       ])
     ],
-    get: [ 
-      crmAuth(), 
+    get: [
+      crmAuth(),
       iff(isProvider('external'), [
         authenticate('jwt'),
         verifyUser(),
@@ -35,11 +47,14 @@ module.exports = {
   },
 
   after: {
-    all: [
-    ],
-    find: [      
-      hookCache({ duration: 3600 * 24 * 7 }), 
-      redisAfterHook()
+    all: [],
+    find: [
+      iff(process.env.CACHE_ENABLED === 'true', [
+        hookCache({
+          duration: 3600 * 24 * 7
+        }),
+        redisAfterHook()
+      ])
     ],
     get: [],
     create: [],

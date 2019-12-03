@@ -1,36 +1,41 @@
-const { hookCache, redisAfterHook, redisBeforeHook } = require('feathers-hooks-rediscache');
- 
+const {
+  hookCache,
+  redisAfterHook,
+  redisBeforeHook
+} = require('feathers-hooks-rediscache');
+const {
+  iff
+} = require('feathers-hooks-common');
+
 module.exports = {
   before: {
     all: [],
     find: [
-      redisBeforeHook()
+      iff(process.env.CACHE_ENABLED === 'true', redisBeforeHook())
     ],
-    get: [
-      redisBeforeHook()
-    ],
+    get: [],
     create: [],
     update: [],
     patch: [],
     remove: []
   },
- 
+
   after: {
     all: [],
-    find: [      
-      hookCache({duration: 3600 * 24 * 7}),
+    find: [
+      iff(process.env.CACHE_ENABLED === 'true', [hookCache({
+        duration: 3600 * 24 * 7
+      }),
       redisAfterHook()
+      ])
     ],
-    get: [
-      hookCache({duration: 3600 * 24 * 7}),
-      redisAfterHook()
-    ],
+    get: [],
     create: [],
     update: [],
     patch: [],
     remove: []
   },
- 
+
   error: {
     all: [],
     find: [],
