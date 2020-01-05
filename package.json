@@ -74,7 +74,7 @@
     "feathers-authentication-hooks": "^0.3.1",
     "feathers-hooks-common": "^4.20.7",
     "feathers-hooks-rediscache": "^1.1.5",
-    "feathers-mongoose": "^6.3.0",
+    "feathers-mongoose": "^8.2.0",
     "feathers-permissions": "^0.2.1",
     "feathers-swagger": "^0.7.2",
     "gitana": "^1.0.296",
