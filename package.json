@@ -91,7 +91,7 @@
     "request-promise": "^4.2.4",
     "sanitize-html": "^1.20.0",
     "serve-favicon": "^2.5.0",
-    "turndown": "^5.0.3",
+    "turndown": "^6.0.0",
     "validator": "^10.11.0",
     "winston": "^3.2.1"
   },
