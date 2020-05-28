@@ -85,7 +85,7 @@
     "mongodb": "^3.2.3",
     "mongodb-core": "^3.2.3",
     "mongoose": "^5.5.1",
-    "nodemailer": "^5.1.1",
+    "nodemailer": "^6.4.7",
     "proxy-agent": "^3.1.0",
     "redis": "^2.8.0",
     "request-promise": "^4.2.4",
