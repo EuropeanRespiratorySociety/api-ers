@@ -92,7 +92,7 @@
     "sanitize-html": "^1.20.0",
     "serve-favicon": "^2.5.0",
     "turndown": "^5.0.3",
-    "validator": "^10.11.0",
+    "validator": "^13.7.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
